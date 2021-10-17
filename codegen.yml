@@ -1,0 +1,31 @@
+schema: ${NEXT_PUBLIC_SERVER_API_URL}
+documents: ./src/**/*.graphql.*
+overwrite: true
+generates:
+  ./src/generated/types.ts:
+    plugins:
+      - typescript
+    skipTypename: true
+
+  ./src/generated/operations.ts:
+    preset: import-types
+    presetConfig:
+      typesPath: ./types
+    plugins:
+      - typescript-operations
+    config:
+      skipTypename: true
+
+  ./src/generated/apollo.ts:
+    preset: import-types
+    presetConfig:
+      typesPath: ./operations
+    plugins:
+      - typescript-react-apollo
+    config:
+      skipTypename: true
+
+hooks:
+  afterAllFileWrite:
+    - node ./scripts/modify_operations.js
+    - node ./scripts/modify_apollo.js
