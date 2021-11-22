@@ -1,6 +1,7 @@
 import React from 'react';
 import { configureStore } from '@reduxjs/toolkit';
 import topicReducer from 'src/modules/Topic/slice';
+import postReducer from 'src/modules/Post/slice';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import { QueryVariablesUnion } from 'src/generated/operations';
@@ -9,27 +10,30 @@ import { QueryFunctionsUnion } from 'src/generated/apollo';
 export const store = configureStore({
   reducer: {
     topics: topicReducer,
+    post: postReducer,
   },
 });
 
-export const useCustomQuery = (
+export const useCustomQuery = <T>(
   action,
-  useApolloQuery: QueryFunctionsUnion,
-  variables: undefined = undefined,
+  useApolloQuery: T,
+  variables: Parameters<T> | undefined,
   onMount = true,
 ) => {
-  console.log('in hereee');
   const dispatch = useDispatch();
-  const [apolloQuery, { data, loading, error }] = useApolloQuery({ variables });
+  const [apolloQuery, { data, loading, error }] = useApolloQuery();
   React.useEffect(() => {
     if (data) {
-      console.log('heeeere');
       dispatch(action(data));
     }
   }, [data]);
   React.useEffect(() => {
     if (onMount) {
-      apolloQuery();
+      let params = {};
+      if (variables) {
+        params.variables = variables;
+      }
+      apolloQuery(params);
     }
   }, []);
   return apolloQuery;

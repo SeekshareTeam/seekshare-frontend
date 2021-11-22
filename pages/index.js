@@ -1,10 +1,11 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { TrialComponent } from '../src/components/trial';
-import { getLayout } from 'src/components/App/Layout/index';
+// import Head from 'next/head'
+// import Image from 'next/image'
+// import styles from '../styles/Home.module.css'
+// import { TrialComponent } from '../src/components/trial';
+// import { getLayout } from 'src/components/App/Layout/index';
 
-import { Home } from 'src/components/App/Home';
+// import { Home } from 'src/components/App/Home';
+import Editor from 'src/components/App/Editor';
 
 // const Home = () => {
 //   return (<div>{"helloo"}</div>)
@@ -18,7 +19,7 @@ import { Home } from 'src/components/App/Home';
 //
 // Home.getLayout = getLayout;
 
-export default Home;
+export default Editor;
 
 
   /// return (

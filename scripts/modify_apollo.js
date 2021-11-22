@@ -1,7 +1,5 @@
-const fs = require('fs');
-
-const apolloFilePath =
-  '/Users/abhinavbhandari/Documents/Personal/Projects/Eduaction Question Bank/seekshare/src/generated/apollo.ts';
+const fs = require('fs'); // eslint-disable-line
+const apolloFilePath = process.cwd() + '/src/generated/apollo.ts';
 
 const apolloFile = fs.readFileSync(apolloFilePath, 'utf8');
 
@@ -25,7 +23,7 @@ function createFunctionType(name, useDelim = 'LazyQuery') {
 function initializeFunctionType(funcType) {
   const funcTypeInit = `export type ${funcType} = typeof use${funcType.replace(
     'Function',
-    '',
+    ''
   )};`;
   return funcTypeInit;
 }
@@ -47,8 +45,7 @@ const funcTypesUnion = funcTypes.reduce((acc, v) => {
   return v;
 }, '');
 
-const initFuncUnion = `export type QueryFunctionsUnion = ${funcTypesUnion};`
-
+const initFuncUnion = `export type QueryFunctionsUnion = ${funcTypesUnion};`;
 
 const writeStream = fs.createWriteStream(apolloFilePath, { flags: 'a' });
 

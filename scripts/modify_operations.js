@@ -1,7 +1,6 @@
-const fs = require('fs');
+const fs = require('fs'); // eslint-disable-line
 
-const operationsFilePath =
-  '/Users/abhinavbhandari/Documents/Personal/Projects/Eduaction Question Bank/seekshare/src/generated/operations.ts';
+const operationsFilePath = process.cwd() + '/src/generated/operations.ts';
 
 const operationsFile = fs.readFileSync(operationsFilePath, 'utf8');
 
