@@ -9,10 +9,16 @@ export const postSlice = createSlice({
         ...state,
         data: action.payload
       }
+    },
+    fetchPost: (state, action) => {
+      return {
+        ...state,
+        data: action.payload
+      }
     }
   }
 });
 
-export const { createPost } = postSlice.actions;
+export const { createPost, fetchPost } = postSlice.actions;
 
 export default postSlice.reducer;

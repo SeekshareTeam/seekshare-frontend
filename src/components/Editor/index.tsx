@@ -1,3 +1,5 @@
+import text from './text.json';
+
 import dynamic from 'next/dynamic';
 import 'easymde/dist/easymde.min.css';
 // import SimpleMDE from 'react-simplemde-editor';
@@ -7,9 +9,10 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import ReactDOMServer from 'react-dom/server';
-import { MarkdownViewer } from 'src/components/App/Viewer';
-import { useCustomQuery } from 'src/modules/Redux/index';
+import { MarkdownViewer } from 'src/components/Viewer';
+import { useCustomMutation } from 'src/modules/Redux/index';
 import { useCreatePostMutation } from 'src/generated/apollo';
+import { TitleInput, Title } from 'src/components/Input';
 import { createPost } from 'src/modules/Post/slice';
 
 const classes = {
@@ -27,7 +30,7 @@ const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
 });
 
 const Editor = ({ value, onChange }) => {
-  const [title, setTitle] = React.useState('');
+  const [postTitle, setTitle] = React.useState('');
   const [body, setBody] = React.useState('');
   const [singleTag, setSingleTag] = React.useState('');
   const [tags, setTags] = React.useState([]);
@@ -35,42 +38,31 @@ const Editor = ({ value, onChange }) => {
   // counter
   const [counter, setCounter] = React.useState(0);
 
-  const createPostMutation = useCustomQuery<typeof useCreatePostMutation>(
-    createPost,
-    useCreatePostMutation,
-    undefined,
-    // { title, body, type: 'question' },
-    false
-  );
-
-  // const useCreatePostMutation = useCreatePostMutation({ title, body, type: 'question' })
-  // const [mutationQuery, { data: mutationData }] = useCreatePostMutation();
-
-  const { data } = useSelector(state => (state.post), shallowEqual);
-
-  if (data) {
-    console.log('@ received a brand new post', post);
-  }
+  const createPostMutation = useCustomMutation<
+    typeof createPost,
+    typeof useCreatePostMutation
+  >(createPost, useCreatePostMutation, undefined, false);
 
   const router = useRouter();
 
-  const onSubmitCreatePost = () => {
-    // console.log('@ b', title, body);
-    // dispatch(
-    //   createPost({
-    //     title,
-    //     body,
-    //     pid: counter.toString(),
-    //   })
-    // );
+  const { data } = useSelector((state) => state.post, shallowEqual);
 
-    // will this even work - let's see.
-    createPostMutation({ variables: { body, title, type: 'question' } });
+  React.useEffect(() => {
+    if (data) {
+      // router.push('/post/' + data.post_id);
+    }
+  }, []);
 
-    setCounter(counter + 1);
+  const onSubmitCreatePost = React.useCallback(async () => {
+    console.log('clicked');
+    await createPostMutation({
+      variables: { body, title: postTitle, type: 'question' },
+    });
 
-    // router.push('/posts');
-  };
+    if (data?.post_id) {
+      router.push('/post/' + data.post_id);
+    }
+  }, [data]);
 
   const onSingleTagChange = (e) => {
     setSingleTag(e.target.value);
@@ -99,29 +91,12 @@ const Editor = ({ value, onChange }) => {
   return (
     <div className={classes.editorContainer}>
       <div className={classes.main}>
-        <h1>
-          <b>{'Title'}</b>
-        </h1>
-        <input
-          type="text"
-          className={classes.title}
-          value={title}
-          onChange={onTitleChange}
+        <TitleInput
+          title={text.title}
+          inputProps={{ onChange: onTitleChange, value: postTitle }}
         />
-        <h1>
-          <b>{'Body / Question'}</b>
-        </h1>
+        <Title value={text.body} />
         <SimpleMDE options={options} value={body} onChange={onBodyChange} />
-        <h1>
-          <b>{'Tags'}</b>
-        </h1>
-        <input
-          type="text"
-          className={classes.title}
-          value={singleTag}
-          onChange={onSingleTagChange}
-        />
-        <button className={''} />
       </div>
       <div className={classes.submit}>
         <button onClick={onSubmitCreatePost}>{'Post your question'}</button>

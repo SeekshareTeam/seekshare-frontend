@@ -1,10 +1,13 @@
 import HomeSVG from './home';
 import RightArrowSVG from './rightarrow';
+import DownCaretSVG from './downarrow';
 import React, { useState } from 'react';
 
+// eslint-disable-next-line
 export default function SvgComponents ({ svgRef, isselected }) {
 
   const [selected, setSelected] = useState(false);
+  console.log('@@ isselected', isselected);
 
   console.log('@@ svgComponents', svgRef);
   if (svgRef === 'home') {
@@ -14,4 +17,7 @@ export default function SvgComponents ({ svgRef, isselected }) {
   } else {
     return (<div></div>)
   }
-};
+  // else if (svgRef === 'downArrow') {
+  //   return (<DownCaretSVG />)
+  // }
+}
