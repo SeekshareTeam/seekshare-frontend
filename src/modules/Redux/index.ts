@@ -2,6 +2,7 @@ import React from 'react';
 import { configureStore } from '@reduxjs/toolkit';
 import topicReducer from 'src/modules/Topic/slice';
 import postReducer from 'src/modules/Post/slice';
+import commentReducer from 'src/modules/Comment/slice';
 import loadingReducer, { setLoading } from 'src/modules/App/slice';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@apollo/client';
@@ -12,6 +13,7 @@ export const store = configureStore({
   reducer: {
     topics: topicReducer,
     post: postReducer,
+    comments: commentReducer,
     app: loadingReducer,
   },
 });
@@ -23,11 +25,14 @@ export const useCustomQuery = <A, T>(
   onMount = true
 ) => {
   const dispatch = useDispatch();
-  const [apolloQuery, { data, loading, error }] = useApolloQuery({ variables });
+  const [apolloQuery, { data, loading, error }] = useApolloQuery({
+    variables,
+    fetchPolicy: 'no-cache',
+  });
   React.useEffect(() => {
     if (data) {
       const dataKeys = Object.keys(data);
-      console.log('@ a', action);
+      console.log('@ a', dataKeys, action);
       if (action) {
         dispatch(action(data[dataKeys[0]]));
       }
@@ -36,6 +41,7 @@ export const useCustomQuery = <A, T>(
     }
   }, [data]);
   React.useEffect(() => {
+    console.log('@@ load', loading);
     dispatch(setLoading(loading));
   }, [loading]);
   React.useEffect(() => {
@@ -53,16 +59,21 @@ export const useCustomMutation = <A, T>(
   onMount = true
 ) => {
   const dispatch = useDispatch();
-  const [apolloQuery, { data, loading, error }] = useApolloMutation();
+  const [apolloQuery, { data, loading, error }] = useApolloMutation({
+    fetchPolicy: 'no-cache',
+    notifyOnNetworkStatusChange: true,
+  });
   React.useEffect(() => {
     if (data) {
       const dataKeys = Object.keys(data);
       if (action) {
+        console.log('d', data);
         dispatch(action(data[dataKeys[0]]));
       }
     }
   }, [data]);
   React.useEffect(() => {
+    console.log('@@ mutation load', loading);
     dispatch(setLoading(loading));
   }, [loading]);
 

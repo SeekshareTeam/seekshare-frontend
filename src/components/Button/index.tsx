@@ -26,7 +26,6 @@ export function getSize(size = null) {
 export const TextLink: JSX.Element = (props: TextLinkProps) => {
   const baseClass = classes.wrapper;
   const sizeClass = getSize(props.size);
-
   const styleClass = `${baseClass} ${sizeClass}`;
 
   return (

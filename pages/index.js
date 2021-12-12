@@ -4,7 +4,7 @@
 // import { TrialComponent } from '../src/components/trial';
 // import { getLayout } from 'src/components/App/Layout/index';
 
-import * as React from 'react';
+import React from 'react';
 
 import { GeneralLayout } from 'src/components/Layouts';
 

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { IconArrowBigTop, IconArrowBigDown } from '@tabler/icons';
 
 function getSize(size = null) {
   switch (size) {
@@ -18,7 +17,11 @@ const composer = {
   getSize,
 };
 
-export const Vote: JSX.Element = (props) => {
+type VoteProps = {
+  iconSymbol: JSX.Element;
+};
+
+export const Vote: JSX.Element = (props: VoteProps) => {
   const [fillColor, setFillColor] = React.useState('transparent');
   const size = composer.getSize(props.size);
   const classes = `w-full`;
@@ -43,25 +46,3 @@ export const Vote: JSX.Element = (props) => {
 };
 
 
-
-export const Numero: JSX.Element = (props) => {
-  return (
-    <p className={'text-gray-800 text-2xl border-2 border-red-500'}>
-      {props.number}
-    </p>
-  );
-};
-
-type VotesProp = {
-  size: string;
-};
-
-export const Votes: JSX.Element = (props: VotesProp = { size: 'medium' }) => {
-  return (
-    <div className="flex flex-col flex-start border-2 items-center border-red-50">
-      <Vote size={props.size} iconSymbol={IconArrowBigTop} />
-      <Numero number={2} />
-      <Vote size={props.size} iconSymbol={IconArrowBigDown} />
-    </div>
-  );
-};

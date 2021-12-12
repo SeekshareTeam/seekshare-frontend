@@ -28,6 +28,25 @@ export const Tag: JSX.Element = (props) => {
   return <div></div>;
 };
 
+type CommentDetailProps = {
+  name: string;
+  date: string;
+  href: string;
+  title: string;
+};
+
+export const CommentDetail: JSX.Element = (props: CommentDetailProps) => {
+  return (
+    <div>
+      <TextLink
+        normalText={'Posted by'}
+        linkText={props.name}
+        href={props.href}
+      />
+    </div>
+  );
+};
+
 type PostTitleProps = {
   name: string;
   date: string;
@@ -39,8 +58,18 @@ export const PostTitle: JSX.Element = (props: PostTitleProps) => {
   return (
     <div className="pb-4 py-1">
       <div className="flex border-2 border-yellow-500 flex-row items-center">
-        <Badge size="small" shape="large" type="workspace" name={"K. International School Tokyo"} />
-        <Badge size="small" shape="circle" type="subspace" name={"IB MATH HL"} />
+        <Badge
+          size="small"
+          shape="large"
+          type="workspace"
+          name={'K. International School Tokyo'}
+        />
+        <Badge
+          size="small"
+          shape="circle"
+          type="subspace"
+          name={'IB MATH HL'}
+        />
         <TextLink
           normalText={'Posted by'}
           linkText={props.name}

@@ -2,6 +2,8 @@ import text from './text.json';
 
 import dynamic from 'next/dynamic';
 import 'easymde/dist/easymde.min.css';
+
+import { isEmpty } from 'lodash';
 // import SimpleMDE from 'react-simplemde-editor';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 // import { createPost } from 'src/modules/PostList/slice';
@@ -29,7 +31,69 @@ const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
   ssr: false,
 });
 
-const Editor = ({ value, onChange }) => {
+export const MarkdownEditor = ({
+  onBodyChange,
+  body,
+  size,
+  onSubmit,
+  type,
+}) => {
+  let height;
+
+  switch (size) {
+    case 'large':
+      height = '400px';
+      break;
+    case 'medium':
+      height = '300px';
+      break;
+    case 'small':
+      height = '150px';
+      break;
+    case 'xs':
+      height = '100px';
+    default:
+      height = '500px';
+      break;
+  }
+
+  const options = React.useMemo(
+    () => ({
+      spellChecker: false,
+      sideBySideFullscreen: false,
+      maxHeight: height,
+      previewRender: (text) => {
+        return ReactDOMServer.renderToString(<MarkdownViewer text={text} />);
+      },
+    }),
+    []
+  );
+
+  return (
+    <div className="w-full">
+      <SimpleMDE
+        className="border-2 border-blue-200"
+        options={options}
+        value={body}
+        onChange={onBodyChange}
+      />
+      {type === 'comment' && (
+        <div
+          className={`bg-blue-400 ${
+            !isEmpty(body) ? 'hover:bg-blue-600' : ''
+          } text-white font-bold py-1 px-1 inline-block float-right`}
+        >
+          <button
+            disabled={isEmpty(body)} onClick={async () => { console.log('body'); await onSubmit(body) } }>
+            {'Post Your Comment'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const QuestionEditor = ({ value, onChange }) => {
   const [postTitle, setTitle] = React.useState('');
   const [body, setBody] = React.useState('');
   const [singleTag, setSingleTag] = React.useState('');
@@ -76,18 +140,6 @@ const Editor = ({ value, onChange }) => {
     setBody(val);
   };
 
-  const options = React.useMemo(
-    () => ({
-      spellChecker: false,
-      sideBySideFullscreen: false,
-      maxHeight: '300px',
-      previewRender: (text) => {
-        return ReactDOMServer.renderToString(<MarkdownViewer text={text} />);
-      },
-    }),
-    []
-  );
-
   return (
     <div className={classes.editorContainer}>
       <div className={classes.main}>
@@ -96,7 +148,7 @@ const Editor = ({ value, onChange }) => {
           inputProps={{ onChange: onTitleChange, value: postTitle }}
         />
         <Title value={text.body} />
-        <SimpleMDE options={options} value={body} onChange={onBodyChange} />
+        <MarkdownEditor body={body} onBodyChange={onBodyChange} />
       </div>
       <div className={classes.submit}>
         <button onClick={onSubmitCreatePost}>{'Post your question'}</button>
@@ -105,4 +157,4 @@ const Editor = ({ value, onChange }) => {
   );
 };
 
-export default Editor;
+export default QuestionEditor;
