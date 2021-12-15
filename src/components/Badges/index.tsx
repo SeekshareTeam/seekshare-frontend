@@ -50,7 +50,14 @@ const composer = {
   getShape,
 };
 
-export const Badge: JSX.Element = ({ size, type, shape, name }) => {
+type BadgeProps = {
+  size?: string;
+  type?: string;
+  shape?: string;
+  name?: string;
+}
+
+export const Badge: React.FC<BadgeProps> = ({ size, type, shape, name }: BadgeProps) => {
   const baseClasses =
     'inline-block font-bold text-white  hover:bg-gray-500 opacity-90 hover:opacity-100';
   const sizeClass = composer.getSize(size);

@@ -1,23 +1,13 @@
 import * as React from 'react';
 import { MarkdownEditor } from 'src/components/Editor';
-import { Title, PostTitle, CommentDetail } from 'src/components/Input';
 
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { fetchCommentsByPost } from 'src/modules/Comment/slice';
-import { useCustomQuery, useCustomMutation } from 'src/modules/Redux';
-import {
-  useFetchCommentsByPostLazyQuery,
-  useCreateCommentMutation,
-} from 'src/generated/apollo';
-
-import { createComment } from 'src/modules/Comment/slice';
+import { shallowEqual } from 'react-redux';
+import { useAppSelector } from 'src/modules/Redux';
 
 import CommentOverview from 'src/components/Comments/CommentOverview';
 import CommentSection from 'src/components/Comments/CommentSection';
 
-import { IconMessage2, IconArrowBackUp } from '@tabler/icons';
-
-import useCommentApi, { CommentApiType } from 'src/components/Comments/api';
+import { CommentsApiResultType } from 'src/components/Comments/api';
 
 type CommentThreadProps = {
   /**
@@ -27,10 +17,10 @@ type CommentThreadProps = {
   /**
    *
    */
-  commentApi: CommentApiType;
+  commentApi: CommentsApiResultType;
 };
 
-export const CommentThread: JSX.Element = (props) => {
+export const CommentThread: React.FC<CommentThreadProps> = (props) => {
   /**
    * Comment details should contain:
    * The number of Comments / Answers / Responses
@@ -43,12 +33,12 @@ export const CommentThread: JSX.Element = (props) => {
 
   const [body, setBody] = React.useState('');
 
-  const createCommentMutation = useCustomMutation<
-    typeof createComment,
-    typeof useCreateCommentMutation
-  >(createComment, useCreateCommentMutation, undefined, false);
+  // const createCommentMutation = useCustomMutation<
+  //   typeof createComment,
+  //   typeof useCreateCommentMutation
+  // >(createComment, useCreateCommentMutation, undefined, false);
 
-  const onBodyChange = (val) => {
+  const onBodyChange = (val: string) => {
     setBody(val);
   };
 
@@ -78,9 +68,8 @@ export const CommentThread: JSX.Element = (props) => {
   /*
    * Comment on add reply
    */
-  const onAddReply = React.useCallback(() => {}, []);
 
-  const reduxState = useSelector((state) => {
+  const reduxState = useAppSelector((state) => {
     return {
       comments: state.comments.data || [],
     };

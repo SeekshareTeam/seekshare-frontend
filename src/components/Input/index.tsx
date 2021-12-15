@@ -8,11 +8,13 @@ const classes = {
   titleStyle: 'font-sans text-gray-700 text-2xl md:text-3xl text-primary',
 };
 
-type InputProps = {
-  value: string;
-};
+// type InputProps = {
+//   value: string;
+// };
 
-export const Input: JSX.Element = (props) => {
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>
+
+export const Input: React.FC<InputProps> = (props: InputProps) => {
   return <input type="text" className={classes.inputStyle} {...props} />;
 };
 
@@ -20,30 +22,27 @@ type TitleProps = {
   value: string;
 };
 
-export const Title: JSX.Element = (props: TitleProps) => {
+export const Title: React.FC<TitleProps> = (props: TitleProps) => {
   return <h1 className={classes.titleStyle}>{props.value}</h1>;
 };
 
-export const Tag: JSX.Element = (props) => {
-  return <div></div>;
-};
-
-type CommentDetailProps = {
+type CommentDetailType = {
   normalText: string;
   linkText: string;
   date: string;
   href: string;
-  title: string;
 };
 
-export const CommentDetail: JSX.Element = (props: {
-  details: CommentDetailProps[];
-}) => {
+type CommentDetailProps = {
+  details: CommentDetailType[];
+}
+
+export const CommentDetail: React.FC<CommentDetailProps> = (props: CommentDetailProps) => {
   return (
     <div>
       {props.details.map((detail, ix) => (
         <TextLink
-          id={ix.toString()}
+          key={ix.toString()}
           normalText={detail.normalText}
           linkText={detail.linkText}
           href={detail.href}
@@ -60,7 +59,7 @@ type PostTitleProps = {
   title: string;
 };
 
-export const PostTitle: JSX.Element = (props: PostTitleProps) => {
+export const PostTitle: React.FC<PostTitleProps> = (props: PostTitleProps) => {
   return (
     <div className="pb-4 py-1">
       <div className="flex border-2 border-yellow-500 flex-row items-center">
@@ -96,7 +95,7 @@ type TitleInputProps = {
   inputProps: InputProps;
 };
 
-export const TitleInput: JSX.Element = (props) => {
+export const TitleInput: React.FC<TitleInputProps> = (props: TitleInputProps) => {
   return (
     <>
       <Title value={props.title} />

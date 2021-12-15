@@ -3,19 +3,25 @@ import { IconArrowBigTop, IconArrowBigDown } from '@tabler/icons';
 
 import { Numero } from 'src/components/Votes/Children/numero';
 import { Vote } from 'src/components/Votes/Children/singleVote';
-import { CommentsApiResultType } from 'src/components/Comments/api';
 
 export type MultiVoteProps = {
-  count?: number;
-  size?: string;
-  onUpvoteClick?: () => void;
-  onDownvoteClick?: () => void;
+  count: number;
+  size: string;
+  onUpvoteClick: () => void;
+  onDownvoteClick: () => void;
   setUp: boolean;
   setDown: boolean;
 };
 
-export const MultiVote: JSX.Element = (
-  props: MultiVoteProps = { size: 'medium', count: 0 }
+export const MultiVote: React.FC<MultiVoteProps> = (
+  props: MultiVoteProps = {
+    size: 'medium',
+    setUp: false,
+    setDown: false,
+    count: 0,
+    onUpvoteClick: () => {},
+    onDownvoteClick: () => {},
+  }
 ) => {
 
   console.log('@ setDown', props.setDown);

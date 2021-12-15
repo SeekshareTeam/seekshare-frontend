@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import 'katex/dist/katex.min.css';
 import "katex/dist/contrib/mhchem.js";
 
-export const MarkdownViewer = ({ text }) => {
+export const MarkdownViewer = ({ text }: { text: string }) => {
   return (
     <ReactMarkdown
       children={text}

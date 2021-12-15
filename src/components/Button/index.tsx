@@ -9,10 +9,10 @@ type TextLinkProps = {
   size?: string;
   normalText?: string;
   linkText?: string;
-  href?: string;
+  href: string;
 };
 
-export function getTextSize(size = null) {
+export function getTextSize(size: string | undefined) {
   switch (size) {
     case 'large':
       return 'text-lg';
@@ -23,7 +23,7 @@ export function getTextSize(size = null) {
   }
 }
 
-export const TextLink: JSX.Element = (props: TextLinkProps) => {
+export const TextLink: React.FC<TextLinkProps> = (props: TextLinkProps) => {
   const baseClass = classes.wrapper;
   const sizeClass = getTextSize(props.size);
   const styleClass = `${baseClass} ${sizeClass}`;
@@ -41,29 +41,32 @@ export const TextLink: JSX.Element = (props: TextLinkProps) => {
 interface BaseButtonProps {
   [key: string]: unknown;
   size: string;
+  radius: string;
   disabled?: boolean;
 }
 
 type ButtonAsButton = BaseButtonProps &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-type ButtonAsLink = BaseButtonProps &
-  React.AnchorHTMLAttributes<HTMLAnchorElement>;
+// type ButtonAsLink = BaseButtonProps &
+//   React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
-type ButtonProps = ButtonAsButton | ButtonAsLink;
+// type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-function BaseButton({ href = null, forwardedRef = null, ...rest }) {
-  if (href && href.startsWith('/')) {
-    return (
-      <Link href={href}>
-        <a {...rest} />
-      </Link>
-    );
-  }
+type ButtonProps = ButtonAsButton;
 
-  if (href) {
-    return <a ref={forwardedRef} href={href} {...rest} />;
-  }
+function BaseButton({ forwardedRef = null, ...rest }: ButtonProps) {
+  // if (href && href.startsWith('/')) {
+  //   return (
+  //     <Link href={href}>
+  //       <a {...rest} />
+  //     </Link>
+  //   );
+  // }
+
+  // if (href) {
+  //   return <a ref={forwardedRef} href={href} {...rest} />;
+  // }
 
   return <button ref={forwardedRef} {...rest} />;
 }
@@ -71,7 +74,7 @@ function BaseButton({ href = null, forwardedRef = null, ...rest }) {
 const baseClasses =
   'flex space-x-2 flex-none items-center justify-center cursor-pointer leading-none transition-all font-semibold';
 
-function getSize(size = null) {
+function getSize(size: string | undefined) {
   switch (size) {
     case 'large': {
       return 'px-4 py-1 text-sm';
@@ -92,7 +95,7 @@ function getOpacity(disabled = false) {
   return disabled ? 'opacity-50 cursor-not-allowed' : 'opacity-100';
 }
 
-function getRadius(size = null) {
+function getRadius(size: string | undefined) {
   switch (size) {
     case 'large': {
       return 'rounded-lg';

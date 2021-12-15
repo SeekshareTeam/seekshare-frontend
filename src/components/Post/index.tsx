@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Title, PostTitle, CommentDetail } from 'src/components/Input';
+import { PostTitle } from 'src/components/Input';
 import { CommentThread } from 'src/components/Comments';
 import { MarkdownViewer } from 'src/components/Viewer';
 import { useFetchPostLazyQuery } from 'src/generated/apollo';
-import { useCustomQuery } from 'src/modules/Redux';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
+import { shallowEqual } from 'react-redux';
+
 import { fetchCommentsByPost } from 'src/modules/Comment/slice';
 import { useFetchCommentsByPostLazyQuery } from 'src/generated/apollo';
 import { fetchPost } from 'src/modules/Post/slice';
@@ -21,14 +22,14 @@ const classes = {
   content: 'flex-1 p-2',
 };
 
-type PostContentType = {
-  name: string;
-  nameHref: string;
+type PostContentProps = {
+  name?: string;
+  nameHref?: string;
   votes: JSX.Element;
   content: JSX.Element;
 };
 
-const PostContent: JSX.Element = (props: ContentLayoutType) => {
+const PostContent: React.FC<PostContentProps> = (props: PostContentProps) => {
   return (
     <div className={classes.contentContainer}>
       <div className={classes.votes}>{props.votes}</div>
@@ -38,36 +39,35 @@ const PostContent: JSX.Element = (props: ContentLayoutType) => {
 };
 
 type PostLayoutTypes = {
-  title: string;
-  contentLayout: JSX.Element;
+  title: JSX.Element;
+  commentThread: JSX.Element;
+  postContent: JSX.Element;
 };
 
-const PostLayout: JSX.Element = (props) => {
+const PostLayout: React.FC<PostLayoutTypes> = (props: PostLayoutTypes) => {
   return (
     <div className={classes.postContainer}>
       <div className={classes.title}>{props.title}</div>
       {props.postContent}
       {props.commentThread}
-      {/*<div className={classes.contentContainer}>
-        <div className={classes.votes}>{props.votes}</div>
-        <div className={classes.content}>{props.content}</div>
-      </div>*/}
     </div>
   );
 };
 
-export const Post: JSX.Element = (props) => {
+type PostProps = {
+  pid: string;
+};
+
+export const Post: React.FC<PostProps> = (props: PostProps) => {
   /**
    * Make API calls in UseEffect function. Make post fetches here.
    */
   const commentApi = useCommentApi({ pid: props.pid });
 
-  const fetchPostQuery = useCustomQuery<typeof useFetchPostLazyQuery>(
-    fetchPost,
-    useFetchPostLazyQuery,
-    undefined,
-    false
-  );
+  const fetchPostQuery = useCustomQuery<
+    typeof fetchPost,
+    typeof useFetchPostLazyQuery
+  >(fetchPost, useFetchPostLazyQuery, undefined, false);
 
   const fetchCommentsByPostQuery = useCustomQuery<
     typeof fetchCommentsByPost,
@@ -81,10 +81,10 @@ export const Post: JSX.Element = (props) => {
     }
   }, [props.pid]);
 
-  const reduxState = useSelector((state) => {
+  const reduxState = useAppSelector((state) => {
     return {
-      post: state.post.data,
-      loading: state.app.loading,
+      post: state?.post?.data,
+      loading: state?.app?.loading,
     };
   }, shallowEqual);
 
@@ -92,7 +92,7 @@ export const Post: JSX.Element = (props) => {
   //   return <div>{'Loading...'}</div>;
   // }
 
-  if (reduxState?.post?.content?.body) {
+  if (reduxState?.post?.content?.body && reduxState?.post?.title) {
     return (
       <PostLayout
         title={

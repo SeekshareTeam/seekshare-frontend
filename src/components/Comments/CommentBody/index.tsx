@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Comment as CommentType } from 'src/generated/types';
-import { Title, PostTitle, CommentDetail } from 'src/components/Input';
+import { CommentDetail } from 'src/components/Input';
 import { GhostButton } from 'src/components/Button';
 import { CommentsApiResultType } from 'src/components/Comments/api';
 import { Votes } from 'src/components/Votes';
@@ -21,7 +21,7 @@ type CommentBodyProps = {
   commentResult: CommentType;
 };
 
-const CommentBody: JSX.Element = (props: CommentBodyProps) => {
+const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
   /**
    * I need real users.
    * For both comments and posts.
@@ -73,7 +73,7 @@ const CommentBody: JSX.Element = (props: CommentBodyProps) => {
   }, [onVoteClick]);
 
   const commentDetails = [
-    { normalText: 'Posted by', linkText: 'Filter Name', href: '' },
+    { normalText: 'Posted by', linkText: 'Filter Name', href: '', date: 'Today' },
   ];
 
   return (
@@ -85,7 +85,7 @@ const CommentBody: JSX.Element = (props: CommentBodyProps) => {
         <div className={classes.votes}>
           <Votes
             size="small"
-            count={props?.commentResult?.upvotes}
+            count={props?.commentResult?.upvotes || 0}
             onUpvoteClick={onUpvoteClick}
             onDownvoteClick={onDownvoteClick}
             setUp={colorUp}

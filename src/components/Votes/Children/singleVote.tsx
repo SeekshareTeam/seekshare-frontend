@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { CommentsApiResultType } from 'src/components/Comments/api';
+import { TablerIcon } from '@tabler/icons';
 
-function getSize(size = null) {
+function getSize(size: string | undefined) {
   switch (size) {
     case 'large':
       return 64;
@@ -20,15 +20,16 @@ const composer = {
 };
 
 type VoteProps = {
-  iconSymbol: JSX.Element;
+  iconSymbol: TablerIcon;
   onClick: () => void;
   setColor: boolean;
+  size: string;
 };
 
-export const Vote: JSX.Element = (props: VoteProps) => {
+export const Vote: React.FC<VoteProps> = (props: VoteProps) => {
   const [fillColor, setFillColor] = React.useState('transparent');
   const size = composer.getSize(props.size);
-  const classes = `w-full`;
+  // const classes = `w-full`;
   React.useEffect(() => {
     if (props.setColor) {
       setFillColor('orange');
@@ -54,7 +55,7 @@ export const Vote: JSX.Element = (props: VoteProps) => {
         props.onClick();
       }}
     >
-      {props.iconSymbol({
+      {props.iconSymbol && props.iconSymbol({
         size: size,
         color: 'gray',
         stroke: 1,

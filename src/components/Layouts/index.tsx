@@ -1,14 +1,18 @@
 import * as React from 'react'
 
-export function GeneralView({ children }) {
+export const GeneralView: React.FC = (props) => {
   return (
     <div className="flex flex-row w-full h-full min-h-screen justify-center">
-      {children}
+      {props.children}
     </div>
   )
 }
 
-export const GeneralLayout = (page) => {
+type GeneralLayoutType = {
+  page: JSX.Element;
+}
+
+export const GeneralLayout = (page: GeneralLayoutType) => {
   return (
     <GeneralView>
       {page}

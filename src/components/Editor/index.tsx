@@ -5,14 +5,14 @@ import 'easymde/dist/easymde.min.css';
 
 import { isEmpty } from 'lodash';
 // import SimpleMDE from 'react-simplemde-editor';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 // import { createPost } from 'src/modules/PostList/slice';
 import React from 'react';
-import Link from 'next/link';
+// import Link from 'next/Link';
 import { useRouter } from 'next/router';
 import ReactDOMServer from 'react-dom/server';
 import { MarkdownViewer } from 'src/components/Viewer';
-import { useCustomMutation } from 'src/modules/Redux/index';
+import { useCustomMutation, useAppSelector } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
 import { TitleInput, Title } from 'src/components/Input';
 import { createPost } from 'src/modules/Post/slice';
@@ -31,14 +31,22 @@ const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
   ssr: false,
 });
 
-export const MarkdownEditor = ({
+type MarkdownEditorProps = {
+  onBodyChange: (val: string) => void;
+  body: string;
+  size?: string;
+  onSubmit?: (body: string) => Promise<void>;
+  type?: string;
+};
+
+export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   onBodyChange,
   body,
   size,
   onSubmit,
   type,
-}) => {
-  let height;
+}: MarkdownEditorProps) => {
+  let height: string = '500px';
 
   switch (size) {
     case 'large':
@@ -62,7 +70,7 @@ export const MarkdownEditor = ({
       spellChecker: false,
       sideBySideFullscreen: false,
       maxHeight: height,
-      previewRender: (text) => {
+      previewRender: (text: string) => {
         return ReactDOMServer.renderToString(<MarkdownViewer text={text} />);
       },
     }),
@@ -84,7 +92,14 @@ export const MarkdownEditor = ({
           } text-white font-bold py-1 px-1 inline-block float-right`}
         >
           <button
-            disabled={isEmpty(body)} onClick={async () => { console.log('body'); await onSubmit(body) } }>
+            disabled={isEmpty(body)}
+            onClick={async () => {
+              console.log('body');
+              if (onSubmit) {
+                await onSubmit(body);
+              }
+            }}
+          >
             {'Post Your Comment'}
           </button>
         </div>
@@ -93,14 +108,14 @@ export const MarkdownEditor = ({
   );
 };
 
-const QuestionEditor = ({ value, onChange }) => {
+const QuestionEditor: React.FC = () => {
   const [postTitle, setTitle] = React.useState('');
   const [body, setBody] = React.useState('');
-  const [singleTag, setSingleTag] = React.useState('');
-  const [tags, setTags] = React.useState([]);
+  // const [singleTag, setSingleTag] = React.useState('');
+  // const [tags, setTags] = React.useState([]);
 
   // counter
-  const [counter, setCounter] = React.useState(0);
+  // const [counter, setCounter] = React.useState(0);
 
   const createPostMutation = useCustomMutation<
     typeof createPost,
@@ -109,7 +124,7 @@ const QuestionEditor = ({ value, onChange }) => {
 
   const router = useRouter();
 
-  const { data } = useSelector((state) => state.post, shallowEqual);
+  const { data } = useAppSelector((state) => state.post, shallowEqual);
 
   React.useEffect(() => {
     if (data) {
@@ -128,15 +143,15 @@ const QuestionEditor = ({ value, onChange }) => {
     }
   }, [data]);
 
-  const onSingleTagChange = (e) => {
-    setSingleTag(e.target.value);
-  };
+  // const onSingleTagChange = (e) => {
+  //   setSingleTag(e.target.value);
+  // };
 
-  const onTitleChange = (e) => {
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const onBodyChange = (val) => {
+  const onBodyChange = (val: string) => {
     setBody(val);
   };
 

@@ -4,9 +4,7 @@ import topicReducer from 'src/modules/Topic/slice';
 import postReducer from 'src/modules/Post/slice';
 import commentReducer from 'src/modules/Comment/slice';
 import loadingReducer, { setLoading } from 'src/modules/App/slice';
-import { useDispatch } from 'react-redux';
-import { QueryVariablesUnion } from 'src/generated/operations';
-import { QueryFunctionsUnion } from 'src/generated/apollo';
+import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
@@ -17,13 +15,20 @@ export const store = configureStore({
   },
 });
 
+export type RootState = ReturnType<typeof store.getState>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch
+
+export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 export const useCustomQuery = <A, T extends (...args: any) => any>(
   action: A | undefined,
   useApolloQuery: T,
   variables: Parameters<T> | undefined,
   onMount = true
 ) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [apolloQuery, { data, loading, error }] = useApolloQuery({
     variables,
     fetchPolicy: 'no-cache',
@@ -57,7 +62,7 @@ export const useCustomMutation = <A, T>(
   variables: Parameters<T> | undefined,
   onMount = true
 ) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [apolloQuery, { data, loading, error }] = useApolloMutation({
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,

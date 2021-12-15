@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { createComment, upvoteComment } from 'src/modules/Comment/slice';
-import { useCustomQuery, useCustomMutation } from 'src/modules/Redux';
+import { useCustomMutation } from 'src/modules/Redux';
 import {
   useCreateCommentMutation,
   useUpvoteCommentMutation,

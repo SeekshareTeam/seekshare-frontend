@@ -5,7 +5,7 @@ type CommentOverviewProps = {
   sortType?: string;
 };
 
-const CommentOverview: JSX.Element = (props: CommentOverviewProps) => {
+const CommentOverview: React.FC<CommentOverviewProps> = (props: CommentOverviewProps) => {
   return (
     <div className="w-full flex border-2 border-purple-500">
       <div className="w-full px-2 w-16">

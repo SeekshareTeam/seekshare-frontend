@@ -4,8 +4,15 @@ import {
   MultiVoteProps,
 } from 'src/components/Votes/Children/multiVote';
 
-export const Votes: JSX.Element = (
-  props: MultiVoteProps = { size: 'medium' }
+export const Votes: React.FC<MultiVoteProps> = (
+  props: MultiVoteProps = {
+    size: 'medium',
+    setUp: false,
+    setDown: false,
+    count: 0,
+    onUpvoteClick: () => {},
+    onDownvoteClick: () => {},
+  }
 ) => {
   return (
     <MultiVote
