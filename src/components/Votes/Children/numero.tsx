@@ -6,7 +6,7 @@ type NumeroProps = {
 
 export const Numero: JSX.Element = (props) => {
   return (
-    <p className={'text-gray-800 text-2xl border-2 border-red-500'}>
+    <p className={'text-gray-800 text-base border-2 border-red-500'}>
       {props.number}
     </p>
   );

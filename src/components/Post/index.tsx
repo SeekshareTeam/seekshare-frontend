@@ -10,6 +10,7 @@ import { useFetchCommentsByPostLazyQuery } from 'src/generated/apollo';
 import { fetchPost } from 'src/modules/Post/slice';
 
 import { Votes } from 'src/components/Post/votes';
+import useCommentApi from 'src/components/Comments/api';
 
 const classes = {
   postContainer: 'border-2 border-gray-500 flex flex-start flex-wrap w-2/3',
@@ -25,7 +26,7 @@ type PostContentType = {
   nameHref: string;
   votes: JSX.Element;
   content: JSX.Element;
-}
+};
 
 const PostContent: JSX.Element = (props: ContentLayoutType) => {
   return (
@@ -59,6 +60,8 @@ export const Post: JSX.Element = (props) => {
   /**
    * Make API calls in UseEffect function. Make post fetches here.
    */
+  const commentApi = useCommentApi({ pid: props.pid });
+
   const fetchPostQuery = useCustomQuery<typeof useFetchPostLazyQuery>(
     fetchPost,
     useFetchPostLazyQuery,
@@ -70,7 +73,6 @@ export const Post: JSX.Element = (props) => {
     typeof fetchCommentsByPost,
     typeof useFetchCommentsByPostLazyQuery
   >(fetchCommentsByPost, useFetchCommentsByPostLazyQuery, undefined, false);
-
 
   React.useEffect(() => {
     if (props.pid) {
@@ -86,9 +88,9 @@ export const Post: JSX.Element = (props) => {
     };
   }, shallowEqual);
 
-  if (reduxState.loading) {
-    return <div>{'Loading...'}</div>;
-  }
+  // if (reduxState.loading) {
+  //   return <div>{'Loading...'}</div>;
+  // }
 
   if (reduxState?.post?.content?.body) {
     return (
@@ -107,9 +109,8 @@ export const Post: JSX.Element = (props) => {
             content={<MarkdownViewer text={reduxState.post.content.body} />}
           />
         }
-
         commentThread={
-          <CommentThread pid={props.pid} />
+          <CommentThread pid={props.pid} commentApi={commentApi} />
         }
       />
     );

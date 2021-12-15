@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { CommentsApiResultType } from 'src/components/Comments/api';
+
 function getSize(size = null) {
   switch (size) {
     case 'large':
@@ -19,20 +21,37 @@ const composer = {
 
 type VoteProps = {
   iconSymbol: JSX.Element;
+  onClick: () => void;
+  setColor: boolean;
 };
 
 export const Vote: JSX.Element = (props: VoteProps) => {
   const [fillColor, setFillColor] = React.useState('transparent');
   const size = composer.getSize(props.size);
   const classes = `w-full`;
+  React.useEffect(() => {
+    if (props.setColor) {
+      setFillColor('orange');
+    } else {
+      setFillColor('transparent');
+    }
+  }, [props.setColor]);
   return (
     <div
-      className="border-2 border-blue-500 w-full"
+      className={`border-2 border-blue-500 w-full`}
       onMouseEnter={() => {
-        setFillColor('orange');
+        if (!props.setColor) {
+          setFillColor('orange');
+        }
       }}
       onMouseLeave={() => {
-        setFillColor('transparent');
+        if (!props.setColor) {
+          setFillColor('transparent');
+        }
+      }}
+      onClick={() => {
+        console.log('on click');
+        props.onClick();
       }}
     >
       {props.iconSymbol({
@@ -44,5 +63,3 @@ export const Vote: JSX.Element = (props: VoteProps) => {
     </div>
   );
 };
-
-

@@ -5,7 +5,6 @@ import postReducer from 'src/modules/Post/slice';
 import commentReducer from 'src/modules/Comment/slice';
 import loadingReducer, { setLoading } from 'src/modules/App/slice';
 import { useDispatch } from 'react-redux';
-import { useQuery } from '@apollo/client';
 import { QueryVariablesUnion } from 'src/generated/operations';
 import { QueryFunctionsUnion } from 'src/generated/apollo';
 
@@ -18,7 +17,7 @@ export const store = configureStore({
   },
 });
 
-export const useCustomQuery = <A, T>(
+export const useCustomQuery = <A, T extends (...args: any) => any>(
   action: A | undefined,
   useApolloQuery: T,
   variables: Parameters<T> | undefined,
@@ -68,6 +67,7 @@ export const useCustomMutation = <A, T>(
       const dataKeys = Object.keys(data);
       if (action) {
         console.log('d', data);
+        console.log('k', data[dataKeys[0]]);
         dispatch(action(data[dataKeys[0]]));
       }
     }
@@ -79,7 +79,7 @@ export const useCustomMutation = <A, T>(
 
   React.useEffect(() => {
     if (onMount) {
-      let params = {};
+      let params: { variables?: Parameters<T> | undefined } = {};
       if (variables) {
         params.variables = variables;
       }

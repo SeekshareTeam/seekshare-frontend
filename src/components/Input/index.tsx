@@ -29,20 +29,26 @@ export const Tag: JSX.Element = (props) => {
 };
 
 type CommentDetailProps = {
-  name: string;
+  normalText: string;
+  linkText: string;
   date: string;
   href: string;
   title: string;
 };
 
-export const CommentDetail: JSX.Element = (props: CommentDetailProps) => {
+export const CommentDetail: JSX.Element = (props: {
+  details: CommentDetailProps[];
+}) => {
   return (
     <div>
-      <TextLink
-        normalText={'Posted by'}
-        linkText={props.name}
-        href={props.href}
-      />
+      {props.details.map((detail, ix) => (
+        <TextLink
+          id={ix.toString()}
+          normalText={detail.normalText}
+          linkText={detail.linkText}
+          href={detail.href}
+        />
+      ))}
     </div>
   );
 };

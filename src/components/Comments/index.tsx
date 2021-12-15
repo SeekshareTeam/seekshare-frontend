@@ -17,10 +17,17 @@ import CommentSection from 'src/components/Comments/CommentSection';
 
 import { IconMessage2, IconArrowBackUp } from '@tabler/icons';
 
-import useCommentApi from 'src/components/Comments/api';
+import useCommentApi, { CommentApiType } from 'src/components/Comments/api';
 
 type CommentThreadProps = {
+  /**
+   *
+   */
   pid: string;
+  /**
+   *
+   */
+  commentApi: CommentApiType;
 };
 
 export const CommentThread: JSX.Element = (props) => {
@@ -32,7 +39,7 @@ export const CommentThread: JSX.Element = (props) => {
    * ability to populate each comment. Pagination bar at the bottom.
    */
 
-  const commentApi = useCommentApi({ pid: props.pid });
+  // const commentApi = useCommentApi({ pid: props.pid });
 
   const [body, setBody] = React.useState('');
 
@@ -45,9 +52,9 @@ export const CommentThread: JSX.Element = (props) => {
     setBody(val);
   };
 
-  // const onAddComment = React.useCallback(async (value) => {
-  //   await commentApi.onAddComment({ comment: value });
-  // }, [commentApi.onAddComment]);
+  const onAddComment = React.useCallback(async (value) => {
+    await props.commentApi.onAddComment({ comment: value });
+  }, [props.commentApi.onAddComment]);
 
   React.useEffect(() => {
     if (props.pid) {
@@ -58,15 +65,15 @@ export const CommentThread: JSX.Element = (props) => {
   /**
    * On Add Comment
    */
-  const onAddComment = React.useCallback(
-    async (comment: string) => {
-      console.log('Running this');
-      await createCommentMutation({
-        variables: { comment, postID: props.pid },
-      });
-    },
-    [props.pid]
-  );
+  // const onAddComment = React.useCallback(
+  //   async (comment: string) => {
+  //     console.log('Running this');
+  //     await createCommentMutation({
+  //       variables: { comment, postID: props.pid },
+  //     });
+  //   },
+  //   [props.pid]
+  // );
 
   /*
    * Comment on add reply
@@ -78,6 +85,8 @@ export const CommentThread: JSX.Element = (props) => {
       comments: state.comments.data || [],
     };
   }, shallowEqual);
+
+  // console.log('@ comments', reduxState.comments);
 
   if (reduxState?.comments) {
     return (
@@ -92,7 +101,8 @@ export const CommentThread: JSX.Element = (props) => {
         />
         <CommentSection
           comments={reduxState.comments}
-          onAddComment={commentApi.onAddComment}
+          onAddComment={props.commentApi.onAddComment}
+          onVoteComment={props.commentApi.onVoteComment}
         />
       </div>
     );

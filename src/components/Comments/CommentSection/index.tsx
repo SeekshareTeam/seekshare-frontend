@@ -10,7 +10,7 @@ type CommentSectionProps = {
   /**
    * Apollo Return type of fetchComments
    */
-  comments: FetchCommentsByPostLazyQueryHookResults;
+  comments: FetchCommentsByPostLazyQueryHookResult;
   /**
    * on Add Comments
    */
@@ -21,7 +21,16 @@ const CommentSection: JSX.Element = (props: CommentSectionProps) => {
   return (
     <div>
       {props.comments.map((c, ix) => {
-        return <CommentBody key={ix.toString()} {...c} onAddComment={props.onAddComment}/>;
+        // Things that I need to do. I want to make it so that.
+        // Things
+        return (
+          <CommentBody
+            key={c.id}
+            commentResult={c}
+            onVoteComment={props.onVoteComment}
+            onAddComment={props.onAddComment}
+          />
+        );
       })}
     </div>
   );
