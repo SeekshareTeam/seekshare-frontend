@@ -9,6 +9,8 @@ import CommentSection from 'src/components/Comments/CommentSection';
 
 import { CommentsApiResultType } from 'src/components/Comments/api';
 
+import { BaseTab, TabType } from 'src/components/Tabs';
+
 type CommentThreadProps = {
   /**
    *
@@ -32,6 +34,7 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
   // const commentApi = useCommentApi({ pid: props.pid });
 
   const [body, setBody] = React.useState('');
+  const [commentType, setCommentType] = React.useState('comment');
 
   // const createCommentMutation = useCustomMutation<
   //   typeof createComment,
@@ -42,9 +45,13 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
     setBody(val);
   };
 
-  const onAddComment = React.useCallback(async (value) => {
-    await props.commentApi.onAddComment({ comment: value });
-  }, [props.commentApi.onAddComment]);
+  const onAddComment = React.useCallback(
+    async (value) => {
+      await props.commentApi.onAddComment({ comment: value, commentType });
+      setBody('');
+    },
+    [props.commentApi.onAddComment, commentType]
+  );
 
   React.useEffect(() => {
     if (props.pid) {
@@ -77,6 +84,13 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
 
   // console.log('@ comments', reduxState.comments);
 
+  const tabs: TabType[] = [
+    { tabKey: 'comment', tabValue: 'Comment' },
+    { tabKey: 'answer', tabValue: 'Answer' },
+    { tabKey: 'challenge', tabValue: 'Challenge' },
+    { tabKey: 'question', tabValue: 'Question' },
+  ];
+
   if (reduxState?.comments) {
     return (
       <div className="w-full">
@@ -87,6 +101,15 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
           onSubmit={onAddComment}
           size="small"
           type="comment"
+          tabNode={
+            <BaseTab
+              active={commentType}
+              onSelectTab={(val: string) => {
+                setCommentType(val);
+              }}
+              tabs={tabs}
+            />
+          }
         />
         <CommentSection
           comments={reduxState.comments}

@@ -46,7 +46,6 @@ export const Vote: React.FC<VoteProps> = (props: VoteProps) => {
   );
 };
 
-
 type NumeroProps = {
   number: number;
 }
@@ -67,7 +66,7 @@ export const Votes: React.FC<VotesProp> = (props: VotesProp = { size: 'medium' }
   return (
     <div className="flex flex-col flex-start border-2 items-center border-red-50">
       <Vote size={props.size} iconSymbol={IconArrowBigTop} />
-      <Numero number={2} />=null
+      <Numero number={2} />
       <Vote size={props.size} iconSymbol={IconArrowBigDown} />
     </div>
   );

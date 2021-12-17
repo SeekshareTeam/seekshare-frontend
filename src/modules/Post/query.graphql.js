@@ -10,6 +10,12 @@ export const CREATE_POST_MUTATION = gql`
         body
         id
       }
+      user {
+        id
+        firstname
+        lastname
+        email
+      }
     }
   }
 `;
@@ -23,6 +29,12 @@ export const FETCH_POST_MUTATION = gql`
       content {
         id
         body
+      }
+      user {
+        id
+        firstname
+        lastname
+        email
       }
     }
   }

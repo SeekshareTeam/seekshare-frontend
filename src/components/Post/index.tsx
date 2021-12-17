@@ -88,18 +88,30 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
     };
   }, shallowEqual);
 
+  if (reduxState?.post) {
+    console.log("reduxState ", reduxState);
+  }
+
+
+  // reduxState.post.user.firstname + ' ' + reduxState.post.user.lastname
+  //
+
   // if (reduxState.loading) {
   //   return <div>{'Loading...'}</div>;
   // }
 
-  if (reduxState?.post?.content?.body && reduxState?.post?.title) {
+  if (
+    reduxState?.post?.content?.body &&
+    reduxState?.post?.title &&
+    reduxState?.post?.user
+  ) {
     return (
       <PostLayout
         title={
           <PostTitle
-            name="Abhinav Bhandari"
+            name={`${reduxState.post.user.firstname} ${reduxState.post.user.lastname}`}
             date="Today"
-            href=""
+            href={`/user/${reduxState.post.user.id}`}
             title={reduxState.post.title}
           />
         }

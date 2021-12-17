@@ -2,7 +2,8 @@ import { useRouter } from 'next/router';
 import { GeneralLayout } from 'src/components/Layouts';
 
 import { Post } from 'src/components/Post';
-const PostPage = (props) => {
+
+const PostPage = () => {
   const router = useRouter();
 
   const { id } = router.query;

@@ -38,24 +38,24 @@ export const TextLink: React.FC<TextLinkProps> = (props: TextLinkProps) => {
   );
 };
 
-interface BaseButtonProps {
+interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   [key: string]: unknown;
   size: string;
   radius: string;
   disabled?: boolean;
 }
 
-type ButtonAsButton = BaseButtonProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+// type ButtonAsButton = BaseButtonProps &
+//   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 // type ButtonAsLink = BaseButtonProps &
 //   React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 // type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-type ButtonProps = ButtonAsButton;
+type ButtonProps = BaseButtonProps;
 
-function BaseButton({ forwardedRef = null, ...rest }: ButtonProps) {
+function BaseButton({ forwardedRef, ...rest }: ButtonProps) {
   // if (href && href.startsWith('/')) {
   //   return (
   //     <Link href={href}>
@@ -77,7 +77,7 @@ const baseClasses =
 function getSize(size: string | undefined) {
   switch (size) {
     case 'large': {
-      return 'px-4 py-1 text-sm';
+      return 'px-4 py-2 text-sm';
     }
     case 'small': {
       return 'px-2.5 py-1.5 text-xs';
@@ -124,8 +124,8 @@ const composer = {
 //   return <BaseButton forwardedRef={ref} className={composed} {...props} />;
 // });
 
-export const GhostButton = React.forwardRef((props: ButtonProps, ref) => {
-  const classes = `text-green-500 hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-green-500 hover:bg-green-500`;
+export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>((props: ButtonProps, ref) => {
+  const classes = `self-center text-green-500 hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-green-500 hover:bg-green-500`;
   const size = composer.getSize(props.size);
   const opacity = composer.getOpacity(props.disabled);
   const radius = composer.getRadius(props.radius);

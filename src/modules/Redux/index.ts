@@ -15,15 +15,18 @@ export const store = configureStore({
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 
-export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useCustomQuery = <A, T extends (...args: any) => any>(
-  action: A | undefined,
+export const useCustomQuery = <
+  A extends (...args: any) => any,
+  T extends (...args: any) => any
+>(
+  action: A,
   useApolloQuery: T,
   variables: Parameters<T> | undefined,
   onMount = true
@@ -33,10 +36,13 @@ export const useCustomQuery = <A, T extends (...args: any) => any>(
     variables,
     fetchPolicy: 'no-cache',
   });
+  if (error) {
+    console.log(error);
+  }
   React.useEffect(() => {
     if (data) {
       const dataKeys = Object.keys(data);
-      console.log('@ a', dataKeys, action);
+      // console.log('@ a', dataKeys, action);
       if (action) {
         dispatch(action(data[dataKeys[0]]));
       }
@@ -56,8 +62,11 @@ export const useCustomQuery = <A, T extends (...args: any) => any>(
   return apolloQuery;
 };
 
-export const useCustomMutation = <A, T>(
-  action: A | undefined,
+export const useCustomMutation = <
+  A extends (...args: any) => any,
+  T extends (...args: any) => any
+>(
+  action: A,
   useApolloMutation: T,
   variables: Parameters<T> | undefined,
   onMount = true
@@ -67,6 +76,9 @@ export const useCustomMutation = <A, T>(
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
   });
+  if (error) {
+    console.log(error);
+  }
   React.useEffect(() => {
     if (data) {
       const dataKeys = Object.keys(data);

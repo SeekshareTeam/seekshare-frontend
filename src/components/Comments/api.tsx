@@ -12,7 +12,7 @@ type CommentsApiProps = {
 };
 
 export type CommentsApiResultType = {
-  onAddComment: (val: { comment: string }) => void;
+  onAddComment: (val: { comment: string; commentType: string; }) => void;
   onVoteComment: (val: { commentID: string; type: string }) => void;
 };
 
@@ -23,9 +23,9 @@ const api = (props: CommentsApiProps) => {
   >(createComment, useCreateCommentMutation, undefined, false);
 
   const onAddComment = React.useCallback(
-    async ({ comment }) => {
+    async ({ comment, commentType }) => {
       await createCommentMutation({
-        variables: { comment, postID: props.pid },
+        variables: { comment, commentType, postID: props.pid },
       });
     },
     [props.pid, createCommentMutation]

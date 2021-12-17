@@ -6,6 +6,7 @@ export const COMMENT_FRAGMENT = gql`
     comment
     isParent
     upvotes
+    type
     commentVotes {
       type
       cid
@@ -13,6 +14,8 @@ export const COMMENT_FRAGMENT = gql`
     user {
       firstname
       lastname
+      id
+      email
     }
   }
 `;
@@ -28,8 +31,8 @@ export const FETCH_POST_QUERY = gql`
 
 export const CREATE_COMMENT_MUTATION = gql`
   ${COMMENT_FRAGMENT}
-  mutation createComment($postID: ID!, $comment: String!, $to: ID) {
-    createComment(postID: $postID, comment: $comment, to: $to) {
+  mutation createComment($postID: ID!, $comment: String!, $commentType: CommentEnum!, $to: ID) {
+    createComment(postID: $postID, comment: $comment, commentType: $commentType, to: $to) {
       ...CommentFragment
     }
   }

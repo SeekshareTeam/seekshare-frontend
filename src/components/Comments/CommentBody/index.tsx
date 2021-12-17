@@ -4,6 +4,7 @@ import { CommentDetail } from 'src/components/Input';
 import { GhostButton } from 'src/components/Button';
 import { CommentsApiResultType } from 'src/components/Comments/api';
 import { Votes } from 'src/components/Votes';
+import { upperFirst } from 'lodash';
 import CommentFooter from 'src/components/Comments/CommentFooter';
 
 const classes = {
@@ -73,7 +74,12 @@ const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
   }, [onVoteClick]);
 
   const commentDetails = [
-    { normalText: 'Posted by', linkText: 'Filter Name', href: '', date: 'Today' },
+    {
+      normalText: upperFirst(`${props?.commentResult?.type} by`),
+      linkText: `${props?.commentResult?.user?.firstname} ${props?.commentResult?.user?.lastname}`,
+      href: '',
+      date: 'Today',
+    },
   ];
 
   return (
@@ -94,7 +100,8 @@ const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
         </div>
         <div className={classes.content}>
           <div className="w-full">{props?.commentResult?.comment}</div>
-          <div className="flex w-full justify-end border-2 border-blue-500">
+
+          <div className="flex self-center w-full justify-end">
             <GhostButton size={'large'}>
               {'Select As Correct Answer'}
             </GhostButton>

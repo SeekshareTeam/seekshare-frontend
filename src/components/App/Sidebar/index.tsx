@@ -10,7 +10,6 @@ const classes = {
 };
 
 const Sidebar: React.FC = () => {
-  const a = 'hello';
   return (
     <aside className={classes.navBar}>
       <Name />

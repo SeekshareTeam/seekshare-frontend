@@ -37,6 +37,7 @@ type MarkdownEditorProps = {
   size?: string;
   onSubmit?: (body: string) => Promise<void>;
   type?: string;
+  tabNode?: React.ReactNode;
 };
 
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
@@ -45,6 +46,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   size,
   onSubmit,
   type,
+  tabNode,
 }: MarkdownEditorProps) => {
   let height: string = '500px';
 
@@ -79,6 +81,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
   return (
     <div className="w-full">
+      {tabNode}
       <SimpleMDE
         className="border-2 border-blue-200"
         options={options}
@@ -128,9 +131,10 @@ const QuestionEditor: React.FC = () => {
 
   React.useEffect(() => {
     if (data) {
+      console.log('@ d', data);
       // router.push('/post/' + data.post_id);
     }
-  }, []);
+  }, [data]);
 
   const onSubmitCreatePost = React.useCallback(async () => {
     console.log('clicked');
@@ -138,10 +142,11 @@ const QuestionEditor: React.FC = () => {
       variables: { body, title: postTitle, type: 'question' },
     });
 
+    console.log('@@ data', data?.post_id);
     if (data?.post_id) {
       router.push('/post/' + data.post_id);
     }
-  }, [data]);
+  }, [data, body, postTitle]);
 
   // const onSingleTagChange = (e) => {
   //   setSingleTag(e.target.value);
