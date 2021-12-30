@@ -20,7 +20,7 @@ function getSize(size: string | undefined) {
 function getType(type: string | undefined) {
   switch (type) {
     case 'subspace':
-      return 'bg-red-400 hover:bg-red-500 duration-300';
+      return 'bg-red-500 hover:bg-red-600 duration-300';
     case 'workspace':
       return 'bg-green-500 hover:bg-green-600 duration-300';
   }

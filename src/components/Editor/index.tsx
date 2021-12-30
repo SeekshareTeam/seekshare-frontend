@@ -18,7 +18,7 @@ import { TitleInput, Title } from 'src/components/Input';
 import { createPost } from 'src/modules/Post/slice';
 
 const classes = {
-  editorContainer: 'w-2/3 flex flex-col justify-center',
+  editorContainer: 'border-2 border-red-500 w-2/3 flex flex-col justify-center',
   main: 'flex-1 card shadow-2xl p-2',
   title:
     'appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300',
@@ -62,6 +62,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       break;
     case 'xs':
       height = '100px';
+      break;
     default:
       height = '500px';
       break;
@@ -92,7 +93,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         <div
           className={`bg-blue-400 ${
             !isEmpty(body) ? 'hover:bg-blue-600' : ''
-          } text-white font-bold py-1 px-1 inline-block float-right`}
+          } text-white font-bold py-1 px-2 inline-block float-right`}
         >
           <button
             disabled={isEmpty(body)}
@@ -103,7 +104,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
               }
             }}
           >
-            {'Post Your Comment'}
+            {'Submit'}
           </button>
         </div>
       )}
@@ -143,8 +144,8 @@ const QuestionEditor: React.FC = () => {
     });
 
     console.log('@@ data', data?.post_id);
-    if (data?.post_id) {
-      router.push('/post/' + data.post_id);
+    if (data?.postId) {
+      router.push('/post/' + data.postId);
     }
   }, [data, body, postTitle]);
 
@@ -161,17 +162,19 @@ const QuestionEditor: React.FC = () => {
   };
 
   return (
-    <div className={classes.editorContainer}>
-      <div className={classes.main}>
-        <TitleInput
-          title={text.title}
-          inputProps={{ onChange: onTitleChange, value: postTitle }}
-        />
-        <Title value={text.body} />
-        <MarkdownEditor body={body} onBodyChange={onBodyChange} />
-      </div>
-      <div className={classes.submit}>
-        <button onClick={onSubmitCreatePost}>{'Post your question'}</button>
+    <div className="justify-center w-full">
+      <div className={classes.editorContainer}>
+        <div className={classes.main}>
+          <TitleInput
+            title={text.title}
+            inputProps={{ onChange: onTitleChange, value: postTitle }}
+          />
+          <Title value={text.body} />
+          <MarkdownEditor body={body} onBodyChange={onBodyChange} />
+        </div>
+        <div className={classes.submit}>
+          <button onClick={onSubmitCreatePost}>{'Post your question'}</button>
+        </div>
       </div>
     </div>
   );

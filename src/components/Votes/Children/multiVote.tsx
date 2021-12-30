@@ -23,9 +23,6 @@ export const MultiVote: React.FC<MultiVoteProps> = (
     onDownvoteClick: () => {},
   }
 ) => {
-
-  console.log('@ setDown', props.setDown);
-
   return (
     <div className="flex flex-col flex-start border-2 items-center border-red-50">
       <Vote

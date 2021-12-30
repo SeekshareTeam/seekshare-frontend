@@ -5,7 +5,7 @@ export const CREATE_POST_MUTATION = gql`
     createPost(title: $title, type: $type, body: $body) {
       title
       type
-      post_id
+      postId
       content {
         body
         id
@@ -25,7 +25,7 @@ export const FETCH_POST_MUTATION = gql`
     fetchPost(pid: $pid) {
       title
       type
-      post_id
+      postId
       content {
         id
         body

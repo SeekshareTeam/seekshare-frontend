@@ -24,6 +24,29 @@ generates:
       - typescript-react-apollo
     config:
       skipTypename: true
+      exportFragmentSpreadSubTypes: true
+      documentMode: graphQLTag
+
+  ./src/generated/page.tsx:
+    config:
+      documentMode: external
+      importDocumentNodeExternallyFrom: ./apollo
+      reactApolloVersion: 3
+      withHooks: true
+      contextType: 'ApolloClientContext'
+      contextTypeRequired: true
+      # withHOC: false
+      # excludePatterns: 'getComments'
+      # excludePatternsOptions: 'i'
+      # customDataIdFromObjectName: 'test'
+      # customDataIdFromObjectImport: 'abc'
+      # apolloStateKey: '__APOLLO_STATE__'
+      apolloClientInstanceImport: '../config/apollo/client'
+    preset: import-types
+    presetConfig:
+      typesPath: ./operations
+    plugins:
+      - 'graphql-codegen-apollo-next-ssr'
 
 hooks:
   afterAllFileWrite:

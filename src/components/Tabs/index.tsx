@@ -20,7 +20,7 @@ export const BaseTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
     <ul className="rounded-tl-md rounded-tr-md py-2 px-2 inline-block border-l-2 border-t-2 border-r-2 border-red-800">
       {props.tabs.map((t) => {
         return (
-          <li className="inline-block">
+          <li key={t.tabKey} className="inline-block">
             <button
               onClick={() => {
                 props.onSelectTab(t.tabKey);

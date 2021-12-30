@@ -6,23 +6,22 @@ import { CommentsApiResultType } from 'src/components/Comments/api';
 import { Votes } from 'src/components/Votes';
 import { upperFirst } from 'lodash';
 import CommentFooter from 'src/components/Comments/CommentFooter';
+import { MarkdownEditor } from 'src/components/Editor';
+import { useAppSelector } from 'src/modules/Redux';
+import { shallowEqual } from 'react-redux';
+import { AuthCheck } from 'src/components/Modal/AuthCheck';
 
-const classes = {
-  postContainer: 'border-2 border-gray-500 flex flex-start flex-wrap w-2/3',
-  contentInfo: 'w-full',
-  title: 'w-full border-2 border-red-500 pl-2',
-  votes: 'w-10 flex border-2 border-blue-500 px-1',
-  contentContainer: 'w-full flex flex-wrap',
-  content: 'flex-1 p-2 flex flex-wrap',
-};
+import CommentBodyLayout from 'src/components/Comments/CommentBody/Layout';
 
-type CommentBodyProps = {
-  onAddComment: CommentsApiResultType['onAddComment'];
-  onVoteComment: CommentsApiResultType['onVoteComment'];
+interface CommentBodyProps extends CommentsApiResultType {
   commentResult: CommentType;
-};
+  isRecursive?: boolean;
+}
 
-const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
+const CommentBody: React.FC<CommentBodyProps> = ({
+  isRecursive = false,
+  ...props
+}: CommentBodyProps) => {
   /**
    * I need real users.
    * For both comments and posts.
@@ -33,6 +32,32 @@ const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
 
   const [colorUp, setColorUp] = React.useState(false);
   const [colorDown, setColorDown] = React.useState(false);
+  const [selected, setSelected] = React.useState(false);
+  const [willReply, setWillReply] = React.useState(false);
+
+  const reduxState = useAppSelector(
+    (state) => ({
+      auth: state.auth?.data,
+    }),
+    shallowEqual
+  );
+
+  // Comment Reply related states
+  const [body, setBody] = React.useState('');
+
+  const onBodyChange = (val: string) => {
+    setBody(val);
+  };
+
+  const onReplyComment = async (value: string) => {
+    console.log('@ j', props.commentResult?.id);
+    await props.onReplyComment({
+      comment: value,
+      commentType: 'comment',
+      parentCommentId: props.commentResult?.id,
+    });
+    setBody('');
+  };
 
   React.useEffect(() => {
     // console.log('@ what', props, props.commentVotes);
@@ -52,6 +77,11 @@ const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
       }
     }
   }, [props?.commentResult?.commentVotes?.type]);
+
+  React.useEffect(() => {
+    if (props?.commentResult?.commentAnswers) {
+    }
+  }, [props?.commentResult?.commentAnswers]);
 
   const onVoteClick = React.useCallback(
     async (voteType: 'up' | 'down') => {
@@ -73,6 +103,18 @@ const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
     await onVoteClick('down');
   }, [onVoteClick]);
 
+  const onSelectAnswer = React.useCallback(async () => {
+    if (props?.commentResult?.id) {
+      await props.onSelectAnswer({
+        commentID: props.commentResult.id,
+      });
+    }
+  }, [props?.commentResult?.id, reduxState?.auth]);
+
+  const onReplyToComment = () => {
+    setWillReply(!willReply);
+  };
+
   const commentDetails = [
     {
       normalText: upperFirst(`${props?.commentResult?.type} by`),
@@ -83,35 +125,66 @@ const CommentBody: React.FC<CommentBodyProps> = (props: CommentBodyProps) => {
   ];
 
   return (
-    <div className="flex flex-wrap w-full">
-      <div className="w-full px-2">
-        <CommentDetail details={commentDetails} />
-      </div>
-      <div className="flex w-full">
-        <div className={classes.votes}>
-          <Votes
-            size="small"
-            count={props?.commentResult?.upvotes || 0}
-            onUpvoteClick={onUpvoteClick}
-            onDownvoteClick={onDownvoteClick}
-            setUp={colorUp}
-            setDown={colorDown}
-          />
-        </div>
-        <div className={classes.content}>
-          <div className="w-full">{props?.commentResult?.comment}</div>
-
-          <div className="flex self-center w-full justify-end">
-            <GhostButton size={'large'}>
+    <CommentBodyLayout
+      commentDetail={<CommentDetail details={commentDetails} />}
+      votes={
+        <Votes
+          size="small"
+          count={props?.commentResult?.upvotes || 0}
+          onUpvoteClick={onUpvoteClick}
+          onDownvoteClick={onDownvoteClick}
+          setUp={colorUp}
+          setDown={colorDown}
+        />
+      }
+      comment={props?.commentResult?.comment || ''}
+      bestAnswerButton={
+        !isRecursive && (
+          <AuthCheck
+            message={
+              'Please Login to Seekshare to select the best answer. We are going to be '
+            }
+            className={'flex self-center w-full justify-end'}
+          >
+            <GhostButton
+              selected={props?.commentResult?.commentAnswers}
+              textColor={'pink'}
+              fillColor={'pink'}
+              size={'large'}
+              onClick={onSelectAnswer}
+            >
               {'Select As Correct Answer'}
             </GhostButton>
-          </div>
-        </div>
-      </div>
-      <div className="ml-10">
-        <CommentFooter onAddComment={props.onAddComment} />
-      </div>
-    </div>
+          </AuthCheck>
+        )
+      }
+      commentFooter={
+        <>
+          <CommentFooter toReply={willReply} onPressReply={onReplyToComment} />
+          {willReply && (
+            <MarkdownEditor
+              onSubmit={onReplyComment}
+              onBodyChange={onBodyChange}
+              body={body}
+              size="xs"
+              type="comment"
+            />
+          )}
+          {props?.commentResult?.childComments?.map((cm) => {
+            return (
+              <CommentBody
+                key={cm.id}
+                commentResult={cm}
+                onVoteComment={props.onVoteComment}
+                onReplyComment={props.onReplyComment}
+                onSelectAnswer={props.onSelectAnswer}
+                isRecursive
+              />
+            );
+          })}
+        </>
+      }
+    />
   );
 };
 

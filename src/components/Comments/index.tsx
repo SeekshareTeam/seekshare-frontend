@@ -53,12 +53,6 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
     [props.commentApi.onAddComment, commentType]
   );
 
-  React.useEffect(() => {
-    if (props.pid) {
-      // fetchCommentsByPostQuery({ variables: { postID: props.pid } });
-    }
-  }, [props.pid]);
-
   /**
    * On Add Comment
    */
@@ -71,6 +65,10 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
   //   },
   //   [props.pid]
   // );
+
+  // const onSelectAnswer = React.useCallback(async (commentID, selectorID) => {
+  //   await props.commentApi.onSelectAnswer({ commentID, selectorID });
+  // }, [])
 
   /*
    * Comment on add reply
@@ -113,8 +111,9 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
         />
         <CommentSection
           comments={reduxState.comments}
-          onAddComment={props.commentApi.onAddComment}
+          onReplyComment={props.commentApi.onAddComment}
           onVoteComment={props.commentApi.onVoteComment}
+          onSelectAnswer={props.commentApi.onSelectAnswer}
         />
       </div>
     );

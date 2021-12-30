@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Post as PostType } from 'src/generated/types';
+import { HYDRATE } from 'next-redux-wrapper';
+
 type PostSliceType = {
   data?: PostType;
 };
@@ -11,28 +13,39 @@ export const postSlice = createSlice({
   initialState,
   reducers: {
     clearPost: () => {
-      // stated.data = undefined
       return {
         data: undefined,
       };
     },
     createPost: (state, action) => {
-      // state.data = action.payload
       return {
         ...state,
         data: action.payload,
       };
     },
+    serverFetchPost: (state, action) => {
+      return {
+        ...state,
+        data: action.payload
+      }
+    },
     fetchPost: (state, action) => {
-      // state.data = action.payload
       return {
         ...state,
         data: action.payload,
       };
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        data: action.payload.post.data,
+      };
+    },
+  },
 });
 
-export const { clearPost, createPost, fetchPost } = postSlice.actions;
+export const { clearPost, createPost, fetchPost, serverFetchPost } = postSlice.actions;
 
 export default postSlice.reducer;

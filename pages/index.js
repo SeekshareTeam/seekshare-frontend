@@ -8,18 +8,23 @@ import React from 'react';
 
 import { GeneralLayout } from 'src/components/Layouts';
 
+import { useSession, getSession } from 'next-auth/react';
 
 
 // import { Home } from 'src/components/App/Home';
 import Editor from 'src/components/Editor';
 
-
-
 const Home = () => {
+
+  // const session = useSession();
+
+  // console.log('@ home', session);
   return (
+
     <Editor />
   )
 };
+
 
 // const Home = () => {
 //   return (<div>{"helloo"}</div>)

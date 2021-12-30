@@ -7,6 +7,7 @@ module.exports = {
   variants: {
     extend: {
       contrast: ["hover"],
+      backgroundOpacity: ['active'],
     },
   },
   plugins: [],

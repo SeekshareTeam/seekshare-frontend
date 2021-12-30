@@ -7,19 +7,11 @@ import { CommentsApiResultType } from 'src/components/Comments/api';
 import { Comment as CommentType } from 'src/generated/types';
 
 
-type CommentSectionProps = {
+interface CommentSectionProps extends CommentsApiResultType {
   /**
    * Apollo Return type of fetchComments
    */
   comments: CommentType[];
-  /**
-   * on Add Comments
-   */
-  onAddComment: CommentsApiResultType['onAddComment'];
-  /**
-   * On Vote Comments
-   */
-  onVoteComment: CommentsApiResultType['onVoteComment'];
 };
 
 const CommentSection: React.FC<CommentSectionProps> = (props: CommentSectionProps) => {
@@ -33,7 +25,8 @@ const CommentSection: React.FC<CommentSectionProps> = (props: CommentSectionProp
             key={c.id}
             commentResult={c}
             onVoteComment={props.onVoteComment}
-            onAddComment={props.onAddComment}
+            onReplyComment={props.onReplyComment}
+            onSelectAnswer={props.onSelectAnswer}
           />
         );
       })}

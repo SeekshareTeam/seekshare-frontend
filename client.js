@@ -5,7 +5,7 @@ import {
   useQuery,
   gql
 } from "@apollo/client";
-console.log(console.log('pas', process.env.NEXT_PUBLIC_SERVER_API_URL));
+// console.log(console.log('pas', process.env.NEXT_PUBLIC_SERVER_API_URL));
 const GRAPHQL_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
 
 const client = new ApolloClient({

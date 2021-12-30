@@ -32,7 +32,7 @@ export const Vote: React.FC<VoteProps> = (props: VoteProps) => {
   // const classes = `w-full`;
   React.useEffect(() => {
     if (props.setColor) {
-      setFillColor('orange');
+      setFillColor('#F7978D');
     } else {
       setFillColor('transparent');
     }
@@ -42,7 +42,7 @@ export const Vote: React.FC<VoteProps> = (props: VoteProps) => {
       className={`border-2 border-blue-500 w-full`}
       onMouseEnter={() => {
         if (!props.setColor) {
-          setFillColor('orange');
+          setFillColor('#F7978D');
         }
       }}
       onMouseLeave={() => {

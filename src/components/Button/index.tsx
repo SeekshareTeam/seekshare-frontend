@@ -42,7 +42,10 @@ interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   [key: string]: unknown;
   size: string;
   radius: string;
+  selected?: boolean;
   disabled?: boolean;
+  textColor?: string;
+  fillColor?: string;
 }
 
 // type ButtonAsButton = BaseButtonProps &
@@ -55,7 +58,11 @@ interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
 
 type ButtonProps = BaseButtonProps;
 
-function BaseButton({ forwardedRef, ...rest }: ButtonProps) {
+interface ButtonPropsWithRef extends ButtonProps {
+  forwardedRef: React.ForwardedRef<HTMLButtonElement>;
+}
+
+function BaseButton({ forwardedRef, ...rest }: ButtonPropsWithRef) {
   // if (href && href.startsWith('/')) {
   //   return (
   //     <Link href={href}>
@@ -124,11 +131,35 @@ const composer = {
 //   return <BaseButton forwardedRef={ref} className={composed} {...props} />;
 // });
 
-export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>((props: ButtonProps, ref) => {
-  const classes = `self-center text-green-500 hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-green-500 hover:bg-green-500`;
-  const size = composer.getSize(props.size);
-  const opacity = composer.getOpacity(props.disabled);
-  const radius = composer.getRadius(props.radius);
-  const composed = `${baseClasses} ${size} ${opacity} ${radius} ${classes}`;
-  return <BaseButton forwardedRef={ref} className={composed} {...props} />;
-});
+export const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ textColor = 'gray', fillColor = 'gray', ...props }: ButtonProps, ref) => {
+    const classes = `self-center text-${textColor}-200 shadow-sm bg-${fillColor}-600 hover:bg-${fillColor}-800 border-opacity-100 border border-gray-200`;
+    const size = composer.getSize(props.size);
+    const background = '';
+    const opacity = composer.getOpacity(props.disabled);
+    const radius = composer.getRadius(props.radius);
+    const composed = `${baseClasses} ${background} ${size} ${opacity} ${radius} ${classes}`;
+    // return <button className={composed} ref={ref} {...props} />;
+    return <BaseButton forwardedRef={ref} className={composed} {...props} />;
+  }
+);
+
+export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    { textColor = 'green', fillColor = 'green', ...props }: ButtonProps,
+    ref
+  ) => {
+    const classes = `self-center ${
+      !props.selected
+        ? `text-${textColor ? textColor : 'green'}-500`
+        : `text-gray-100`
+    } hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
+    const filled = `bg-${fillColor}-500`;
+    const background = props.selected ? `${filled}` : `hover:${filled}`;
+    const size = composer.getSize(props.size);
+    const opacity = composer.getOpacity(props.disabled);
+    const radius = composer.getRadius(props.radius);
+    const composed = `${baseClasses} ${background} ${size} ${opacity} ${radius} ${classes}`;
+    return <BaseButton forwardedRef={ref} className={composed} {...props} />;
+  }
+);

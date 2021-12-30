@@ -11,6 +11,11 @@ export const COMMENT_FRAGMENT = gql`
       type
       cid
     }
+    commentAnswers {
+      uid
+      pid
+      cid
+    }
     user {
       firstname
       lastname
@@ -25,14 +30,20 @@ export const FETCH_POST_QUERY = gql`
   query fetchCommentsByPost($postID: ID!) {
     fetchCommentsByPost(postID: $postID) {
       ...CommentFragment
+      childComments {
+        ...CommentFragment
+        childComments {
+          ...CommentFragment
+        }
+      }
     }
   }
 `;
 
 export const CREATE_COMMENT_MUTATION = gql`
   ${COMMENT_FRAGMENT}
-  mutation createComment($postID: ID!, $comment: String!, $commentType: CommentEnum!, $to: ID) {
-    createComment(postID: $postID, comment: $comment, commentType: $commentType, to: $to) {
+  mutation createComment($postID: ID!, $comment: String!, $commentType: CommentEnum!, $parentCommentId: ID) {
+    createComment(postID: $postID, comment: $comment, commentType: $commentType, parentCommentId: $parentCommentId) {
       ...CommentFragment
     }
   }
@@ -42,6 +53,15 @@ export const UPVOTE_COMMENT_MUTATION = gql`
   ${COMMENT_FRAGMENT}
   mutation upvoteComment($commentID: ID!, $type: VoteEnum!) {
     upvoteComment(commentID: $commentID, type: $type) {
+      ...CommentFragment
+    }
+  }
+`;
+
+export const SELECT_ANSWER_MUTATION = gql`
+  ${COMMENT_FRAGMENT}
+  mutation selectAnswer($commentID: ID!) {
+    selectAnswer(commentID: $commentID) {
       ...CommentFragment
     }
   }
