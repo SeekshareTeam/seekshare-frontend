@@ -51,7 +51,6 @@ export const Vote: React.FC<VoteProps> = (props: VoteProps) => {
         }
       }}
       onClick={() => {
-        console.log('on click');
         props.onClick();
       }}
     >

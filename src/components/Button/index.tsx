@@ -46,6 +46,8 @@ interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   disabled?: boolean;
   textColor?: string;
   fillColor?: string;
+  iconRight?: JSX.Element;
+  iconLeft?: JSX.Element;
 }
 
 // type ButtonAsButton = BaseButtonProps &
@@ -83,6 +85,10 @@ const baseClasses =
 
 function getSize(size: string | undefined) {
   switch (size) {
+
+    case 'xlarge': {
+      return 'px-4 py-4 text-sm'
+    }
     case 'large': {
       return 'px-4 py-2 text-sm';
     }
@@ -130,6 +136,31 @@ const composer = {
 //   const composed = `${baseClasses} ${size} ${opacity} ${radius} ${classes}`;
 //   return <BaseButton forwardedRef={ref} className={composed} {...props} />;
 // });
+
+export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      textColor = 'gray',
+      fillColor = 'gray',
+      iconRight = null,
+      iconLeft = null,
+      ...props
+    }: ButtonProps,
+    ref
+  ) => {
+    const classes = `self-center h-full text-${textColor}-700 shadow-sm bg-white hover:bg-${fillColor}-100`;
+    const size = composer.getSize(props.size);
+    const radius = composer.getRadius(props.radius);
+    const composed = `${baseClasses} ${size} ${radius} ${classes}`;
+    return (
+      <BaseButton
+        forwardedRef={ref}
+        className={`flex items-center flex-row w-full ${composed}`}
+        {...props}
+      />
+    );
+  }
+);
 
 export const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ textColor = 'gray', fillColor = 'gray', ...props }: ButtonProps, ref) => {

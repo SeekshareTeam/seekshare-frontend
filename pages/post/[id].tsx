@@ -14,7 +14,7 @@ const PostPage = (props) => {
   console.log('@ postpage', session);
 
   return (
-    <div className="flex justify-center flex-1 items-start">
+    <div className="flex justify-center flex-1 self-stretch items-start">
       <Post pid={props.id} />
     </div>
   );

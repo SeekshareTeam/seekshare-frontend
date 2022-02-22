@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       contrast: ["hover"],
       backgroundOpacity: ['active'],
+      border: ["focus"]
     },
   },
   plugins: [],

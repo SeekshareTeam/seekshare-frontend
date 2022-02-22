@@ -9,14 +9,9 @@ export const AuthCheck = (props) => {
   // const [showModal, setShowModal] = React.useState(false);
 
   // There could be a redux state such as show auth modal
-  // if that is triggered, then it should show the auth model
+  // if that is triggered, then it should show the auth modal
 
   const [show, setShow] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   setShow(props.show);
-  //   console.log('@ show in useeffect', show);
-  // }, [props.show])
 
   const onHideModal = () => {
     setShow(false);
@@ -43,9 +38,6 @@ export const AuthCheck = (props) => {
     };
   }
 
-  console.log('@ show', show);
-
-  // console.log('@ reduxState', reduxState?.auth)
   return (
     <>
       {show && (

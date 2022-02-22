@@ -23,6 +23,8 @@ function getType(type: string | undefined) {
       return 'bg-red-500 hover:bg-red-600 duration-300';
     case 'workspace':
       return 'bg-green-500 hover:bg-green-600 duration-300';
+    case 'tag':
+      return 'bg-blue-500 hover:bg-blue-600 duration-300';
   }
 }
 
@@ -39,7 +41,7 @@ function getShape(shape: string | undefined) {
     case 'circle':
       return 'rounded-full';
     default:
-      'rounded-sm';
+      return 'rounded-sm';
   }
 }
 

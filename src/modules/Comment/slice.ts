@@ -66,7 +66,6 @@ export const commentSlice = createSlice({
       const mutatedComment = state?.data?.find(
         (c) => c.id === action.payload.id
       );
-      console.log('@@ action', action.payload, action?.payload?.commentVotes);
       if (mutatedComment) {
         mutatedComment.upvotes = action.payload.upvotes;
         mutatedComment.commentVotes = action.payload.commentVotes;

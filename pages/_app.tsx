@@ -6,8 +6,9 @@ import { getApolloClient } from 'src/config/apollo/client';
 import { wrapper } from 'src/modules/Redux';
 import { Provider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
+import { ApiProvider } from 'src/api/context';
 import { AuthGate } from 'src/components/Layouts/AuthGate';
-import type { AppProps /*, AppContext */ } from 'next/app'
+import type { AppProps /*, AppContext */ } from 'next/app';
 
 function MyApp({ Component, ...rest }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page);
@@ -18,20 +19,13 @@ function MyApp({ Component, ...rest }: AppProps) {
     <ApolloProvider client={getApolloClient()}>
       <SessionProvider session={props.session}>
         <Provider store={store}>
-          <AuthGate>
-          {getLayout(<Component {...props.pageProps} />)}
-          </AuthGate>
+          <ApiProvider>
+            <AuthGate>{getLayout(<Component {...props.pageProps} />)}</AuthGate>
+          </ApiProvider>
         </Provider>
       </SessionProvider>
     </ApolloProvider>
   );
-  // return (
-  //   <ApolloProvider client={client}>
-  //     <AppLayout sidebar={<Sidebar />}>
-  //       <Component {...pageProps} />
-  //     </AppLayout>
-  //   </ApolloProvider>
-  // );
 }
 
 export default MyApp;

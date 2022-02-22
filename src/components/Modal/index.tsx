@@ -34,7 +34,7 @@ export const Modal: React.FC<ModalProps> = (props) => {
               props.onPressBlur();
             }
           }}
-          className="h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50"
+          className="h-screen w-full z-20 fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50"
         >
           {props.children}
         </div>

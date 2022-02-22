@@ -1,28 +1,31 @@
 import * as React from 'react';
 
-import Header from 'src/components/App/Navbar/';
+import Navbar from 'src/components/App/Navbar/';
+import Sidebar from 'src/components/App/Sidebar';
 
 import { signIn, signOut } from 'next-auth/react';
 
 export const GeneralView: React.FC = (props) => {
   return (
-    <div className="flex flex-row w-full flex-wrap h-full min-h-screen">
-      <div className="flex h-16 flex-row justify-end w-full border-2 border-blue-400">
-        {props.header}
+    <div className="flex flex-row w-full h-full min-h-screen flex-wrap">
+      {props.sidebar}
+      <div className="flex-col flex flex-1">
+        <nav className="flex h-16 border-2 border-blue-400">{props.header}</nav>
+        {props.children}
       </div>
-      {props.children}
     </div>
   );
 };
 
 export const GeneralLayout = (page: JSX.Element) => {
   console.log('re render of layout');
+
+  const [sidebarToggle, setSidebarToggle] = React.useState(true);
+
   return (
     <GeneralView
-      header={
-          <Header />
-      }
-    >
+      sidebar={<Sidebar sidebarToggle={sidebarToggle} />}
+      header={<Navbar sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />}>
       {page}
     </GeneralView>
   );

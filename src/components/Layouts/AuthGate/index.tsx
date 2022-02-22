@@ -12,12 +12,12 @@ type GeneralLayoutType = {
 
 export const AuthGate = (props) => {
   const { data: session, status } = useSession();
+  // This gets initialized every time Auth Gate is called.
+  // Hence loading variable is established multiple times.
+  // Not preferred.
   const authCheckApi = useAuthCheckApi();
 
-  console.log('@ auth check', session, status);
-
   React.useEffect(() => {
-    console.log('@ astatus', status);
     if (status === 'authenticated') {
       // fetchSessionUser
       (async () => {
@@ -26,7 +26,6 @@ export const AuthGate = (props) => {
       // authenticated
     }
     if (status === 'unauthenticated') {
-      console.log('@ in');
       // clearSessionUser
       authCheckApi.clearAuthenticatedUser();
     }

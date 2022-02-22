@@ -16,6 +16,7 @@ import { useCustomMutation, useAppSelector } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
 import { TitleInput, Title } from 'src/components/Input';
 import { createPost } from 'src/modules/Post/slice';
+import { TagInput } from 'src/components/Input/Tag';
 
 const classes = {
   editorContainer: 'border-2 border-red-500 w-2/3 flex flex-col justify-center',
@@ -98,7 +99,6 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           <button
             disabled={isEmpty(body)}
             onClick={async () => {
-              console.log('body');
               if (onSubmit) {
                 await onSubmit(body);
               }
@@ -132,18 +132,15 @@ const QuestionEditor: React.FC = () => {
 
   React.useEffect(() => {
     if (data) {
-      console.log('@ d', data);
       // router.push('/post/' + data.post_id);
     }
   }, [data]);
 
   const onSubmitCreatePost = React.useCallback(async () => {
-    console.log('clicked');
     await createPostMutation({
       variables: { body, title: postTitle, type: 'question' },
     });
 
-    console.log('@@ data', data?.post_id);
     if (data?.postId) {
       router.push('/post/' + data.postId);
     }
@@ -171,6 +168,8 @@ const QuestionEditor: React.FC = () => {
           />
           <Title value={text.body} />
           <MarkdownEditor body={body} onBodyChange={onBodyChange} />
+          <Title value={"Tags"} />
+          <TagInput />
         </div>
         <div className={classes.submit}>
           <button onClick={onSubmitCreatePost}>{'Post your question'}</button>

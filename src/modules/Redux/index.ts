@@ -7,6 +7,7 @@ import postReducer from 'src/modules/Post/slice';
 import commentReducer from 'src/modules/Comment/slice';
 import loadingReducer, { setLoading } from 'src/modules/App/slice';
 import authReducer from 'src/modules/Auth/slice';
+import workspaceReducer from 'src/modules/Workspace/slice';
 
 import { isEmpty } from 'lodash';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
@@ -20,6 +21,7 @@ const makeStore = () => {
       post: postReducer,
       comments: commentReducer,
       app: loadingReducer,
+      workspace: workspaceReducer,
     },
     // devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),

@@ -13,8 +13,6 @@ const Login = (props) => {
   const { callbackUrl = '/' } = router.query;
   const [error, setError] = useState(null);
 
-  console.log('@ callbackUrl', callbackUrl);
-
   return (
     <>
       <Formik
@@ -27,7 +25,6 @@ const Login = (props) => {
           password: Yup.string().required('Please enter your password'),
         })}
         onSubmit={async (values, { setSubmitting }) => {
-          console.log('@ in here');
           const res = await signIn('seekshare-backend', {
             email: values.email,
             password: values.password,
@@ -35,7 +32,6 @@ const Login = (props) => {
             redirect: false,
           });
 
-          console.log('res', res);
           if (res?.error) {
             setError(res.error);
           } else {

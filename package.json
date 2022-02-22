@@ -73,5 +73,6 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
-  }
+  },
+  "tailwindCSS.headwind.sortTailwindClasses": true
 }
