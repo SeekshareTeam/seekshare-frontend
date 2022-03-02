@@ -5,7 +5,13 @@ import { shallowEqual } from 'react-redux';
 import { Modal } from 'src/components/Modal';
 import { ModalCard } from 'src/components/Modal/ModalCard';
 
-export const AuthCheck = (props) => {
+type AuthCheckProps = {
+  message?: string;
+  className?: string;
+  children?: React.ReactNode;
+};
+
+export const AuthCheck = (props: AuthCheckProps) => {
   // const [showModal, setShowModal] = React.useState(false);
 
   // There could be a redux state such as show auth modal

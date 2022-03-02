@@ -1,11 +1,14 @@
 import * as React from 'react';
 
-const classes = {
-  votes: 'w-10 flex border-2 border-blue-500 px-1',
-  content: 'flex-1 p-2 flex flex-wrap',
+type CommentBodyLayoutProps = {
+  votes: JSX.Element;
+  bestAnswerButton: React.ReactNode;
+  comment: string;
+  commentDetail: JSX.Element;
+  commentFooter: React.ReactNode;
 };
 
-const CommentBodyLayout = (props) => {
+const CommentBodyLayout: React.FC<CommentBodyLayoutProps> = (props) => {
   return (
     <div className="flex flex-wrap w-full">
       <div className="w-full px-2">{props.commentDetail}</div>

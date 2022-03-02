@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { IconArrowBackUp, IconX } from '@tabler/icons';
 
-import { CommentsApiResultType } from 'src/components/Comments/api';
 import { AuthCheck } from 'src/components/Modal/AuthCheck';
 
 type CommentFooterProps = {

@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { createSubspace } from 'src/modules/Subspace/slice';
 
 import { useCustomMutation } from 'src/modules/Redux';
@@ -15,19 +13,25 @@ const api = () => {
   >(createSubspace, useCreateSubspaceMutation, undefined, false);
 
   console.log('@ see how many times this gets initialized');
-  const onCreateSubspace = ({
+  const onCreateSubspace = async ({
     name,
     fieldTwo = null,
     fieldThree = null,
     fieldFour = null,
   }: {
     name: string;
-    fieldTwo: string;
-    fieldThree: string;
-    fieldFour: string;
+    fieldTwo: string | null;
+    fieldThree: string | null;
+    fieldFour: string | null;
   }) => {
     await createSubspaceMutation({
       variables: { subspaceInput: { name, fieldTwo, fieldThree, fieldFour } },
     });
   };
+
+  return {
+    onCreateSubspace
+  }
 };
+
+export default api;

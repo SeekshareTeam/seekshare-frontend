@@ -1,41 +1,42 @@
 import * as React from 'react';
-import { Badge } from 'src/components/Badges';
 import { Select } from 'src/components/Button/TagButton';
 
 export const TagInput = () => {
   const [newTag, setNewTag] = React.useState('');
   const [boxFocus, setBoxFocus] = React.useState(false);
 
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const onContainerClick = (e) => {
-    inputRef.current.focus();
+  const onContainerClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    console.log('@ e', e);
+    inputRef?.current?.focus();
     setBoxFocus(true);
   };
 
-  const onLoseFocus = (e) => {
-    inputRef.current.blur();
+  const onLoseFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    console.log('@ e', e);
+    inputRef?.current?.blur();
     setBoxFocus(false);
   };
 
   const [currentTags, setCurrentTags] = React.useState([
-    { value: 'Javascript', id: '1' },
-    { value: 'React', id: '2' },
+    { value: 'Javascript', id: 1 },
+    { value: 'React', id: 2 },
   ]);
 
-  const removeTagClick = (id) => {
+  const removeTagClick = (id: number) => {
     const filteredTags = currentTags.filter((ct) => {
       return ct.id !== id;
     });
     setCurrentTags([...filteredTags]);
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: React.KeyboardEvent) => {
     console.log('@ hello');
     if (event.key === 'Enter') {
       setCurrentTags([
         ...currentTags,
-        { value: event.target.value, id: currentTags.length + 1 },
+        { value: (event.target as HTMLInputElement).value, id: currentTags.length + 1 },
       ]);
       setNewTag('');
     }
@@ -43,7 +44,7 @@ export const TagInput = () => {
 
   return (
     <div
-      tabindex="1"
+      tabIndex={1}
       onBlur={onLoseFocus}
       className={`flex flex-row items-center w-full px-1 h-12 rounded border-2 ${
         boxFocus

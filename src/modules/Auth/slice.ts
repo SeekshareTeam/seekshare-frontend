@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { User as UserType } from 'src/generated/types';
 
-const initialState = {};
+type AuthSliceType = {
+  data?: UserType
+}
+
+const initialState: AuthSliceType = {};
 
 export const authSlice = createSlice({
   name: 'auth',

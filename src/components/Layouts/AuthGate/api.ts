@@ -22,7 +22,7 @@ const api = () => {
 
   const clearAuthenticatedUser = React.useCallback(() => {
     console.log('@ dispatching actions');
-    dispatch(clearSessionUser());
+    dispatch(clearSessionUser({ data: undefined }));
   }, []);
 
   return React.useMemo(

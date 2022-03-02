@@ -99,7 +99,7 @@ export const fetchSSRQuery = async <
 }: {
   action: A;
   ssrApolloQuery: T;
-  variables: Parameters<T> | undefined;
+  variables: Parameters<T>['variables'] | undefined;
   dispatch: AppDispatch;
 }) => {
   const result = await ssrApolloQuery({ variables });

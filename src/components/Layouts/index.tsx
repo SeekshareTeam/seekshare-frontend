@@ -3,9 +3,12 @@ import * as React from 'react';
 import Navbar from 'src/components/App/Navbar/';
 import Sidebar from 'src/components/App/Sidebar';
 
-import { signIn, signOut } from 'next-auth/react';
+type GeneralViewProps = {
+  sidebar: JSX.Element;
+  header: JSX.Element;
+}
 
-export const GeneralView: React.FC = (props) => {
+export const GeneralView: React.FC<GeneralViewProps> = (props) => {
   return (
     <div className="flex flex-row w-full h-full min-h-screen flex-wrap">
       {props.sidebar}
@@ -31,6 +34,7 @@ export const GeneralLayout = (page: JSX.Element) => {
   );
 };
 
+export type GeneralLayoutType = typeof GeneralLayout;
 // export function SiteLayout({ children }) {
 //   return (
 //     <div className="relative flex w-full h-full min-h-screen">

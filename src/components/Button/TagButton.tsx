@@ -3,11 +3,11 @@ import { IconX } from '@tabler/icons';
 
 type TagButtonProps = {
   value: string;
-  id: string;
-  onClick: (val: string) => void;
+  id: number;
+  onClick: (id: number) => void;
 };
 
-export const Select = (props) => {
+export const Select: React.FC<TagButtonProps> = (props) => {
   return (
     <div className={'rounded flex flex-row py-1'}>
       <span className={'rounded-l-md bg-blue-200 text-blue-500 py-1 pl-1'}>
@@ -16,7 +16,6 @@ export const Select = (props) => {
       <button
         className={'rounded-r-md bg-blue-200 text-blue-500 py-1 px-1'}
         onClick={() => {
-          console.log('ON', props);
           props.onClick(props.id);
         }}
       >

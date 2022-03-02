@@ -13,6 +13,6 @@ const subspaceSlice = createSlice({
   }
 });
 
-export const { subspaceSlice } = subspaceSlice.actions;
+export const { createSubspace } = subspaceSlice.actions;
 
 export default subspaceSlice.reducer;

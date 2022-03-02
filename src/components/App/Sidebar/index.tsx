@@ -4,7 +4,7 @@ type SidebarProps = {
   sidebarToggle: boolean;
 }
 
-const Sidebar: React.FC = (props: SidebarProps) => {
+const Sidebar: React.FC<SidebarProps> = (props) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(true);
 
   return (

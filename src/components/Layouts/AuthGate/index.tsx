@@ -6,15 +6,12 @@ import useAuthCheckApi from 'src/components/Layouts/AuthGate/api';
 // import { useAppDispatch } from 'src/modules/Redux';
 // import { clearSessionUser } from 'src/modules/Auth/slice';
 
-type GeneralLayoutType = {
-  page: JSX.Element;
-};
-
-export const AuthGate = (props) => {
+export const AuthGate: React.FC = (props) => {
   const { data: session, status } = useSession();
   // This gets initialized every time Auth Gate is called.
   // Hence loading variable is established multiple times.
   // Not preferred.
+  console.log('@ session', session);
   const authCheckApi = useAuthCheckApi();
 
   React.useEffect(() => {

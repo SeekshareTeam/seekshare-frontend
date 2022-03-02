@@ -1,18 +1,21 @@
 import * as React from 'react';
 
-const Dropdown: React.FC = (props) => {
+type DropdownProps = {
+  dropdownButton: JSX.Element;
+  dropdownRef: React.RefObject<HTMLButtonElement>;
+};
+
+const Dropdown: React.FC<DropdownProps> = (props) => {
   const [show, setShow] = React.useState(false);
 
-  const toggleMenu = () => {
-    setShow(!show);
-  };
-
   React.useEffect(() => {
-    props.dropdownRef.current.onclick = () => {
-      console.log('@ ahooow', show);
-      setShow(!show);
-    };
-  }, [props.dropdownRef, show]);
+    if (props?.dropdownRef?.current?.onclick) {
+      props.dropdownRef.current.onclick = () => {
+        console.log('@ ahooow', show);
+        setShow(!show);
+      };
+    }
+  }, [props?.dropdownRef, show]);
 
   return (
     <div className="relative inline-block m-auto">

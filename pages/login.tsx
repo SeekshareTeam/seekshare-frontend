@@ -1,17 +1,18 @@
 import * as React from 'react';
-import { useSession, signIn } from 'next-auth/react';
+import { signIn, SignInResponse } from 'next-auth/react';
 import { PrimaryButton } from 'src/components/Button';
 
 import { useState } from 'react';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { GeneralLayout } from 'src/components/Layouts';
+import { GeneralLayout, GeneralLayoutType } from 'src/components/Layouts';
+import { NextPage } from 'next';
 
-const Login = (props) => {
+const Login: NextPage & { getLayout: GeneralLayoutType } = () => {
   const router = useRouter();
   const { callbackUrl = '/' } = router.query;
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string>('');
 
   return (
     <>
@@ -25,19 +26,31 @@ const Login = (props) => {
           password: Yup.string().required('Please enter your password'),
         })}
         onSubmit={async (values, { setSubmitting }) => {
-          const res = await signIn('seekshare-backend', {
-            email: values.email,
-            password: values.password,
-            callbackUrl: 'http://localhost:3000' + callbackUrl,
-            redirect: false,
-          });
+          let res: SignInResponse | undefined = await signIn(
+            'seekshare-backend',
+            {
+              email: values.email,
+              password: values.password,
+              callbackUrl: 'http://localhost:3000' + callbackUrl,
+              redirect: false,
+            }
+          );
 
-          if (res?.error) {
-            setError(res.error);
-          } else {
-            setError(null);
+          if (!res) {
+            res = { error: '', url: '', status: 200, ok: false }
           }
-          if (res.url) router.push(res.url);
+
+          if (res) {
+            if (res?.error) {
+              console.log('@ error', error);
+              setError(res.error);
+            } else {
+              setError('');
+            }
+            if (res?.url) {
+              router.push(res.url);
+            }
+          }
           setSubmitting(false);
         }}
       >
@@ -95,7 +108,7 @@ const Login = (props) => {
       </Formik>
     </>
   );
-}
+};
 
 Login.getLayout = GeneralLayout;
 

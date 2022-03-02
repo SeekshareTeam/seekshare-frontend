@@ -10,7 +10,7 @@
 //   )
 // };
 import * as React from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { PrimaryButton, DropdownButton } from 'src/components/Button';
 import { useAppSelector } from 'src/modules/Redux';
@@ -27,8 +27,6 @@ type NavbarProps = {
 };
 
 const Navbar = (props: NavbarProps) => {
-  const [email, setEmail] = React.useState('abhinav.bhandari@mail.mcgill.ca');
-  const [password, setPassword] = React.useState('sample');
   const [showWorkspaceForm, setShowWorkspaceForm] = React.useState(false);
   const [showSubspaceForm, setShowSubspaceForm] = React.useState(false);
 

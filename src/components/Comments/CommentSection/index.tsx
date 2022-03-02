@@ -25,7 +25,7 @@ const CommentSection: React.FC<CommentSectionProps> = (props: CommentSectionProp
             key={c.id}
             commentResult={c}
             onVoteComment={props.onVoteComment}
-            onReplyComment={props.onReplyComment}
+            onAddComment={props.onAddComment}
             onSelectAnswer={props.onSelectAnswer}
           />
         );

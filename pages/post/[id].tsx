@@ -1,14 +1,24 @@
-import { useRouter } from 'next/router';
-import { GeneralLayout } from 'src/components/Layouts';
+// import { useRouter } from 'next/router';
+import { GeneralLayout, GeneralLayoutType } from 'src/components/Layouts';
 import { ssrFetchPost } from 'src/generated/page';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
 import { serverFetchPost } from 'src/modules/Post/slice';
 import { useSession } from 'next-auth/react';
+import { NextPage } from 'next';
 
 import { Post } from 'src/components/Post';
 
-const PostPage = (props) => {
-  const router = useRouter();
+interface Props {
+  id: string;
+}
+
+/*
+  Set this type globally
+ */
+type PageWithLayout<T> = NextPage<T> & { getLayout: GeneralLayoutType };
+
+const PostPage: PageWithLayout<Props> = (props) => {
+  // const router = useRouter();
   const session = useSession();
 
   console.log('@ postpage', session);
@@ -32,9 +42,9 @@ export const getStaticProps = wrapper.getStaticProps(
     await fetchSSRQuery({
       action: serverFetchPost,
       ssrApolloQuery: ssrFetchPost.getServerPage,
-      variables: { pid: context.params.id },
+      variables: { pid: context?.params?.id || '' },
       dispatch: store.dispatch,
-    })
+    });
 
     // const result = await ssrFetchPost.getServerPage({
     //   variables: { pid: context.params.id },
@@ -43,7 +53,7 @@ export const getStaticProps = wrapper.getStaticProps(
     // store.dispatch(serverFetchPost(result.props.data.fetchPost))
 
     return {
-      props: { id: context.params.id },
+      props: { id: context?.params?.id },
     };
   }
 );

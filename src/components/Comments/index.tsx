@@ -111,7 +111,7 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
         />
         <CommentSection
           comments={reduxState.comments}
-          onReplyComment={props.commentApi.onAddComment}
+          onAddComment={props.commentApi.onAddComment}
           onVoteComment={props.commentApi.onVoteComment}
           onSelectAnswer={props.commentApi.onSelectAnswer}
         />

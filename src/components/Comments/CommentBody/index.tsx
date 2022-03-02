@@ -14,7 +14,7 @@ import { AuthCheck } from 'src/components/Modal/AuthCheck';
 import CommentBodyLayout from 'src/components/Comments/CommentBody/Layout';
 
 interface CommentBodyProps extends CommentsApiResultType {
-  commentResult: CommentType;
+  commentResult: CommentType | null;
   isRecursive?: boolean;
 }
 
@@ -32,7 +32,6 @@ const CommentBody: React.FC<CommentBodyProps> = ({
 
   const [colorUp, setColorUp] = React.useState(false);
   const [colorDown, setColorDown] = React.useState(false);
-  const [selected, setSelected] = React.useState(false);
   const [willReply, setWillReply] = React.useState(false);
 
   const reduxState = useAppSelector(
@@ -51,7 +50,7 @@ const CommentBody: React.FC<CommentBodyProps> = ({
 
   const onReplyComment = async (value: string) => {
     console.log('@ j', props.commentResult?.id);
-    await props.onReplyComment({
+    await props.onAddComment({
       comment: value,
       commentType: 'comment',
       parentCommentId: props.commentResult?.id,
@@ -139,7 +138,7 @@ const CommentBody: React.FC<CommentBodyProps> = ({
       }
       comment={props?.commentResult?.comment || ''}
       bestAnswerButton={
-        !isRecursive && (
+        !isRecursive ? (
           <AuthCheck
             message={
               'Please Login to Seekshare to select the best answer. We are going to be '
@@ -156,7 +155,7 @@ const CommentBody: React.FC<CommentBodyProps> = ({
               {'Select As Correct Answer'}
             </GhostButton>
           </AuthCheck>
-        )
+        ) : null
       }
       commentFooter={
         <>
@@ -173,10 +172,10 @@ const CommentBody: React.FC<CommentBodyProps> = ({
           {props?.commentResult?.childComments?.map((cm) => {
             return (
               <CommentBody
-                key={cm.id}
+                key={cm?.id}
                 commentResult={cm}
                 onVoteComment={props.onVoteComment}
-                onReplyComment={props.onReplyComment}
+                onAddComment={props.onAddComment}
                 onSelectAnswer={props.onSelectAnswer}
                 isRecursive
               />

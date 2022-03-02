@@ -46,8 +46,8 @@ interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   disabled?: boolean;
   textColor?: string;
   fillColor?: string;
-  iconRight?: JSX.Element;
-  iconLeft?: JSX.Element;
+  iconRight?: React.ReactNode;
+  iconLeft?: React.ReactNode;
 }
 
 // type ButtonAsButton = BaseButtonProps &

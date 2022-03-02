@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { GhostButton } from 'src/components/Button';
-
-import { useApi, ApiContextInterface } from 'src/api/context';
 
 export const SubspaceForm = () => {
   /*
@@ -60,7 +58,7 @@ export const SubspaceForm = () => {
   //     </div>
   //   );
   // };
-  const [numOfSubspace, setNumOfSubspace] = React.useState([
+  const numOfSubspace = React.useState([
     'Title',
     'Course',
     'Code',
@@ -75,10 +73,11 @@ export const SubspaceForm = () => {
         readability: 'public',
       }}
       onSubmit={async (values, { setSubmitting }) => {
+        console.log('@ values', values);
         setSubmitting(false);
       }}
     >
-      {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => {
+      {({ values, handleChange, handleBlur, isSubmitting }) => {
         return (
           <Form className="z-10 w-1/4 bg-white rounded-xl">
             <div className="z-10 w-1/2 w-full bg-white rounded-xl flex flex-wrap flex-col">

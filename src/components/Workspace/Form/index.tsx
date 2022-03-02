@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field } from 'formik';
 import { PrimaryButton } from 'src/components/Button';
 
-import { useApi, ApiContextInterface } from 'src/api/context';
+import { useApi } from 'src/api/context';
 
 export const WorkspaceForm = () => {
   /*
@@ -23,6 +23,12 @@ export const WorkspaceForm = () => {
     inputValue,
     handleChange,
     handleBlur,
+  }: {
+    labelHtmlFor: string;
+    labelName: string;
+    inputValue: { [field: string]: any };
+    handleChange: (e: React.ChangeEvent<any>) => void;
+    handleBlur: (e: any) => void;
   }) => {
     return (
       <div className="flex flex-row py-2 items-center justify-between">
@@ -44,9 +50,19 @@ export const WorkspaceForm = () => {
     );
   };
 
-  const newRadioFormRow = () => {};
-
-  const newInputRadio = ({ name, id, value, labelName, childDescription }) => {
+  const newInputRadio = ({
+    name,
+    id,
+    value,
+    labelName,
+    childDescription,
+  }: {
+    name: string;
+    id: string;
+    value: string;
+    labelName: string;
+    childDescription: string;
+  }) => {
     return (
       <div>
         <input type="radio" name={name} id={id} value={value} />
@@ -77,15 +93,7 @@ export const WorkspaceForm = () => {
         setSubmitting(false);
       }}
     >
-      {({
-        values,
-        error,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-      }) => (
+      {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
         <form
           onSubmit={handleSubmit}
           className="z-10 w-1/2 bg-white rounded-xl"

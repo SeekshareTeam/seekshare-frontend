@@ -8,7 +8,7 @@ export interface ApiContextInterface {
 export const ApiContext = React.createContext<Readonly<ApiContextInterface>>({
 });
 
-export const ApiProvider = (props) => {
+export const ApiProvider: React.FC = (props) => {
   // const [workspaceApi, _] = React.useState<WorkspaceApiResultType>(
   //   useWorkspaceApi()
   // );
@@ -26,14 +26,14 @@ export const ApiProvider = (props) => {
 
 type ValueOf<T> = T[keyof T];
 
-export const useApi = (apiName): ValueOf<ApiContextInterface> => {
+export const useApi = (apiName: 'workspace' | 'subspace' ): ValueOf<ApiContextInterface> => {
   const api = React.useContext(ApiContext);
 
   switch (apiName) {
     case 'workspace':
       return api.workspaceApi;
     default:
-      return api;
+      return undefined;
   }
 
   // return api;
