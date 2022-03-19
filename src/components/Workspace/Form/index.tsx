@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Formik, Field } from 'formik';
 import { PrimaryButton } from 'src/components/Button';
 
-import { useApi } from 'src/api/context';
+import { useWorkspaceApi } from 'src/api/context';
 
 export const WorkspaceForm = () => {
   /*
@@ -11,7 +11,7 @@ export const WorkspaceForm = () => {
   // const [workspaceApi, _] = React.useState<WorkspaceApiResultType>(
   //   useWorkspaceApi()
   // );
-  const workspaceApi = useApi('workspace');
+  const workspaceApi = useWorkspaceApi();
 
   // React.useEffect(() => {
   //   setWorkspaceApi(useWorkspaceApi());

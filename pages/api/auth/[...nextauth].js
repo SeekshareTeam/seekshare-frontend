@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
-
 import { ssrUserLoginWithHash } from 'src/generated/page';
 
 const providers = [
@@ -17,55 +16,110 @@ const providers = [
       password: {
         label: 'password',
         type: 'password',
-
-      }
+      },
     },
     authorize: async (credentials) => {
-      const user = await axios.post(process.env.NEXT_PUBLIC_LOGIN_API_URL,
+      const user = await axios.post(
+        process.env.NEXT_PUBLIC_LOGIN_API_URL,
         {
           password: credentials.password,
-          email: credentials.email
+          email: credentials.email,
         },
         {
           headers: {
             accept: '*/*',
-            'Content-Type': 'application/json'
-          }
-        })
-        // ssrUserLoginWithHash.getServerPage({ variables: { email: credentials } });
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      // ssrUserLoginWithHash.getServerPage({ variables: { email: credentials } });
 
       if (user.status === 200 && user.statusText === 'OK') {
-        return user.data
+        return user.data;
       } else {
-        return null
+        return null;
       }
-    }
-  })
-]
+    },
+  }),
+];
+
+const refreshAccessToken = async (token) => {
+  try {
+    const curDate = Date.now();
+    const refreshToken = await axios.post(
+      process.env.NEXT_PUBLIC_REFRESH_API_URL,
+      {
+        refreshToken: token.refreshToken,
+      },
+      {
+        headers: {
+          accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    const refreshTokenLiteral = refreshToken.data;
+    return {
+      accesToken: refreshTokenLiteral.token,
+      accessTokenExpiry: curDate + refreshTokenLiteral.tokenExpiry * 1000,
+      refreshToken: refreshTokenLiteral.refreshToken,
+      refreshTokenExpiry:
+        curDate + refreshTokenLiteral.refreshTokenExpiry * 1000,
+    };
+  } catch (err) {
+    return {
+      ...token,
+      error: 'RefreshTokenError',
+    };
+  }
+};
 
 const callbacks = {
   // Getting the JWT token from API response
   async jwt({ token, user }) {
-    if (user) {
-      token.accessToken = user.token
+    const curDate = Date.now();
+
+    if (!token) {
+      return token;
     }
 
-    return token
+    if (user) {
+      console.log('accessing token and user for the first time.');
+      return {
+        accessToken: user.token,
+        accessTokenExpiry: curDate + user.tokenExpiry * 1000,
+        refreshToken: user.refreshToken,
+        refreshTokenExpiry: curDate + user.refreshTokenExpiry * 1000,
+      };
+    }
+
+    if (curDate < token.accessTokenExpiry) {
+      console.log('@ returning existing token');
+      return token;
+    }
+
+    return refreshAccessToken(token);
   },
 
   async session({ session, token }) {
-    session.accessToken = token.accessToken
-    return session
-  }
-}
+    session.accessToken = token.accessToken;
+    session.error = token.error;
+    return session;
+  },
+};
 
 const options = {
   providers,
   callbacks,
   pages: {
-    signIn: '/login'
+    signIn: '/login',
   },
   secret: process.env.SECRET,
-}
+  session: {
+    jwt: true,
+    maxAge: 15 * 24 * 60 * 60,
+  },
+};
 
 export default (req, res) => NextAuth(req, res, options);

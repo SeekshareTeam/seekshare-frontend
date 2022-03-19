@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       )}
       <aside
         className={`transition-all duration-500 sticky top-0 flex flex-shrink-0 flex-col ${
-          props.sidebarToggle ? 'w-64' : 'w-64 -ml-64 flex-0'
+          props.sidebarToggle ? 'md:w-64' : 'md:w-64 md:-ml-64 md:flex-0'
         } h-screen px-2 py-4 space-y-2 bg-gray-800 overflow-y-hidden hover:overflow-y-auto text-gray-100`}
       >
         <button

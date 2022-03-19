@@ -38,7 +38,9 @@ const Home = () => {
 //
 // Home.getLayout = getLayout;
 
-Home.getLayout = GeneralLayout;
+// Home.getLayout2 = GeneralLayout;
+
+Home.layoutType = 'general';
 
 export default Home;
 

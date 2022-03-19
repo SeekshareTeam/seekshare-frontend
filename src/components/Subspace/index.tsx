@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Formik, Form } from 'formik';
 import { GhostButton } from 'src/components/Button';
+import { useSubspaceApi } from 'src/api/context';
 
 export const SubspaceForm = () => {
   /*
@@ -10,7 +11,7 @@ export const SubspaceForm = () => {
   //   useWorkspaceApi()
   // );
   // const workspaceApi = useApi('workspace');
-  // const subspaceApi = useApi('subspace');
+  const subspaceApi = useSubspaceApi();
 
   // React.useEffect(() => {
   //   setWorkspaceApi(useWorkspaceApi());
@@ -58,29 +59,52 @@ export const SubspaceForm = () => {
   //     </div>
   //   );
   // };
-  const numOfSubspace = React.useState([
-    'Title',
-    'Course',
-    'Code',
-  ]);
+  const [numOfSubspace] = React.useState(['Title', 'Course', 'Code']);
 
   return (
     <Formik
       initialValues={{
         subspaceNames: [],
+        subspace: [],
         description: '',
         fNumOfSubspaces: 1,
         readability: 'public',
       }}
       onSubmit={async (values, { setSubmitting }) => {
         console.log('@ values', values);
+
+        if (subspaceApi) {
+          type SubspaceParameters = Parameters<
+            typeof subspaceApi.onCreateSubspace
+          >[0];
+
+          const subspaceNamingKeys: (keyof SubspaceParameters)[] = [
+            'name',
+            'fieldTwo',
+            'fieldThree',
+            'fieldFour',
+          ];
+
+          const subspaceVariable: SubspaceParameters = {
+            name: 'skdj',
+            fieldTwo: null,
+            fieldThree: null,
+            fieldFour: null,
+          };
+          values.subspace.map((v, ix) => {
+            const nKey = subspaceNamingKeys[ix];
+            subspaceVariable[nKey] = v;
+          });
+          await subspaceApi?.onCreateSubspace(subspaceVariable);
+        }
+
         setSubmitting(false);
       }}
     >
       {({ values, handleChange, handleBlur, isSubmitting }) => {
         return (
           <Form className="z-10 w-1/4 bg-white rounded-xl">
-            <div className="z-10 w-1/2 w-full bg-white rounded-xl flex flex-wrap flex-col">
+            <div className="z-10 w-80 sm:w-80 xl:w-full sm:w-80 bg-white rounded-xl flex flex-wrap flex-col">
               <div className="bg-gray-50 py-2 flex rounded-t-xl w-full justify-center">
                 <h1 className="font-light text-gray-700 text-4xl">
                   {'Add Subspace'}
@@ -101,16 +125,16 @@ export const SubspaceForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.subspaceNames[ix]}
-                        className="rounded w-64 shadow-md blur-sm border focus:border-blue-400 outline-none focus:ring-1 focus:ring-blue-600 focus:ring-opacity-20 p-1"
+                        className="rounded xl:w-64 flex-1 shadow-md blur-sm border focus:border-blue-400 outline-none focus:ring-1 focus:ring-blue-600 focus:ring-opacity-20 p-1"
                       />
                     </div>
                   );
                 })}
               </div>
               <div className="w-full flex justify-end p-4">
-              <GhostButton textColor={'gray'} fillColor='gray' type="submit">
-                {isSubmitting ? 'Please wait...' : 'Submit'}
-              </GhostButton>
+                <GhostButton textColor={'gray'} fillColor="gray" type="submit">
+                  {isSubmitting ? 'Please wait...' : 'Submit'}
+                </GhostButton>
               </div>
             </div>
           </Form>

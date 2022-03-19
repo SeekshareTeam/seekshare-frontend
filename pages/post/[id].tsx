@@ -3,7 +3,6 @@ import { GeneralLayout, GeneralLayoutType } from 'src/components/Layouts';
 import { ssrFetchPost } from 'src/generated/page';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
 import { serverFetchPost } from 'src/modules/Post/slice';
-import { useSession } from 'next-auth/react';
 import { NextPage } from 'next';
 
 import { Post } from 'src/components/Post';
@@ -19,9 +18,8 @@ type PageWithLayout<T> = NextPage<T> & { getLayout: GeneralLayoutType };
 
 const PostPage: PageWithLayout<Props> = (props) => {
   // const router = useRouter();
-  const session = useSession();
 
-  console.log('@ postpage', session);
+  console.log('@ postpage', props);
 
   return (
     <div className="flex justify-center flex-1 self-stretch items-start">

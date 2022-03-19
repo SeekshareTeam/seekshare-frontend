@@ -17,11 +17,10 @@ export const authSlice = createSlice({
         data: action.payload,
       };
     },
-    clearSessionUser: (state, action) => {
-      console.log('@ clearsessionnnnn', action.payload);
+    clearSessionUser: () => {
+      // console.log('@ clearsessionnnnn', action.payload);
       return {
-        ...state,
-        data: action.payload,
+        data: undefined,
       };
     },
   },

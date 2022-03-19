@@ -5,18 +5,16 @@ import 'easymde/dist/easymde.min.css';
 
 import { isEmpty } from 'lodash';
 // import SimpleMDE from 'react-simplemde-editor';
-import { shallowEqual } from 'react-redux';
-// import { createPost } from 'src/modules/PostList/slice';
 import React from 'react';
 // import Link from 'next/Link';
 import { useRouter } from 'next/router';
 import ReactDOMServer from 'react-dom/server';
 import { MarkdownViewer } from 'src/components/Viewer';
-import { useCustomMutation, useAppSelector } from 'src/modules/Redux';
+import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
 import { TitleInput, Title } from 'src/components/Input';
-import { createPost } from 'src/modules/Post/slice';
 import { TagInput } from 'src/components/Input/Tag';
+import { setLoading } from 'src/modules/App/slice';
 
 const classes = {
   editorContainer: 'border-2 border-red-500 w-2/3 flex flex-col justify-center',
@@ -115,40 +113,41 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 const QuestionEditor: React.FC = () => {
   const [postTitle, setTitle] = React.useState('');
   const [body, setBody] = React.useState('');
-  // const [singleTag, setSingleTag] = React.useState('');
-  // const [tags, setTags] = React.useState([]);
+  const [currentTags, setCurrentTags] = React.useState<
+    {
+      value: string;
+      id: string;
+    }[]
+  >([]);
 
-  // counter
-  // const [counter, setCounter] = React.useState(0);
+  const dispatch = useAppDispatch();
 
-  const createPostMutation = useCustomMutation<
-    typeof createPost,
-    typeof useCreatePostMutation
-  >(createPost, useCreatePostMutation, undefined, false);
+  const [createPostMutation, { loading }] = useCreatePostMutation({
+    fetchPolicy: 'no-cache',
+    notifyOnNetworkStatusChange: true,
+  });
 
   const router = useRouter();
 
-  const { data } = useAppSelector((state) => state.post, shallowEqual);
-
   React.useEffect(() => {
-    if (data) {
-      // router.push('/post/' + data.post_id);
-    }
-  }, [data]);
+    dispatch(setLoading(loading));
+  }, [loading]);
 
   const onSubmitCreatePost = React.useCallback(async () => {
-    await createPostMutation({
-      variables: { body, title: postTitle, type: 'question' },
+    const postTags = currentTags.map((ct) => ct.id);
+    const result = await createPostMutation({
+      variables: { body, title: postTitle, type: 'question', tags: postTags },
     });
 
-    if (data?.postId) {
-      router.push('/post/' + data.postId);
-    }
-  }, [data, body, postTitle]);
+    console.log('@ result of create post ', result);
 
-  // const onSingleTagChange = (e) => {
-  //   setSingleTag(e.target.value);
-  // };
+    if (result?.data?.createPost?.postId) {
+      router.push('/post/' + result.data.createPost.postId);
+    }
+    // if (data?.postId) {
+    //   router.push('/post/' + data.postId);
+    // }
+  }, [body, postTitle, currentTags]);
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -168,8 +167,13 @@ const QuestionEditor: React.FC = () => {
           />
           <Title value={text.body} />
           <MarkdownEditor body={body} onBodyChange={onBodyChange} />
-          <Title value={"Tags"} />
-          <TagInput />
+          <Title value={'Tags'} />
+          <TagInput
+            currentTags={currentTags}
+            setCurrentTags={(val) => {
+              setCurrentTags(val);
+            }}
+          />
         </div>
         <div className={classes.submit}>
           <button onClick={onSubmitCreatePost}>{'Post your question'}</button>

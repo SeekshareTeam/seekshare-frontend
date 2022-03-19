@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { signIn, SignInResponse } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { PrimaryButton } from 'src/components/Button';
 
 import { useState } from 'react';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { GeneralLayout, GeneralLayoutType } from 'src/components/Layouts';
 import { NextPage } from 'next';
 
-const Login: NextPage & { getLayout: GeneralLayoutType } = () => {
+const Login: NextPage & { layoutType: string; } = () => {
   const router = useRouter();
   const { callbackUrl = '/' } = router.query;
   const [error, setError] = useState<string>('');
@@ -26,21 +25,19 @@ const Login: NextPage & { getLayout: GeneralLayoutType } = () => {
           password: Yup.string().required('Please enter your password'),
         })}
         onSubmit={async (values, { setSubmitting }) => {
-          let res: SignInResponse | undefined = await signIn(
+          let res = await signIn<"email">(
             'seekshare-backend',
             {
               email: values.email,
               password: values.password,
               callbackUrl: 'http://localhost:3000' + callbackUrl,
-              redirect: false,
             }
           );
 
-          if (!res) {
-            res = { error: '', url: '', status: 200, ok: false }
-          }
+          // if (!res) {
+          //   res = { error: '', url: '', status: 200, ok: false }
+          // }
 
-          if (res) {
             if (res?.error) {
               console.log('@ error', error);
               setError(res.error);
@@ -50,7 +47,6 @@ const Login: NextPage & { getLayout: GeneralLayoutType } = () => {
             if (res?.url) {
               router.push(res.url);
             }
-          }
           setSubmitting(false);
         }}
       >
@@ -110,7 +106,7 @@ const Login: NextPage & { getLayout: GeneralLayoutType } = () => {
   );
 };
 
-Login.getLayout = GeneralLayout;
+Login.layoutType = 'general';
 
 // This is the recommended way for Next.js 9.3 or newer
 

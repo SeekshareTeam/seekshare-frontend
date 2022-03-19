@@ -34,4 +34,8 @@ const api = () => {
   }
 };
 
+export type SubspaceApiType = typeof api;
+
+export type SubspaceApiResultType = ReturnType<SubspaceApiType>;
+
 export default api;

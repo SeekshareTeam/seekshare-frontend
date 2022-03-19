@@ -29,12 +29,11 @@ export const Modal: React.FC<ModalProps> = (props) => {
       {props.show && (
         <div
           onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-            console.log('@ event modal', event.target, event.currentTarget);
             if (event.target === event.currentTarget) {
               props.onPressBlur();
             }
           }}
-          className="h-screen w-full z-20 fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50"
+          className="h-screen w-full z-20 fixed left-0 top-0 flex flex-wrap justify-center items-center bg-black bg-opacity-50"
         >
           {props.children}
         </div>

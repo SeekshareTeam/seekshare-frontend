@@ -1,22 +1,23 @@
 import * as React from 'react';
-import useWorkspaceApi, { WorkspaceApiResultType } from 'src/api/workspace';
+import workspaceApiHook, { WorkspaceApiResultType } from 'src/api/workspace';
+import subspaceApiHook, { SubspaceApiResultType } from 'src/api/subspace';
 
 export interface ApiContextInterface {
   workspaceApi?: WorkspaceApiResultType;
+  subspaceApi?: SubspaceApiResultType;
 }
 
-export const ApiContext = React.createContext<Readonly<ApiContextInterface>>({
-});
+export const ApiContext = React.createContext<Readonly<ApiContextInterface>>(
+  {}
+);
 
 export const ApiProvider: React.FC = (props) => {
-  // const [workspaceApi, _] = React.useState<WorkspaceApiResultType>(
-  //   useWorkspaceApi()
-  // );
-
-  const workspaceApi: WorkspaceApiResultType = useWorkspaceApi();
+  const workspaceApi: WorkspaceApiResultType = workspaceApiHook();
+  const subspaceApi: SubspaceApiResultType = subspaceApiHook();
 
   const value: ApiContextInterface = {
     workspaceApi,
+    subspaceApi,
   };
 
   return (
@@ -24,17 +25,31 @@ export const ApiProvider: React.FC = (props) => {
   );
 };
 
-type ValueOf<T> = T[keyof T];
-
-export const useApi = (apiName: 'workspace' | 'subspace' ): ValueOf<ApiContextInterface> => {
+export const useWorkspaceApi = () => {
   const api = React.useContext(ApiContext);
 
-  switch (apiName) {
-    case 'workspace':
-      return api.workspaceApi;
-    default:
-      return undefined;
-  }
-
-  // return api;
+  return api.workspaceApi;
 };
+
+export const useSubspaceApi = () => {
+  const api = React.useContext(ApiContext);
+
+  return api.subspaceApi;
+};
+
+// export const useApi = <K extends keyof ApiContextInterface>(
+//   apiName: K
+// ): ApiContextInterface[K] => {
+//   const api = React.useContext(ApiContext);
+//
+//   switch (apiName) {
+//     case 'workspace':
+//       return api.workspaceApi;
+//     case 'subspaceApi':
+//       return api.subspaceApi;
+//     default:
+//       return undefined;
+//   }
+//
+//   // return api;
+// };

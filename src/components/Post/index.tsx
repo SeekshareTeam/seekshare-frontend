@@ -83,6 +83,10 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
     };
   }, shallowEqual);
 
+  React.useEffect(() => {
+      console.log('@ reduxState', reduxState);
+  }, [reduxState])
+
   // reduxState.post.user.firstname + ' ' + reduxState.post.user.lastname
   //
 

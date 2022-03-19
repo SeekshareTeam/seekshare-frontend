@@ -31,7 +31,7 @@ const httpLink = createHttpLink({
 const authLink = setContext(async (_, { headers }: { headers: Headers }) => {
 	const session = await getSession();
 
-  console.log('@ session in authlink', session);
+  // console.log('@ session in authlink', session);
 	const modifiedHeader = {
 		headers: {
 			...headers,

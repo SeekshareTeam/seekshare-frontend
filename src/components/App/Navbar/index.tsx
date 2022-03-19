@@ -38,6 +38,7 @@ const Navbar = (props: NavbarProps) => {
       authUser: state?.auth?.data,
     };
   });
+
   return (
     <>
       <div className="flex flex-1 border-2 border-green-900 h-full justify-start">
@@ -123,7 +124,7 @@ const Navbar = (props: NavbarProps) => {
 
               <PrimaryButton
                 onClick={async () => {
-                  signOut();
+                  signOut({ redirect: false });
                 }}
               >
                 {'Sign Out'}

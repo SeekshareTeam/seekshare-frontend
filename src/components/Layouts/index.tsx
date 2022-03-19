@@ -20,16 +20,17 @@ export const GeneralView: React.FC<GeneralViewProps> = (props) => {
   );
 };
 
-export const GeneralLayout = (page: JSX.Element) => {
-  console.log('re render of layout');
-
+export const GeneralLayout: React.FC = (props) => {
   const [sidebarToggle, setSidebarToggle] = React.useState(true);
 
   return (
     <GeneralView
       sidebar={<Sidebar sidebarToggle={sidebarToggle} />}
       header={<Navbar sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />}>
-      {page}
+      {props.children}
+      {/*<button onClick={() => setLol(pren => !pren)}>
+        {'click me'}
+      </button>*/}
     </GeneralView>
   );
 };
