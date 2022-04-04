@@ -15,40 +15,11 @@ import { useSession, getSession } from 'next-auth/react';
 import Editor from 'src/components/Editor';
 
 const Home = () => {
-
-  // const session = useSession();
-
-  // console.log('@ home', session);
   return (
-
     <Editor />
   )
 };
 
-
-// const Home = () => {
-//   return (<div>{"helloo"}</div>)
-// };
-
-// Home.getLayout = page => ()
-
-// const Home = () => {
-//   return (<div>{"he"}</div>)
-// }
-//
-// Home.getLayout = getLayout;
-
-// Home.getLayout2 = GeneralLayout;
-
 Home.layoutType = 'general';
 
 export default Home;
-
-
-  /// return (
-  ///   <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-  ///     <Sidebar />
-  ///     <div style={{ flex: 1, height: '100%', borderWidth: 1, borderColor: 'black' }} />
-  ///   </div>
-  /// )
-

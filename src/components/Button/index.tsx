@@ -141,7 +141,7 @@ export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       textColor = 'gray',
-      fillColor = 'gray',
+      fillColor = 'pink',
       iconRight = null,
       iconLeft = null,
       ...props
@@ -163,8 +163,8 @@ export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ textColor = 'gray', fillColor = 'gray', ...props }: ButtonProps, ref) => {
-    const classes = `self-center text-${textColor}-200 shadow-sm bg-${fillColor}-600 hover:bg-${fillColor}-800 border-opacity-100 border border-gray-200`;
+  ({ textColor = 'gray', fillColor = 'pink', ...props }: ButtonProps, ref) => {
+    const classes = `self-center text-${textColor}-200 shadow-sm bg-${fillColor}-700 hover:bg-${fillColor}-800 border-opacity-100 border border-gray-200`;
     const size = composer.getSize(props.size);
     const background = '';
     const opacity = composer.getOpacity(props.disabled);

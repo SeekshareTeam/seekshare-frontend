@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import 'public/webgradients.css';
 import * as React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { GeneralLayoutType } from 'src/components/Layouts';

@@ -41,10 +41,11 @@ const Navbar = (props: NavbarProps) => {
 
   return (
     <>
-      <div className="flex flex-1 border-2 border-green-900 h-full justify-start">
+      <div className="flex flex-1 h-full justify-start">
         {reduxState.authUser && (
           <>
             <Modal
+              blurBackground={false}
               show={showSubspaceForm}
               onPressBlur={() => {
                 setShowSubspaceForm(false);
@@ -62,7 +63,7 @@ const Navbar = (props: NavbarProps) => {
               <IconMenu2 size={36} stroke={1} color={'red'}  />
             </button>
             <PrimaryButton
-              size={'xlarge'}
+              size={'small'}
               onClick={() => {
                 setShowSubspaceForm(true);
               }}
@@ -72,10 +73,11 @@ const Navbar = (props: NavbarProps) => {
           </>
         )}
       </div>
-      <div className="flex flex-1 border-2 border-red-900 h-full justify-end">
-        <div className="flex flex-row mr-4 border-2 border-green-900">
+      <div className="flex flex-1 h-full justify-end">
+        <div className="flex flex-row mr-4">
           {!reduxState.authUser && (
-            <PrimaryButton
+            <button
+              className="bg-white text-pink-500 hover:text-pink-900 transition-all duration-500"
               onClick={async () => {
                 router.push({
                   pathname: '/login',
@@ -84,11 +86,11 @@ const Navbar = (props: NavbarProps) => {
               }}
             >
               {'Sign In'}
-            </PrimaryButton>
+            </button>
           )}
           {reduxState.authUser && (
             <PrimaryButton
-              size={'xlarge'}
+              size={'small'}
               onClick={() => {
                 console.log(showWorkspaceForm);
                 setShowWorkspaceForm(true);
@@ -100,6 +102,7 @@ const Navbar = (props: NavbarProps) => {
           {reduxState.authUser && (
             <>
               <Modal
+                blurBackground={false}
                 show={showWorkspaceForm}
                 onPressBlur={() => {
                   setShowWorkspaceForm(false);
@@ -123,6 +126,7 @@ const Navbar = (props: NavbarProps) => {
               </div>
 
               <PrimaryButton
+                size={'small'}
                 onClick={async () => {
                   signOut({ redirect: false });
                 }}

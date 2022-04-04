@@ -1,8 +1,31 @@
 import { gql } from '@apollo/client';
 
+export const POST_FRAGMENT = gql`
+  fragment PostFragment on Post {
+    postId
+    title
+    type
+    content {
+      body
+      id
+    }
+    user {
+      id
+      firstname
+      lastname
+      email
+    }
+    commentCount
+    tags {
+      id
+      value
+    }
+  }
+`;
+
 export const CREATE_POST_MUTATION = gql`
-mutation createPost($title: String!, $type: String!, $body: String!, $tags: [ID!]!) {
-  createPost(title: $title, type: $type, body: $body, tags: $tags) {
+  mutation createPost($postInput: PostInput!) {
+    createPost(postInput: $postInput) {
       title
       type
       postId
@@ -36,6 +59,18 @@ export const FETCH_POST_MUTATION = gql`
         lastname
         email
       }
+    }
+  }
+`;
+
+export const FETCH_POSTS_FROM_SUBSPACE_QUERY = gql`
+  ${POST_FRAGMENT}
+  query fetchAllPostsFromSubspace($workspaceId: ID!, $subspaceId: ID!) {
+    fetchAllPostsFromSubspace(
+      workspaceId: $workspaceId
+      subspaceId: $subspaceId
+    ) {
+      ...PostFragment
     }
   }
 `;

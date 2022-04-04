@@ -9,7 +9,7 @@ const workspaceSlice = createSlice({
         ...state,
         data: action.payload
       }
-    }
+    },
   }
 });
 

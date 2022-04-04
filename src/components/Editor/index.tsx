@@ -136,7 +136,16 @@ const QuestionEditor: React.FC = () => {
   const onSubmitCreatePost = React.useCallback(async () => {
     const postTags = currentTags.map((ct) => ct.id);
     const result = await createPostMutation({
-      variables: { body, title: postTitle, type: 'question', tags: postTags },
+      variables: {
+        postInput: {
+          body,
+          title: postTitle,
+          type: 'question',
+          tags: postTags,
+          workspaceId: 'c73dad3a-3f7d-453d-9a4d-4b72389551a8',
+          subspaceId: '03640067-61a9-4e2a-8dc0-7264111dbfb1',
+        },
+      },
     });
 
     console.log('@ result of create post ', result);

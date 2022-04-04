@@ -4,7 +4,9 @@ import logger from 'redux-logger';
 
 import topicReducer from 'src/modules/Topic/slice';
 import postReducer from 'src/modules/Post/slice';
+import subspaceReducer from 'src/modules/Subspace/slice';
 import commentReducer from 'src/modules/Comment/slice';
+import postListReducer from 'src/modules/PostList/slice';
 import loadingReducer, { setLoading } from 'src/modules/App/slice';
 import authReducer from 'src/modules/Auth/slice';
 import workspaceReducer from 'src/modules/Workspace/slice';
@@ -22,6 +24,8 @@ const makeStore = () => {
       comments: commentReducer,
       app: loadingReducer,
       workspace: workspaceReducer,
+      postList: postListReducer,
+      subspace: subspaceReducer,
     },
     // devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),

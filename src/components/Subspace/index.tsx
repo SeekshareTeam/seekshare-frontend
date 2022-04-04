@@ -103,7 +103,7 @@ export const SubspaceForm = () => {
     >
       {({ values, handleChange, handleBlur, isSubmitting }) => {
         return (
-          <Form className="z-10 w-1/4 bg-white rounded-xl">
+          <Form className="z-10 lg:w-1/4 sm:w-80 bg-white rounded-xl">
             <div className="z-10 w-80 sm:w-80 xl:w-full sm:w-80 bg-white rounded-xl flex flex-wrap flex-col">
               <div className="bg-gray-50 py-2 flex rounded-t-xl w-full justify-center">
                 <h1 className="font-light text-gray-700 text-4xl">

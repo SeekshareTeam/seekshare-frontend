@@ -5,11 +5,11 @@ export type TabType = {
   tabValue: string;
 };
 
-export type BaseTabProps = {
+export interface BaseTabProps {
   tabs: TabType[];
   active: string;
   onSelectTab: (val: string) => void;
-};
+}
 
 export const BaseTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
   const active = 'bg-red-400 text-gray-100';
@@ -38,6 +38,26 @@ export const BaseTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
   );
 };
 
-export const Tab: React.FC = () => {
-  return <></>;
+export interface UnderlineTabProps extends BaseTabProps {}
+
+export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
+  return (
+    <div className="border-b border-gray-200 dark:border-gray-700 flex flex-1 items-center relative">
+      <ul className="flex w-64 sm:w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-gray-400 justify-center whitespace-nowrap overflow-x-auto">
+        <li className="mr-2 flex-shrink-0">
+          {props.tabs.map((t) => (
+            <a
+              className={`inline-block p-4 text-gray-400 border-b-2 ${props.active === t.tabKey ? 'border-pink-600 text-pink-600' : 'border-transparent hover:text-gray-600'} `}
+              href="#"
+              onClick={() => {
+                props.onSelectTab(t.tabKey)
+              }}
+            >
+              {t.tabValue}
+            </a>
+          ))}
+        </li>
+      </ul>
+    </div>
+  );
 };

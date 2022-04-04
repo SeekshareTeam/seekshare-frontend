@@ -13,11 +13,25 @@ export const AUTH_USER = gql`
 export const AUTH_USER_QUERY = gql`
   query userAuthenticated {
     userAuthenticated {
+      id
       firstname
       lastname
-      id
       email
       token
+      currentWorkspace
+      userWorkspaces {
+        currentSubspace
+        name
+        description
+        userSubspaces {
+          id
+          name
+          fieldTwo
+          fieldThree
+          fieldFour
+          workspaceId
+        }
+      }
     }
   }
-`
+`;

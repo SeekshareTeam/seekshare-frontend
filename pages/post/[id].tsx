@@ -1,5 +1,4 @@
 // import { useRouter } from 'next/router';
-import { GeneralLayout, GeneralLayoutType } from 'src/components/Layouts';
 import { ssrFetchPost } from 'src/generated/page';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
 import { serverFetchPost } from 'src/modules/Post/slice';
@@ -14,7 +13,7 @@ interface Props {
 /*
   Set this type globally
  */
-type PageWithLayout<T> = NextPage<T> & { getLayout: GeneralLayoutType };
+type PageWithLayout<T> = NextPage<T> & { layoutType: string; };
 
 const PostPage: PageWithLayout<Props> = (props) => {
   // const router = useRouter();
@@ -63,6 +62,6 @@ export const getStaticPaths = async () => {
   };
 };
 
-PostPage.getLayout = GeneralLayout;
+PostPage.layoutType = 'general';
 
 export default PostPage;
