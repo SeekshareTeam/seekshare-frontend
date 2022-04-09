@@ -31,15 +31,3 @@ export const FETCH_SUBSPACE_QUERY = gql`
     }
   }
 `
-
-export const SUBSCRIBE_SUBSPACE_MUTATION = gql`
-  mutation subscribeSubspace($subspaceId: ID!, $workspaceId: ID!) {
-    subscribeSubspace(subspaceId: $subspaceId, workspaceId: $workspaceId)
-  }
-`
-
-export const UNSUBSCRIBE_SUBSPACE_MUTATION = gql`
-  mutation unsubscribeSubspace($subspaceId: ID!) {
-    unsubscribeSubspace(subspaceId: $subspaceId)
-  }
-`;

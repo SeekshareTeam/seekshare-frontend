@@ -20,6 +20,7 @@ export const AUTH_USER_QUERY = gql`
       token
       currentWorkspace
       userWorkspaces {
+        id
         currentSubspace
         name
         description
@@ -33,5 +34,24 @@ export const AUTH_USER_QUERY = gql`
         }
       }
     }
+  }
+`;
+
+export const SUBSCRIBE_SUBSPACE_MUTATION = gql`
+  mutation subscribeSubspace($subspaceId: ID!, $workspaceId: ID!) {
+    subscribeSubspace(subspaceId: $subspaceId, workspaceId: $workspaceId) {
+      id
+      name
+      fieldTwo
+      fieldThree
+      fieldFour
+      workspaceId
+    }
+  }
+`;
+
+export const UNSUBSCRIBE_SUBSPACE_MUTATION = gql`
+  mutation unsubscribeSubspace($subspaceId: ID!) {
+    unsubscribeSubspace(subspaceId: $subspaceId)
   }
 `;

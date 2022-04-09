@@ -42,7 +42,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
         ?.find((uw) => {
           return uw.id === props.workspaceId;
         })
-        ?.userSubspaces?.find((us) => us.id === props.subspaceId)
+        ?.userSubspaces.find((us) => us.id === props.subspaceId)
         ? true
         : false,
     }),

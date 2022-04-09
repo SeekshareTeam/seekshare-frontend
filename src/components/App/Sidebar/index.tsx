@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   const reduxState = useAppSelector((state) => ({
     userSubspaces: state?.auth?.data?.userWorkspaces?.find((uw) => {
       // undefined should actually be the current workspace id
-      return uw.id === undefined;
+      return uw.id === 'c73dad3a-3f7d-453d-9a4d-4b72389551a8';
     })?.userSubspaces,
   }));
 
@@ -56,6 +56,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   }
 
   React.useEffect(() => {
+    console.log('@ reduxState sidebar', reduxState);
     if (reduxState?.userSubspaces) {
       let mySubspaces = sections.find(
         (sec) => sec.id === 'my_subspaces'
@@ -67,6 +68,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           icon: <IconHash size={16} />,
         };
       });
+
       if (guard(mySubspaces)) {
         mySubspaces.items = newMySubspaces;
         setSections(
