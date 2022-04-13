@@ -1,14 +1,12 @@
+import React from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { isEmpty } from 'lodash';
+
 import text from './text.json';
 
-import dynamic from 'next/dynamic';
 import 'easymde/dist/easymde.min.css';
 
-import { isEmpty } from 'lodash';
-// import SimpleMDE from 'react-simplemde-editor';
-import React from 'react';
-// import Link from 'next/Link';
-import { useRouter } from 'next/router';
-import ReactDOMServer from 'react-dom/server';
 import { MarkdownViewer } from 'src/components/Viewer';
 import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
@@ -26,7 +24,7 @@ const classes = {
   provideTag: '',
 };
 
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
+const Editor = dynamic(() => import('src/plugins/components/Editor'), {
   ssr: false,
 });
 
@@ -72,9 +70,6 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       spellChecker: false,
       sideBySideFullscreen: false,
       maxHeight: height,
-      previewRender: (text: string) => {
-        return ReactDOMServer.renderToString(<MarkdownViewer text={text} />);
-      },
     }),
     []
   );
@@ -82,7 +77,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   return (
     <div className="w-full">
       {tabNode}
-      <SimpleMDE
+      <Editor
         className="border-2 border-blue-200"
         options={options}
         value={body}

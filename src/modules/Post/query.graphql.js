@@ -6,8 +6,13 @@ export const POST_FRAGMENT = gql`
     title
     type
     content {
-      body
       id
+      body
+      components {
+        id
+        type
+        code
+      }
     }
     user {
       id
@@ -52,6 +57,11 @@ export const FETCH_POST_MUTATION = gql`
       content {
         id
         body
+        components {
+          id
+          type
+          code
+        }
       }
       user {
         id

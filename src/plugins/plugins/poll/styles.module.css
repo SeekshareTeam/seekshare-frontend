@@ -1,0 +1,12 @@
+.poll-container {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.poll-option-container {
+  padding: 8px 0 8px 0;
+}
+
+.poll-option-button:hover {
+  background-color: pink;
+}
