@@ -17,12 +17,13 @@ import { TagInput } from 'src/components/Input/Tag';
 import { setLoading } from 'src/modules/App/slice';
 
 const classes = {
-  editorContainer: 'border-2 border-red-500 w-2/3 flex flex-col justify-center',
-  main: 'flex-1 card shadow-2xl p-2',
+  editorContainer:
+    'w-full flex flex-col justify-center',
+  main: 'w-2/3 card p-2 self-center',
   title:
     'appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300',
   submit:
-    'mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-48',
+    'mt-8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-48',
   provideTag: '',
 };
 
@@ -83,7 +84,6 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     <div className="w-full">
       {tabNode}
       <SimpleMDE
-        className="border-2 border-blue-200"
         options={options}
         value={body}
         onChange={onBodyChange}
@@ -183,9 +183,9 @@ const QuestionEditor: React.FC = () => {
               setCurrentTags(val);
             }}
           />
-        </div>
-        <div className={classes.submit}>
-          <button onClick={onSubmitCreatePost}>{'Post your question'}</button>
+          <div className={classes.submit}>
+            <button onClick={onSubmitCreatePost}>{'Post your question'}</button>
+          </div>
         </div>
       </div>
     </div>

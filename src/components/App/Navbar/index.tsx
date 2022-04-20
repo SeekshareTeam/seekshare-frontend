@@ -51,7 +51,12 @@ const Navbar = (props: NavbarProps) => {
                 setShowSubspaceForm(false);
               }}
             >
-              <SubspaceForm />
+              <SubspaceForm
+                workspaceId={reduxState?.authUser?.currentWorkspace || ''}
+                onSubmit={() => {
+                setShowSubspaceForm(false);
+              }}
+              />
             </Modal>
 
             <button
@@ -60,7 +65,7 @@ const Navbar = (props: NavbarProps) => {
               }}
               className="hover:bg-gray-100 rounded-lg"
             >
-              <IconMenu2 size={36} stroke={1} color={'red'}  />
+              <IconMenu2 size={36} stroke={1} color={'red'} />
             </button>
             <PrimaryButton
               size={'small'}

@@ -3,7 +3,12 @@ import { Formik, Form } from 'formik';
 import { GhostButton } from 'src/components/Button';
 import { useSubspaceApi } from 'src/api/context';
 
-export const SubspaceForm = () => {
+interface SubspaceFormProps {
+  workspaceId?: string;
+  onSubmit: () => void;
+}
+
+export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
   /*
      Validate if the workspace name is taken. think or take this into account.
    */
@@ -86,19 +91,22 @@ export const SubspaceForm = () => {
           ];
 
           const subspaceVariable: SubspaceParameters = {
-            name: 'skdj',
+            name: 'placeholder',
             fieldTwo: null,
             fieldThree: null,
             fieldFour: null,
+            workspaceId: props.workspaceId || '',
           };
           values.subspace.map((v, ix) => {
             const nKey = subspaceNamingKeys[ix];
             subspaceVariable[nKey] = v;
           });
+          console.log('@ subspaceVariable', subspaceVariable);
           await subspaceApi?.onCreateSubspace(subspaceVariable);
         }
 
         setSubmitting(false);
+        props.onSubmit();
       }}
     >
       {({ values, handleChange, handleBlur, isSubmitting }) => {

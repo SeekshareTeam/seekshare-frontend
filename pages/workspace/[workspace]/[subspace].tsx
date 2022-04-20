@@ -2,13 +2,14 @@ import * as React from 'react';
 import { UnderlineTabs } from 'src/components/Tabs';
 import { PostCard } from 'src/components/Post/card';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
-import { serverFetchPostList } from 'src/modules/PostList/slice';
+import { fetchPostList } from 'src/modules/PostList/slice';
 import { serverFetchSubspace } from 'src/modules/Subspace/slice';
 import {
-  ssrFetchAllPostsFromSubspace,
+  //   ssrFetchAllPostsFromSubspace,
   ssrFetchSubspace,
 } from 'src/generated/page';
-import { useAppSelector } from 'src/modules/Redux';
+import { useFetchAllPostsFromSubspaceLazyQuery } from 'src/generated/apollo';
+import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
 import { shallowEqual } from 'react-redux';
 import { upperCase } from 'lodash';
 import { useSubspaceApi } from 'src/api/context';
@@ -31,12 +32,37 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
 
   const [selectedTab, setSelectedTab] = React.useState('posts');
 
+  const useFetchAllPostsFromSubspace = useCustomQuery(
+    fetchPostList,
+    useFetchAllPostsFromSubspaceLazyQuery,
+    undefined,
+    false
+  );
+
   const subspaceApi = useSubspaceApi();
+
+  React.useEffect(() => {
+    if (selectedTab && props.workspaceId && props.subspaceId) {
+      console.log('@ selectedTab', selectedTab, props.workspaceId);
+      switch (selectedTab) {
+        case 'posts':
+          console.log('@ er who', props.subspaceId, props.workspaceId);
+          useFetchAllPostsFromSubspace({
+            variables: {
+              workspaceId: props.workspaceId,
+              subspaceId: props.subspaceId,
+            },
+          });
+        default:
+          console.log('doki');
+      }
+    }
+  }, [selectedTab, props.subspaceId, props.workspaceId]);
 
   const reduxState = useAppSelector(
     (state) => ({
       auth: state.auth?.data,
-      postList: state.postList?.data,
+      postList: state.postList?.client,
       subspace: state.subspace?.server,
       hasSubspace: state?.auth?.data?.userWorkspaces
         ?.find((uw) => {
@@ -111,11 +137,13 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
         onSelectTab={onTabClick}
         active={selectedTab}
       />
-      <div className="flex flex-col items-center">
-        {reduxState?.postList?.map((epost) => (
-          <PostCard {...epost} />
-        ))}
-      </div>
+      {selectedTab === 'posts' && (
+        <div className="flex flex-col items-center">
+          {reduxState?.postList?.map((epost) => (
+            <PostCard {...epost} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -134,21 +162,19 @@ export const getStaticProps = wrapper.getStaticProps(
       dispatch: store.dispatch,
     });
 
-    await fetchSSRQuery({
-      action: serverFetchPostList,
-      ssrApolloQuery: ssrFetchAllPostsFromSubspace.getServerPage,
-      variables: {
-        workspaceId: workspace || '',
-        subspaceId: subspace || '',
-      },
-      dispatch: store.dispatch,
-    });
+    /*
+    In case we want to do server side fetching of post lists.
+     */
 
-    // const result = await ssrFetchPost.getServerPage({
-    //   variables: { pid: context.params.id },
+    // await fetchSSRQuery({
+    //   action: serverFetchPostList,
+    //   ssrApolloQuery: ssrFetchAllPostsFromSubspace.getServerPage,
+    //   variables: {
+    //     workspaceId: workspace || '',
+    //     subspaceId: subspace || '',
+    //   },
+    //   dispatch: store.dispatch,
     // });
-
-    // store.dispatch(serverFetchPost(result.props.data.fetchPost))
 
     return {
       props: { workspaceId: workspace, subspaceId: subspace },
