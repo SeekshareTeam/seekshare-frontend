@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Post as PostType } from 'src/generated/types';
-import { HYDRATE } from 'next-redux-wrapper';
+// import { HYDRATE } from 'next-redux-wrapper';
 
 type PostListSliceType = {
-  data?: PostType[];
+  client?: PostType[];
 };
 
 const initialState: PostListSliceType = {};
@@ -12,23 +12,29 @@ export const postListSlice = createSlice({
   name: 'postlist',
   initialState,
   reducers: {
-    serverFetchPostList: (state, action) => {
+    fetchPostList: (state, action) => {
       return {
         ...state,
-        data: action.payload
+        client: action.payload,
       }
     },
+    // serverFetchPostList: (state, action) => {
+    //   return {
+    //     ...state,
+    //     data: action.payload
+    //   }
+    // },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        data: action?.payload?.postList?.data,
-      };
-    },
-  },
+  // extraReducers: {
+  //   [HYDRATE]: (state, action) => {
+  //     return {
+  //       ...state,
+  //       data: action?.payload?.postList?.data,
+  //     };
+  //   },
+  // },
 });
 
-export const { serverFetchPostList } = postListSlice.actions;
+export const { fetchPostList } = postListSlice.actions;
 
 export default postListSlice.reducer;

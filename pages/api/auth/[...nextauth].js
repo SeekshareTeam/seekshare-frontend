@@ -61,7 +61,7 @@ const refreshAccessToken = async (token) => {
 
     const refreshTokenLiteral = refreshToken.data;
     return {
-      accesToken: refreshTokenLiteral.token,
+      accessToken: refreshTokenLiteral.token,
       accessTokenExpiry: curDate + refreshTokenLiteral.tokenExpiry * 1000,
       refreshToken: refreshTokenLiteral.refreshToken,
       refreshTokenExpiry:
@@ -85,7 +85,7 @@ const callbacks = {
     }
 
     if (user) {
-      console.log('accessing token and user for the first time.');
+      // console.log('accessing token and user for the first time.', user);
       return {
         accessToken: user.token,
         accessTokenExpiry: curDate + user.tokenExpiry * 1000,
@@ -95,7 +95,7 @@ const callbacks = {
     }
 
     if (curDate < token.accessTokenExpiry) {
-      console.log('@ returning existing token');
+      // console.log('@ returning existing token', token);
       return token;
     }
 
@@ -103,8 +103,10 @@ const callbacks = {
   },
 
   async session({ session, token }) {
+    // console.log('@ session token', token);
     session.accessToken = token.accessToken;
     session.error = token.error;
+    // console.log("@ session user", session);
     return session;
   },
 };

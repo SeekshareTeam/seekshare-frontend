@@ -14,12 +14,12 @@ export const Select: React.FC<TagButtonProps> = ({
 }) => {
   return (
     <div className={'rounded self-start inline-flex flex-row py-1'}>
-      <span className={'rounded-l-md bg-blue-100 text-blue-400 py-1 pl-1'}>
+      <span className={'rounded-l-md bg-pink-100 text-pink-400 py-1 pl-1'}>
         {props.value}
       </span>
       {showButton && (
         <button
-          className={'rounded-r-md bg-blue-100 text-blue-400 py-1 px-1'}
+          className={'rounded-r-md bg-pink-100 text-pink-400 py-1 px-1'}
           onClick={() => {
             props.onClick(props.id);
           }}

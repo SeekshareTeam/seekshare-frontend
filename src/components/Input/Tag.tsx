@@ -4,7 +4,6 @@ import { SelectDropdownGrid } from 'src/components/Input/SelectDropdown';
 import {
   useSearchTagsLazyQuery,
   useSearchExactTagLazyQuery,
-  SearchExactTagQueryResult,
 } from 'src/generated/apollo';
 import { SearchTagsQuery } from 'src/generated/operations';
 import { isEmpty, debounce } from 'lodash';
@@ -34,7 +33,8 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
   const [searchTagsQuery, { data: dataSearchTags }] = useSearchTagsLazyQuery({
     fetchPolicy: 'network-only',
   });
-  const [searchExactTagQuery, { data: dataExactTag }] = useSearchExactTagLazyQuery();
+  const [searchExactTagQuery, { data: dataExactTag }] =
+    useSearchExactTagLazyQuery();
 
   const onSelectNewTag = React.useCallback(
     (selectedTag: { value: string; id: string }) => {
@@ -46,10 +46,26 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
   );
 
   React.useEffect(() => {
-    // if (dataSearchTags) {
-    //   setTagResults(dataSearchTags);
-    // }
-    console.log('@ dataSearchTags', dataSearchTags, dataExactTag);
+    if (dataExactTag) {
+      if (dataExactTag.searchExactTag && newTag) {
+        let selectedTag = { value: newTag, id: `no_id_${new Date().getTime()}` };
+        selectedTag['value'] = dataExactTag.searchExactTag['value'];
+        selectedTag['id'] = dataExactTag.searchExactTag?.id;
+
+        onSelectNewTag(selectedTag);
+
+      }
+    }
+  }, [dataExactTag, newTag]);
+
+  React.useEffect(() => {
+    if (dataSearchTags) {
+      console.log('@ dataSearchTags', dataSearchTags);
+      if (dataSearchTags.searchTags) {
+        setTagResults(dataSearchTags.searchTags);
+      }
+    }
+    // console.log('@ dataSearchTags', dataSearchTags, dataExactTag);
   }, [dataSearchTags]);
 
   const searchTagsQueryCallback = React.useCallback(
@@ -62,16 +78,16 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
        */
       if (onEnter) {
         // This should also be in the top section
-        const exactTag: SearchExactTagQueryResult = await searchExactTagQuery({
+        await searchExactTagQuery({
           variables: { queryString: val },
         });
-        let selectedTag = { value: val, id: `no_id_${new Date().getTime()}` };
-        if (exactTag?.data?.searchExactTag) {
-          selectedTag['value'] = exactTag?.data?.searchExactTag['value'];
-          selectedTag['id'] = exactTag?.data?.searchExactTag?.id;
-        }
+        // let selectedTag = { value: val, id: `no_id_${new Date().getTime()}` };
+        // if (exactTag?.data?.searchExactTag) {
+        //   selectedTag['value'] = exactTag?.data?.searchExactTag['value'];
+        //   selectedTag['id'] = exactTag?.data?.searchExactTag?.id;
+        // }
 
-        onSelectNewTag(selectedTag);
+        // onSelectNewTag(selectedTag);
       } else {
         await searchTagsQuery({
           variables: { queryString: val },

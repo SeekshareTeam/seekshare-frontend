@@ -33,14 +33,16 @@ const api = () => {
     fieldTwo = null,
     fieldThree = null,
     fieldFour = null,
+    workspaceId = '',
   }: {
     name: string;
     fieldTwo: string | null;
     fieldThree: string | null;
     fieldFour: string | null;
+    workspaceId: string;
   }) => {
     await createSubspaceMutation({
-      variables: { subspaceInput: { name, fieldTwo, fieldThree, fieldFour } },
+      variables: { subspaceInput: { name, fieldTwo, fieldThree, fieldFour, workspaceId } },
     });
   };
 
