@@ -12,8 +12,6 @@ const api = () => {
     typeof useCreateWorkspaceMutation
   >(createWorkspace, useCreateWorkspaceMutation, undefined, false);
 
-  console.log('@ lets see how many times this get initalized');
-
   const onCreateWorkspace = React.useCallback(async ({
     name,
     description,

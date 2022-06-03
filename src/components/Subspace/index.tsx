@@ -76,8 +76,6 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         readability: 'public',
       }}
       onSubmit={async (values, { setSubmitting }) => {
-        console.log('@ values', values);
-
         if (subspaceApi) {
           type SubspaceParameters = Parameters<
             typeof subspaceApi.onCreateSubspace
@@ -101,7 +99,6 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
             const nKey = subspaceNamingKeys[ix];
             subspaceVariable[nKey] = v;
           });
-          console.log('@ subspaceVariable', subspaceVariable);
           await subspaceApi?.onCreateSubspace(subspaceVariable);
         }
 

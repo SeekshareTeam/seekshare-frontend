@@ -60,12 +60,10 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
 
   React.useEffect(() => {
     if (dataSearchTags) {
-      console.log('@ dataSearchTags', dataSearchTags);
       if (dataSearchTags.searchTags) {
         setTagResults(dataSearchTags.searchTags);
       }
     }
-    // console.log('@ dataSearchTags', dataSearchTags, dataExactTag);
   }, [dataSearchTags]);
 
   const searchTagsQueryCallback = React.useCallback(
@@ -128,7 +126,6 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
   };
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('@@ on input change', event.target.value);
     setNewTag(event.target.value);
     searchTagsQueryCallback(event.target.value);
   };

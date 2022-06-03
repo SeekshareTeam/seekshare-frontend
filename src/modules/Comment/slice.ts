@@ -38,23 +38,10 @@ export const commentSlice = createSlice({
       // }
     },
     createComment: (state, action) => {
-      // console.log('@@ cprintng', [...current(state).data]);
-      // console.log(
-      //   '@@ cprintng2',
-      //   [...current(state).data].push(action.payload)
-      // );
 
       if (state?.data) {
         state.data.push(action.payload);
       }
-
-      // const data = [...state.data];
-      // data.push(action.payload);
-
-      // return {
-      //   ...state,
-      //   data,
-      // };
     },
     fetchCommentsByPost: (state, action) => {
       return {

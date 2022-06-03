@@ -30,7 +30,6 @@ export const authSlice = createSlice({
       );
 
       if (hasSubspace !== undefined) {
-        console.log('@ no way in here?', typeof hasSubspace, hasSubspace);
          return;
       }
 
@@ -48,7 +47,6 @@ export const authSlice = createSlice({
       }
     },
     clearSessionUser: () => {
-      // console.log('@ clearsessionnnnn', action.payload);
       return {
         data: undefined,
       };

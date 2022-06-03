@@ -48,6 +48,7 @@ interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   fillColor?: string;
   iconRight?: React.ReactNode;
   iconLeft?: React.ReactNode;
+  buttonType?: 'primary' | 'secondary' | 'ghost';
 }
 
 // type ButtonAsButton = BaseButtonProps &
@@ -65,18 +66,6 @@ interface ButtonPropsWithRef extends ButtonProps {
 }
 
 function BaseButton({ forwardedRef, ...rest }: ButtonPropsWithRef) {
-  // if (href && href.startsWith('/')) {
-  //   return (
-  //     <Link href={href}>
-  //       <a {...rest} />
-  //     </Link>
-  //   );
-  // }
-
-  // if (href) {
-  //   return <a ref={forwardedRef} href={href} {...rest} />;
-  // }
-
   return <button ref={forwardedRef} {...rest} />;
 }
 
@@ -85,15 +74,17 @@ const baseClasses =
 
 function getSize(size: string | undefined) {
   switch (size) {
-
     case 'xlarge': {
-      return 'px-4 py-4 text-sm'
+      return 'px-4 py-4 text-sm';
     }
     case 'large': {
       return 'px-4 py-2 text-sm';
     }
     case 'small': {
-      return 'px-2.5 py-1.5 text-xs';
+      return 'px-2.5 py-1.5 text-sm';
+    }
+    case 'xs': {
+      return 'px-2 py-0.5 text-sm'
     }
     case 'small-square': {
       return 'p-2 text-sm';
@@ -110,6 +101,8 @@ function getOpacity(disabled = false) {
 
 function getRadius(size: string | undefined) {
   switch (size) {
+    case 'full':
+      return 'rounded-full';
     case 'large': {
       return 'rounded-lg';
     }
@@ -128,14 +121,57 @@ const composer = {
   getRadius,
 };
 
-// export const Button = React.forwardRef((props: ButtonProps, ref) => {
-//   const classes = `text-gray-700 hover:text-gray-1000 shadow-xs bg-white border border-gray-400 border-opacity-25 dark:border-gray-700 dark:hover:border-gray-600 dark:bg-white dark:bg-opacity-10 dark:text-gray-200 dark:hover:text-white hover:border-opacity-50 hover:shadow-sm`;
-//   const size = composer.getSize(props.size);
-//   const opacity = composer.getOpacity(props.disabled);
-//   const radius = composer.getRadius(props.size);
-//   const composed = `${baseClasses} ${size} ${opacity} ${radius} ${classes}`;
-//   return <BaseButton forwardedRef={ref} className={composed} {...props} />;
-// });
+function buttonTypes(
+  textColor: string,
+  fillColor: string,
+  type: string = 'primary',
+  selected: boolean = false
+) {
+  switch (type) {
+    case 'primary':
+      return `self-center text-${textColor}-200 shadow-sm bg-${fillColor}-700 hover:bg-${fillColor}-800 border-opacity-100 border border-gray-200`;
+    case 'secondary':
+      return '';
+    case 'ghost':
+      return `self-center ${
+        !selected
+          ? `text-${
+              textColor ? textColor : 'green'
+            }-700 hover:bg-${fillColor}-700`
+          : `text-gray-100 bg-${fillColor}-700`
+      } hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
+    default:
+      '';
+  }
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      textColor = 'gray',
+      fillColor = 'pink',
+      iconRight = null,
+      iconLeft = null,
+      buttonType = 'primary',
+      ...props
+    }: ButtonProps,
+    ref
+  ) => {
+
+    const classes = buttonTypes(textColor, fillColor, buttonType, props.selected);
+    const size = composer.getSize(props.size);
+    const opacity = composer.getOpacity(props.disabled);
+    const radius = composer.getRadius(props.radius);
+    const composed = `${baseClasses} ${size} ${radius} ${opacity} ${classes}`;
+    return (
+      <BaseButton
+        forwardedRef={ref}
+        className={composed}
+        {...props}
+      />
+    );
+  }
+);
 
 export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -148,7 +184,7 @@ export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref
   ) => {
-    const classes = `self-center h-full text-${textColor}-700 shadow-sm bg-white hover:bg-${fillColor}-100`;
+    const classes = `self-center text-${textColor}-200 shadow-sm bg-${fillColor}-700 hover:bg-${fillColor}-800 border-opacity-100 border border-gray-200`;
     const size = composer.getSize(props.size);
     const radius = composer.getRadius(props.radius);
     const composed = `${baseClasses} ${size} ${radius} ${classes}`;

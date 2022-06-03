@@ -49,7 +49,6 @@ const CommentBody: React.FC<CommentBodyProps> = ({
   };
 
   const onReplyComment = async (value: string) => {
-    console.log('@ j', props.commentResult?.id);
     await props.onAddComment({
       comment: value,
       commentType: 'comment',
@@ -59,7 +58,6 @@ const CommentBody: React.FC<CommentBodyProps> = ({
   };
 
   React.useEffect(() => {
-    // console.log('@ what', props, props.commentVotes);
     if (props?.commentResult?.commentVotes?.type) {
       switch (props.commentResult?.commentVotes.type) {
         case 'up':

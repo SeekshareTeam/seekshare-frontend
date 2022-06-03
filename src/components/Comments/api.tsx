@@ -38,7 +38,6 @@ const api = (props: CommentsApiProps) => {
       commentType: string;
       parentCommentId?: string;
     }) => {
-      console.log('@ this is being run', parentCommentId, typeof parentCommentId);
       await createCommentMutation({
         variables: { comment, commentType, parentCommentId, postID: props.pid },
       });

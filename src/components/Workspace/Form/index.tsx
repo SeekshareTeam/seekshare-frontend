@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Formik, Field } from 'formik';
-import { PrimaryButton } from 'src/components/Button';
+import { Button } from 'src/components/Button';
 
 import { useWorkspaceApi } from 'src/api/context';
 
@@ -84,7 +84,6 @@ export const WorkspaceForm = () => {
         readability: 'public',
       }}
       onSubmit={async (values, { setSubmitting }) => {
-        console.log('@ values', values);
         await workspaceApi?.onCreateWorkspace({
           name: values.workspaceName,
           description: values.description,
@@ -159,9 +158,9 @@ export const WorkspaceForm = () => {
                 </Field>
               </div>
             </div>
-            <PrimaryButton type="submit">
+            <Button buttonType="primary" type="submit">
               {isSubmitting ? 'Please wait...' : 'Submit'}
-            </PrimaryButton>
+            </Button>
           </div>
         </form>
       )}

@@ -4,6 +4,7 @@ import { PostCard } from 'src/components/Post/card';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
 import { fetchPostList } from 'src/modules/PostList/slice';
 import { serverFetchSubspace } from 'src/modules/Subspace/slice';
+import { Button } from 'src/components/Button';
 import {
   //   ssrFetchAllPostsFromSubspace,
   ssrFetchSubspace,
@@ -22,6 +23,35 @@ interface SubspacePageProps {
   workspaceId: string;
   subspaceId: string;
 }
+
+interface SubspaceLayoutProps {
+  title: React.ReactNode;
+  button: React.ReactNode;
+  underlineTabs: React.ReactNode;
+  itemsToDisplay: React.ReactNode;
+}
+
+const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
+  return (
+    <div>
+      <Head>
+        <title>Subspace</title>
+      </Head>
+      <div className="flex w-full flex-wrap">
+        <div className="flex justify-start flex-1">
+          <div className="w-24 h-24 justify-self-start rounded-lg angel_care shadow relative ml-24">
+            <div className="absolute bottom-0 left-0 px-2 py-0.5 text-gray-700 shadow-sm font-medium text-3xl rounded-md translate-x-12 translate-y-2 transform bg-white whitespace-nowrap">
+              {props.title}
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-1 justify-end mr-4">{props.button}</div>
+      </div>
+      {props.underlineTabs}
+      {props.itemsToDisplay}
+    </div>
+  );
+};
 
 const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   const [tabs] = React.useState([
@@ -43,10 +73,8 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
 
   React.useEffect(() => {
     if (selectedTab && props.workspaceId && props.subspaceId) {
-      console.log('@ selectedTab', selectedTab, props.workspaceId);
       switch (selectedTab) {
         case 'posts':
-          console.log('@ er who', props.subspaceId, props.workspaceId);
           useFetchAllPostsFromSubspace({
             variables: {
               workspaceId: props.workspaceId,
@@ -54,7 +82,6 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
             },
           });
         default:
-          console.log('doki');
       }
     }
   }, [selectedTab, props.subspaceId, props.workspaceId]);
@@ -79,72 +106,61 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
     setSelectedTab(tabKey);
   };
 
+  const onSubscribe = async () => {
+    if (!reduxState?.hasSubspace) {
+      if (subspaceApi?.onSubscribeSubspace) {
+        await subspaceApi.onSubscribeSubspace({
+          workspaceId: props.workspaceId,
+          subspaceId: props.subspaceId,
+        });
+      }
+    } else {
+      if (subspaceApi?.onUnsubscribeSubspace) {
+        await subspaceApi.onUnsubscribeSubspace({
+          subspaceId: props.subspaceId,
+        });
+      }
+    }
+  };
+
   return (
-    <div>
-      <Head>
-        <title>Subspace</title>
-      </Head>
-      <div className="flex w-full flex-wrap">
-        <div className="flex justify-start flex-1">
-          <div className="w-24 h-24 justify-self-start rounded-lg angel_care shadow relative ml-24">
-            <div className="absolute bottom-0 left-0 px-2 py-0.5 text-gray-700 shadow-sm font-medium text-3xl rounded-md translate-x-12 translate-y-2 transform bg-white whitespace-nowrap">
-              <h2>{reduxState?.subspace?.name || 'Loading...'}</h2>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-1 justify-end">
-          {!reduxState?.hasSubspace &&
-            reduxState?.subspace?.name &&
-            reduxState?.auth && (
-              <button
-                onClick={async () => {
-                  if (subspaceApi?.onSubscribeSubspace) {
-                    subspaceApi.onSubscribeSubspace({
-                      workspaceId: props.workspaceId,
-                      subspaceId: props.subspaceId,
-                    });
-                  }
-                  // await subscribeSubspaceMutation({
-                  //   variables: {
-                  //     workspaceId: props.workspaceId,
-                  //     subspaceId: props.subspaceId,
-                  //   },
-                  // });
-                }}
-                className="text-pink-700 mr-4 outline-none border border-pink-700 text-sm self-center px-2 py-0.5 rounded-full hover:bg-pink-700 hover:text-gray-100 transition-all duration-200"
-              >
-                {`JOIN ${upperCase(reduxState.subspace.name)}`}
-              </button>
-            )}
-          {reduxState?.hasSubspace && reduxState?.subspace && reduxState?.auth && (
-            <button
-              onClick={async () => {
-                if (subspaceApi?.onUnsubscribeSubspace) {
-                  subspaceApi.onUnsubscribeSubspace({
-                    subspaceId: props.subspaceId,
-                  });
-                }
-              }}
-              className="text-pink-700 mr-4 outline-none border border-pink-700 text-sm self-center px-2 py-0.5 rounded-full hover:bg-pink-700 hover:text-gray-100 transition-all duration-200"
+    <SubspaceLayout
+      title={<h2>{reduxState?.subspace?.name || 'Loading...'}</h2>}
+      button={
+        <>
+          {reduxState?.subspace?.name && reduxState?.auth && (
+            <Button
+              buttonType="ghost"
+              radius="full"
+              size="xs"
+              fillColor="pink"
+              textColor="pink"
+              onClick={onSubscribe}
             >
-              {`LEAVE ${upperCase(reduxState.subspace.name)}`}
-            </button>
+              {reduxState?.hasSubspace
+                ? `LEAVE ${upperCase(reduxState.subspace.name)}`
+                : `JOIN ${upperCase(reduxState.subspace.name)}`}
+            </Button>
           )}
-        </div>
-      </div>
-      <UnderlineTabs
-        tabs={tabs}
-        onSelectTab={onTabClick}
-        active={selectedTab}
-      />
-      {selectedTab === 'posts' && (
-        <div className="flex flex-col items-center">
-          {reduxState?.postList?.map((epost) => (
-            <PostCard {...epost} />
-          ))}
-        </div>
-      )}
-    </div>
+        </>
+      }
+      underlineTabs={
+        <UnderlineTabs
+          tabs={tabs}
+          onSelectTab={onTabClick}
+          active={selectedTab}
+        />
+      }
+      itemsToDisplay={
+        selectedTab === 'posts' && (
+          <div className="flex flex-col items-center">
+            {reduxState?.postList?.map((epost) => (
+              <PostCard {...epost} />
+            ))}
+          </div>
+        )
+      }
+    />
   );
 };
 
