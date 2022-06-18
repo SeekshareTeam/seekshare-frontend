@@ -26,6 +26,8 @@ const Home: PageWithLayout<{}> = () => {
   //   workspaces: state.home?.workspaces,
   // }));
 
+  console.log('@ workspaces', reduxState);
+
   return (
     <HomeLayout
       workspaceCards={reduxState?.workspaces?.map((w) => (
@@ -34,6 +36,7 @@ const Home: PageWithLayout<{}> = () => {
           imgUrl={w?.url}
           title={w.name}
           description={w?.description}
+          gradient={w?.gradient}
         />
       ))}
     />

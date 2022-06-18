@@ -1,5 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
+
 const colors = [
   '#1abc9c',
   '#2ecc71',
@@ -87,6 +88,7 @@ interface Props {
   displayHeight?: string;
   displayWidth?: string;
   imgUrl?: string;
+  className?: string;
 }
 
 type AvatarRef = {
@@ -101,6 +103,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
       width = 150,
       displayHeight = 'h-36',
       displayWidth = 'w-36',
+      className = undefined,
       imgUrl = undefined,
     },
     ref
@@ -210,7 +213,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
     }, []);
 
     return (
-      <div className="rounded-lg shadow-xl p-1 bg-yellow-100">
+      <div className={`inline-block rounded-lg shadow-xl p-1 bg-yellow-100 ${className}`}>
         {imgUrl ? (
           <img
             className={`rounded-lg ${displayHeight} ${displayWidth}`}

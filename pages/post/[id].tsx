@@ -18,8 +18,6 @@ type PageWithLayout<T> = NextPage<T> & { layoutType: string; };
 const PostPage: PageWithLayout<Props> = (props) => {
   // const router = useRouter();
 
-  console.log('@ postpage', props);
-
   return (
     <div className="flex justify-center flex-1 self-stretch items-start">
       <Post pid={props.id} />
