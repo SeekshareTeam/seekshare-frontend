@@ -1,12 +1,21 @@
 import { gql } from "@apollo/client";
-import { WORKSPACE_FRAGMENT } from 'src/modules/Workspace/query.graphql';
+
+export const WORKSPACE_FRAGMENT = gql`
+  fragment WorkspaceFragment on Workspace {
+    id
+    description
+    url
+    ownerId
+    name
+  }
+`;
 
 export const FETCH_WORKSPACE_QUERY = gql`
+  ${WORKSPACE_FRAGMENT}
   query fetchWorkspaces($page: Int!, $limit: Int!) {
     fetchWorkspaces(page: $page, limit: $limit) {
       ...WorkspaceFragment
     }
   }
-  ${WORKSPACE_FRAGMENT}
 `;
 

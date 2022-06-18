@@ -3,9 +3,12 @@ import { Button } from 'src/components/Button'
 import LogoAvatar, {
   Props as LogoAvatarProps,
 } from 'src/components/Sidebar/LogoAvatar';
+import { Subspace as SubspaceType } from 'src/generated/types';
 
 interface Props {
   logoAvatarProps: LogoAvatarProps;
+
+  subspace?: SubspaceType;
 }
 
 const SubspaceRow: React.FC<Props> = (props) => {
@@ -16,7 +19,7 @@ const SubspaceRow: React.FC<Props> = (props) => {
       <div className="flex flex-1">
         <div className="flex justify-start items-center">
           <LogoAvatar {...logoAvatarProps} />
-          <a className="text-xl text-gray-700">{'Subspace Name'}</a>
+          <a className="text-xl text-gray-700">{props?.subspace?.name || 'Subspace'}</a>
         </div>
       </div>
       <div className="flex-1 flex justify-end">

@@ -14,12 +14,13 @@ interface HomeLayoutProps {
 }
 
 const HomeLayout: React.FC<HomeLayoutProps> = (props) => {
-  return <div className="flex flex-row">{props.workspaceCards}</div>;
+  return <div className="flex flex-row flex-wrap">{props.workspaceCards}</div>;
 };
 
 const Home: PageWithLayout<{}> = () => {
   const reduxState = useAppSelector((state) => ({
     workspaces: state.home?.workspaces,
+    workspace: state.workspace
   }), shallowEqual);
   // const reduxState = useShallowSelector((state) => ({
   //   workspaces: state.home?.workspaces,

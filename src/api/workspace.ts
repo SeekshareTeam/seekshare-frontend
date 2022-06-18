@@ -21,7 +21,7 @@ const api = () => {
     description: string;
     workspacePermission: string;
   }) => {
-    await createWorkspaceMutation({
+    return createWorkspaceMutation({
       variables: { workspaceInput: { name, description, workspacePermission } },
     });
   }, []);

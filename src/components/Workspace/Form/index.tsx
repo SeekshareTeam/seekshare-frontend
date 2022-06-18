@@ -1,21 +1,26 @@
 import * as React from 'react';
 import { Formik, Field } from 'formik';
 import { Button } from 'src/components/Button';
+// import { UploadImage } from 'src/sections/sidebar/UploadImage';
+import Avatar from 'src/components/Avatar';
+import { IconRotate } from '@tabler/icons';
+import * as yup from 'yup';
 
 import { useWorkspaceApi } from 'src/api/context';
 
 export const WorkspaceForm = () => {
-  /*
-     Validate if the workspace name is taken. think or take this into account.
-   */
-  // const [workspaceApi, _] = React.useState<WorkspaceApiResultType>(
-  //   useWorkspaceApi()
-  // );
   const workspaceApi = useWorkspaceApi();
 
-  // React.useEffect(() => {
-  //   setWorkspaceApi(useWorkspaceApi());
-  // }, []);
+  const avatarRef: React.MutableRefObject<{
+    onChangeCanvas: () => void;
+    toBlob: (fileName: string) => void;
+  } | null> = React.useRef(null);
+
+  const changeAvatarCallback = React.useCallback(() => {
+    if (avatarRef.current) {
+      avatarRef.current.onChangeCanvas();
+    }
+  }, [avatarRef.current]);
 
   const newInputFormRow = ({
     labelHtmlFor,
@@ -56,16 +61,24 @@ export const WorkspaceForm = () => {
     value,
     labelName,
     childDescription,
+    inputValue,
   }: {
     name: string;
     id: string;
     value: string;
     labelName: string;
     childDescription: string;
+    inputValue: string;
   }) => {
     return (
       <div>
-        <input type="radio" name={name} id={id} value={value} />
+        <input
+          type="radio"
+          name={name}
+          id={id}
+          value={value}
+          checked={value === inputValue}
+        />
         <label className="px-2 text-gray-700" htmlFor={id}>
           {labelName}
         </label>
@@ -76,6 +89,16 @@ export const WorkspaceForm = () => {
     );
   };
 
+  const workspaceValidationSchema = yup.object().shape({
+    workspaceName: yup
+      .string()
+      .min(2, 'Too short')
+      .max(50, 'Too Long!')
+      .required('Required!'),
+    description: yup.string(),
+    readability: yup.string().required(),
+  });
+
   return (
     <Formik
       initialValues={{
@@ -83,12 +106,22 @@ export const WorkspaceForm = () => {
         description: '',
         readability: 'public',
       }}
+      validationSchema={workspaceValidationSchema}
       onSubmit={async (values, { setSubmitting }) => {
-        await workspaceApi?.onCreateWorkspace({
+        console.log(' value ', values);
+
+        const createdWorkspace = await workspaceApi?.onCreateWorkspace({
           name: values.workspaceName,
           description: values.description,
           workspacePermission: values.readability,
         });
+
+        if (createdWorkspace?.data?.createWorkspace?.id && avatarRef?.current) {
+          await avatarRef.current.toBlob(
+            createdWorkspace.data.createWorkspace.id
+          );
+        }
+
         setSubmitting(false);
       }}
     >
@@ -114,22 +147,29 @@ export const WorkspaceForm = () => {
               handleBlur,
             })}
 
-            {/*<div className="flex flex-row py-2 items-center justify-between">
-              <label
-                className="font-medium capitalize bold text-gray-700"
-                htmlFor="workspaceName"
-              >
-                {'Workspace Name'}
+            <div className="flex flex-row py-2 items-start justify-between">
+              <label className="font-medium capitalize bold text-gray-700 w-1/2">
+                {'Set Workspace Image'}
               </label>
-              <input
-                type="text"
-                name="workspaceName"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.workspaceName}
-                className="rounded-lg shadow-xl blur-sm border border-blue-400 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-50 p-1"
-              />
-              </div>*/}
+              <div className="flex flex-col w-1/2">
+                <div className="self-center">
+                  <Avatar
+                    ref={avatarRef}
+                    displayHeight={'h-24'}
+                    displayWidth={'w-24'}
+                  />
+                </div>
+                <div
+                  className="self-center my-2 text-blue-400 cursor-pointer flex flex-row items-center hover:text-blue-300"
+                  onClick={() => {
+                    changeAvatarCallback();
+                  }}
+                >
+                  <IconRotate size={18} className="mx-1"/>
+                  {'Re-select!'}
+                </div>
+              </div>
+            </div>
 
             <div className="flex flex-row py-2 items-start justify-between">
               <label className="font-medium capitalize bold text-gray-700 w-1/2">
@@ -145,6 +185,7 @@ export const WorkspaceForm = () => {
                     labelName: 'Public',
                     childDescription:
                       'This workspace willbe readable by any public users.',
+                    inputValue: values.readability,
                   })}
 
                   {newInputRadio({
@@ -154,6 +195,7 @@ export const WorkspaceForm = () => {
                     labelName: 'Private',
                     childDescription:
                       'This workspace will only be readable by its members.',
+                    inputValue: values.readability,
                   })}
                 </Field>
               </div>
