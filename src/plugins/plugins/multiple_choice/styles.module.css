@@ -1,0 +1,12 @@
+.mc-container {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.mc-option-container {
+  padding: 8px 0 8px 0;
+}
+
+.mc-option-button:hover {
+  background-color: pink;
+}

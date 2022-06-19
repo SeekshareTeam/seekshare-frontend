@@ -1,0 +1,22 @@
+.id-toolbar {
+  border: 1px solid black;
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px;
+}
+
+.id-textarea {
+  resize: none;
+  width: calc(100% - 6px);
+}
+
+.id-actions {
+  border: 1px solid black;
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px;
+}
+
+.id-actions > * {
+  margin-left: 4px;
+}
