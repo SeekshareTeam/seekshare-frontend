@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { UnderlineTabs } from 'src/components/Tabs';
 import { PostCard } from 'src/components/Post/card';
+import AddButton from 'src/components/Subspace/AddButton';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
 import { fetchPostList } from 'src/modules/PostList/slice';
 import { serverFetchSubspace } from 'src/modules/Subspace/slice';
 import { Button } from 'src/components/Button';
-import {
-  //   ssrFetchAllPostsFromSubspace,
-  ssrFetchSubspace,
-} from 'src/generated/page';
+import { ssrFetchSubspace } from 'src/generated/page';
 import { useFetchAllPostsFromSubspaceLazyQuery } from 'src/generated/apollo';
 import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
 import { shallowEqual } from 'react-redux';
@@ -16,6 +14,7 @@ import { upperCase } from 'lodash';
 import { useSubspaceApi } from 'src/api/context';
 import Head from 'next/head';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 type PageWithLayout<T> = NextPage<T> & { layoutType: string };
 
@@ -29,11 +28,12 @@ interface SubspaceLayoutProps {
   button: React.ReactNode;
   underlineTabs: React.ReactNode;
   itemsToDisplay: React.ReactNode;
+  addButton: React.ReactNode;
 }
 
 const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
   return (
-    <div>
+    <div className="flex-col flex-1 relative">
       <Head>
         <title>Subspace</title>
       </Head>
@@ -49,6 +49,9 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
       </div>
       {props.underlineTabs}
       {props.itemsToDisplay}
+      <div className="absolute bottom-0 right-0 m-6">
+        {props.addButton}
+      </div>
     </div>
   );
 };
@@ -70,6 +73,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   );
 
   const subspaceApi = useSubspaceApi();
+  const router = useRouter();
 
   React.useEffect(() => {
     if (selectedTab && props.workspaceId && props.subspaceId) {
@@ -104,6 +108,13 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
 
   const onTabClick = (tabKey: string) => {
     setSelectedTab(tabKey);
+  };
+
+  const onCreatePost = async () => {
+    router.push({
+      pathname: '/create',
+      query: { subspaceId: props.subspaceId, workspaceId: props.workspaceId },
+    }, '/create');
   };
 
   const onSubscribe = async () => {
@@ -160,6 +171,9 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
           </div>
         )
       }
+      addButton={
+        <AddButton onClick={onCreatePost} />
+      }
     />
   );
 };
@@ -181,16 +195,6 @@ export const getStaticProps = wrapper.getStaticProps(
     /*
     In case we want to do server side fetching of post lists.
      */
-
-    // await fetchSSRQuery({
-    //   action: serverFetchPostList,
-    //   ssrApolloQuery: ssrFetchAllPostsFromSubspace.getServerPage,
-    //   variables: {
-    //     workspaceId: workspace || '',
-    //     subspaceId: subspace || '',
-    //   },
-    //   dispatch: store.dispatch,
-    // });
 
     return {
       props: { workspaceId: workspace, subspaceId: subspace },

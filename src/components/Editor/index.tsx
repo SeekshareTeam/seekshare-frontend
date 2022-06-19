@@ -110,7 +110,12 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   );
 };
 
-const QuestionEditor: React.FC = () => {
+interface Props {
+  subspaceId: string;
+  workspaceId: string;
+}
+
+const QuestionEditor: React.FC<Props> = (props) => {
   const [postTitle, setTitle] = React.useState('');
   const [body, setBody] = React.useState('');
   const [currentTags, setCurrentTags] = React.useState<
@@ -142,8 +147,8 @@ const QuestionEditor: React.FC = () => {
           title: postTitle,
           type: 'question',
           tags: postTags,
-          workspaceId: 'c73dad3a-3f7d-453d-9a4d-4b72389551a8',
-          subspaceId: '03640067-61a9-4e2a-8dc0-7264111dbfb1',
+          workspaceId: props.workspaceId,
+          subspaceId: props.subspaceId,
         },
       },
     });

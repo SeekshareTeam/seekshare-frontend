@@ -1,5 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
+import ContentLoader from 'react-content-loader';
+import { Maybe } from 'src/generated/types';
 
 const colors = [
   '#1abc9c',
@@ -87,8 +89,9 @@ interface Props {
   width?: number;
   displayHeight?: string;
   displayWidth?: string;
-  imgUrl?: string;
+  imgUrl?: Maybe<string>;
   className?: string;
+  loading?: boolean;
 }
 
 type AvatarRef = {
@@ -105,6 +108,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
       displayWidth = 'w-36',
       className = undefined,
       imgUrl = undefined,
+      loading = false,
     },
     ref
   ) => {
@@ -212,14 +216,16 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
       }
     }, []);
 
-    return (
-      <div className={`inline-block rounded-lg shadow-xl p-1 bg-yellow-100 ${className}`}>
-        {imgUrl ? (
+    const renderAvatar = () => {
+      if (imgUrl) {
+        return (
           <img
             className={`rounded-lg ${displayHeight} ${displayWidth}`}
             src={imgUrl}
           />
-        ) : (
+        );
+      } else {
+        return (
           <canvas
             className={`rounded-lg ${displayHeight} ${displayWidth}`}
             height={height}
@@ -228,7 +234,35 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
               canvasRef.current = node;
             }}
           />
-        )}
+        );
+      }
+    };
+
+    const renderAvatarWithLoading = (loading: boolean | undefined) => {
+
+      if (loading) {
+        return (
+          <ContentLoader
+            className="rounded-lg"
+            width={150}
+            height={150}
+            viewBox="0 0 200 200"
+          >
+            <rect x="0" y="0" width="100%" height="100%" />
+          </ContentLoader>
+        );
+      } else {
+        return renderAvatar();
+      }
+    };
+
+    return (
+      <div
+        className={`inline-block rounded-lg shadow-xl p-1 ${
+          !loading ? 'bg-yellow-100' : ''
+        } ${className}`}
+      >
+        {renderAvatarWithLoading(loading)}
       </div>
     );
   }

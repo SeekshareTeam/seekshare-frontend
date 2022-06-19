@@ -48,12 +48,18 @@ const Workspace: PageWithLayout<WorkspaceProps> = (props) => {
   const reduxState = useAppSelector(
     (state) => ({
       subspaces: state?.workspace?.server?.subspaces,
-      workspace: state?.workspace?.server?.workspace,
+      workspace: state?.workspace?.server?.workspace || {
+        name: 'Default Workspace',
+        id: '1',
+      },
+      loading: state.app.loading,
     }),
     shallowEqual
   );
 
   // console.log('workspace', reduxState);
+
+  console.log('@ redux state', reduxState);
 
   const onTabClick = (tabKey: string) => {
     setSelectedTab(tabKey);
@@ -61,7 +67,12 @@ const Workspace: PageWithLayout<WorkspaceProps> = (props) => {
 
   return (
     <WorkspaceLayout
-      workspaceHeader={<WorkspaceHeader imgUrl={reduxState?.workspace?.url || ''} />}
+      workspaceHeader={
+        <WorkspaceHeader
+          loading={reduxState.loading}
+          workspace={reduxState.workspace}
+        />
+      }
       underlineTabs={
         <UnderlineTabs
           tabs={tabs}
