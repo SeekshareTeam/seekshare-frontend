@@ -10,9 +10,16 @@ import postListReducer from 'src/modules/PostList/slice';
 import loadingReducer, { setLoading } from 'src/modules/App/slice';
 import authReducer from 'src/modules/Auth/slice';
 import workspaceReducer from 'src/modules/Workspace/slice';
+import themeReducer from 'src/modules/theme/slice';
+import homeReducer from 'src/modules/Home/slice';
 
 import { isEmpty } from 'lodash';
-import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+  TypedUseSelectorHook,
+  shallowEqual,
+} from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
 
 const makeStore = () => {
@@ -26,6 +33,8 @@ const makeStore = () => {
       workspace: workspaceReducer,
       postList: postListReducer,
       subspace: subspaceReducer,
+      theme: themeReducer,
+      home: homeReducer,
     },
     // devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
@@ -51,6 +60,20 @@ export type AppDispatch = AppStore['dispatch']; // .dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
+export const useShallowSelector  = (
+  selectorFunc: Parameters<typeof useAppSelector>[0]
+): ReturnType<typeof useAppSelector> => {
+  return useAppSelector(selectorFunc, shallowEqual);
+};
+
+export const useTheme = () => {
+  const { theme } = useAppSelector((state) => ({
+    theme: state.theme,
+  }));
+
+  return theme;
+};
+
 export const useCustomQuery = <
   A extends (...args: any) => any,
   T extends (...args: any) => any
@@ -66,14 +89,12 @@ export const useCustomQuery = <
     fetchPolicy: 'no-cache',
   });
 
-  console.log('@ loading', loading);
   if (error) {
     console.log(error);
   }
   React.useEffect(() => {
     if (data) {
       const dataKeys = Object.keys(data);
-      // console.log('@ a', dataKeys, action);
       if (action) {
         dispatch(action(data[dataKeys[0]]));
       }

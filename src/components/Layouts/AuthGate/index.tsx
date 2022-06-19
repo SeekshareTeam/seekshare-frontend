@@ -23,7 +23,6 @@ export const AuthGate: React.FC = (props) => {
 
   React.useEffect(() => {
 
-    console.log('@ session status', status, typeof status);
     if (status === 'authenticated') {
       // fetchSessionUser
       (async () => {
@@ -39,7 +38,6 @@ export const AuthGate: React.FC = (props) => {
 
   React.useEffect(() => {
     if (session?.error === 'RefreshTokenError') {
-      console.log('@ router path name', router.pathname);
       if (router.pathname !== '/login') {
         authCheckApi.clearAuthenticatedUser();
         router.push('/login');

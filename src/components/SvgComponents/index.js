@@ -7,9 +7,6 @@ import React, { useState } from 'react';
 export default function SvgComponents ({ svgRef, isselected }) {
 
   const [selected, setSelected] = useState(false);
-  console.log('@@ isselected', isselected);
-
-  console.log('@@ svgComponents', svgRef);
   if (svgRef === 'home') {
     return (<HomeSVG />)
   } else if (svgRef === "rightArrow") {

@@ -15,8 +15,6 @@ import {
 } from 'next-server/server/api-utils';
 import { IncomingMessage } from "http";
 
-// console.log(console.log('pas', process.env.NEXT_PUBLIC_SERVER_API_URL));
-
 export type ApolloClientContext = {
   req?: IncomingMessage & {
     cookies: NextApiRequestCookies
@@ -31,7 +29,6 @@ const httpLink = createHttpLink({
 const authLink = setContext(async (_, { headers }: { headers: Headers }) => {
 	const session = await getSession();
 
-  console.log('@ session in authlink', session);
 	const modifiedHeader = {
 		headers: {
 			...headers,

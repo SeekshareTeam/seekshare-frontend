@@ -12,11 +12,10 @@
 import * as React from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { PrimaryButton, DropdownButton } from 'src/components/Button';
+import { Button, DropdownButton } from 'src/components/Button';
 import { useAppSelector } from 'src/modules/Redux';
 import { IconChevronDown, IconMenu2 } from '@tabler/icons';
 import { Modal } from 'src/components/Modal';
-import { WorkspaceForm } from 'src/components/Workspace/Form';
 import { SubspaceForm } from 'src/components/Subspace';
 
 import Dropdown from 'src/components/Dropdown';
@@ -27,7 +26,6 @@ type NavbarProps = {
 };
 
 const Navbar = (props: NavbarProps) => {
-  const [showWorkspaceForm, setShowWorkspaceForm] = React.useState(false);
   const [showSubspaceForm, setShowSubspaceForm] = React.useState(false);
 
   const dropdownRef = React.useRef(null);
@@ -67,14 +65,15 @@ const Navbar = (props: NavbarProps) => {
             >
               <IconMenu2 size={36} stroke={1} color={'red'} />
             </button>
-            <PrimaryButton
+            <Button
+              buttonType={"primary"}
               size={'small'}
               onClick={() => {
                 setShowSubspaceForm(true);
               }}
             >
               {'Add Subspaces'}
-            </PrimaryButton>
+            </Button>
           </>
         )}
       </div>
@@ -94,27 +93,7 @@ const Navbar = (props: NavbarProps) => {
             </button>
           )}
           {reduxState.authUser && (
-            <PrimaryButton
-              size={'small'}
-              onClick={() => {
-                console.log(showWorkspaceForm);
-                setShowWorkspaceForm(true);
-              }}
-            >
-              {'Create Workspace'}
-            </PrimaryButton>
-          )}
-          {reduxState.authUser && (
             <>
-              <Modal
-                blurBackground={false}
-                show={showWorkspaceForm}
-                onPressBlur={() => {
-                  setShowWorkspaceForm(false);
-                }}
-              >
-                <WorkspaceForm />
-              </Modal>
               <Dropdown
                 dropdownRef={dropdownRef}
                 dropdownButton={
@@ -130,14 +109,15 @@ const Navbar = (props: NavbarProps) => {
                   reduxState?.authUser?.lastname}
               </div>
 
-              <PrimaryButton
+              <Button
+                buttonType={"primary"}
                 size={'small'}
                 onClick={async () => {
                   signOut({ redirect: false });
                 }}
               >
                 {'Sign Out'}
-              </PrimaryButton>
+              </Button>
             </>
           )}
         </div>

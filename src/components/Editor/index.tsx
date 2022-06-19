@@ -144,8 +144,6 @@ const QuestionEditor: React.FC = () => {
       },
     });
 
-    console.log('@ result of create post ', result);
-
     if (result?.data?.createPost?.postId) {
       router.push('/post/' + result.data.createPost.postId);
     }

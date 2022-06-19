@@ -36,7 +36,6 @@ export const AuthCheck = (props: AuthCheckProps) => {
 
   if (!reduxState.auth) {
     divProps.onClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
-      console.log('@ event', event.target, event.currentTarget);
 
       // event.preventDefault();
       event.stopPropagation();

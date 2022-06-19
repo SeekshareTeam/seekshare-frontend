@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const CREATE_SUBSPACE_MUTATION = gql`
   mutation createSubspace($subspaceInput: SubspaceInput!) {
@@ -30,4 +30,17 @@ export const FETCH_SUBSPACE_QUERY = gql`
       workspaceId
     }
   }
-`
+`;
+
+// export const FETCH_SUBSPACES_QUERY = gql`
+//   query fetchSubspaces($workspaceId: ID!, pageNumber: Int) {
+//     fetchSubspaces(workspaceId: $workspaceId, pageNumber: $pageNumber) {
+//       id
+//       name
+//       fieldTwo
+//       fieldThree
+//       fieldFour
+//       workspaceId
+//     }
+//   }
+// `;

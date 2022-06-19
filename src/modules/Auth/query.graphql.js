@@ -20,6 +20,7 @@ export const AUTH_USER_QUERY = gql`
       token
       currentWorkspace
       userWorkspaces {
+        url
         id
         currentSubspace
         name

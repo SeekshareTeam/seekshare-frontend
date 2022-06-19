@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { signIn } from 'next-auth/react';
-import { PrimaryButton } from 'src/components/Button';
+import { Button } from 'src/components/Button';
 
 import { useState } from 'react';
 import { Formik, Field, ErrorMessage } from 'formik';
@@ -39,7 +39,7 @@ const Login: NextPage & { layoutType: string; } = () => {
           // }
 
             if (res?.error) {
-              console.log('@ error', error);
+              console.log('login error', error);
               setError(res.error);
             } else {
               setError('');
@@ -93,9 +93,9 @@ const Login: NextPage & { layoutType: string; } = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-center">
-                  <PrimaryButton type="submit">
+                  <Button buttonType="primary" type="submit">
                     {formik.isSubmitting ? 'Please wait...' : 'Sign In'}
-                  </PrimaryButton>
+                  </Button>
                 </div>
               </div>
             </div>

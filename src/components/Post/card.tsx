@@ -58,7 +58,6 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
             <button
               id={tag.id}
               onClick={() => {
-                console.log('clicked');
               }}
               className={
                 'rounded-md text-sm mr-0.5 bg-red-100 text-red-400 py-0.5 px-2 hover:bg-red-200'

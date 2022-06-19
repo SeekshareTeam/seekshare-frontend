@@ -6,7 +6,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      contrast: ["hover"],
+      contrast: ["hover", "focus"],
+      brightness: ["hover", "focus"],
       backgroundOpacity: ['active'],
       border: ["focus"]
     },

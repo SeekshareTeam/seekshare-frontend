@@ -9,9 +9,9 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const [show, setShow] = React.useState(false);
 
   React.useEffect(() => {
-    if (props?.dropdownRef?.current?.onclick) {
+    console.log('@ dropdown ref', props.dropdownRef);
+    if (props?.dropdownRef?.current) {
       props.dropdownRef.current.onclick = () => {
-        console.log('@ ahooow', show);
         setShow(!show);
       };
     }
