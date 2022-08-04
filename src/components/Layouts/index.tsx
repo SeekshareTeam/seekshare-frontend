@@ -15,7 +15,7 @@ export const GeneralView: React.FC<GeneralViewProps> = (props) => {
     <div className="flex flex-row w-full h-full min-h-screen">
       {props.minisidebar}
       {props.sidebar}
-      <div className="flex-col flex flex-1 border border-red-200">
+      <div className="flex-col flex flex-1">
         <nav className="flex h-16">{props.header}</nav>
         {props.children}
       </div>

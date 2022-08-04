@@ -15,7 +15,7 @@ interface MiniSidebarLayoutProps {
 
 const MiniSidebarLayout: React.FC<MiniSidebarLayoutProps> = (props) => {
   return (
-    <div className="h-screen w-16 px-2 py-4 bg-pink-900 flex flex-col items-center">
+    <div className="h-screen z-30 sticky w-16 px-2 py-4 bg-pink-900 flex flex-col flex-shrink-0 items-center top-0">
       {props.userWorkspaces}
       {props.addWorkspace}
     </div>

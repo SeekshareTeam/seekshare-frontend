@@ -3,8 +3,6 @@ const apolloFilePath = process.cwd() + '/src/generated/apollo.ts';
 
 const apolloFile = fs.readFileSync(apolloFilePath, 'utf8');
 
-// console.log('@@ a', apolloFile);
-
 const lazyFunctions = apolloFile.match(/(function use\w*LazyQuery)/g);
 
 const lazyQueries = lazyFunctions.map((lq) => lq.replace('function ', ''));

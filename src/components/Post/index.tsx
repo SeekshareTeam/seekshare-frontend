@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallowEqual } from 'react-redux';
-import { keyBy } from 'lodash';
+// import { keyBy } from 'lodash';
 
 import { PostTitle } from 'src/components/Input';
 import { CommentThread } from 'src/components/Comments';
@@ -77,7 +77,7 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
     }
   }, [props.pid]);
 
-  const reduxState = useAppSelector(state => {
+  const reduxState = useAppSelector((state) => {
     return {
       post: state?.post?.data,
       loading: state?.app?.loading,
@@ -90,6 +90,13 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
     reduxState?.post?.user
   ) {
     console.log('this is the state', reduxState);
+    let savedComponents = undefined;
+    // if (reduxState.post.content.components && reduxState.post.content.components != null) {
+    //   savedComponents = keyBy(
+    //     reduxState.post.content.components,
+    //     'id'
+    //   ) || undefined;
+    // }
     return (
       <PostLayout
         title={
@@ -106,10 +113,7 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
             content={
               <Viewer
                 text={reduxState.post.content.body}
-                savedComponents={keyBy(
-                  reduxState.post.content.components,
-                  'id'
-                )}
+                savedComponents={savedComponents}
                 mode="read"
               />
             }

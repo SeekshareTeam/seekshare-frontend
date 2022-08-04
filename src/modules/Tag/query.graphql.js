@@ -43,3 +43,21 @@ export const QUERY_SEARCH_EXACT_TAGS = gql`
     }
   }
 `;
+
+export const CREATE_TAG_MUTATION = gql`
+  mutation createTag($workspaceId: ID!, $subspaceId: ID!, $value: String!, $description: String) {
+    createTag(workspaceId: $workspaceId, subspaceId: $subspaceId, value: $value, description: $description)
+  }
+`;
+
+export const QUERY_ALL_TAGS = gql`
+  query fetchSubspaceTags($workspaceId: ID!, $subspaceId: ID!) {
+    fetchSubspaceTags(workspaceId: $workspaceId, subspaceId: $subspaceId) {
+      id
+      workspaceId
+      subspaceId
+      value
+      description
+    }
+  }
+`;

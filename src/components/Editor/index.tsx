@@ -7,16 +7,15 @@ import text from './text.json';
 
 import 'easymde/dist/easymde.min.css';
 
-import { MarkdownViewer } from 'src/components/Viewer';
 import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
 import { TitleInput, Title } from 'src/components/Input';
 import { TagInput } from 'src/components/Input/Tag';
+import ManageTags from 'src/components/Tags/Create';
 import { setLoading } from 'src/modules/App/slice';
 
 const classes = {
-  editorContainer:
-    'w-full flex flex-col justify-center',
+  editorContainer: 'w-full flex flex-col justify-center',
   main: 'w-2/3 card p-2 self-center',
   title:
     'appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300',
@@ -79,7 +78,6 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     <div className="w-full">
       {tabNode}
       <Editor
-        className="border-2 border-blue-200"
         options={options}
         value={body}
         onChange={onBodyChange}
@@ -175,7 +173,15 @@ const QuestionEditor: React.FC<Props> = (props) => {
           />
           <Title value={text.body} />
           <MarkdownEditor body={body} onBodyChange={onBodyChange} />
-          <Title value={'Tags'} />
+          <div className="flex flex-row">
+            <h2 className="font-sans text-gray-700 text-2xl md:text-3xl text-primary">
+              {'Tags'}
+            </h2>
+            <ManageTags
+              workspaceId={props.workspaceId}
+              subspaceId={props.subspaceId}
+            />
+          </div>
           <TagInput
             currentTags={currentTags}
             setCurrentTags={(val) => {

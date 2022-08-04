@@ -29,15 +29,14 @@ interface SidebarLayoutProps {
 const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
   return (
     <aside
-      className={`transition-all duration-500 sticky z-20 top-0 flex flex-shrink-0 flex-col ${
-        props.sidebarToggle ? 'md:w-64' : 'md:w-64 md:-ml-64 md:flex-0'
+      tabIndex={0}
+      className={`transition-all duration-500 md:sticky fixed w-64 max-w-64 z-50 md:z-20 top-0 flex flex-shrink-0 flex-col md:w-64 ${
+        props.sidebarToggle ? '-ml-64 md:ml-0' : 'ml-0 md:-ml-64 md:flex-0'
       } h-screen px-2 py-4 bg-pink-900 overflow-y-hidden hover:overflow-y-auto text-gray-300 shadow-md border-r border-pink-300`}
     >
       {props.titleHeader}
       {props.searchSubspace}
-      <div className="flex-1 px-3 py-3">
-        {props.tabSections}
-      </div>
+      <div className="flex-1 px-3 py-3">{props.tabSections}</div>
     </aside>
   );
 };
@@ -112,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   return (
     <>
       <SidebarLayout
-        titleHeader={<TitleHeader  />}
+        titleHeader={<TitleHeader />}
         sidebarToggle={props.sidebarToggle}
         searchSubspace={<SearchSubspace />}
         tabSections={sections.map((sec, labelIndex) => {

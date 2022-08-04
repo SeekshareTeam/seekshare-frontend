@@ -1,14 +1,3 @@
-// import React from 'react';
-//
-// const classes = { navbar: 'flex flex-1 h-full border border-black'};
-//
-// const Navbar: React.FC = () => {
-//   return (
-//     <nav className={classes.navbar}>
-//
-//     </nav>
-//   )
-// };
 import * as React from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -61,7 +50,7 @@ const Navbar = (props: NavbarProps) => {
               onClick={() => {
                 props.setSidebarToggle(!props.sidebarToggle);
               }}
-              className="hover:bg-gray-100 rounded-lg"
+              className="sm:hidden hover:bg-gray-100 rounded-lg"
             >
               <IconMenu2 size={36} stroke={1} color={'red'} />
             </button>

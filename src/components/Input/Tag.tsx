@@ -60,6 +60,7 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
 
   React.useEffect(() => {
     if (dataSearchTags) {
+      console.log('data search tags', dataSearchTags);
       if (dataSearchTags.searchTags) {
         setTagResults(dataSearchTags.searchTags);
       }
@@ -74,6 +75,7 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
          that already exists based on the EXACT value
          If it does exist, then pass in the value from here.
        */
+
       if (onEnter) {
         // This should also be in the top section
         await searchExactTagQuery({

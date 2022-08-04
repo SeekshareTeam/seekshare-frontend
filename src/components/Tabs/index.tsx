@@ -38,25 +38,32 @@ export const BaseTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
   );
 };
 
-export interface UnderlineTabProps extends BaseTabProps {}
+export interface UnderlineTabProps extends BaseTabProps {
+  fullwidth?: boolean;
+}
 
 export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
+
   return (
     <div className="border-b border-gray-200 dark:border-gray-700 flex flex-1 items-center relative">
       <ul className="flex w-64 sm:w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-gray-400 justify-center whitespace-nowrap overflow-x-auto">
-        <li className="mr-2 flex-shrink-0">
-          {props.tabs.map((t) => (
+        {props.tabs.map((t) => (
+          <li className={`${props.fullwidth ? 'flex-1 min-w-max' : 'mr-2 flex-shrink-0'}`}>
             <a
-              className={`inline-block p-4 text-gray-400 border-b-2 ${props.active === t.tabKey ? 'border-pink-600 text-pink-600' : 'border-transparent hover:text-gray-600'} `}
-              href="#"
+              role="button"
+              className={`inline-block p-4 text-gray-400 border-b-2 ${
+                props.active === t.tabKey
+                  ? 'border-pink-600 text-pink-600'
+                  : 'border-transparent hover:text-gray-600'
+              } ${props.fullwidth ? 'w-full': ''}`}
               onClick={() => {
-                props.onSelectTab(t.tabKey)
+                props.onSelectTab(t.tabKey);
               }}
             >
               {t.tabValue}
             </a>
-          ))}
-        </li>
+          </li>
+        ))}
       </ul>
     </div>
   );
