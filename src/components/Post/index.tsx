@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { shallowEqual } from 'react-redux';
-// import { keyBy } from 'lodash';
+import { keyBy } from 'lodash';
 
 import { PostTitle } from 'src/components/Input';
 import { CommentThread } from 'src/components/Comments';
-import Viewer from 'src/plugins/components/Viewer';
+import Viewer, { Props as ViewerProps } from 'src/plugins/components/Viewer';
 import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
 
 import { fetchCommentsByPost } from 'src/modules/Comment/slice';
 import { useFetchCommentsByPostLazyQuery } from 'src/generated/apollo';
+import { Component } from 'src/generated/types';
 
 import { Votes } from 'src/components/Post/votes';
 import useCommentApi from 'src/components/Comments/api';
@@ -90,13 +91,20 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
     reduxState?.post?.user
   ) {
     console.log('this is the state', reduxState);
-    let savedComponents = undefined;
-    // if (reduxState.post.content.components && reduxState.post.content.components != null) {
-    //   savedComponents = keyBy(
-    //     reduxState.post.content.components,
-    //     'id'
-    //   ) || undefined;
-    // }
+    let savedComponents: ViewerProps['savedComponents'] = undefined;
+    if (
+      reduxState.post.content.components &&
+      reduxState.post.content.components != null
+    ) {
+      let nonNullComponents: Component[] = [];
+      reduxState.post.content.components.forEach((c) => {
+        if (c !== null) {
+          nonNullComponents.push(c as Component);
+        }
+      });
+      savedComponents = (keyBy(nonNullComponents, 'id') ||
+        undefined) as ViewerProps['savedComponents'];
+    }
     return (
       <PostLayout
         title={
