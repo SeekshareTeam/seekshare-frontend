@@ -18,15 +18,4 @@ const listOfGradients = gradientCss.match(/(?<=\.)([a-zA-Z\_])+\_([a-zA-Z])+/g);
       gradient: listOfGradients,
     },
   });
-})()
-
-// const lazyFunctions = apolloFile.match(/(function use\w*LazyQuery)/g);
-//
-// const lazyQueries = lazyFunctions.map((lq) => lq.replace('function ', ''));
-//
-// function extractFunctionName(str, useDelim = 'LazyQuery') {
-//   let funcName;
-//   funcName = str.replace('use', '');
-//   funcName = funcName.replace(useDelim, '');
-//   return funcName;
-// }
+})();

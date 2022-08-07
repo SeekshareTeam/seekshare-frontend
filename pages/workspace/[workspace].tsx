@@ -57,10 +57,6 @@ const Workspace: PageWithLayout<WorkspaceProps> = (props) => {
     shallowEqual
   );
 
-  // console.log('workspace', reduxState);
-
-  console.log('@ redux state', reduxState);
-
   const onTabClick = (tabKey: string) => {
     setSelectedTab(tabKey);
   };

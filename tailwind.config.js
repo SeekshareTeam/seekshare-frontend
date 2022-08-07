@@ -4,13 +4,17 @@ module.exports = {
   theme: {
     extend: {},
   },
-  variants: {
-    extend: {
-      contrast: ["hover", "focus"],
-      brightness: ["hover", "focus"],
-      backgroundOpacity: ['active'],
-      border: ["focus"]
-    },
-  },
+  content: [
+    './src/**/*.{ts,tsx}',
+    './pages/**/*.{ts,tsx}'
+  ],
+  // variants: {
+  //   extend: {
+  //     contrast: ["hover", "focus"],
+  //     brightness: ["hover", "focus"],
+  //     backgroundOpacity: ['active'],
+  //     border: ["focus"]
+  //   },
+  // },
   plugins: [],
 }

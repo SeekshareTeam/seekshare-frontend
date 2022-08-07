@@ -22,7 +22,6 @@ export const AuthGate: React.FC = (props) => {
    */
 
   React.useEffect(() => {
-
     if (status === 'authenticated') {
       // fetchSessionUser
       (async () => {
