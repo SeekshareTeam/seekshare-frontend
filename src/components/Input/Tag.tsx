@@ -60,7 +60,6 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
 
   React.useEffect(() => {
     if (dataSearchTags) {
-      console.log('data search tags', dataSearchTags);
       if (dataSearchTags.searchTags) {
         setTagResults(dataSearchTags.searchTags);
       }

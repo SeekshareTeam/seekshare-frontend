@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Link from 'next/Link';
+import Link from 'next/link';
 
 const classes = {
   wrapper: 'flex flex-row mr-3 text-gray-500',

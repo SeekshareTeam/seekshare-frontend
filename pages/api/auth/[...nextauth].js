@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
-import { ssrUserLoginWithHash } from 'src/generated/page';
 
 const providers = [
   CredentialsProvider({
@@ -32,7 +31,6 @@ const providers = [
           },
         }
       );
-      // ssrUserLoginWithHash.getServerPage({ variables: { email: credentials } });
 
       if (user.status === 200 && user.statusText === 'OK') {
         return user.data;
@@ -85,7 +83,6 @@ const callbacks = {
     }
 
     if (user) {
-      // console.log('accessing token and user for the first time.', user);
       return {
         accessToken: user.token,
         accessTokenExpiry: curDate + user.tokenExpiry * 1000,
@@ -95,7 +92,6 @@ const callbacks = {
     }
 
     if (curDate < token.accessTokenExpiry) {
-      // console.log('@ returning existing token', token);
       return token;
     }
 
@@ -103,10 +99,8 @@ const callbacks = {
   },
 
   async session({ session, token }) {
-    // console.log('@ session token', token);
     session.accessToken = token.accessToken;
     session.error = token.error;
-    // console.log("@ session user", session);
     return session;
   },
 };
