@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Subspace as SubspaceType } from 'src/generated/types';
 import { IconBook } from '@tabler/icons';
-import Link from 'next/Link';
+import Link from 'next/link';
 
 interface SearchResultProps<T extends SubspaceType> {
   results?: T[];

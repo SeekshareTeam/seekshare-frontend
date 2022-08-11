@@ -11,6 +11,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ApiProvider } from 'src/api/context';
 import { AuthGate } from 'src/components/Layouts/AuthGate';
 import { GeneralLayout } from 'src/components/Layouts';
+import NextNProgress from "nextjs-progressbar";
 import type { AppProps /*, AppContext */ } from 'next/app';
 
 type AppWithLayout<T> = T & {
@@ -40,6 +41,7 @@ function MyApp({
         <ApiProvider>
           <SessionProvider session={props.session}>
             <AuthGate>
+              <NextNProgress height={3} />
               <GetLayout2>
                 <Component {...props.pageProps} />
               </GetLayout2>

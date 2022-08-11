@@ -49,7 +49,42 @@ export const WorkspaceForm = () => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
-          className="rounded-lg shadow-md blur-sm border border-blue-400 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1"
+          className="rounded-lg shadow-md border border-blue-400 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1"
+        />
+      </div>
+    );
+  };
+
+  const newTextareaFormRow = ({
+    labelHtmlFor,
+    labelName,
+    inputValue,
+    handleChange,
+    handleBlur,
+  }: {
+    labelHtmlFor: string;
+    labelName: string;
+    inputValue: { [field: string]: any };
+    handleChange: (e: React.ChangeEvent<any>) => void;
+    handleBlur: (e: any) => void;
+  }) => {
+    return (
+      <div className="flex flex-row py-2 items-center justify-between">
+        <label
+          className="font-medium capitalize bold text-gray-700"
+          htmlFor={labelHtmlFor}
+        >
+          {labelName}
+        </label>
+        <textarea
+          style={{ resize: "none" }}
+          type="text"
+          name={labelHtmlFor}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={inputValue[labelHtmlFor]}
+          rows={4}
+          className="rounded-lg shadow-md border border-blue-400 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1"
         />
       </div>
     );
@@ -139,7 +174,7 @@ export const WorkspaceForm = () => {
               handleBlur,
             })}
 
-            {newInputFormRow({
+            {newTextareaFormRow({
               labelHtmlFor: 'description',
               labelName: 'Description',
               inputValue: values,
