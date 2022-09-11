@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Link from 'next/link';
+import Spinner from 'src/components/Spinner';
 
 const classes = {
-  wrapper: 'flex flex-row mr-3 text-gray-500',
+  wrapper: 'flex flex-row mr-3 text-lightpen-medium dark:text-darkpen-medium',
 };
 
 type TextLinkProps = {
@@ -32,7 +33,9 @@ export const TextLink: React.FC<TextLinkProps> = (props: TextLinkProps) => {
     <div className={styleClass}>
       <p className="pr-1">{props.normalText}</p>
       <Link href={props.href}>
-        <a>{props.linkText}</a>
+        <a className={'text-link-medium hover:text-link-dark'}>
+          {props.linkText}
+        </a>
       </Link>
     </div>
   );
@@ -48,7 +51,8 @@ interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   fillColor?: string;
   iconRight?: React.ReactNode;
   iconLeft?: React.ReactNode;
-  buttonType?: 'primary' | 'secondary' | 'ghost';
+  loading?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline';
 }
 
 // type ButtonAsButton = BaseButtonProps &
@@ -84,13 +88,13 @@ function getSize(size: string | undefined) {
       return 'px-2.5 py-1.5 text-sm';
     }
     case 'xs': {
-      return 'px-2 py-0.5 text-sm'
+      return 'px-2 py-0.5 text-sm';
     }
     case 'small-square': {
       return 'p-2 text-sm';
     }
     default: {
-      return 'px-4 py-2 text-sm';
+      return 'px-4 py-2 text-sm w-full';
     }
   }
 }
@@ -121,18 +125,23 @@ const composer = {
   getRadius,
 };
 
-function buttonTypes(
+function buttonVariantSwitch(
   textColor: string,
   fillColor: string,
   type: string = 'primary',
+  disabled: boolean = false,
   selected: boolean = false
 ) {
   switch (type) {
     case 'primary':
-      return `self-center text-${textColor}-200 shadow-sm bg-${fillColor}-700 hover:bg-${fillColor}-800 border-opacity-100 border border-gray-200`;
+      return `self-center text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
+        !disabled
+          ? ''
+          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-primary-dark'
+      } border-opacity-100 border border-lightpen-medium dark:border-primary-medium`;
     case 'secondary':
-      return '';
-    case 'ghost':
+      return `self-center text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-secondary-medium hover:bg-${fillColor}-800 dark:hover:bg-secondary-dark border-opacity-100 border border-lightpen-medium dark:border-secondary-medium`;
+    case 'outline':
       return `self-center ${
         !selected
           ? `text-${
@@ -148,27 +157,40 @@ function buttonTypes(
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
+      children,
       textColor = 'gray',
       fillColor = 'pink',
       iconRight = null,
       iconLeft = null,
-      buttonType = 'primary',
+      variant = 'primary',
+      loading = false,
       ...props
     }: ButtonProps,
     ref
   ) => {
+    const classes = buttonVariantSwitch(
+      textColor,
+      fillColor,
+      variant,
+      props.disabled,
+      props.selected
+    );
 
-    const classes = buttonTypes(textColor, fillColor, buttonType, props.selected);
     const size = composer.getSize(props.size);
     const opacity = composer.getOpacity(props.disabled);
     const radius = composer.getRadius(props.radius);
     const composed = `${baseClasses} ${size} ${radius} ${opacity} ${classes}`;
+
+    if (loading) {
+      return <Spinner />;
+    }
+
     return (
-      <BaseButton
-        forwardedRef={ref}
-        className={composed}
-        {...props}
-      />
+      <BaseButton forwardedRef={ref} className={composed} {...props}>
+        {iconLeft}
+        {children}
+        {iconRight}
+      </BaseButton>
     );
   }
 );
@@ -188,6 +210,7 @@ export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const size = composer.getSize(props.size);
     const radius = composer.getRadius(props.radius);
     const composed = `${baseClasses} ${size} ${radius} ${classes}`;
+
     return (
       <BaseButton
         forwardedRef={ref}
@@ -195,19 +218,6 @@ export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  }
-);
-
-export const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ textColor = 'gray', fillColor = 'pink', ...props }: ButtonProps, ref) => {
-    const classes = `self-center text-${textColor}-200 shadow-sm bg-${fillColor}-700 hover:bg-${fillColor}-800 border-opacity-100 border border-gray-200`;
-    const size = composer.getSize(props.size);
-    const background = '';
-    const opacity = composer.getOpacity(props.disabled);
-    const radius = composer.getRadius(props.radius);
-    const composed = `${baseClasses} ${background} ${size} ${opacity} ${radius} ${classes}`;
-    // return <button className={composed} ref={ref} {...props} />;
-    return <BaseButton forwardedRef={ref} className={composed} {...props} />;
   }
 );
 

@@ -13,14 +13,19 @@ type ModalCardProps = {
 
 export const ModalCard = (props: ModalCardProps) => {
   return (
-    <div className="z-10 bg-white rounded shadow-lg w-10/12 md:w-1/4">
+    <div className="z-10 bg-white dark:bg-night-light rounded shadow-lg w-10/12 md:w-1/4">
       <div className="border-b px-4 py-2 flex justify-between items-center">
-        <h3 className="font-semibold text-lg">{props.modalTitle}</h3>
-        <button className="text-black" onClick={props.onCancel}>
+        <h3 className="font-semibold text-lg dark:text-darkpen-medium">
+          {props.modalTitle}
+        </h3>
+        <button
+          className="text-lightpen-dark dark:text-darkpen-light"
+          onClick={props.onCancel}
+        >
           <IconX />
         </button>
       </div>
-      <div className="p-3">{props.modalBody}</div>
+      <div className="p-3 dark:text-darkpen-medium">{props.modalBody}</div>
       <div className="flex justify-center items-center w-100 border-t p-3">
         {props.secondaryText && (
           <button
@@ -32,7 +37,7 @@ export const ModalCard = (props: ModalCardProps) => {
         )}
         <button
           onClick={props.onPrimaryPress}
-          className="bg-blue-400 mx-2 hover:bg-blue-500 px-3 py-1 rounded text-white"
+          className="bg-secondary-medium mx-2 hover:bg-secondary-dark px-3 py-1 rounded text-white"
         >
           {props.primaryText}
         </button>

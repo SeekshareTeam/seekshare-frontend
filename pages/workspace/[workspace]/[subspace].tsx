@@ -39,7 +39,7 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
       </Head>
       <div className="flex w-full flex-wrap">
         <div className="flex justify-start flex-1">
-          <div className="w-24 h-24 justify-self-start rounded-lg angel_care shadow relative ml-24">
+          <div className="w-24 h-24 justify-self-start rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 shadow relative ml-24">
             <div className="absolute bottom-0 left-0 px-2 py-0.5 text-gray-700 shadow-sm font-medium text-3xl rounded-md translate-x-12 translate-y-2 transform bg-white whitespace-nowrap">
               {props.title}
             </div>
@@ -49,9 +49,7 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
       </div>
       {props.underlineTabs}
       {props.itemsToDisplay}
-      <div className="absolute bottom-0 right-0 m-6">
-        {props.addButton}
-      </div>
+      <div className="absolute bottom-0 right-0 m-6">{props.addButton}</div>
     </div>
   );
 };
@@ -73,6 +71,11 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   );
 
   const subspaceApi = useSubspaceApi();
+  const [onSubscribeSubspace, onSubscribeSubspaceState] =
+    subspaceApi?.subscribeSubspaceMutation;
+  const [onUnsubscribeSubspace] =
+    subspaceApi?.unsubscribeSubspaceMutation;
+
   const router = useRouter();
 
   React.useEffect(() => {
@@ -111,24 +114,31 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   };
 
   const onCreatePost = async () => {
-    router.push({
-      pathname: '/create',
-      query: { subspaceId: props.subspaceId, workspaceId: props.workspaceId },
-    }, '/create');
+    router.push(
+      {
+        pathname: '/create',
+        query: { subspaceId: props.subspaceId, workspaceId: props.workspaceId },
+      },
+      '/create'
+    );
   };
 
   const onSubscribe = async () => {
     if (!reduxState?.hasSubspace) {
-      if (subspaceApi?.onSubscribeSubspace) {
-        await subspaceApi.onSubscribeSubspace({
-          workspaceId: props.workspaceId,
-          subspaceId: props.subspaceId,
+      if (onSubscribeSubspace) {
+        await onSubscribeSubspace({
+          variables: {
+            workspaceId: props.workspaceId,
+            subspaceId: props.subspaceId,
+          },
         });
       }
     } else {
-      if (subspaceApi?.onUnsubscribeSubspace) {
-        await subspaceApi.onUnsubscribeSubspace({
-          subspaceId: props.subspaceId,
+      if (onUnsubscribeSubspace) {
+        await onUnsubscribeSubspace({
+          variables: {
+            subspaceId: props.subspaceId,
+          },
         });
       }
     }
@@ -141,12 +151,14 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
         <>
           {reduxState?.subspace?.name && reduxState?.auth && (
             <Button
-              buttonType="ghost"
+              variant="outline"
               radius="full"
               size="xs"
               fillColor="pink"
               textColor="pink"
+              loading={onSubscribeSubspaceState.loading}
               onClick={onSubscribe}
+              iconLeft={<span>{'alksdjfa;sd '}</span>}
             >
               {reduxState?.hasSubspace
                 ? `LEAVE ${upperCase(reduxState.subspace.name)}`
@@ -171,9 +183,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
           </div>
         )
       }
-      addButton={
-        <AddButton onClick={onCreatePost} />
-      }
+      addButton={<AddButton onClick={onCreatePost} />}
     />
   );
 };

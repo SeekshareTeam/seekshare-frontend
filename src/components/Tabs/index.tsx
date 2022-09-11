@@ -45,16 +45,16 @@ export interface UnderlineTabProps extends BaseTabProps {
 export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
 
   return (
-    <div className="border-b border-gray-200 flex flex-1 items-center relative">
-      <ul className="flex w-64 sm:w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-gray-400 justify-center whitespace-nowrap overflow-x-auto">
+    <div className="border-b border-lightpen-medium dark:border-darkpen-medium dark:bg-night-light flex flex-1 items-center relative">
+      <ul className="flex w-64 sm:w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-lightpen-dark dark:text-darkpen-dark justify-center whitespace-nowrap overflow-x-auto">
         {props.tabs.map((t) => (
           <li className={`${props.fullwidth ? 'flex-1 min-w-max' : 'mr-2 flex-shrink-0'}`}>
             <a
               role="button"
-              className={`inline-block p-4 text-gray-400 border-b-2 ${
+              className={`inline-block p-4 text-lightpen-dark border-b-2 ${
                 props.active === t.tabKey
-                  ? 'border-pink-600 text-pink-600'
-                  : 'border-transparent hover:text-gray-600'
+                  ? 'border-pink-600 text-lightpen-dark dark:border-darkpen-light dark:text-darkpen-light'
+                  : 'border-transparent hover:text-gray-600 dark:text-darkpen-dark dark:hover:text-darkpen-light'
               } ${props.fullwidth ? 'w-full': ''}`}
               onClick={() => {
                 props.onSelectTab(t.tabKey);

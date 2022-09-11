@@ -46,7 +46,7 @@ export const AuthCheck = (props: AuthCheckProps) => {
   return (
     <>
       {show && (
-        <Modal show={show} onPressBlur={onHideModal} blurBackground={false} >
+        <Modal show={show} onPressBlur={onHideModal} blurBackground={true} >
           <ModalCard
             onPrimaryPress={() => {}}
             onCancel={onHideModal}

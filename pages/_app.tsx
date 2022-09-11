@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import 'public/webgradients.css';
+// import 'public/webgradients.css';
 import * as React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { GeneralLayoutType } from 'src/components/Layouts';
@@ -41,7 +41,7 @@ function MyApp({
         <ApiProvider>
           <SessionProvider session={props.session}>
             <AuthGate>
-              <NextNProgress height={3} />
+              <NextNProgress height={3} options={{ showSpinner: false }} />
               <GetLayout2>
                 <Component {...props.pageProps} />
               </GetLayout2>

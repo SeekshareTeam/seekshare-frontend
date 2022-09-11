@@ -7,24 +7,34 @@ import { useCustomMutation } from 'src/modules/Redux';
 import { useCreateWorkspaceMutation } from 'src/generated/apollo';
 
 const api = () => {
-  const createWorkspaceMutation = useCustomMutation<
+  const [createWorkspaceMutation] = useCustomMutation<
     typeof createWorkspace,
     typeof useCreateWorkspaceMutation
-  >(createWorkspace, useCreateWorkspaceMutation, undefined, false);
+  >({
+    action: createWorkspace,
+    useApolloMutation: useCreateWorkspaceMutation,
+    variables: undefined,
+    onMount: false,
+  });
 
-  const onCreateWorkspace = React.useCallback(async ({
-    name,
-    description,
-    workspacePermission,
-  }: {
-    name: string;
-    description: string;
-    workspacePermission: string;
-  }) => {
-    await createWorkspaceMutation({
-      variables: { workspaceInput: { name, description, workspacePermission } },
-    });
-  }, []);
+  const onCreateWorkspace = React.useCallback(
+    async ({
+      name,
+      description,
+      workspacePermission,
+    }: {
+      name: string;
+      description: string;
+      workspacePermission: string;
+    }) => {
+      await createWorkspaceMutation({
+        variables: {
+          workspaceInput: { name, description, workspacePermission },
+        },
+      });
+    },
+    []
+  );
 
   return React.useMemo(
     () => ({
