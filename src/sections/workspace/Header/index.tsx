@@ -17,13 +17,13 @@ interface Props {
 
 const WorkspaceHeader: React.FC<Props> = (props) => {
   const { workspace } = props;
-  const [pattern, setPattern] = React.useState<React.ReactNode>();
+  // const [pattern, setPattern] = React.useState<React.ReactNode>();
   const [patternUrl, setPatternUrl] = React.useState('');
 
   React.useEffect(() => {
     (async () => {
       const backgroundPattern = await generate({ input: 'lorem posum' });
-      setPattern(backgroundPattern);
+      // setPattern(backgroundPattern);
       setPatternUrl(backgroundPattern.toDataURL());
     })();
   }, []);
@@ -32,7 +32,7 @@ const WorkspaceHeader: React.FC<Props> = (props) => {
 
   return (
     <div
-      className={`flex flex-wrap w-full md:h-56 pb-6`}
+      className={`flex flex-wrap w-full md:h-56 pb-6 dark:bg-night-light`}
     >
       <div className="flex ml-4 items-end">
         <Avatar imgUrl={workspace?.url} loading={props.loading} />

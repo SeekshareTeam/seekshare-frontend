@@ -32,7 +32,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
       tabIndex={0}
       className={`transition-all duration-500 md:sticky fixed w-64 max-w-64 z-50 md:z-20 top-0 flex flex-shrink-0 flex-col md:w-64 ${
         props.sidebarToggle ? '-ml-64 md:ml-0' : 'ml-0 md:-ml-64 md:flex-0'
-      } h-screen px-2 py-4 bg-pink-900 overflow-y-hidden hover:overflow-y-auto text-gray-300 shadow-md border-r border-pink-300`}
+      } h-screen px-2 py-4 bg-primary-dark dark:bg-night-medium overflow-y-hidden hover:overflow-y-auto text-darkpen-medium shadow-md border-r border-pink-300 dark:border-night-light`}
     >
       {props.titleHeader}
       {props.searchSubspace}
@@ -109,18 +109,14 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   }, [reduxState?.userSubspaces]);
 
   return (
-    <>
-      <SidebarLayout
-        titleHeader={<TitleHeader />}
-        sidebarToggle={props.sidebarToggle}
-        searchSubspace={<SearchSubspace />}
-        tabSections={sections.map((sec, labelIndex) => {
-          return (
-            <SidebarSection labelIndex={labelIndex} sectionElement={sec} />
-          );
-        })}
-      />
-    </>
+    <SidebarLayout
+      titleHeader={<TitleHeader />}
+      sidebarToggle={props.sidebarToggle}
+      searchSubspace={<SearchSubspace />}
+      tabSections={sections.map((sec, labelIndex) => {
+        return <SidebarSection labelIndex={labelIndex} sectionElement={sec} />;
+      })}
+    />
   );
 };
 

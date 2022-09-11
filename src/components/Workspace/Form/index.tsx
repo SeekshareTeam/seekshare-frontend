@@ -38,7 +38,7 @@ export const WorkspaceForm = () => {
     return (
       <div className="flex flex-row py-2 items-center justify-between">
         <label
-          className="font-medium capitalize bold text-gray-700"
+          className="font-medium capitalize bold text-gray-700 dark:text-gray-300"
           htmlFor={labelHtmlFor}
         >
           {labelName}
@@ -49,7 +49,7 @@ export const WorkspaceForm = () => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
-          className="rounded-lg shadow-md border border-blue-400 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-gray-400 dark:bg-black"
         />
       </div>
     );
@@ -71,20 +71,19 @@ export const WorkspaceForm = () => {
     return (
       <div className="flex flex-row py-2 items-center justify-between">
         <label
-          className="font-medium capitalize bold text-gray-700"
+          className="font-medium capitalize bold text-gray-700 dark:text-gray-300"
           htmlFor={labelHtmlFor}
         >
           {labelName}
         </label>
         <textarea
           style={{ resize: "none" }}
-          type="text"
           name={labelHtmlFor}
           onChange={handleChange}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
           rows={4}
-          className="rounded-lg shadow-md border border-blue-400 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-black dark:focus:ring-gray-400"
         />
       </div>
     );
@@ -114,10 +113,10 @@ export const WorkspaceForm = () => {
           value={value}
           checked={value === inputValue}
         />
-        <label className="px-2 text-gray-700" htmlFor={id}>
+        <label className="px-2 text-gray-700 dark:text-gray-300" htmlFor={id}>
           {labelName}
         </label>
-        <div className="text-gray-500 text-xs font-medium">
+        <div className="text-gray-500 text-xs font-medium dark:text-gray-400">
           {childDescription}
         </div>
       </div>
@@ -163,7 +162,7 @@ export const WorkspaceForm = () => {
       {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
         <form
           onSubmit={handleSubmit}
-          className="z-10 w-1/2 bg-white rounded-xl"
+          className="z-10 w-1/2 bg-white rounded-xl dark:bg-gray-800 dark:text-gray-300"
         >
           <div className="flex flex-col p-2 rounded-xl">
             {newInputFormRow({
@@ -183,7 +182,7 @@ export const WorkspaceForm = () => {
             })}
 
             <div className="flex flex-row py-2 items-start justify-between">
-              <label className="font-medium capitalize bold text-gray-700 w-1/2">
+              <label className="font-medium capitalize bold text-gray-700 w-1/2 dark:text-gray-300">
                 {'Set Workspace Image'}
               </label>
               <div className="flex flex-col w-1/2">
@@ -207,7 +206,7 @@ export const WorkspaceForm = () => {
             </div>
 
             <div className="flex flex-row py-2 items-start justify-between">
-              <label className="font-medium capitalize bold text-gray-700 w-1/2">
+              <label className="font-medium capitalize bold text-gray-700 w-1/2 dark:text-gray-300">
                 {'Privacy'}
               </label>
 
@@ -235,7 +234,7 @@ export const WorkspaceForm = () => {
                 </Field>
               </div>
             </div>
-            <Button buttonType="primary" type="submit">
+            <Button variant="primary" type="submit">
               {isSubmitting ? 'Please wait...' : 'Submit'}
             </Button>
           </div>

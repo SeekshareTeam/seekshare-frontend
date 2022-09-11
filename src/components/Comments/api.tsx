@@ -23,10 +23,15 @@ type CommentsApiProps = {
 // };
 
 const api = (props: CommentsApiProps) => {
-  const createCommentMutation = useCustomMutation<
+  const [createCommentMutation] = useCustomMutation<
     typeof createComment,
     typeof useCreateCommentMutation
-  >(createComment, useCreateCommentMutation, undefined, false);
+  >({
+    action: createComment,
+    useApolloMutation: useCreateCommentMutation,
+    variables: undefined,
+    onMount: false,
+  });
 
   const onAddComment = React.useCallback(
     async ({
@@ -45,23 +50,32 @@ const api = (props: CommentsApiProps) => {
     [props.pid, createCommentMutation]
   );
 
-  const upvoteCommentMutation = useCustomMutation<
+  const [upvoteCommentMutation] = useCustomMutation<
     typeof upvoteComment,
     typeof useUpvoteCommentMutation
-  >(upvoteComment, useUpvoteCommentMutation, undefined, false);
+  >({
+    action: upvoteComment,
+    useApolloMutation: useUpvoteCommentMutation,
+    variables: undefined,
+    onMount: false,
+  });
 
   const onVoteComment = React.useCallback(
     async ({ commentID, type }: { commentID: string; type: string }) => {
-      // console.log('@ api comment id', commentID);
       await upvoteCommentMutation({ variables: { commentID, type } });
     },
     [upvoteCommentMutation]
   );
 
-  const selectAnswerMutation = useCustomMutation<
+  const [selectAnswerMutation] = useCustomMutation<
     typeof selectAnswer,
     typeof useSelectAnswerMutation
-  >(selectAnswer, useSelectAnswerMutation, undefined, false);
+  >({
+    action: selectAnswer,
+    useApolloMutation: useSelectAnswerMutation,
+    variables: undefined,
+    onMount: false,
+  });
 
   const onSelectAnswer = React.useCallback(
     async ({ commentID }: { commentID: string }) => {

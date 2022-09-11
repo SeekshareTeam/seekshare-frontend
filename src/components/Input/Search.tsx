@@ -93,7 +93,7 @@ const Search: React.FC<Props> = (props) => {
                 <div
                   onBlur={onLoseFocus}
                   onClick={onContainerClick}
-                  className={`flex rounded shadow-md blur-sm border border-blue-400 outline-none ${
+                  className={`flex rounded shadow-md border border-blue-400 outline-none ${
                     boxFocus
                       ? 'ring-2 w-full ring-blue-600 ring-opacity-20'
                       : ''

@@ -60,7 +60,7 @@ export type AppDispatch = AppStore['dispatch']; // .dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useShallowSelector  = (
+export const useShallowSelector = (
   selectorFunc: Parameters<typeof useAppSelector>[0]
 ): ReturnType<typeof useAppSelector> => {
   return useAppSelector(selectorFunc, shallowEqual);
@@ -142,14 +142,19 @@ export const fetchSSRQuery = async <
 export const useCustomMutation = <
   A extends (...args: any) => any,
   T extends (...args: any) => any
->(
-  action: A,
-  useApolloMutation: T,
-  variables: Parameters<T> | undefined,
-  onMount = true
-) => {
+>({
+  action,
+  useApolloMutation,
+  variables,
+  onMount = true,
+}: {
+  action: A;
+  useApolloMutation: T;
+  variables?: Parameters<T>;
+  onMount?: boolean;
+}) => {
   const dispatch = useAppDispatch();
-  const [apolloQuery, { data, loading, error }] = useApolloMutation({
+  const [apolloMutation, { data, loading, error }] = useApolloMutation({
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
   });
@@ -175,10 +180,10 @@ export const useCustomMutation = <
       if (variables) {
         params.variables = variables;
       }
-      apolloQuery(params);
+      apolloMutation(params);
     }
   }, []);
-  return apolloQuery;
+  return [apolloMutation, { data, loading, error }];
 };
 
 export const wrapper = createWrapper<AppStore>(makeStore);

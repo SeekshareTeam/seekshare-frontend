@@ -16,8 +16,10 @@ export const SidebarTab: React.FC<SidebarTabProps> = ({
     <li className="flex items-stretch space-x-1">
       <Link href={props.href}>
         <a
-          className={`flex flex-1 items-center space-x-1 text-opacity-70 rounded-md px-2 py-1.5 font-medium text-gray-300 ${
-            isActive ? 'bg-pink-800' : 'hover:bg-pink-800'
+          className={`flex flex-1 items-center space-x-1 text-opacity-70 rounded-md px-2 py-1.5 font-medium text-darkpen-medium ${
+            isActive
+              ? 'bg-primary-light dark:bg-night-light'
+              : 'hover:bg-primary-light dark:hover:bg-night-light'
           }`}
         >
           <span>{props.icon}</span>
@@ -27,4 +29,3 @@ export const SidebarTab: React.FC<SidebarTabProps> = ({
     </li>
   );
 };
-

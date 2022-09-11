@@ -12,20 +12,35 @@ import {
 const api = () => {
   // Use a pattern where if undefined then load it
   // otherwise return the value. jk
-  const createSubspaceMutation = useCustomMutation<
+  const [createSubspaceMutation] = useCustomMutation<
     typeof createSubspace,
     typeof useCreateSubspaceMutation
-  >(createSubspace, useCreateSubspaceMutation, undefined, false);
+  >({
+    action: createSubspace,
+    useApolloMutation: useCreateSubspaceMutation,
+    variables: undefined,
+    onMount: false,
+  });
 
   const subscribeSubspaceMutation = useCustomMutation<
     typeof subscribeSubspace,
     typeof useSubscribeSubspaceMutation
-  >(subscribeSubspace, useSubscribeSubspaceMutation, undefined, false);
+  >({
+    action: subscribeSubspace,
+    useApolloMutation: useSubscribeSubspaceMutation,
+    variables: undefined,
+    onMount: false,
+  });
 
   const unsubscribeSubspaceMutation = useCustomMutation<
     typeof unsubscribeSubspace,
     typeof useUnsubscribeSubspaceMutation
-  >(unsubscribeSubspace, useUnsubscribeSubspaceMutation, undefined, false);
+  >({
+    action: unsubscribeSubspace,
+    useApolloMutation: useUnsubscribeSubspaceMutation,
+    variables: undefined,
+    onMount: false,
+  });
 
   console.log('@ see how many times this gets initialized');
   const onCreateSubspace = async ({
@@ -42,34 +57,36 @@ const api = () => {
     workspaceId: string;
   }) => {
     await createSubspaceMutation({
-      variables: { subspaceInput: { name, fieldTwo, fieldThree, fieldFour, workspaceId } },
+      variables: {
+        subspaceInput: { name, fieldTwo, fieldThree, fieldFour, workspaceId },
+      },
     });
   };
 
-  const onSubscribeSubspace = async ({
-    subspaceId,
-    workspaceId,
-  }: {
-    subspaceId: string;
-    workspaceId: string;
-  }) => {
-    await subscribeSubspaceMutation({
-      variables: { subspaceId, workspaceId },
-    });
-  };
+  // const onSubscribeSubspace = async ({
+  //   subspaceId,
+  //   workspaceId,
+  // }: {
+  //   subspaceId: string;
+  //   workspaceId: string;
+  // }) => {
+  //   await subscribeSubspaceMutation({
+  //     variables: { subspaceId, workspaceId },
+  //   });
+  // };
 
-  const onUnsubscribeSubspace = async ({
-    subspaceId,
-  }: {
-    subspaceId: string;
-  }) => {
-    await unsubscribeSubspaceMutation({ variables: { subspaceId } });
-  };
+  // const onUnsubscribeSubspace = async ({
+  //   subspaceId,
+  // }: {
+  //   subspaceId: string;
+  // }) => {
+  //   await unsubscribeSubspaceMutation({ variables: { subspaceId } });
+  // };
 
   return {
+    subscribeSubspaceMutation,
+    unsubscribeSubspaceMutation,
     onCreateSubspace,
-    onSubscribeSubspace,
-    onUnsubscribeSubspace,
   };
 };
 

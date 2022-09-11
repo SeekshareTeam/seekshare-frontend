@@ -3,12 +3,17 @@ import workspaceApiHook, { WorkspaceApiResultType } from 'src/api/workspace';
 import subspaceApiHook, { SubspaceApiResultType } from 'src/api/subspace';
 
 export interface ApiContextInterface {
-  workspaceApi?: WorkspaceApiResultType;
-  subspaceApi?: SubspaceApiResultType;
+  workspaceApi: WorkspaceApiResultType;
+  subspaceApi: SubspaceApiResultType;
 }
 
+/**
+ * This does not actually match ApiContextType
+ * Laterwards take the approach described in the following blog:
+ * https://kentcdodds.com/blog/how-to-use-react-context-effectively
+ */
 export const ApiContext = React.createContext<Readonly<ApiContextInterface>>(
-  {}
+  {} as ApiContextInterface
 );
 
 export const ApiProvider: React.FC = (props) => {

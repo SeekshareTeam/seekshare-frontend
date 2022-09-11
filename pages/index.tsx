@@ -14,7 +14,7 @@ interface HomeLayoutProps {
 }
 
 const HomeLayout: React.FC<HomeLayoutProps> = (props) => {
-  return <div className="flex flex-row flex-wrap">{props.workspaceCards}</div>;
+  return <div className="flex flex-row flex-wrap px-4">{props.workspaceCards}</div>;
 };
 
 const Home: PageWithLayout<{}> = () => {

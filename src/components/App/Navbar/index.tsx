@@ -41,8 +41,8 @@ const Navbar = (props: NavbarProps) => {
               <SubspaceForm
                 workspaceId={reduxState?.authUser?.currentWorkspace || ''}
                 onSubmit={() => {
-                setShowSubspaceForm(false);
-              }}
+                  setShowSubspaceForm(false);
+                }}
               />
             </Modal>
 
@@ -55,7 +55,7 @@ const Navbar = (props: NavbarProps) => {
               <IconMenu2 size={36} stroke={1} color={'red'} />
             </button>
             <Button
-              buttonType={"primary"}
+              variant={'primary'}
               size={'small'}
               onClick={() => {
                 setShowSubspaceForm(true);
@@ -70,7 +70,7 @@ const Navbar = (props: NavbarProps) => {
         <div className="flex flex-row mr-4">
           {!reduxState.authUser && (
             <button
-              className="bg-white text-pink-500 hover:text-pink-900 transition-all duration-500"
+              className="text-lightpen-medium hover:text-lightpen-dark transition-all duration-200 dark:text-darkpen-medium dark:hover:text-darkpen-light"
               onClick={async () => {
                 router.push({
                   pathname: '/login',
@@ -99,7 +99,7 @@ const Navbar = (props: NavbarProps) => {
               </div>
 
               <Button
-                buttonType={"primary"}
+                variant={'primary'}
                 size={'small'}
                 onClick={async () => {
                   signOut({ redirect: false });

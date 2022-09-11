@@ -130,7 +130,7 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.subspaceNames[ix]}
-                        className="rounded xl:w-64 flex-1 shadow-md blur-sm border focus:border-blue-400 outline-none focus:ring-1 focus:ring-blue-600 focus:ring-opacity-20 p-1"
+                        className="rounded xl:w-64 flex-1 shadow-md border focus:border-blue-400 outline-none focus:ring-1 focus:ring-blue-600 focus:ring-opacity-20 p-1"
                       />
                     </div>
                   );

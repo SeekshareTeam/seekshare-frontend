@@ -66,7 +66,7 @@ export const SearchForm: React.FC<SearchFormProps> = (props) => {
             value={searchValue}
             placeholder={'Search Subspaces'}
             className={
-              'flex-1 blur-sm outline-none bg-pink-900 appearance-none p-1 mx-1'
+              'flex-1 outline-none bg-pink-900 appearance-none p-1 mx-1'
             }
           />
         </div>
