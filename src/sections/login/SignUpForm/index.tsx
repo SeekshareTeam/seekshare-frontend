@@ -3,7 +3,10 @@ import * as React from 'react';
 import { Formik, ErrorMessage } from 'formik';
 
 import * as Yup from 'yup';
-// import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+
+import { useUserSignUpMutation } from 'src/generated/apollo';
 
 import { FormInput } from 'src/components/Form';
 import { Button } from 'src/components/Button';
@@ -11,19 +14,22 @@ import { Button } from 'src/components/Button';
 const SignUpForm: React.FC = () => {
   /**
    * Things todo:
-   * Name
-   * First Name
-   * Last Name
-   * Email Address
-   * Password
-   * Confirm Password
+   * Use the password and confirm it with something else
+   *
    */
-  // const router = useRouter();
-  // const [error, setError] = React.useState<string>('');
+  const router = useRouter();
+  const [userSignUpMutation] = useUserSignUpMutation();
+  const [error, setError] = React.useState<string>('');
 
   return (
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        confirmPassword: '',
+      }}
       validationSchema={Yup.object({
         firstName: Yup.string()
           .max(64)
@@ -41,6 +47,34 @@ const SignUpForm: React.FC = () => {
       })}
       onSubmit={async (values, { setSubmitting }) => {
         console.log('values', values);
+        const response = await userSignUpMutation({
+          variables: {
+            userInput: {
+              firstName: values.firstName,
+              lastName: values.lastName,
+              email: values.email,
+              secret: values.password,
+            },
+          },
+        });
+
+        if (response?.data?.userSignUp === 'Created') {
+          let res = await signIn<'email'>('seekshare-backend', {
+            email: values.email,
+            password: values.password,
+            callbackUrl: 'http://localhost:3000',
+          });
+
+          if (res?.error) {
+            console.log('login error', error);
+            setError(res.error);
+          } else {
+            setError('');
+          }
+          if (res?.url) {
+            router.push(res.url);
+          }
+        }
         setSubmitting(false);
       }}
     >

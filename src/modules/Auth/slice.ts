@@ -11,6 +11,15 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    updateAvatar: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state?.data,
+          avatar: action.payload,
+        }
+      }
+    },
     fetchSessionUser: (state, action) => {
       return {
         ...state,
@@ -54,6 +63,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { fetchSessionUser, clearSessionUser, subscribeSubspace, unsubscribeSubspace } = authSlice.actions;
+export const { fetchSessionUser, clearSessionUser, subscribeSubspace, unsubscribeSubspace, updateAvatar } = authSlice.actions;
 
 export default authSlice.reducer;

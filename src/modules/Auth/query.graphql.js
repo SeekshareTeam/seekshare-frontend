@@ -7,6 +7,7 @@ export const AUTH_USER = gql`
     lastname
     email
     token
+    avatar
   }
 `;
 
@@ -19,6 +20,7 @@ export const AUTH_USER_QUERY = gql`
       email
       token
       currentWorkspace
+      avatar
       userWorkspaces {
         url
         id
@@ -56,15 +58,3 @@ export const UNSUBSCRIBE_SUBSPACE_MUTATION = gql`
     unsubscribeSubspace(subspaceId: $subspaceId)
   }
 `;
-
-export const USER_SIGN_UP = gql`
-  mutation userSignUp($userInput: UserInput!) {
-    userSignUp(userInput: $userInput) {
-      firstname
-      lastname
-      id
-      email
-      token
-    }
-  }
-`

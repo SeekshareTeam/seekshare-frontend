@@ -14,6 +14,10 @@ const Login: NextPage & { layoutType: string } = () => {
   const { callbackUrl = '/' } = router.query;
   const [error, setError] = React.useState<string>('');
 
+  React.useEffect(() => {
+    console.log('@ callback url', callbackUrl);
+  }, [callbackUrl]);
+
   return (
     <div className="flex flex-col items-center justify-center shadow-lg h-full">
       <Formik
@@ -29,18 +33,17 @@ const Login: NextPage & { layoutType: string } = () => {
           let res = await signIn<'email'>('seekshare-backend', {
             email: values.email,
             password: values.password,
+            redirect: false,
             callbackUrl: 'http://localhost:3000' + callbackUrl,
           });
 
-          if (res?.error) {
-            console.log('login error', error);
-            setError(res.error);
-          } else {
-            setError('');
-          }
-          if (res?.url) {
-            router.push(res.url);
-          }
+            if (res?.error) {
+              setError(res.error);
+            } else if (res?.url) {
+              router.push(res.url);
+            } else {
+              setError('');
+            }
           setSubmitting(false);
         }}
       >
@@ -89,10 +92,13 @@ const Login: NextPage & { layoutType: string } = () => {
                   <ErrorMessage name="password" />
                 </div>
               </div>
-              <div className="flex items-center justify-center">
+              <div className="flex flex-wrap items-center justify-center">
                 <Button variant="secondary" type="submit">
                   {formik.isSubmitting ? 'Please wait...' : 'Sign In'}
                 </Button>
+                <div className="text-red-600 text-sm">
+                  {error}
+                </div>
               </div>
             </div>
           </form>

@@ -1,9 +1,12 @@
 import * as React from 'react';
+import axios from 'axios';
 import SidebarSection from 'src/sections/sidebar/Sections';
 import TitleHeader from 'src/sections/sidebar/TitleHeader';
+import UserControl from 'src/sections/sidebar/UserControl';
 import { SearchSubspace } from 'src/components/Subspace/Search';
 import { IconHash, IconBox } from '@tabler/icons';
 import { useAppSelector } from 'src/modules/Redux';
+import { updateAvatar } from 'src/modules/Auth/slice';
 
 type SidebarProps = {
   sidebarToggle: boolean;
@@ -24,6 +27,8 @@ interface SidebarLayoutProps {
   sidebarToggle: boolean;
 
   titleHeader: React.ReactNode;
+
+  userControl: React.ReactNode;
 }
 
 const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
@@ -32,11 +37,12 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
       tabIndex={0}
       className={`transition-all duration-500 md:sticky fixed w-64 max-w-64 z-50 md:z-20 top-0 flex flex-shrink-0 flex-col md:w-64 ${
         props.sidebarToggle ? '-ml-64 md:ml-0' : 'ml-0 md:-ml-64 md:flex-0'
-      } h-screen px-2 py-4 bg-primary-dark dark:bg-night-medium overflow-y-hidden hover:overflow-y-auto text-darkpen-medium shadow-md border-r border-pink-300 dark:border-night-light`}
+      } h-screen pt-4 bg-primary-dark dark:bg-night-medium overflow-y-hidden hover:overflow-y-auto text-darkpen-medium shadow-md border-r border-pink-300 dark:border-night-light`}
     >
       {props.titleHeader}
       {props.searchSubspace}
       <div className="flex-1 px-3 py-3">{props.tabSections}</div>
+      {props.userControl}
     </aside>
   );
 };
@@ -70,6 +76,8 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   ]);
 
   const reduxState = useAppSelector((state) => ({
+    userId: state?.auth?.data?.id,
+    avatarUrl: state?.auth?.data?.avatar,
     currentWorkspace: state?.auth?.data?.currentWorkspace,
     userSubspaces: state?.auth?.data?.userWorkspaces?.find((uw) => {
       // undefined should actually be the current workspace id
@@ -79,6 +87,37 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       return false;
     })?.userSubspaces,
   }));
+
+  const onUploadAvatar = React.useCallback(
+    async (uploadFile: File) => {
+      const formData = new FormData();
+
+      const path = 'user/' + reduxState?.userId + '/avatar';
+
+      if (reduxState?.userId) {
+        if (uploadFile) {
+          formData.append('storage_path', path);
+          formData.append('user_avatar', uploadFile);
+          formData.append('id', reduxState.userId);
+
+          const responseUrl = await axios({
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-type': 'multipart/form-data',
+            },
+            url: process.env.NEXT_PUBLIC_AVATAR_UPLOAD,
+            data: formData,
+          });
+
+          updateAvatar(responseUrl);
+        }
+      } else {
+        console.log('throw error that user needs to be logged in.');
+      }
+    },
+    [reduxState.userId]
+  );
 
   function guard(arg: unknown): arg is object {
     return arg !== undefined;
@@ -116,6 +155,14 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       tabSections={sections.map((sec, labelIndex) => {
         return <SidebarSection labelIndex={labelIndex} sectionElement={sec} />;
       })}
+      userControl={
+        <UserControl
+          name={'Abhinav Bhandari'}
+          userId={reduxState.userId}
+          onUploadImage={onUploadAvatar}
+          avatarUrl={reduxState.avatarUrl || ''}
+        />
+      }
     />
   );
 };

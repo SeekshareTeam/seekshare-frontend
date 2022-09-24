@@ -135,12 +135,16 @@ function buttonVariantSwitch(
   switch (type) {
     case 'primary':
       return `self-center text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
-        !disabled
+        disabled
           ? ''
           : 'hover:bg-' + fillColor + '-800 dark:hover:bg-primary-dark'
       } border-opacity-100 border border-lightpen-medium dark:border-primary-medium`;
     case 'secondary':
-      return `self-center text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-secondary-medium hover:bg-${fillColor}-800 dark:hover:bg-secondary-dark border-opacity-100 border border-lightpen-medium dark:border-secondary-medium`;
+      return `self-center text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-secondary-medium ${
+        disabled
+          ? ''
+          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-secondary-dark'
+      } border-opacity-100 border border-lightpen-medium dark:border-secondary-medium`;
     case 'outline':
       return `self-center ${
         !selected
@@ -150,7 +154,7 @@ function buttonVariantSwitch(
           : `text-gray-100 bg-${fillColor}-700`
       } hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
     default:
-      '';
+      return 'transition-all duration-200 self-center text-lightpen-medium dark:text-darkpen-medium hover:text-lightpen-dark hover:dark:text-darkpen-light';
   }
 }
 

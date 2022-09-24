@@ -107,7 +107,7 @@ const Editor: React.FC<Props> = props => {
       {previewMode === 'side' && (
         <Side container={containers.preview}>
           <Viewer
-            mode="write"
+            mode="read"
             text={props.value || ''}
             {...(props.viewerProps || {})}
           />

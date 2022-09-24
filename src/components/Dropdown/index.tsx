@@ -1,7 +1,14 @@
 import * as React from 'react';
 
 type DropdownProps = {
-  dropdownButton: JSX.Element;
+  position: 'above' | 'below';
+  /**
+   * Dropdown Button
+   */
+  dropdownButton?: React.ReactNode;
+  /**
+   *
+   */
   dropdownRef: React.RefObject<HTMLButtonElement>;
 };
 
@@ -9,7 +16,6 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const [show, setShow] = React.useState(false);
 
   React.useEffect(() => {
-    console.log('@ dropdown ref', props.dropdownRef);
     if (props?.dropdownRef?.current) {
       props.dropdownRef.current.onclick = () => {
         setShow(!show);
@@ -19,11 +25,10 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
   return (
     <div className="relative inline-block m-auto">
-      {props.dropdownButton}
-
+      {props.position === 'above' && (props.dropdownButton)}
       {show && (
         <div
-          className="origin-bottom-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+          className={`origin-bottom-right absolute bottom-full right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -71,6 +76,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
           </div>
         </div>
       )}
+      {props.position === 'below' && (props.dropdownButton)}
     </div>
   );
 };

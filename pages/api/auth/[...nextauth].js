@@ -18,19 +18,24 @@ const providers = [
       },
     },
     authorize: async (credentials) => {
-      const user = await axios.post(
-        process.env.NEXT_PUBLIC_LOGIN_API_URL,
-        {
-          password: credentials.password,
-          email: credentials.email,
-        },
-        {
-          headers: {
-            accept: '*/*',
-            'Content-Type': 'application/json',
+      let user;
+      try {
+        user = await axios.post(
+          process.env.NEXT_PUBLIC_LOGIN_API_URL,
+          {
+            password: credentials.password,
+            email: credentials.email,
           },
-        }
-      );
+          {
+            headers: {
+              accept: '*/*',
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      } catch (err) {
+        throw new Error(err.response.data.error.message);
+      }
 
       if (user.status === 200 && user.statusText === 'OK') {
         return user.data;

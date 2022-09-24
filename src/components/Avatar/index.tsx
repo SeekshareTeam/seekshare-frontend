@@ -195,7 +195,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
                 await canvasRef.current.toBlob(async function (blob) {
                   if (blob) {
                     const formData = new FormData();
-                    formData.append('file_name', fileName);
+                    formData.append('file_name', 'workspace/' + fileName);
                     formData.append('workspace_image', blob);
 
                     await axios({
@@ -239,7 +239,6 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
     };
 
     const renderAvatarWithLoading = (loading: boolean | undefined) => {
-
       if (loading) {
         return (
           <ContentLoader

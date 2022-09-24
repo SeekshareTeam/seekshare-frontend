@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { generate, Pattern } from '@prescott/geo-pattern';
+
 import { Formik, Field } from 'formik';
 import { Button } from 'src/components/Button';
 // import { UploadImage } from 'src/sections/sidebar/UploadImage';
@@ -10,6 +12,18 @@ import { useWorkspaceApi } from 'src/api/context';
 
 export const WorkspaceForm = () => {
   const workspaceApi = useWorkspaceApi();
+
+  const [workspaceNameGen, setWorkspaceNameGen] = React.useState('abhinav');
+  const [genPattern, setGenPattern] = React.useState<Pattern | undefined>(
+    undefined
+  );
+
+  React.useEffect(() => {
+    (async () => {
+      const pattern = await generate({ input: workspaceNameGen });
+      setGenPattern(pattern);
+    })();
+  }, [workspaceNameGen]);
 
   const avatarRef: React.MutableRefObject<{
     onChangeCanvas: () => void;
@@ -46,6 +60,7 @@ export const WorkspaceForm = () => {
         <input
           type="text"
           name={labelHtmlFor}
+          id={labelHtmlFor}
           onChange={handleChange}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
@@ -77,9 +92,10 @@ export const WorkspaceForm = () => {
           {labelName}
         </label>
         <textarea
-          style={{ resize: "none" }}
+          style={{ resize: 'none' }}
           name={labelHtmlFor}
           onChange={handleChange}
+          id={labelHtmlFor}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
           rows={4}
@@ -162,14 +178,30 @@ export const WorkspaceForm = () => {
       {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
         <form
           onSubmit={handleSubmit}
-          className="z-10 w-1/2 bg-white rounded-xl dark:bg-gray-800 dark:text-gray-300"
+          className="z-10 w-1/2 h-3/4 bg-white rounded-xl dark:bg-gray-800 dark:text-gray-300 overflow-y-scroll"
         >
+          <h1
+            className={
+              'p-2 overflow-hidden w-full text-2xl text-darkpen-medium bg-gray-700'
+            }
+          >
+            {'Create A New Workspace.'}
+          </h1>
           <div className="flex flex-col p-2 rounded-xl">
+            <div className="w-1/2 self-end flex justify-center items-center">
+              <img
+                className="w-60 h-48 rounded-lg overflow-hidden shadow"
+                src={genPattern ? genPattern?.toDataURL() : ''}
+              />
+            </div>
             {newInputFormRow({
               labelHtmlFor: 'workspaceName',
               labelName: 'Workspace Name',
               inputValue: values,
-              handleChange,
+              handleChange: (val) => {
+                handleChange(val);
+                setWorkspaceNameGen(val?.target?.value || '');
+              },
               handleBlur,
             })}
 
@@ -199,7 +231,7 @@ export const WorkspaceForm = () => {
                     changeAvatarCallback();
                   }}
                 >
-                  <IconRotate size={18} className="mx-1"/>
+                  <IconRotate size={18} className="mx-1" />
                   {'Re-select!'}
                 </div>
               </div>

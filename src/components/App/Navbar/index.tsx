@@ -16,9 +16,20 @@ type NavbarProps = {
 
 const Navbar = (props: NavbarProps) => {
   const [showSubspaceForm, setShowSubspaceForm] = React.useState(false);
+  const [hideSignIn, setHideSignIn] = React.useState(false);
 
   const dropdownRef = React.useRef(null);
   const router = useRouter();
+
+  React.useEffect(() => {
+    if (router.pathname === '/login') {
+      setHideSignIn(true);
+    } else {
+      if (hideSignIn) {
+        setHideSignIn(false);
+      }
+    }
+  }, [router.pathname]);
 
   const reduxState = useAppSelector((state) => {
     return {
@@ -27,7 +38,7 @@ const Navbar = (props: NavbarProps) => {
   });
 
   return (
-    <>
+    <div className="flex flex-1 bg-night-medium">
       <div className="flex flex-1 h-full justify-start">
         {reduxState.authUser && (
           <>
@@ -68,9 +79,9 @@ const Navbar = (props: NavbarProps) => {
       </div>
       <div className="flex flex-1 h-full justify-end">
         <div className="flex flex-row mr-4">
-          {!reduxState.authUser && (
-            <button
-              className="text-lightpen-medium hover:text-lightpen-dark transition-all duration-200 dark:text-darkpen-medium dark:hover:text-darkpen-light"
+          {!reduxState.authUser && !hideSignIn && (
+            <Button
+              className="text-lightpen-medium hover:text-lightpen-dark transition-all duration-200 dark:text-darkpen-dark dark:hover:text-darkpen-light"
               onClick={async () => {
                 router.push({
                   pathname: '/login',
@@ -79,11 +90,12 @@ const Navbar = (props: NavbarProps) => {
               }}
             >
               {'Sign In'}
-            </button>
+            </Button>
           )}
           {reduxState.authUser && (
             <>
               <Dropdown
+                position={'above'}
                 dropdownRef={dropdownRef}
                 dropdownButton={
                   <DropdownButton ref={dropdownRef}>
@@ -111,7 +123,7 @@ const Navbar = (props: NavbarProps) => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

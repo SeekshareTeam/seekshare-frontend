@@ -12,7 +12,7 @@ type GeneralViewProps = {
 
 export const GeneralView: React.FC<GeneralViewProps> = (props) => {
   return (
-    <div className="flex flex-row w-full h-full min-h-screen dark:bg-black">
+    <div className="flex flex-row w-full h-full min-h-screen">
       {props.minisidebar}
       {props.sidebar}
       <div className="flex-col flex flex-1">

@@ -9,7 +9,7 @@ const AddWorkspace: React.FC = () => {
   return (
     <>
       <Modal
-        blurBackground={false}
+        blurBackground={true}
         show={showWorkspaceForm}
         onPressBlur={() => {
           setShowWorkspaceForm(false);
