@@ -1,0 +1,57 @@
+#simplemde-editor-1-wrapper {
+  height: 100%;
+  flex: 1;
+}
+
+.EasyMDEContainer, .CodeMirror {
+  height: calc(100% - 42px) !important;
+  max-height: calc(100% - 42px) !important;
+}
+
+.CodeMirror-lines {
+  overflow-y: auto !important;
+}
+
+.CodeMirror-cursor {
+  @apply dark:border-white !important;
+}
+
+.CodeMirror-line {
+  @apply dark:text-white !important;
+}
+
+.CodeMirror-selectedtext {
+  @apply dark:text-black !important;
+}
+
+.editor-toolbar button:hover {
+  @apply bg-night-light !important;
+}
+
+.editor-preview {
+  @apply bg-night-light dark:text-white !important;
+}
+
+.editor-preview-side {
+  border-right: none !important;
+}
+
+.editor-toolbar {
+  border-left: none !important;
+  border-right: none !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  @apply dark:bg-slate-900 !important;
+}
+
+.EasyMDEContainer .CodeMirror {
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+.editor-statusbar {
+  @apply dark:text-white !important;
+}
+

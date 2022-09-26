@@ -1,5 +1,6 @@
 import '../styles/globals.css';
-// import 'public/webgradients.css';
+import '../styles/Editor.css';
+
 import * as React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { GeneralLayoutType } from 'src/components/Layouts';
@@ -29,7 +30,7 @@ function MyApp({
 }: AppProps & { Component: AppWithLayout<AppProps['Component']> }) {
   // const getLayout2 = Component.getLayout2 || ((page: JSX.Element) => page);
 
-  const GetLayout2 = Component.layoutType in myLayouts
+  const GetLayout = Component.layoutType in myLayouts
     ? myLayouts[Component.layoutType]
     : (((props) => <>{props.children}</>) as React.FC);
 
@@ -42,9 +43,9 @@ function MyApp({
           <SessionProvider session={props.session}>
             <AuthGate>
               <NextNProgress height={3} options={{ showSpinner: false }} />
-              <GetLayout2>
+              <GetLayout>
                 <Component {...props.pageProps} />
-              </GetLayout2>
+              </GetLayout>
             </AuthGate>
           </SessionProvider>
         </ApiProvider>

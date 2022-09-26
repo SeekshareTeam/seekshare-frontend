@@ -32,9 +32,6 @@ export const GeneralLayout: React.FC = (props) => {
       sidebar={<Sidebar sidebarToggle={sidebarToggle} />}
       header={<Navbar sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />}>
       {props.children}
-      {/*<button onClick={() => setLol(pren => !pren)}>
-        {'click me'}
-      </button>*/}
     </GeneralView>
   );
 };

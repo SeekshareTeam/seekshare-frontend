@@ -40,7 +40,7 @@ const TagItem: React.FC<TagItemProps> = (props) => {
 
   return (
     <div
-      className={`py-1 px-2 inline-flex items-center rounded-full ${classes}`}
+      className={`py-1 px-2 inline-flex items-center rounded-full ${classes} dark:text-white dark:border dark:border-white`}
     >
       {props.leftIcon}
       <button

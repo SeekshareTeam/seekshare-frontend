@@ -144,9 +144,9 @@ const TagPopup: React.FC<Props> = (props) => {
   });
 
   return (
-    <div className="z-10 w-1/3 h-80 bg-white rounded-lg overflow-hidden">
-      <div className="bg-gray-50 p-2">
-        <h2 className="text-gray-700 ml-4 text-2xl font-normal">
+    <div className="z-10 w-1/3 h-80 rounded-lg overflow-hidden dark:bg-night-light">
+      <div className="p-2">
+        <h2 className="text-gray-700 ml-4 text-2xl font-normal dark:text-white">
           {'Manage Tags'}
         </h2>
       </div>
@@ -158,9 +158,9 @@ const TagPopup: React.FC<Props> = (props) => {
         }}
         fullwidth={true}
       />
-      <div className="p-2 space-y-2">
+      <div className="p-2">
         {selectedTab === 'select' && (
-          <>
+          <div className="overflow-y-auto space-y-2">
             <div>
               <InputSearch
                 validationSchema={tagValidationSchema}
@@ -175,7 +175,7 @@ const TagPopup: React.FC<Props> = (props) => {
                 labelTitle={'Search For Tags'}
                 inputPlaceholder={'Search Tags'}
                 leftNode={
-                  <IconTags size={24} className={'text-gray-500 px-1'} />
+                  <IconTags size={24} className={'text-gray-500 px-1 dark:text-white'} />
                 }
               />
               <div className="relative w-full">
@@ -191,11 +191,12 @@ const TagPopup: React.FC<Props> = (props) => {
             </div>
             {!isEmpty(selectedTags) && (
               <div>
-                <h4 className="text-gray-700 font-medium">{'Selected Tags'}</h4>
-                <div className="flex flex-wrap space-x-1">
+                <h4 className="text-gray-700 font-medium dark:text-white">{'Selected Tags'}</h4>
+                <div className="flex flex-wrap space-x-1 [&>*]:mb-1">
                   {selectedTags.map((sTag) => {
                     return (
                       <TagItem
+                        border
                         item={sTag}
                         generalColor={'pink'}
                         textColor={'gray'}
@@ -221,8 +222,8 @@ const TagPopup: React.FC<Props> = (props) => {
               </div>
             )}
             <div>
-              <h4 className="text-gray-700 font-medium">{'Available Tags'}</h4>
-              <div className="flex flex-wrap space-x-1">
+              <h4 className="text-gray-700 font-medium dark:text-white">{'Available Tags'}</h4>
+              <div className="flex flex-wrap space-x-1 [&>*]:mb-1">
                 {availableTags.map((aTag) => {
                   return (
                     <TagItem
@@ -240,7 +241,7 @@ const TagPopup: React.FC<Props> = (props) => {
                 })}
               </div>
             </div>
-          </>
+          </div>
         )}
         {selectedTab === 'create' && (
           <>

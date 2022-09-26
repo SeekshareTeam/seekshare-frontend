@@ -11,16 +11,16 @@ import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
 import { TitleInput, Title } from 'src/components/Input';
 import { TagInput } from 'src/components/Input/Tag';
-import ManageTags from 'src/components/Tags/Create';
+import ManageTags, { ManageTagsHandle } from 'src/components/Tags/Create';
 import { setLoading } from 'src/modules/App/slice';
 
 const classes = {
-  editorContainer: 'w-full flex flex-col justify-center',
+  editorContainer: 'w-full h-full flex flex-col justify-center',
   main: 'w-2/3 card p-2 self-center',
   title:
     'appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300',
   submit:
-    'mt-8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-48',
+    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-48 ml-auto mr-1 mb-1',
   provideTag: '',
 };
 
@@ -35,6 +35,7 @@ type MarkdownEditorProps = {
   onSubmit?: (body: string) => Promise<void>;
   type?: string;
   tabNode?: React.ReactNode;
+  onPressTags: () => void;
 };
 
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
@@ -44,43 +45,25 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   onSubmit,
   type,
   tabNode,
+  onPressTags,
 }: MarkdownEditorProps) => {
-  let height: string = '500px';
-
-  switch (size) {
-    case 'large':
-      height = '400px';
-      break;
-    case 'medium':
-      height = '300px';
-      break;
-    case 'small':
-      height = '150px';
-      break;
-    case 'xs':
-      height = '100px';
-      break;
-    default:
-      height = '500px';
-      break;
-  }
-
   const options = React.useMemo(
     () => ({
       spellChecker: false,
       sideBySideFullscreen: false,
-      maxHeight: height,
+      minHeight: '100px',
     }),
     []
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full flex-1 flex">
       {tabNode}
       <Editor
         options={options}
         value={body}
         onChange={onBodyChange}
+        onPressTags={onPressTags}
       />
       {type === 'comment' && (
         <div
@@ -109,7 +92,7 @@ interface Props {
   workspaceId: string;
 }
 
-const QuestionEditor: React.FC<Props> = (props) => {
+const QuestionEditor: React.FC<Props> = props => {
   const [postTitle, setTitle] = React.useState('');
   const [body, setBody] = React.useState('');
   const [currentTags, setCurrentTags] = React.useState<
@@ -118,6 +101,9 @@ const QuestionEditor: React.FC<Props> = (props) => {
       id: string;
     }[]
   >([]);
+
+  const tagRef = React.useRef<ManageTagsHandle>(null);
+  const scrollRef = React.useRef<HTMLDIVElement>(null);
 
   const dispatch = useAppDispatch();
 
@@ -133,7 +119,7 @@ const QuestionEditor: React.FC<Props> = (props) => {
   }, [loading]);
 
   const onSubmitCreatePost = React.useCallback(async () => {
-    const postTags = currentTags.map((ct) => ct.id);
+    const postTags = currentTags.map(ct => ct.id);
     const result = await createPostMutation({
       variables: {
         postInput: {
@@ -150,9 +136,6 @@ const QuestionEditor: React.FC<Props> = (props) => {
     if (result?.data?.createPost?.postId) {
       router.push('/post/' + result.data.createPost.postId);
     }
-    // if (data?.postId) {
-    //   router.push('/post/' + data.postId);
-    // }
   }, [body, postTitle, currentTags]);
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,34 +147,30 @@ const QuestionEditor: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="justify-center w-full">
+    <div className="justify-center w-full flex-1">
       <div className={classes.editorContainer}>
-        <div className={classes.main}>
-          <TitleInput
-            title={text.title}
-            inputProps={{ onChange: onTitleChange, value: postTitle }}
-          />
-          <Title value={text.body} />
-          <MarkdownEditor body={body} onBodyChange={onBodyChange} />
-          <div className="flex flex-row">
-            <h2 className="font-sans text-gray-700 text-2xl md:text-3xl text-primary">
-              {'Tags'}
-            </h2>
-            <ManageTags
-              workspaceId={props.workspaceId}
-              subspaceId={props.subspaceId}
-            />
-          </div>
-          <TagInput
-            currentTags={currentTags}
-            setCurrentTags={(val) => {
-              setCurrentTags(val);
-            }}
-          />
-          <div className={classes.submit}>
-            <button onClick={onSubmitCreatePost}>{'Post your question'}</button>
-          </div>
-        </div>
+        <TitleInput
+          inputProps={{
+            onChange: onTitleChange,
+            value: postTitle,
+            placeholder: text.title,
+          }}
+        />
+        <MarkdownEditor
+          body={body}
+          onBodyChange={onBodyChange}
+          onPressTags={() => {
+            tagRef.current?.showModal();
+          }}
+        />
+        <ManageTags
+          ref={tagRef}
+          workspaceId={props.workspaceId}
+          subspaceId={props.subspaceId}
+        />
+        <button className={classes.submit} onClick={onSubmitCreatePost}>
+          {'Post your question'}
+        </button>
       </div>
     </div>
   );

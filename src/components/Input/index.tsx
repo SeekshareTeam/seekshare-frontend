@@ -6,13 +6,14 @@ const classes = {
   inputStyle:
     'appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300',
   titleStyle: 'font-sans text-gray-700 text-2xl md:text-3xl text-primary',
+  title: 'appearance-none focus:outline-none leading-tight px-4 py-2 dark:bg-slate-900 dark:caret-white dark:text-white',
 };
 
 // type InputProps = {
 //   value: string;
 // };
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement>
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 export const Input: React.FC<InputProps> = (props: InputProps) => {
   return <input type="text" className={classes.inputStyle} {...props} />;
@@ -35,9 +36,11 @@ type CommentDetailType = {
 
 type CommentDetailProps = {
   details: CommentDetailType[];
-}
+};
 
-export const CommentDetail: React.FC<CommentDetailProps> = (props: CommentDetailProps) => {
+export const CommentDetail: React.FC<CommentDetailProps> = (
+  props: CommentDetailProps
+) => {
   return (
     <div>
       {props.details.map((detail, ix) => (
@@ -91,15 +94,17 @@ export const PostTitle: React.FC<PostTitleProps> = (props: PostTitleProps) => {
  * title: string
  */
 type TitleInputProps = {
-  title: string;
+  title?: string;
   inputProps: InputProps;
 };
 
-export const TitleInput: React.FC<TitleInputProps> = (props: TitleInputProps) => {
+export const TitleInput: React.FC<TitleInputProps> = (
+  props: TitleInputProps
+) => {
   return (
     <>
-      <Title value={props.title} />
-      <Input {...props.inputProps} />
+      {/*<Title value={props.title} />*/}
+      <input className={classes.title} {...props.inputProps} />
     </>
   );
 };

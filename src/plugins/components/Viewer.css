@@ -1,0 +1,55 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.viewer-container {
+}
+
+.viewer-toc {
+  position: fixed;
+  max-width: 200px;
+}
+
+.viewer-content {
+  width: 50%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+}
+
+.viewer-toc-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.viewer-toc-panel {
+  height: 100%;
+  width: 200px;
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid black;
+}
+
+.viewer-toc-bottom {
+  display: none;
+  position: fixed;
+  left: 8px;
+  bottom: 8px;
+}
+
+@media only screen and (max-width: 900px) {
+  .viewer-toc {
+    display: none;
+  }
+
+  .viewer-content {
+    width: 100%;
+  }
+
+  .viewer-toc-bottom {
+    display: block;
+  }
+}

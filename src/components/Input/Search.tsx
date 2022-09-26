@@ -84,7 +84,7 @@ const Search: React.FC<Props> = (props) => {
               <div>
                 <div className="mb-2">
                   <label
-                    className="font-medium capitalize bold text-gray-700"
+                    className="font-medium capitalize bold text-gray-700 dark:text-white"
                     htmlFor={props.labelName}
                   >
                     {props.labelTitle}
@@ -95,9 +95,9 @@ const Search: React.FC<Props> = (props) => {
                   onClick={onContainerClick}
                   className={`flex rounded shadow-md border border-blue-400 outline-none ${
                     boxFocus
-                      ? 'ring-2 w-full ring-blue-600 ring-opacity-20'
+                      ? 'ring-2 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
                       : ''
-                  } p-1`}
+                  } p-1 dark:border-white`}
                 >
                   {props.leftNode}
                   <input
@@ -115,7 +115,7 @@ const Search: React.FC<Props> = (props) => {
                     onBlur={handleBlur}
                     value={values[props.labelName]}
                     placeholder={props.inputPlaceholder || ''}
-                    className="outline-none flex-1"
+                    className="outline-none flex-1 dark:bg-night-light dark:caret-white dark:text-white"
                   />
                   {props.rightNode}
                 </div>

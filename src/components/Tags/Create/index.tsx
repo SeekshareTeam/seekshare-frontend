@@ -7,10 +7,21 @@ import { SpaceRequiredProps } from 'src/utils/types';
 
 interface Props extends SpaceRequiredProps {}
 
-const ManageTags: React.FC<Props> = (props) => {
+interface ManageTagsHandle {
+  showModal: () => void;
+}
+
+const ManageTags: React.ForwardRefRenderFunction<ManageTagsHandle, Props> = (
+  props,
+  ref
+) => {
   const [showTagForm, setShowTagForm] = React.useState(false);
 
-  console.log('are you getting re-rendered');
+  React.useImperativeHandle(ref, () => ({
+    showModal: () => {
+      setShowTagForm(true);
+    },
+  }));
 
   return (
     <>
@@ -21,9 +32,13 @@ const ManageTags: React.FC<Props> = (props) => {
           setShowTagForm(false);
         }}
       >
-        <TagPopup workspaceId={props.workspaceId} subspaceId={props.subspaceId} />
+        <TagPopup
+          workspaceId={props.workspaceId}
+          subspaceId={props.subspaceId}
+        />
       </Modal>
 
+      {/*
       <button
         onClick={() => {
           setShowTagForm(true);
@@ -32,8 +47,9 @@ const ManageTags: React.FC<Props> = (props) => {
       >
         <IconSquarePlus className="border-2 border-blue-400 hover:border-blue-600 rounded-xl" />
       </button>
+        */}
     </>
   );
 };
 
-export default ManageTags;
+export default React.forwardRef(ManageTags);
