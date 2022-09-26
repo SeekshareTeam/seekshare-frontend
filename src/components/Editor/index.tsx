@@ -52,6 +52,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       spellChecker: false,
       sideBySideFullscreen: false,
       minHeight: '100px',
+      placeholder: 'Insert Content...',
     }),
     []
   );

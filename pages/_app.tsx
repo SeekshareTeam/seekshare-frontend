@@ -1,3 +1,4 @@
+import '@fontsource/jetbrains-mono';
 import '../styles/globals.css';
 import '../styles/Editor.css';
 
@@ -12,7 +13,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ApiProvider } from 'src/api/context';
 import { AuthGate } from 'src/components/Layouts/AuthGate';
 import { GeneralLayout } from 'src/components/Layouts';
-import NextNProgress from "nextjs-progressbar";
+import NextNProgress from 'nextjs-progressbar';
 import type { AppProps /*, AppContext */ } from 'next/app';
 
 type AppWithLayout<T> = T & {
@@ -20,8 +21,8 @@ type AppWithLayout<T> = T & {
   layoutType: string;
 };
 
-const myLayouts: { [key: string]: any; } = {
-  'general': GeneralLayout,
+const myLayouts: { [key: string]: any } = {
+  general: GeneralLayout,
 };
 
 function MyApp({
@@ -30,9 +31,10 @@ function MyApp({
 }: AppProps & { Component: AppWithLayout<AppProps['Component']> }) {
   // const getLayout2 = Component.getLayout2 || ((page: JSX.Element) => page);
 
-  const GetLayout = Component.layoutType in myLayouts
-    ? myLayouts[Component.layoutType]
-    : (((props) => <>{props.children}</>) as React.FC);
+  const GetLayout =
+    Component.layoutType in myLayouts
+      ? myLayouts[Component.layoutType]
+      : ((props => <>{props.children}</>) as React.FC);
 
   const { store, props } = wrapper.useWrappedStore(rest);
 

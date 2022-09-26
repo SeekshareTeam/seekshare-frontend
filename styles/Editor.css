@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 #simplemde-editor-1-wrapper {
   height: 100%;
   flex: 1;
@@ -8,8 +12,18 @@
   max-height: calc(100% - 42px) !important;
 }
 
+.CodeMirror-scroll {
+  font-size: 0.8rem;
+  font-family: "Jetbrains Mono";
+}
+
 .CodeMirror-lines {
   overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.CodeMirror-placeholder {
+  @apply dark:text-darkpen-light !important;
 }
 
 .CodeMirror-cursor {
@@ -55,3 +69,15 @@
   @apply dark:text-white !important;
 }
 
+.CodeMirror-vscrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}

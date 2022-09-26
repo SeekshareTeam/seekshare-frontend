@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor';
 
 import Viewer, { Props as ViewerProps } from './Viewer';
+import useDimensions from 'src/utils/use_dimensions';
 
 import 'easymde/dist/easymde.min.css';
 
@@ -12,6 +13,7 @@ const getContainers = () => {
   const codeMirrorScroll = document.getElementsByClassName('CodeMirror-scroll');
   const preview = document.getElementsByClassName('editor-preview');
   const toolbar = document.getElementsByClassName('editor-toolbar');
+  const scrollbar = document.getElementsByClassName('CodeMirror-vscrollbar');
   const iconEye = document.getElementsByClassName('fa-eye');
   const iconColumns = document.getElementsByClassName('fa-columns');
   const iconTag = document.getElementsByClassName('fa-tag');
@@ -22,6 +24,7 @@ const getContainers = () => {
     codeMirrorScroll: [...codeMirrorScroll]?.[0] as HTMLElement,
     preview: [...preview]?.[0] as HTMLElement,
     toolbar: [...toolbar]?.[0] as HTMLElement,
+    scrollbar: [...scrollbar]?.[0] as HTMLElement,
     iconEye: [...iconEye]?.[0] as HTMLElement,
     iconColumns: [...iconColumns]?.[0] as HTMLElement,
     iconTag: [...iconTag]?.[0] as HTMLElement,
@@ -40,11 +43,28 @@ const Editor: React.FC<Props> = props => {
     ReturnType<typeof getContainers>
   >(getContainers());
 
+  const dimensions = useDimensions();
+
   React.useEffect(() => {
     setTimeout(() => {
       setContainers(getContainers());
     }, 0);
   }, []);
+
+  const setHeight = React.useCallback(
+    height => {
+      // prevent the editor from expanding in height
+      if (containers.codeMirrorScroll) {
+        containers.codeMirrorScroll.style.maxHeight = `${height}px`;
+      }
+
+      // prevent the preview div from expanding
+      if (containers.preview) {
+        containers.preview.style.maxHeight = `${height}px`;
+      }
+    },
+    [containers]
+  );
 
   // for dark mode
   React.useEffect(() => {
@@ -54,27 +74,20 @@ const Editor: React.FC<Props> = props => {
     }
 
     containers.codeMirrorScroll?.classList.add('dark:bg-slate-900');
-    containers.codeMirrorScroll?.classList.add('dark:p-2');
+    containers.codeMirrorScroll?.classList.add('dark:px-2');
     containers.iconEye?.classList.add('dark:text-white');
     containers.iconColumns?.classList.add('dark:text-white');
     containers.iconTag?.classList.add('dark:text-white');
 
     setTimeout(() => {
-      // prevent the editor from expanding in height
-      if (containers.codeMirrorScroll) {
-        containers.codeMirrorScroll.style.maxHeight = `${
-          containers.codeMirror?.offsetHeight ?? 0
-        }px`;
-      }
-
-      // prevent the preview div from expanding
-      if (containers.preview) {
-        containers.preview.style.maxHeight = `${
-          containers.codeMirror?.offsetHeight ?? 0
-        }px`;
-      }
+      setHeight(containers.codeMirror?.offsetHeight ?? 0);
     }, 0);
   }, [containers]);
+
+  // update the content size if the window size change
+  React.useEffect(() => {
+    setTimeout(() => setHeight(containers.codeMirror?.offsetHeight ?? 0), 0);
+  }, [dimensions[1]]);
 
   React.useEffect(() => {
     if (previewMode === 'side') {
@@ -133,8 +146,9 @@ const Editor: React.FC<Props> = props => {
       });
     }
     return {
-      ...(props.options || {}),
       toolbar,
+      // scrollbarStyle: 'null',
+      ...(props.options || {}),
     };
   }, [props.options]);
 
