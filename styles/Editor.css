@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-#simplemde-editor-1-wrapper {
+[id^='simplemde-editor-'] {
   height: 100%;
   flex: 1;
 }
