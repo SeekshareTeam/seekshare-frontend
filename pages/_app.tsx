@@ -45,6 +45,7 @@ function MyApp({
           <SessionProvider session={props.session}>
             <AuthGate>
               <NextNProgress height={3} options={{ showSpinner: false }} />
+              <div id="modal-root" />
               <GetLayout>
                 <Component {...props.pageProps} />
               </GetLayout>

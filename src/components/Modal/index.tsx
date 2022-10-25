@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 type ModalProps = {
   onPressBlur: () => void;
@@ -20,13 +21,36 @@ export const useDisableBodyScroll = (open: boolean) => {
   }, [open]);
 };
 
+// const modalRoot = document.getElementById('modal-root');
+
 export const Modal: React.FC<ModalProps> = ({
   blurBackground = false,
   ...props
 }) => {
   useDisableBodyScroll(props.show);
+  const [container, setContainer] = React.useState<Element | null>(null);
+  const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
-  return (
+  React.useEffect(() => {
+    setRoot(document.getElementById('modal-root'));
+    setContainer(document.createElement('div'));
+  }, []);
+
+  React.useEffect(() => {
+    if (root && container) {
+      root.appendChild(container);
+
+      return () => {
+        root.removeChild(container);
+      };
+    }
+  }, [root, container]);
+
+  if (!container) {
+    return null
+  }
+
+  return ReactDOM.createPortal(
     <>
       {props.show && (
         <div
@@ -42,6 +66,7 @@ export const Modal: React.FC<ModalProps> = ({
           {props.children}
         </div>
       )}
-    </>
+    </>,
+    container
   );
 };
