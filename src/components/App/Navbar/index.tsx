@@ -1,13 +1,15 @@
 import * as React from 'react';
+import * as yup from 'yup';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { Button, DropdownButton } from 'src/components/Button';
 import { useAppSelector } from 'src/modules/Redux';
-import { IconChevronDown, IconMenu2 } from '@tabler/icons';
+import { IconChevronDown, IconMenu2, IconSearch } from '@tabler/icons';
 import { Modal } from 'src/components/Modal';
 import { SubspaceForm } from 'src/components/Subspace';
 
 import Dropdown from 'src/components/Dropdown';
+import InputSearch from 'src/components/Input/Search';
 
 type NavbarProps = {
   sidebarToggle: boolean;
@@ -36,6 +38,50 @@ const Navbar = (props: NavbarProps) => {
       authUser: state?.auth?.data,
     };
   });
+
+  const tagValidationSchema = yup.object().shape({
+    tagName: yup
+      .string()
+      .min(2, 'Too short')
+      .max(50, 'Too Long!')
+      .required('Required!'),
+  });
+
+  // const searchTagsQueryCallback = React.useCallback(
+  //   async (val, onEnter = false) => {
+  //     /*
+  //        TODO: Write in a functionality that onEnter
+  //        the debounce function should search for a tag
+  //        that already exists based on the EXACT value
+  //        If it does exist, then pass in the value from here.
+  //      */
+  //     if (val === '') {
+  //       setSearchedTags([]);
+  //     } else {
+  //       if (onEnter) {
+  //         // This should also be in the top section
+  //         // await searchExactTagQuery({
+  //         //   variables: { queryString: val },
+  //         // });
+  //       } else {
+  //         await searchTagsQuery({
+  //           variables: { queryString: val },
+  //         });
+  //       }
+  //     }
+  //   },
+  //   [searchTagsQuery]
+  // );
+
+  const searchQueryCallback = async (val: string) => {
+    console.log(val);
+  };
+
+  // const submissionCallback = () => {};
+
+  const onBlurCallback = () => {};
+
+  const onFocusCallback =  () => {};
 
   return (
     <div className="flex flex-1 bg-night-medium">
@@ -77,6 +123,18 @@ const Navbar = (props: NavbarProps) => {
           </>
         )}
       </div>
+      <div className="flex flex-1 h-full items-center justify-center">
+        <InputSearch
+          validationSchema={tagValidationSchema}
+          searchQueryCallback={searchQueryCallback}
+          onBlurCallback={onBlurCallback}
+          onFocusCallback={onFocusCallback}
+          labelName={'searchContent'}
+          inputPlaceholder={'Search for...'}
+          leftNode={<IconSearch size={24} />}
+          labelTitle={''}
+        />
+      </div>
       <div className="flex flex-1 h-full justify-end">
         <div className="flex flex-row mr-4">
           {!reduxState.authUser && !hideSignIn && (
@@ -103,6 +161,7 @@ const Navbar = (props: NavbarProps) => {
                     <IconChevronDown size={16} />
                   </DropdownButton>
                 }
+                horizontalPosition={'left'}
               />
               <div className="self-center px-2">
                 {reduxState?.authUser?.firstname +

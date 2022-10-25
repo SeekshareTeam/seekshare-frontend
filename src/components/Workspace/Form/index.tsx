@@ -14,6 +14,7 @@ export const WorkspaceForm = () => {
   const workspaceApi = useWorkspaceApi();
 
   const [workspaceNameGen, setWorkspaceNameGen] = React.useState('abhinav');
+  const [bgImageUrl, setBgImageUrl] = React.useState<string>('');
   const [genPattern, setGenPattern] = React.useState<Pattern | undefined>(
     undefined
   );
@@ -25,6 +26,12 @@ export const WorkspaceForm = () => {
     })();
   }, [workspaceNameGen]);
 
+  React.useEffect(() => {
+    if (genPattern?.toDataURL) {
+      setBgImageUrl(genPattern.toDataURL());
+    }
+  }, [genPattern]);
+
   const avatarRef: React.MutableRefObject<{
     onChangeCanvas: () => void;
     toBlob: (fileName: string) => void;
@@ -35,6 +42,33 @@ export const WorkspaceForm = () => {
       avatarRef.current.onChangeCanvas();
     }
   }, [avatarRef.current]);
+
+  const submitCallback = React.useCallback(
+    async (values, { setSubmitting }) => {
+      console.log(' value ', values);
+
+      /*
+       * Should save the images first and then create the
+       * workspace id.
+       */
+
+      const createdWorkspace = await workspaceApi?.onCreateWorkspace({
+        name: values.workspaceName,
+        description: values.description,
+        workspacePermission: values.readability,
+        bgImageUrl,
+      });
+
+      if (createdWorkspace?.data?.createWorkspace?.id && avatarRef?.current) {
+        await avatarRef.current.toBlob(
+          createdWorkspace.data.createWorkspace.id
+        );
+      }
+
+      setSubmitting(false);
+    },
+    [bgImageUrl]
+  );
 
   const newInputFormRow = ({
     labelHtmlFor,
@@ -157,28 +191,12 @@ export const WorkspaceForm = () => {
         readability: 'public',
       }}
       validationSchema={workspaceValidationSchema}
-      onSubmit={async (values, { setSubmitting }) => {
-        console.log(' value ', values);
-
-        const createdWorkspace = await workspaceApi?.onCreateWorkspace({
-          name: values.workspaceName,
-          description: values.description,
-          workspacePermission: values.readability,
-        });
-
-        if (createdWorkspace?.data?.createWorkspace?.id && avatarRef?.current) {
-          await avatarRef.current.toBlob(
-            createdWorkspace.data.createWorkspace.id
-          );
-        }
-
-        setSubmitting(false);
-      }}
+      onSubmit={submitCallback}
     >
       {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
         <form
           onSubmit={handleSubmit}
-          className="z-10 w-1/2 h-3/4 bg-white rounded-xl dark:bg-gray-800 dark:text-gray-300 overflow-y-scroll"
+          className="z-40 w-1/2 h-3/4 bg-white rounded-xl dark:bg-gray-800 dark:text-gray-300 overflow-y-scroll"
         >
           <h1
             className={
@@ -191,7 +209,7 @@ export const WorkspaceForm = () => {
             <div className="w-1/2 self-end flex justify-center items-center">
               <img
                 className="w-60 h-48 rounded-lg overflow-hidden shadow"
-                src={genPattern ? genPattern?.toDataURL() : ''}
+                src={bgImageUrl}
               />
             </div>
             {newInputFormRow({

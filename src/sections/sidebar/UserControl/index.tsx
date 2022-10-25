@@ -3,7 +3,7 @@ import * as React from 'react';
 import { IconSettings } from '@tabler/icons';
 
 import Dropdown from 'src/components/Dropdown';
-import { DropdownButton } from 'src/components/Button';
+import { Button } from 'src/components/Button';
 import { UserAvatar } from 'src/components/Sidebar';
 
 interface Props {
@@ -39,11 +39,12 @@ const UserControl: React.FC<Props> = (props) => {
         <Dropdown
           dropdownRef={dropdownRef}
           dropdownButton={
-            <DropdownButton ref={dropdownRef}>
+            <Button variant={null} ref={dropdownRef}>
               <IconSettings />
-            </DropdownButton>
+            </Button>
           }
           position={'below'}
+          horizontalPosition={'left'}
         />
       </div>
     </section>

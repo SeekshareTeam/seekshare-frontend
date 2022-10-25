@@ -9,8 +9,7 @@ import 'easymde/dist/easymde.min.css';
 
 import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
-import { TitleInput, Title } from 'src/components/Input';
-import { TagInput } from 'src/components/Input/Tag';
+import { TitleInput } from 'src/components/Input';
 import ManageTags, { ManageTagsHandle } from 'src/components/Tags/Create';
 import { setLoading } from 'src/modules/App/slice';
 
@@ -41,7 +40,6 @@ type MarkdownEditorProps = {
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   onBodyChange,
   body,
-  size,
   onSubmit,
   type,
   tabNode,
@@ -93,10 +91,10 @@ interface Props {
   workspaceId: string;
 }
 
-const QuestionEditor: React.FC<Props> = props => {
+const QuestionEditor: React.FC<Props> = (props) => {
   const [postTitle, setTitle] = React.useState('');
   const [body, setBody] = React.useState('');
-  const [currentTags, setCurrentTags] = React.useState<
+  const [currentTags] = React.useState<
     {
       value: string;
       id: string;
@@ -104,7 +102,7 @@ const QuestionEditor: React.FC<Props> = props => {
   >([]);
 
   const tagRef = React.useRef<ManageTagsHandle>(null);
-  const scrollRef = React.useRef<HTMLDIVElement>(null);
+  // const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const dispatch = useAppDispatch();
 
@@ -120,7 +118,7 @@ const QuestionEditor: React.FC<Props> = props => {
   }, [loading]);
 
   const onSubmitCreatePost = React.useCallback(async () => {
-    const postTags = currentTags.map(ct => ct.id);
+    const postTags = currentTags.map((ct) => ct.id);
     const result = await createPostMutation({
       variables: {
         postInput: {

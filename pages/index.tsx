@@ -14,14 +14,21 @@ interface HomeLayoutProps {
 }
 
 const HomeLayout: React.FC<HomeLayoutProps> = (props) => {
-  return <div className="flex flex-row flex-wrap px-4">{props.workspaceCards}</div>;
+  return (
+    <div className="flex flex-row flex-wrap px-4 overflow-auto">
+      {props.workspaceCards}
+    </div>
+  );
 };
 
 const Home: PageWithLayout<{}> = () => {
-  const reduxState = useAppSelector((state) => ({
-    workspaces: state.home?.workspaces,
-    workspace: state.workspace
-  }), shallowEqual);
+  const reduxState = useAppSelector(
+    (state) => ({
+      workspaces: state.home?.workspaces,
+      workspace: state.workspace,
+    }),
+    shallowEqual
+  );
   // const reduxState = useShallowSelector((state) => ({
   //   workspaces: state.home?.workspaces,
   // }));
@@ -34,6 +41,7 @@ const Home: PageWithLayout<{}> = () => {
           imgUrl={w?.url}
           title={w.name}
           description={w?.description}
+          bgImageUrl={w?.backgroundImage}
           gradient={w?.gradient}
         />
       ))}

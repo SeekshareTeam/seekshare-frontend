@@ -22,14 +22,21 @@ const api = () => {
       name,
       description,
       workspacePermission,
+      bgImageUrl,
     }: {
       name: string;
       description: string;
       workspacePermission: string;
+      bgImageUrl: string;
     }) => {
       return createWorkspaceMutation({
         variables: {
-          workspaceInput: { name, description, workspacePermission },
+          workspaceInput: {
+            name,
+            description,
+            workspacePermission,
+            bgImageUrl,
+          },
         },
       });
     },

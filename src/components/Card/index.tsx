@@ -26,6 +26,10 @@ export interface Props {
    *
    */
   gradient?: Maybe<string>;
+  /**
+   *
+   */
+  bgImageUrl?: Maybe<string>;
 }
 
 const Card: React.FC<Props> = (props) => {
@@ -44,7 +48,11 @@ const Card: React.FC<Props> = (props) => {
     <div className="md:w-96 bg-white rounded-lg border border-gray-200 shadow-md m-2 dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
       {props.imgUrl ? (
         <div
-          style={{ backgroundImage: `url(\'${geoPattern?.toDataURL()}\')` }}
+          style={{
+            backgroundImage: `url(\'${
+              props?.bgImageUrl || geoPattern?.toDataURL()
+            }\')`,
+          }}
           className={'w-full h-44 relative'}
         >
           <Avatar

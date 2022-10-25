@@ -49,7 +49,7 @@ const Workspace: PageWithLayout<WorkspaceProps> = (props) => {
     (state) => ({
       subspaces: state?.workspace?.server?.subspaces,
       workspace: state?.workspace?.server?.workspace || {
-        name: 'Default Workspace',
+        name: 'Home',
         id: '1',
       },
       loading: state.app.loading,
@@ -89,22 +89,22 @@ const Workspace: PageWithLayout<WorkspaceProps> = (props) => {
 export const getStaticProps = wrapper.getStaticProps(
   (store) => async (context) => {
     const workspace = context?.params?.workspace;
-    // console.log('@ context', context);
-    await fetchSSRQuery({
-      action: serverFetchSubspaces,
-      ssrApolloQuery: ssrFetchSubspaces.getServerPage,
-      variables: {
-        workspaceId: workspace || '',
-        pageNumber: 0,
-      },
-      dispatch: store.dispatch,
-    });
 
     await fetchSSRQuery({
       action: serverFetchWorkspace,
       ssrApolloQuery: ssrFetchWorkspace.getServerPage,
       variables: {
         workspaceId: workspace,
+      },
+      dispatch: store.dispatch,
+    });
+
+    await fetchSSRQuery({
+      action: serverFetchSubspaces,
+      ssrApolloQuery: ssrFetchSubspaces.getServerPage,
+      variables: {
+        workspaceId: workspace || '',
+        pageNumber: 0,
       },
       dispatch: store.dispatch,
     });

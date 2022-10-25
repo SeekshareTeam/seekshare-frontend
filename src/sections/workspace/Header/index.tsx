@@ -5,7 +5,6 @@ import WorkspaceTitle from 'src/components/Workspace/Title';
 //   Props as LogoAvatarProps,
 // } from 'src/components/Sidebar/LogoAvatar';
 import Avatar from 'src/components/Avatar';
-import { generate } from '@prescott/geo-pattern';
 
 interface Props {
   imgUrl?: string;
@@ -18,21 +17,21 @@ interface Props {
 const WorkspaceHeader: React.FC<Props> = (props) => {
   const { workspace } = props;
   // const [pattern, setPattern] = React.useState<React.ReactNode>();
-  const [patternUrl, setPatternUrl] = React.useState('');
+  // const [patternUrl, setPatternUrl] = React.useState('');
 
-  React.useEffect(() => {
-    (async () => {
-      const backgroundPattern = await generate({ input: 'lorem posum' });
-      // setPattern(backgroundPattern);
-      setPatternUrl(backgroundPattern.toDataURL());
-    })();
-  }, []);
+  // React.useEffect(() => {
+  //   (async () => {
+  //     const backgroundPattern = await generate({ input: 'lorem posum' });
+  //     // setPattern(backgroundPattern);
+  //     setPatternUrl(backgroundPattern.toDataURL());
+  //   })();
+  // }, []);
 
-  console.log('patternUrl', patternUrl);
 
   return (
     <div
-      className={`flex flex-wrap w-full md:h-56 pb-6 dark:bg-night-light`}
+      className={`flex flex-wrap w-full md:h-56 pb-6`}
+      style={{ backgroundImage: `url("${workspace?.backgroundImage}")` }}
     >
       <div className="flex ml-4 items-end">
         <Avatar imgUrl={workspace?.url} loading={props.loading} />

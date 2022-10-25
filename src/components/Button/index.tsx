@@ -74,7 +74,7 @@ function BaseButton({ forwardedRef, ...rest }: ButtonPropsWithRef) {
 }
 
 const baseClasses =
-  'flex space-x-2 flex-none items-center justify-center cursor-pointer leading-none transition-all font-semibold';
+  'flex space-x-1 flex-none items-center justify-center cursor-pointer leading-none transition-all font-semibold';
 
 function getSize(size: string | undefined) {
   switch (size) {
@@ -83,6 +83,9 @@ function getSize(size: string | undefined) {
     }
     case 'large': {
       return 'px-4 py-2 text-sm';
+    }
+    case 'large-full': {
+      return 'px-4 py-2 text-sm w-full';
     }
     case 'small': {
       return 'px-2.5 py-1.5 text-sm';
@@ -94,7 +97,8 @@ function getSize(size: string | undefined) {
       return 'p-2 text-sm';
     }
     default: {
-      return 'px-4 py-2 text-sm w-full';
+      return '';
+      // return 'px-4 py-2 text-sm w-full';
     }
   }
 }
@@ -150,11 +154,11 @@ function buttonVariantSwitch(
         !selected
           ? `text-${
               textColor ? textColor : 'green'
-            }-700 hover:bg-${fillColor}-700`
-          : `text-gray-100 bg-${fillColor}-700`
-      } hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
+            }-700 dark:bg-night-medium hover:bg-${fillColor}-700`
+          : `bg-${fillColor}-700`
+      } text-lightpen-medium dark:text-darkpen-medium dark:hover:text-darkpen-medium hover:text-lightpen-light shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
     default:
-      return 'transition-all duration-200 self-center text-lightpen-medium dark:text-darkpen-medium hover:text-lightpen-dark hover:dark:text-darkpen-light';
+      return 'transition-all duration-200 self-center text-lightpen-medium dark:text-darkpen-medium hover:text-lightpen-dark hover:dark:text-darkpen-dark';
   }
 }
 

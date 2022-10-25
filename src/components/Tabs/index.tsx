@@ -39,13 +39,16 @@ export const BaseTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
 };
 
 export interface UnderlineTabProps extends BaseTabProps {
+  leftNode?: React.ReactNode;
   fullwidth?: boolean;
+  rightNode?: React.ReactNode;
 }
 
 export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
 
   return (
     <div className="border-b border-lightpen-medium dark:border-darkpen-medium dark:bg-night-light flex flex-1 items-center relative">
+      {props.leftNode}
       <ul className="flex w-64 sm:w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-lightpen-dark dark:text-darkpen-dark justify-center whitespace-nowrap overflow-x-auto">
         {props.tabs.map((t) => (
           <li className={`${props.fullwidth ? 'flex-1 min-w-max' : 'mr-2 flex-shrink-0'}`}>
@@ -65,6 +68,7 @@ export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
           </li>
         ))}
       </ul>
+      {props.rightNode}
     </div>
   );
 };

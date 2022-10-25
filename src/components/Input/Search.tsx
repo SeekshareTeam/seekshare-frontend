@@ -8,7 +8,7 @@ type Props = {
 
   labelName: string;
 
-  labelTitle: string;
+  labelTitle: React.ReactNode;
 
   searchQueryCallback?: (val: string) => Promise<void>;
 
@@ -27,14 +27,7 @@ type Props = {
 
 const Search: React.FC<Props> = (props) => {
   const [boxFocus, setBoxFocus] = React.useState(false);
-  // const [values, setValues] = React.useState<{ [string]: any }>({});
   const inputRef = React.useRef<HTMLInputElement>(null);
-
-  // React.useEffect(() => {
-  //   if (props.labelName) {
-  //     setValues({ [props.labelName]: '' });
-  //   }
-  // }, [props.labelName]);
 
   const onContainerClick = () => {
     inputRef?.current?.focus();
@@ -65,7 +58,7 @@ const Search: React.FC<Props> = (props) => {
   );
 
   return (
-    <div>
+    <div className="flex w-full">
       <Formik
         initialValues={{
           [props.labelName]: '',
@@ -80,45 +73,43 @@ const Search: React.FC<Props> = (props) => {
       >
         {({ values, handleBlur, handleSubmit, setFieldValue }) => {
           return (
-            <form onSubmit={handleSubmit}>
-              <div>
-                <div className="mb-2">
-                  <label
-                    className="font-medium capitalize bold text-gray-700 dark:text-white"
-                    htmlFor={props.labelName}
-                  >
-                    {props.labelTitle}
-                  </label>
-                </div>
-                <div
-                  onBlur={onLoseFocus}
-                  onClick={onContainerClick}
-                  className={`flex rounded shadow-md border border-blue-400 outline-none ${
-                    boxFocus
-                      ? 'ring-2 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
-                      : ''
-                  } p-1 dark:border-white`}
+            <form className="flex-1" onSubmit={handleSubmit}>
+              <div className="mb-2">
+                <label
+                  className="font-medium capitalize bold text-gray-700 dark:text-white"
+                  htmlFor={props.labelName}
                 >
-                  {props.leftNode}
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    name={props.labelName}
-                    autoComplete="off"
-                    onChange={(e) => {
-                      const targetValue = e?.target?.value || '';
-                      setFieldValue(props.labelName, targetValue);
-                      if (props.searchQueryCallback) {
-                        debounceCallback(targetValue);
-                      }
-                    }}
-                    onBlur={handleBlur}
-                    value={values[props.labelName]}
-                    placeholder={props.inputPlaceholder || ''}
-                    className="outline-none flex-1 dark:bg-night-light dark:caret-white dark:text-white"
-                  />
-                  {props.rightNode}
-                </div>
+                  {props.labelTitle}
+                </label>
+              </div>
+              <div
+                onBlur={onLoseFocus}
+                onClick={onContainerClick}
+                className={`flex rounded shadow-md border border-blue-400 outline-none ${
+                  boxFocus
+                    ? 'ring-2 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
+                    : ''
+                } p-1 dark:border-white dark:bg-night-light dark:caret-white dark:text-white`}
+              >
+                {props.leftNode}
+                <input
+                  ref={inputRef}
+                  type="text"
+                  name={props.labelName}
+                  autoComplete="off"
+                  onChange={(e) => {
+                    const targetValue = e?.target?.value || '';
+                    setFieldValue(props.labelName, targetValue);
+                    if (props.searchQueryCallback) {
+                      debounceCallback(targetValue);
+                    }
+                  }}
+                  onBlur={handleBlur}
+                  value={values[props.labelName]}
+                  placeholder={props.inputPlaceholder || ''}
+                  className="outline-none flex-1 dark:bg-night-light dark:caret-white"
+                />
+                {props.rightNode}
               </div>
             </form>
           );

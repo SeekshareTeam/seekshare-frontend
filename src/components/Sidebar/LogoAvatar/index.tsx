@@ -9,16 +9,18 @@ export interface Props {
 
 const LogoAvatar: React.FC<Props> = (props) => {
   return (
-    <div className={`border-2 overflow-hidden rounded cursor-pointer border-gray-100 ${props.rounded ? 'rounded-full' : ''}`}>
-      {props.imgUrl ? (
+    <div
+      className={`border overflow-hidden rounded cursor-pointer border-gray-100 md:w-8 md:h-8 bg-pink-900 ${
+        props.rounded ? 'rounded-full' : ''
+      }`}
+    >
+      {props.imgUrl && (
         <img
           src={props.imgUrl}
           className="rounded"
           width={`${props.width ? props.width : 50}`}
           height={`${props.height ? props.height : 50}`}
         />
-      ) : (
-        <div className="bg-pink-900 w-12 h-12" />
       )}
     </div>
   );

@@ -73,17 +73,7 @@ export const SearchForm: React.FC<SearchFormProps> = (props) => {
       </form>
       <SearchResult
         results={searchSubspaceResults?.searchSubspaces || []}
-        onSelectSearch={props.turnOffSearch
-        //   async (val) => {
-        //   /*
-        //     - Routes you to the specific subreddit
-        //     - there could be a button that gets you to save the subreddit
-        //     - If you click on save, it should show up in your list of my
-        //     - subspaces
-        //    */
-
-        // }
-        }
+        onSelectSearch={props.turnOffSearch}
       />
     </section>
   );

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { IconSquarePlus } from '@tabler/icons';
 import { Modal } from 'src/components/Modal';
 import TagPopup from 'src/components/Tags/Popup';
 
@@ -7,7 +6,7 @@ import { SpaceRequiredProps } from 'src/utils/types';
 
 interface Props extends SpaceRequiredProps {}
 
-interface ManageTagsHandle {
+export interface ManageTagsHandle {
   showModal: () => void;
 }
 

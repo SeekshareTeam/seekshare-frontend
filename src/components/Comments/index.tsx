@@ -108,6 +108,7 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
               tabs={tabs}
             />
           }
+          onPressTags={() => {}}
         />
         <CommentSection
           comments={reduxState.comments}

@@ -12,12 +12,18 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     updateAvatar: (state, action) => {
-      return {
-        ...state,
-        data: {
-          ...state?.data,
-          avatar: action.payload,
+      if (state?.data) {
+        return {
+          ...state,
+          data: {
+            ...state.data,
+            avatar: action.payload
+          }
         }
+      }
+
+      return {
+        ...state
       }
     },
     fetchSessionUser: (state, action) => {

@@ -1,8 +1,15 @@
 import * as React from 'react';
 
 type DropdownProps = {
+  /**
+   * above or below the button
+   */
   position: 'above' | 'below';
   /**
+   * Dropdown Button
+   */
+  horizontalPosition: 'left' | 'right';
+  /*
    * Dropdown Button
    */
   dropdownButton?: React.ReactNode;
@@ -10,73 +17,80 @@ type DropdownProps = {
    *
    */
   dropdownRef: React.RefObject<HTMLButtonElement>;
+  /**
+   * Dropdown Button Options
+   */
+  optionList?: { text?: string; id?: string; href?: string }[];
 };
 
 const Dropdown: React.FC<DropdownProps> = (props) => {
   const [show, setShow] = React.useState(false);
+  const divRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (props?.dropdownRef?.current) {
       props.dropdownRef.current.onclick = () => {
         setShow(!show);
       };
+
+      // props.dropdownRef.current.onblur = () => {
+      //   setShow(false);
+      // };
     }
   }, [props?.dropdownRef, show]);
 
+  React.useEffect(() => {
+    if (divRef?.current) {
+      if (show) {
+        divRef.current.focus();
+      } else {
+        divRef.current.blur();
+      }
+    }
+  }, [show]);
+
   return (
-    <div className="relative inline-block m-auto">
-      {props.position === 'above' && (props.dropdownButton)}
+    <div tabIndex={1} className="relative inline-block">
+      {props.position === 'above' && props.dropdownButton}
       {show && (
         <div
-          className={`origin-bottom-right absolute bottom-full right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none`}
+          className={`absolute z-50 ${
+            props.position === 'above' ? 'top-full' : 'bottom-full'
+          } ${
+            props?.horizontalPosition === 'right' ? 'right-0' : 'left-0'
+          } w-56 rounded-md shadow-lg bg-secondary-medium ring-1 ring-black ring-opacity-5 focus:outline-none my-2`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
-          tabIndex={-1}
+          tabIndex={1}
+          onBlur={(event) => {
+            if (
+              !event.currentTarget.contains(event.relatedTarget) &&
+              !(event.relatedTarget === props.dropdownRef.current)
+            ) {
+              setShow(false);
+            }
+          }}
+          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+            console.log(event);
+          }}
+          ref={divRef}
         >
           <div className="py-1" role="none">
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabIndex={-1}
-              id="menu-item-0"
-            >
-              Account settings
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabIndex={-1}
-              id="menu-item-1"
-            >
-              Support
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabIndex={-1}
-              id="menu-item-2"
-            >
-              License
-            </a>
-            <form method="POST" action="#" role="none">
-              <button
-                type="submit"
-                className="text-gray-700 block w-full text-left px-4 py-2 text-sm"
+            {props?.optionList?.map((option, ix) => (
+              <a
+                className="text-lightpen-medium dark:text-darkpen-medium dark:bg-secondary-medium block px-4 py-2 text-sm dark:hover:bg-secondary-dark"
                 role="menuitem"
                 tabIndex={-1}
-                id="menu-item-3"
+                id={option?.id + '-' + ix}
               >
-                Sign out
-              </button>
-            </form>
+                {option.text}
+              </a>
+            ))}
           </div>
         </div>
       )}
-      {props.position === 'below' && (props.dropdownButton)}
+      {props.position === 'below' && props.dropdownButton}
     </div>
   );
 };

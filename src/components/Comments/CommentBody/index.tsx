@@ -165,6 +165,7 @@ const CommentBody: React.FC<CommentBodyProps> = ({
               body={body}
               size="xs"
               type="comment"
+              onPressTags={() => {}}
             />
           )}
           {props?.commentResult?.childComments?.map((cm) => {

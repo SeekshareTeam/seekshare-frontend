@@ -8,6 +8,7 @@ export const WORKSPACE_FRAGMENT = gql`
     ownerId
     name
     gradient
+    backgroundImage
   }
 `;
 

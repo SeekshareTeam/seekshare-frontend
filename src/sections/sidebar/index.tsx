@@ -35,9 +35,9 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
   return (
     <aside
       tabIndex={0}
-      className={`transition-all duration-500 md:sticky fixed w-64 max-w-64 z-50 md:z-20 top-0 flex flex-shrink-0 flex-col md:w-64 ${
+      className={`transition-all z-10 duration-500 md:sticky fixed w-64 max-w-64 top-0 flex flex-shrink-0 flex-col md:w-64 ${
         props.sidebarToggle ? '-ml-64 md:ml-0' : 'ml-0 md:-ml-64 md:flex-0'
-      } h-screen pt-4 bg-primary-dark dark:bg-night-medium overflow-y-hidden hover:overflow-y-auto text-darkpen-medium shadow-md border-r border-pink-300 dark:border-night-light`}
+      } h-screen bg-primary-dark dark:bg-night-medium text-darkpen-medium border-r border-pink-300 dark:border-night-light`}
     >
       {props.titleHeader}
       {props.searchSubspace}
@@ -78,7 +78,11 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   const reduxState = useAppSelector((state) => ({
     userId: state?.auth?.data?.id,
     avatarUrl: state?.auth?.data?.avatar,
-    currentWorkspace: state?.auth?.data?.currentWorkspace,
+    userCurrentWorkspace: state?.auth?.data?.currentWorkspace,
+    currentWorkspace: state?.workspace?.server?.workspace || {
+      name: 'Home',
+      id: '1',
+    },
     userSubspaces: state?.auth?.data?.userWorkspaces?.find((uw) => {
       // undefined should actually be the current workspace id
       if (state?.auth?.data?.currentWorkspace) {
@@ -149,7 +153,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 
   return (
     <SidebarLayout
-      titleHeader={<TitleHeader />}
+      titleHeader={<TitleHeader title={reduxState.currentWorkspace.name} />}
       sidebarToggle={props.sidebarToggle}
       searchSubspace={<SearchSubspace />}
       tabSections={sections.map((sec, labelIndex) => {
