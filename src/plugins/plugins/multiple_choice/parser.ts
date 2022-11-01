@@ -1,7 +1,10 @@
+import { flagsToSet } from '../../utils/utilities';
+
 const denoteAnswer = /\[x\] *([\s\S]*)/;
 
-const props = (text: string) => {
+const props = (text: string, flagsRaw: string) => {
   const answers: number[] = [];
+  const flags = flagsToSet(flagsRaw);
 
   const lines = text.split('\n-').reduce<string[]>((acc, t, i) => {
     let sanitized = t.trim();
@@ -34,6 +37,7 @@ const props = (text: string) => {
     title,
     options,
     answers,
+    randomize: 'randomize' in flags,
   };
 };
 

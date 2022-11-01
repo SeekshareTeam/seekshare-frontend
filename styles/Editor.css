@@ -43,7 +43,7 @@
 }
 
 .editor-preview {
-  @apply bg-night-light dark:text-white !important;
+  @apply bg-slate-900 dark:text-white !important;
 }
 
 .editor-preview-side {

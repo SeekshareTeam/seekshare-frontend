@@ -95,7 +95,12 @@ interface Props {
 
 const QuestionEditor: React.FC<Props> = props => {
   const [postTitle, setTitle] = React.useState('');
-  const [body, setBody] = React.useState('');
+  const [body, setBody] = React.useState(`\`\`\`multiple-choice
+title
+- [x] answer
+- option
+- option 2
+\`\`\``);
   const [currentTags, setCurrentTags] = React.useState<
     {
       value: string;

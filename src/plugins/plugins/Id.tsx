@@ -8,6 +8,7 @@ import './Id.module.css';
 interface Props extends Editable, Saveable<string> {
   code: string;
   type: keyof ComponentProps;
+  flags: string;
   componentProps?: Partial<ComponentProps>;
 }
 
@@ -35,6 +36,7 @@ const Id: React.FC<Props> = props => {
       {createComponent({
         type: props.type,
         text: body,
+        flags: props.flags,
         props: {
           mode: props.mode,
         },

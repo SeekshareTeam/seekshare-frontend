@@ -1,5 +1,8 @@
 import React from 'react';
 
+import Card from '../../plugins/components/Card';
+import CardActionGroup from '../../plugins/components/CardActionGroup';
+import Item from '../../plugins/components/Item';
 import StyledText from '../../plugins/components/StyledText';
 import SubmitButton from '../../plugins/components/SubmitButton';
 
@@ -18,15 +21,10 @@ const Poll: React.FC<Props> = props => {
   const { mode } = props;
 
   return (
-    <div className="poll-container">
+    <Card title="Poll">
       <StyledText text={props.title} />
-      <div className="poll-option-container">
+      <div className="mt-2 space-y-2">
         {props.options.map((option, i) => {
-          const style: React.CSSProperties = {};
-          if (mode === 'read' && selected[i]) {
-            style.backgroundColor = 'red';
-          }
-
           const onClick = () => {
             setSelected(prev => {
               if (prev[i]) {
@@ -39,13 +37,13 @@ const Poll: React.FC<Props> = props => {
           };
 
           return (
-            <StyledText
+            <Item
               key={i}
-              className={mode === 'read' ? 'poll-option-button' : ''}
               onClick={onClick}
-              style={style}
-              text={`${i + 1} ${option}`}
-            />
+              selected={mode === 'read' && selected[i] === 1}
+            >
+              {option}
+            </Item>
           );
         })}
       </div>
@@ -54,14 +52,18 @@ const Poll: React.FC<Props> = props => {
           const onClick = () => {
             props.onSubmit?.(
               props.id || '',
-              Object.keys(selected).map(x => parseInt(x, 10)),
+              Object.keys(selected).map(x => parseInt(x, 10))
             );
             alert(`Response: ${Object.keys(selected)}`);
             setSelected({});
           };
-          return <SubmitButton onClick={onClick} />;
+          return (
+            <CardActionGroup>
+              <SubmitButton onClick={onClick} />
+            </CardActionGroup>
+          );
         })()}
-    </div>
+    </Card>
   );
 };
 

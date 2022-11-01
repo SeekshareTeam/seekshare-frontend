@@ -53,8 +53,8 @@ const MarkdownViewer: React.FC<Props> = props => {
           <TableOfContents headers={headers} />
         </div>
       )}
-      <div className="viewer-container">
-        <div id="viewer-content" className="viewer-content">
+      <div className="bg-inherit">
+        <div id="viewer-content" className="bg-inherit">
           <ReactMarkdown
             children={props.text}
             remarkPlugins={remarkPlugins}

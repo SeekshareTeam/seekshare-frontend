@@ -40,7 +40,7 @@ const codeblockRender = (config: Config) => (args: CodeProps) => {
   const body = children?.[0];
 
   if (type === 'id') {
-    const id = (node?.data?.meta || '') as string;
+    const [id, flags] = ((node?.data?.meta || '') as string).split(' (.*)');
     const savedComponent = config.savedComponents?.[id];
     if (!savedComponent) {
       return defaultComponent(
@@ -54,6 +54,7 @@ const codeblockRender = (config: Config) => (args: CodeProps) => {
       <Id
         {...savedComponent}
         mode={config.mode}
+        flags={flags}
         componentProps={config.componentProps}
         onSubmit={config.onSaveComponent}
       />
@@ -68,6 +69,7 @@ const codeblockRender = (config: Config) => (args: CodeProps) => {
     const Component = createComponent({
       type,
       text: body,
+      flags: (node?.data?.meta || '') as string,
       props: {
         mode: config.mode,
       },

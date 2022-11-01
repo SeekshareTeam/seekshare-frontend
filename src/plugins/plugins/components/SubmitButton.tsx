@@ -5,7 +5,12 @@ interface Props {
 }
 
 const SubmitButton: React.FC<Props> = props => {
-  return <button onClick={props.onClick}>{'Submit'}</button>;
+  const className = 'bg-teal-700 py-1 px-4 rounded';
+  return (
+    <button className={className} onClick={props.onClick}>
+      {'Submit'}
+    </button>
+  );
 };
 
 export default SubmitButton;
