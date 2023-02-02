@@ -1,4 +1,5 @@
 import * as React from 'react';
+import clsx from 'clsx'
 import { Badge } from 'src/components/Badges';
 import { TextLink } from 'src/components/Button';
 
@@ -106,9 +107,9 @@ export const TitleInput: React.FC<TitleInputProps> = (
     <>
       {/*<Title value={props.title} />*/}
       <input
-        className={classes.title}
         style={{ fontFamily: 'Jetbrains Mono' }}
         {...props.inputProps}
+        className={clsx(classes.title, props.inputProps.className)}
       />
     </>
   );

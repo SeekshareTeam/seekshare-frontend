@@ -21,9 +21,14 @@ type DropdownProps = {
    * Dropdown Button Options
    */
   optionList?: { text?: string; id?: string; href?: string }[];
+  /**
+   *
+   */
+  onSelect?: (_: string) => void;
 };
 
-const Dropdown: React.FC<DropdownProps> = (props) => {
+// TODO: make the a generic component that accepts id types
+const Dropdown: React.FC<DropdownProps> = props => {
   const [show, setShow] = React.useState(false);
   const divRef = React.useRef<HTMLDivElement>(null);
 
@@ -63,7 +68,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
           aria-orientation="vertical"
           aria-labelledby="menu-button"
           tabIndex={1}
-          onBlur={(event) => {
+          onBlur={event => {
             if (
               !event.currentTarget.contains(event.relatedTarget) &&
               !(event.relatedTarget === props.dropdownRef.current)
@@ -79,10 +84,16 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
           <div className="py-1" role="none">
             {props?.optionList?.map((option, ix) => (
               <a
+                key={option?.id}
                 className="text-lightpen-medium dark:text-darkpen-medium dark:bg-secondary-medium block px-4 py-2 text-sm dark:hover:bg-secondary-dark"
                 role="menuitem"
                 tabIndex={-1}
                 id={option?.id + '-' + ix}
+                // optionList ids shouldn't be optional
+                onClick={() => {
+                  props.onSelect?.(option?.id ?? '');
+                  setShow(false);
+                }}
               >
                 {option.text}
               </a>

@@ -31,10 +31,23 @@ const getContainers = () => {
   };
 };
 
-interface Props
+interface TabItem {
+  value: string;
+  label: string;
+}
+
+// TODO: make the tab values generic
+interface TabOption {
+  list: TabItem[];
+  selected: string;
+  onSelect: (_: string) => void;
+}
+
+export interface Props
   extends Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'> {
   viewerProps?: Partial<ViewerProps>;
   onPressTags?: () => void;
+  tabOption?: TabOption;
 }
 
 const Editor: React.FC<Props> = props => {
@@ -116,6 +129,28 @@ const Editor: React.FC<Props> = props => {
     }
   }, [previewMode]);
 
+  // We want to place the tabs before the toolbar items and createPortal
+  // only appends it (is we prepend in this case)
+  const toolbarPortal = React.useRef(document.createElement('div'));
+
+  React.useEffect(() => {
+    if (props.tabOption) {
+      containers.toolbar?.prepend(toolbarPortal.current);
+      if (containers.toolbar) {
+        containers.toolbar.style.display = 'flex';
+      }
+    } else {
+      try {
+        containers.toolbar?.removeChild(toolbarPortal.current);
+      } catch {}
+    }
+    return () => {
+      try {
+        containers.toolbar?.removeChild(toolbarPortal.current);
+      } catch {}
+    };
+  }, [props.tabOption]);
+
   const options = React.useMemo(() => {
     const tb = props.options?.toolbar;
 
@@ -178,15 +213,40 @@ const Editor: React.FC<Props> = props => {
           />
         </Side>
       )}
+      {props.tabOption != null && (
+        <TabContainer container={toolbarPortal.current}>
+          <div className="flex flex-row">
+            {props.tabOption?.list.map(item => (
+              <div
+                key={item.value}
+                className="py-0.5 px-2"
+                style={{
+                  color:
+                    props.tabOption?.selected === item.value
+                      ? 'white'
+                      : '#91A699',
+                  backgroundColor:
+                    props.tabOption?.selected === item.value
+                      ? '#91A699'
+                      : '#232325',
+                }}
+                onClick={() => props.tabOption?.onSelect(item.value)}
+              >
+                {item.label}
+              </div>
+            ))}
+          </div>
+        </TabContainer>
+      )}
     </React.Fragment>
   );
 };
 
-interface PreviewProps {
+interface PortalProps {
   container?: Element;
 }
 
-const Full: React.FC<PreviewProps> = props => {
+const Full: React.FC<PortalProps> = props => {
   if (!props.container) {
     return null;
   }
@@ -201,7 +261,15 @@ const Full: React.FC<PreviewProps> = props => {
   );
 };
 
-const Side: React.FC<PreviewProps> = props => {
+const Side: React.FC<PortalProps> = props => {
+  if (!props.container) {
+    return null;
+  }
+
+  return ReactDom.createPortal(props.children, props.container);
+};
+
+const TabContainer: React.FC<PortalProps> = props => {
   if (!props.container) {
     return null;
   }
