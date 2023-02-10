@@ -12,7 +12,7 @@ import {
 const api = () => {
   // Use a pattern where if undefined then load it
   // otherwise return the value. jk
-  const [createSubspaceMutation] = useCustomMutation<
+  const [createSubspaceMutation, { error: errorCreateSubspace }] = useCustomMutation<
     typeof createSubspace,
     typeof useCreateSubspaceMutation
   >({
@@ -42,23 +42,24 @@ const api = () => {
     onMount: false,
   });
 
-  console.log('@ see how many times this gets initialized');
   const onCreateSubspace = async ({
     name,
     fieldTwo = null,
     fieldThree = null,
     fieldFour = null,
     workspaceId = '',
+    subspaceImgUrl = '',
   }: {
     name: string;
     fieldTwo: string | null;
     fieldThree: string | null;
     fieldFour: string | null;
     workspaceId: string;
+    subspaceImgUrl: string;
   }) => {
     await createSubspaceMutation({
       variables: {
-        subspaceInput: { name, fieldTwo, fieldThree, fieldFour, workspaceId },
+        subspaceInput: { name, fieldTwo, fieldThree, fieldFour, workspaceId, subspaceImgUrl },
       },
     });
   };
@@ -87,6 +88,7 @@ const api = () => {
     subscribeSubspaceMutation,
     unsubscribeSubspaceMutation,
     onCreateSubspace,
+    errorCreateSubspace
   };
 };
 

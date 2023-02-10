@@ -33,7 +33,7 @@ export const UploadImage: React.FC<Props> = (props) => {
   };
 
   return (
-    <form>
+    <>
       <label htmlFor="sidebar_upload_image">
         {props.displayLabel || 'Upload File'}
       </label>
@@ -49,6 +49,6 @@ export const UploadImage: React.FC<Props> = (props) => {
           }
         }}
       />
-    </form>
+    </>
   );
 };

@@ -205,13 +205,11 @@ export const WorkspaceForm = () => {
           >
             {'Create A New Workspace.'}
           </h1>
+          <div
+            className="w-full md:h-56  mb-2 rounded shadow box-border"
+            style={{ backgroundImage: `url("${bgImageUrl}")` }}
+          />
           <div className="flex flex-col p-2 rounded-xl">
-            <div className="w-1/2 self-end flex justify-center items-center">
-              <img
-                className="w-60 h-48 rounded-lg overflow-hidden shadow"
-                src={bgImageUrl}
-              />
-            </div>
             {newInputFormRow({
               labelHtmlFor: 'workspaceName',
               labelName: 'Workspace Name',

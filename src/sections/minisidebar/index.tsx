@@ -19,7 +19,7 @@ interface MiniSidebarLayoutProps {
 
 const MiniSidebarLayout: React.FC<MiniSidebarLayoutProps> = (props) => {
   return (
-    <div className="h-screen z-10 sticky w-16 px-2 py-4 bg-primary-dark dark:bg-night-light flex flex-col flex-shrink-0 items-center top-0">
+    <div className="h-screen z-10 sticky w-16 px-2 py-4 bg-primary-dark dark:bg-night-medium flex flex-col flex-shrink-0 items-center top-0">
       {props.userWorkspaces}
       {props.addWorkspace}
       {props.exploreWorkspace}
@@ -40,7 +40,7 @@ const MiniSidebar: React.FC = () => {
       ))}
       addWorkspace={
         <AuthCheck
-          message={'Please Login to Seekshare to create a new workspace.'}
+          message={'Please login to Seekshare to create a new workspace.'}
           className={'flex self-center w-full justify-end'}
         >
           <AddWorkspace />

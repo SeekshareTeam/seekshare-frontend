@@ -74,7 +74,7 @@ function BaseButton({ forwardedRef, ...rest }: ButtonPropsWithRef) {
 }
 
 const baseClasses =
-  'flex space-x-1 flex-none items-center justify-center cursor-pointer leading-none transition-all font-semibold';
+  'flex space-x-1 flex-none items-center justify-center cursor-pointer leading-none transition-all';
 
 function getSize(size: string | undefined) {
   switch (size) {
@@ -97,7 +97,7 @@ function getSize(size: string | undefined) {
       return 'p-2 text-sm';
     }
     default: {
-      return '';
+      return 'px-2 py-0.5 text-sm';
       // return 'px-4 py-2 text-sm w-full';
     }
   }
@@ -172,6 +172,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       iconLeft = null,
       variant = 'primary',
       loading = false,
+      className = '',
       ...props
     }: ButtonProps,
     ref
@@ -187,7 +188,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const size = composer.getSize(props.size);
     const opacity = composer.getOpacity(props.disabled);
     const radius = composer.getRadius(props.radius);
-    const composed = `${baseClasses} ${size} ${radius} ${opacity} ${classes}`;
+    const composed = `${baseClasses} ${size} ${radius} ${opacity} ${classes} ${className}`;
 
     if (loading) {
       return <Spinner />;

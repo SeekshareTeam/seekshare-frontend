@@ -1,51 +1,79 @@
 import * as React from 'react';
 import { IconChevronDown, IconEdit } from '@tabler/icons';
+import { Workspace as WorkspaceType } from 'src/generated/types';
+
 import Dropdown from 'src/components/Dropdown';
 import { Button } from 'src/components/Button';
+import { Modal } from 'src/components/Modal';
+import { SubspaceForm } from 'src/components/Subspace';
 
 interface TitleHeaderProps {
-  title: string;
+  currentWorkspace: WorkspaceType;
 }
-
-// const TitleDropdown: React.FC<TitleDropdownProps> = (props) => {
-//   return (
-//     <button className="w-full px-2 bg-none hover:brightness-200">
-//     </button>
-//   );
-// };
 
 const TitleHeader: React.FC<TitleHeaderProps> = (props) => {
   const dropdownRef = React.useRef(null);
+  const [showSubspaceForm, setShowSubspaceForm] = React.useState(false);
 
   const options = [
     { text: 'Account Setting', href: '', id: '' },
     { text: 'Support', href: '', id: '' },
+    {
+      text: 'Create Subspace',
+      href: '',
+      id: '',
+      callback: () => {
+        setShowSubspaceForm(true);
+      },
+    },
     { text: 'License', href: '', id: '' },
     { text: 'Sign Out', href: '', id: '' },
   ];
 
   return (
-    <div className="relative inline-block m-auto dark:bg-night-light w-full py-4">
-      <div className="flex justify-between items-center w-full px-4 bg-none">
-        <div className="flex flex-1 items-center justify-start">
-          <Dropdown
-            dropdownRef={dropdownRef}
-            dropdownButton={
-              <Button variant={null} ref={dropdownRef}>
-                  <h1 className="font-semibold text-lg">{props.title}</h1>
-                  <IconChevronDown />
-              </Button>
-            }
-            optionList={options}
-            position={'above'}
-            horizontalPosition={'left'}
+    <>
+      <Modal
+        blurBackground={false}
+        show={showSubspaceForm}
+        onPressBlur={() => {
+          setShowSubspaceForm(false);
+        }}
+      >
+        <div className="z-10 lg:w-1/4 sm:w-80 bg-white dark:bg-dusk-dark rounded-xl">
+          <SubspaceForm
+            workspaceId={props.currentWorkspace.id}
+            workspaceName={props.currentWorkspace.name}
+            onSubmit={() => {
+              setShowSubspaceForm(false);
+            }}
           />
         </div>
-        <Button variant={null}>
-          <IconEdit />
-        </Button>
+      </Modal>
+
+      <div className="relative inline-block m-auto dark:bg-night-medium w-full py-4">
+        <div className="flex justify-between items-center w-full px-4 bg-none">
+          <div className="flex flex-1 items-center justify-start">
+            <Dropdown
+              dropdownRef={dropdownRef}
+              dropdownButton={
+                <Button variant={null} ref={dropdownRef}>
+                  <h1 className="font-semibold text-lg">
+                    {props.currentWorkspace.name}
+                  </h1>
+                  <IconChevronDown size={16} />
+                </Button>
+              }
+              optionList={options}
+              position={'above'}
+              horizontalPosition={'left'}
+            />
+          </div>
+          <Button variant={null}>
+            <IconEdit />
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

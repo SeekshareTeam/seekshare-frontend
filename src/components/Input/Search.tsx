@@ -14,7 +14,7 @@ type Props = {
 
   submissionCallback?: (val: string) => Promise<void>;
 
-  onBlurCallback?: () => void;
+  onBlurCallback?: (e: React.FocusEvent<HTMLInputElement>) => void;
 
   onFocusCallback?: () => void;
 
@@ -29,8 +29,10 @@ const Search: React.FC<Props> = (props) => {
   const [boxFocus, setBoxFocus] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const onContainerClick = () => {
-    inputRef?.current?.focus();
+  const onContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!(e.target instanceof HTMLButtonElement)) {
+      inputRef?.current?.focus();
+    }
     setBoxFocus(true);
     if (props.onFocusCallback) {
       props.onFocusCallback();
@@ -41,12 +43,21 @@ const Search: React.FC<Props> = (props) => {
     inputRef?.current?.blur();
     setBoxFocus(false);
     if (props.onBlurCallback) {
-      props.onBlurCallback();
-    }
-    if (e?.relatedTarget instanceof HTMLElement) {
-      e.relatedTarget.click();
+      props.onBlurCallback(e);
     }
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (
+      event.key === 'Enter' &&
+      (event.target as HTMLInputElement).value.trim() !== ''
+    ) {
+      if (props?.searchQueryCallback) {
+        props.searchQueryCallback((event.target as HTMLInputElement).value);
+      }
+    }
+  };
+
 
   const debounceCallback = React.useCallback(
     debounce(async (val: string) => {
@@ -87,7 +98,7 @@ const Search: React.FC<Props> = (props) => {
                 onClick={onContainerClick}
                 className={`flex rounded shadow-md border border-blue-400 outline-none ${
                   boxFocus
-                    ? 'ring-2 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
+                    ? 'ring-1 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
                     : ''
                 } p-1 dark:border-white dark:bg-night-light dark:caret-white dark:text-white`}
               >
@@ -97,6 +108,7 @@ const Search: React.FC<Props> = (props) => {
                   type="text"
                   name={props.labelName}
                   autoComplete="off"
+                  onKeyDown={handleKeyDown}
                   onChange={(e) => {
                     const targetValue = e?.target?.value || '';
                     setFieldValue(props.labelName, targetValue);

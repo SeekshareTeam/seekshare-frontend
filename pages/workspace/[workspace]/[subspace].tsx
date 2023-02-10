@@ -73,8 +73,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   const subspaceApi = useSubspaceApi();
   const [onSubscribeSubspace, onSubscribeSubspaceState] =
     subspaceApi?.subscribeSubspaceMutation;
-  const [onUnsubscribeSubspace] =
-    subspaceApi?.unsubscribeSubspaceMutation;
+  const [onUnsubscribeSubspace] = subspaceApi?.unsubscribeSubspaceMutation;
 
   const router = useRouter();
 
@@ -143,6 +142,27 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
       }
     }
   };
+
+  // const postList = [
+  //   {
+  //     title: 'This is a sample title',
+  //     answerCount: 3,
+  //     commentCount: 3,
+  //     content: {
+  //       body: ' This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body.  ',
+  //     },
+  //     votes: 40,
+  //   },
+  //   {
+  //     title: 'This is a sample title',
+  //     answerCount: 3,
+  //     commentCount: 3,
+  //     content: {
+  //       body: ' This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body.  ',
+  //     },
+  //     votes: 40,
+  //   },
+  // ];
 
   return (
     <SubspaceLayout

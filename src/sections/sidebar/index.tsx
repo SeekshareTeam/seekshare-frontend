@@ -1,5 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
+
 import SidebarSection from 'src/sections/sidebar/Sections';
 import TitleHeader from 'src/sections/sidebar/TitleHeader';
 import UserControl from 'src/sections/sidebar/UserControl';
@@ -35,7 +36,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
   return (
     <aside
       tabIndex={0}
-      className={`transition-all z-10 duration-500 md:sticky fixed w-64 max-w-64 top-0 flex flex-shrink-0 flex-col md:w-64 ${
+      className={`transition-all duration-500 md:sticky fixed w-64 max-w-64 top-0 flex flex-shrink-0 flex-col md:w-64 ${
         props.sidebarToggle ? '-ml-64 md:ml-0' : 'ml-0 md:-ml-64 md:flex-0'
       } h-screen bg-primary-dark dark:bg-night-medium text-darkpen-medium border-r border-pink-300 dark:border-night-light`}
     >
@@ -151,9 +152,17 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     }
   }, [reduxState?.userSubspaces]);
 
+  if (!reduxState?.userId) {
+    return null;
+  }
+
   return (
     <SidebarLayout
-      titleHeader={<TitleHeader title={reduxState.currentWorkspace.name} />}
+      titleHeader={
+        <TitleHeader
+          currentWorkspace={reduxState.currentWorkspace}
+        />
+      }
       sidebarToggle={props.sidebarToggle}
       searchSubspace={<SearchSubspace />}
       tabSections={sections.map((sec, labelIndex) => {

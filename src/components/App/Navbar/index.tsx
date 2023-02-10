@@ -2,11 +2,13 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { Button, DropdownButton } from 'src/components/Button';
+import { Button, } from 'src/components/Button';
 import { useAppSelector } from 'src/modules/Redux';
 import { IconChevronDown, IconMenu2, IconSearch } from '@tabler/icons';
 import { Modal } from 'src/components/Modal';
 import { SubspaceForm } from 'src/components/Subspace';
+import { useSearchInSubspaceLazyQuery } from 'src/generated/apollo';
+import { keyBy } from 'lodash';
 
 import Dropdown from 'src/components/Dropdown';
 import InputSearch from 'src/components/Input/Search';
@@ -19,13 +21,47 @@ type NavbarProps = {
 const Navbar = (props: NavbarProps) => {
   const [showSubspaceForm, setShowSubspaceForm] = React.useState(false);
   const [hideSignIn, setHideSignIn] = React.useState(false);
+  const [showDropdown, setShowDropdown] = React.useState(false);
+  const [selectedOption, setSelectedOption] = React.useState('subspace');
+  const [searchMode, setSearchMode] = React.useState<'subspace' | 'general'>(
+    'general'
+  );
 
-  const dropdownRef = React.useRef(null);
+  const [
+    searchInSubspaceQuery,
+    // {
+    //   data: subspaceSearchData,
+    //   loading: subspaceSearchLoading,
+    //   error: subspaceSearchError,
+    // },
+  ] = useSearchInSubspaceLazyQuery();
+
+  const dropdownRef = React.useRef<HTMLButtonElement>(null);
   const router = useRouter();
+
+  const options = [
+    { text: 'Subspace', type: 'subspace', href: '', id: '' },
+    { text: 'Posts', type: 'posts', href: '', id: '' },
+    { text: 'Q + A', type: 'qna', href: '', id: '' },
+    { text: 'Question Bank', type: 'question_bank', href: '', id: '' },
+  ];
+
+  const keyedOptions = keyBy(options, 'type');
+
+  React.useEffect(() => {
+    if (dropdownRef?.current) {
+      dropdownRef.current.onmousedown = (e) => {
+        console.log('ddd', e.target, e.currentTarget);
+        setShowDropdown(!showDropdown);
+      };
+    }
+  }, [dropdownRef?.current, showDropdown]);
 
   React.useEffect(() => {
     if (router.pathname === '/login') {
       setHideSignIn(true);
+    } else if (router.pathname.includes('/workspace/')) {
+      setSearchMode('subspace');
     } else {
       if (hideSignIn) {
         setHideSignIn(false);
@@ -36,8 +72,11 @@ const Navbar = (props: NavbarProps) => {
   const reduxState = useAppSelector((state) => {
     return {
       authUser: state?.auth?.data,
+      subspace: state?.subspace?.server,
     };
   });
+
+  const fullName = reduxState?.authUser?.firstname + ' ' + reduxState?.authUser?.lastname;
 
   const tagValidationSchema = yup.object().shape({
     tagName: yup
@@ -47,41 +86,84 @@ const Navbar = (props: NavbarProps) => {
       .required('Required!'),
   });
 
-  // const searchTagsQueryCallback = React.useCallback(
-  //   async (val, onEnter = false) => {
-  //     /*
-  //        TODO: Write in a functionality that onEnter
-  //        the debounce function should search for a tag
-  //        that already exists based on the EXACT value
-  //        If it does exist, then pass in the value from here.
-  //      */
-  //     if (val === '') {
-  //       setSearchedTags([]);
-  //     } else {
-  //       if (onEnter) {
-  //         // This should also be in the top section
-  //         // await searchExactTagQuery({
-  //         //   variables: { queryString: val },
-  //         // });
-  //       } else {
-  //         await searchTagsQuery({
-  //           variables: { queryString: val },
-  //         });
-  //       }
-  //     }
-  //   },
-  //   [searchTagsQuery]
-  // );
-
-  const searchQueryCallback = async (val: string) => {
-    console.log(val);
+  const searchBarSubspace = () => {
+    return (
+      <>
+        <Dropdown
+          dropdownRef={dropdownRef}
+          dropdownButton={
+            <Button
+              className="w-32 justify-between"
+              type="button"
+              variant={null}
+              ref={dropdownRef}
+            >
+              {keyedOptions[selectedOption]?.text}
+              <IconChevronDown size={16} />
+            </Button>
+          }
+          abstractControl={true}
+          abstractShow={showDropdown}
+          bgColor={{
+            dark: 'bg-night-dark',
+            medium: 'bg-night-medium',
+            light: 'bg-night-light',
+          }}
+          optionList={options}
+          onOptionClick={(val: {
+            text?: string;
+            type?: string;
+            id?: string;
+            href?: string;
+          }) => {
+            console.log('val', val);
+            if (val?.type) {
+              setSelectedOption(val.type);
+            }
+          }}
+          position={'above'}
+          horizontalPosition={'left'}
+        />
+      </>
+    );
   };
 
-  // const submissionCallback = () => {};
+  const searchBarGeneral = () => {
+    return null;
+  };
 
-  const onBlurCallback = () => {};
+  const searchBarOptions = () => {
+    if (searchMode === 'subspace') {
+      return searchBarSubspace();
+    } else {
+      return searchBarGeneral();
+    }
+  };
 
-  const onFocusCallback =  () => {};
+  const searchQueryCallback = async (val: string) => {
+    /**
+     * Pass the option to the back-end
+     */
+    await searchInSubspaceQuery({
+      variables: {
+        searchInput: {
+          search: val,
+          workspaceId: reduxState?.subspace?.workspaceId,
+          option: selectedOption,
+          pageNumber: 0,
+        },
+      },
+    });
+  };
+
+  const onBlurCallback = (e: React.FocusEvent<HTMLInputElement>) => {
+    console.log('eee', e.target, e.currentTarget);
+    if (!(e.relatedTarget === dropdownRef?.current)) {
+      setShowDropdown(false);
+    }
+  };
+
+  const onFocusCallback = () => {};
 
   return (
     <div className="flex flex-1 bg-night-medium">
@@ -111,7 +193,7 @@ const Navbar = (props: NavbarProps) => {
             >
               <IconMenu2 size={36} stroke={1} color={'red'} />
             </button>
-            <Button
+            {/*<Button
               variant={'primary'}
               size={'small'}
               onClick={() => {
@@ -119,7 +201,7 @@ const Navbar = (props: NavbarProps) => {
               }}
             >
               {'Add Subspaces'}
-            </Button>
+              </Button>*/}
           </>
         )}
       </div>
@@ -131,7 +213,8 @@ const Navbar = (props: NavbarProps) => {
           onFocusCallback={onFocusCallback}
           labelName={'searchContent'}
           inputPlaceholder={'Search for...'}
-          leftNode={<IconSearch size={24} />}
+          leftNode={searchBarOptions()}
+          rightNode={<IconSearch size={24} />}
           labelTitle={''}
         />
       </div>
@@ -152,26 +235,13 @@ const Navbar = (props: NavbarProps) => {
           )}
           {reduxState.authUser && (
             <>
-              <Dropdown
-                position={'above'}
-                dropdownRef={dropdownRef}
-                dropdownButton={
-                  <DropdownButton ref={dropdownRef}>
-                    <span className={'pr-0.5'}>{'Trial'}</span>
-                    <IconChevronDown size={16} />
-                  </DropdownButton>
-                }
-                horizontalPosition={'left'}
-              />
-              <div className="self-center px-2">
-                {reduxState?.authUser?.firstname +
-                  ' ' +
-                  reduxState?.authUser?.lastname}
+              <div className="self-center px-2 text-xs dark:text-darkpen-medium">
+                {fullName}
               </div>
 
               <Button
-                variant={'primary'}
                 size={'small'}
+                variant={null}
                 onClick={async () => {
                   signOut({ redirect: false });
                 }}

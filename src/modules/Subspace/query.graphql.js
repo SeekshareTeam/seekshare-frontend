@@ -32,6 +32,19 @@ export const FETCH_SUBSPACE_QUERY = gql`
   }
 `;
 
+export const SEARCH_IN_SUBSPACE_QUERY = gql`
+  query searchInSubspace($searchInput: SubspaceSearchInput!) {
+    searchInSubspace(searchInput: $searchInput) {
+      id
+      name
+      fieldTwo
+      fieldThree
+      fieldFour
+      workspaceId
+    }
+  }
+`;
+
 // export const FETCH_SUBSPACES_QUERY = gql`
 //   query fetchSubspaces($workspaceId: ID!, pageNumber: Int) {
 //     fetchSubspaces(workspaceId: $workspaceId, pageNumber: $pageNumber) {

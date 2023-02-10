@@ -20,7 +20,29 @@ type DropdownProps = {
   /**
    * Dropdown Button Options
    */
-  optionList?: { text?: string; id?: string; href?: string }[];
+  optionList?: { text?: string; type?: string; id?: string; href?: string; callback?: () => void; }[];
+  /**
+   *
+   */
+  onOptionClick?: (option: {
+    text?: string;
+    type?: string;
+    id?: string;
+    href?: string;
+  }) => void;
+  /**
+   * Different dropdown rendering modes
+   */
+  abstractControl?: boolean;
+  /**
+   * External show variable;
+   */
+  abstractShow?: boolean;
+  /**
+   * Submit the css for background color
+   * Submit a dark medium and light gradation
+   */
+  bgColor?: { dark: string; medium: string; light: string };
 };
 
 const Dropdown: React.FC<DropdownProps> = (props) => {
@@ -28,29 +50,33 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const divRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (props?.dropdownRef?.current) {
-      props.dropdownRef.current.onclick = () => {
+    if (props?.abstractControl) {
+      setShow(props?.abstractShow || false);
+    } else if (props?.dropdownRef?.current) {
+      props.dropdownRef.current.onmousedown = (e) => {
         setShow(!show);
+        e.preventDefault();
       };
-
-      // props.dropdownRef.current.onblur = () => {
-      //   setShow(false);
-      // };
     }
-  }, [props?.dropdownRef, show]);
+  }, [props?.abstractControl, props?.abstractShow, props?.dropdownRef, show]);
 
   React.useEffect(() => {
-    if (divRef?.current) {
+    if (!props?.abstractControl && divRef?.current) {
       if (show) {
         divRef.current.focus();
       } else {
+        console.log('am i calling blur first');
         divRef.current.blur();
       }
     }
-  }, [show]);
+  }, [props?.abstractControl, show]);
+
+  const bgAnchorClass = props.bgColor
+    ? props.bgColor.light + ' hover:' + props.bgColor.dark
+    : 'bg-secondary-medium hover:bg-secondary-dark';
 
   return (
-    <div tabIndex={1} className="relative inline-block">
+    <div tabIndex={1} className="relative my-auto inline-block">
       {props.position === 'above' && props.dropdownButton}
       {show && (
         <div
@@ -58,7 +84,9 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
             props.position === 'above' ? 'top-full' : 'bottom-full'
           } ${
             props?.horizontalPosition === 'right' ? 'right-0' : 'left-0'
-          } w-56 rounded-md shadow-lg bg-secondary-medium ring-1 ring-black ring-opacity-5 focus:outline-none my-2`}
+          } w-56 rounded-md shadow-lg ${
+            props.bgColor ? props.bgColor.light : 'bg-secondary-medium'
+          } ring-1 ring-black ring-opacity-5 focus:outline-none my-2`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -71,18 +99,27 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
               setShow(false);
             }
           }}
-          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-            console.log(event);
-          }}
           ref={divRef}
         >
           <div className="py-1" role="none">
             {props?.optionList?.map((option, ix) => (
               <a
-                className="text-lightpen-medium dark:text-darkpen-medium dark:bg-secondary-medium block px-4 py-2 text-sm dark:hover:bg-secondary-dark"
+                className={`text-lightpen-medium dark:text-darkpen-medium ${bgAnchorClass} block px-4 py-2 text-sm cursor-pointer`}
                 role="menuitem"
                 tabIndex={-1}
                 id={option?.id + '-' + ix}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                }}
+                onClick={() => {
+                  if (option?.callback) {
+                    option.callback();
+                  } else {
+                    if (props?.onOptionClick) {
+                      props.onOptionClick(option);
+                    }
+                  }
+                }}
               >
                 {option.text}
               </a>

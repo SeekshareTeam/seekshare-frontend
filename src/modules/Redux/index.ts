@@ -131,7 +131,7 @@ export const fetchSSRQuery = async <
 
   const dataKeys = Object.keys(result?.props?.data || {});
 
-  console.log('SSR APOLLO QUERY', JSON.stringify(result));
+  // console.log('SSR APOLLO QUERY', JSON.stringify(result));
 
   if (!isEmpty(dataKeys) && result?.props?.data) {
     const { data } = result.props;

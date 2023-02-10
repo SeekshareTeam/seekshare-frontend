@@ -16,6 +16,14 @@ module.exports = {
     './pages/**/*.{ts,tsx,js,html}',
     './node_modules/tw-elements/dist/js/**/*.js',
   ],
+  safelist: [
+    {
+      pattern: /(from|via|to|bg)-(black|white)/,
+    },
+    {
+      pattern: /(from|via|to|bg)-(.+)-([1-9]00)/,
+    },
+  ],
   plugins: [require('tw-elements/dist/plugin')],
   theme: {
     extend: {
@@ -33,15 +41,11 @@ module.exports = {
           extralight: colors.white,
         },
         primary: {
-          medium: colors.pink['700'],
-          dark: colors.pink['900'],
-          light: colors.pink['500'],
+          medium: colors.cyan['700'],
+          dark: colors.cyan['900'],
+          light: colors.cyan['500'],
         },
         night: {
-          // dark: colors.slate['800'],
-          // medium: colors.slate['700'],
-          // light: colors.slate['600'],
-          // extralight: colors.slate['500'],
           dark: colors.black,
           medium: colors.zinc['900'],
           light: colors.zinc['800'],

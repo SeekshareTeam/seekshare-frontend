@@ -24,7 +24,7 @@ const WorkspaceLayout: React.FC<WorkspaceLayoutProps> = (props) => {
     <div className="flex flex-col">
       {props.workspaceHeader}
       {props.underlineTabs}
-      <div className="flex justify-center">{props.subspaceRow}</div>
+      <div className="flex flex-col items-center justify-center">{props.subspaceRow}</div>
     </div>
   );
 };
