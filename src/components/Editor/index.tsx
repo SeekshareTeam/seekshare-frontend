@@ -10,8 +10,14 @@ import 'easymde/dist/easymde.min.css';
 import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
 import { TitleInput } from 'src/components/Input';
+import { Button } from 'src/components/Button';
+import Dropdown from 'src/components/Dropdown';
 import ManageTags, { ManageTagsHandle } from 'src/components/Tags/Create';
 import { setLoading } from 'src/modules/App/slice';
+
+import { IconChevronDown } from '@tabler/icons';
+
+import type { Props as EditorProps } from 'src/plugins/components/Editor';
 
 const classes = {
   editorContainer: 'w-full h-full flex flex-col justify-center',
@@ -35,6 +41,7 @@ type MarkdownEditorProps = {
   type?: string;
   tabNode?: React.ReactNode;
   onPressTags: () => void;
+  tabOption?: EditorProps['tabOption'];
 };
 
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
@@ -44,6 +51,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   type,
   tabNode,
   onPressTags,
+  tabOption,
 }: MarkdownEditorProps) => {
   const options = React.useMemo(
     () => ({
@@ -63,6 +71,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         value={body}
         onChange={onBodyChange}
         onPressTags={onPressTags}
+        tabOption={tabOption}
       />
       {type === 'comment' && (
         <div
@@ -91,9 +100,15 @@ interface Props {
   workspaceId: string;
 }
 
-const QuestionEditor: React.FC<Props> = (props) => {
+type PostType = 'question' | 'note' | 'qna' | 'quiz';
+type QnaType = 'question' | 'answer';
+
+const QuestionEditor: React.FC<Props> = props => {
   const [postTitle, setTitle] = React.useState('');
-  const [body, setBody] = React.useState('');
+  const [postType, setPostType] = React.useState<PostType>('question');
+  const [qnaType, setQnaType] = React.useState<QnaType>('question');
+  const [bodies, setBodies] = React.useState<string[]>(['']);
+  const [bodyIndex, setBodyIndex] = React.useState(0);
   const [currentTags] = React.useState<
     {
       value: string;
@@ -117,14 +132,26 @@ const QuestionEditor: React.FC<Props> = (props) => {
     dispatch(setLoading(loading));
   }, [loading]);
 
+  const dropdownRef = React.useRef(null);
+  const postTypeOptions = React.useMemo<{ id: PostType; text: string }[]>(
+    () => [
+      { id: 'question', text: 'Question' },
+      { id: 'note', text: 'Note' },
+      { id: 'qna', text: 'QnA' },
+      { id: 'quiz', text: 'Quiz' },
+    ],
+    []
+  );
+
   const onSubmitCreatePost = React.useCallback(async () => {
-    const postTags = currentTags.map((ct) => ct.id);
+    // TODO: submit multiple bodies
+    const postTags = currentTags.map(ct => ct.id);
     const result = await createPostMutation({
       variables: {
         postInput: {
-          body,
+          body: bodies[0],
           title: postTitle,
-          type: 'question',
+          type: postType,
           tags: postTags,
           workspaceId: props.workspaceId,
           subspaceId: props.subspaceId,
@@ -135,32 +162,100 @@ const QuestionEditor: React.FC<Props> = (props) => {
     if (result?.data?.createPost?.postId) {
       router.push('/post/' + result.data.createPost.postId);
     }
-  }, [body, postTitle, currentTags]);
+  }, [bodies, postTitle, currentTags, postType]);
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const onBodyChange = (val: string) => {
-    setBody(val);
-  };
+  const onBodyChange = React.useCallback(
+    (val: string) => {
+      setBodies(state =>
+        state.map((body, i) => (i === bodyIndex ? val : body))
+      );
+    },
+    [bodyIndex]
+  );
+
+  const postText = React.useMemo(
+    () => postTypeOptions.find(x => x.id === postType)?.text,
+    [postType]
+  );
+
+  // Configure editor tabs here
+  const tabOption = React.useMemo<EditorProps['tabOption']>(() => {
+    if (postType !== 'qna') {
+      return undefined;
+    }
+
+    return {
+      list: [
+        { value: 'question', label: 'Question' },
+        { value: 'answer', label: 'Answer' },
+      ],
+      selected: qnaType,
+      onSelect: x => setQnaType(x as QnaType),
+    };
+  }, [postType, qnaType]);
+
+  // Callback for when the tabs change
+  React.useEffect(() => {
+    if (!tabOption) {
+      return setBodyIndex(0);
+    }
+    const index = tabOption.list.findIndex(
+      item => item.value === tabOption.selected
+    );
+
+    if (index === -1) {
+      return setBodyIndex(0);
+    }
+
+    if (bodies.length - 1 < index) {
+      setBodies(state => {
+        const newState = [...state];
+        for (let i = bodies.length; i <= index; i += 1) {
+          newState.push('');
+        }
+        return newState;
+      });
+    }
+    setBodyIndex(index);
+  }, [tabOption?.selected]);
 
   return (
     <div className="justify-center w-full flex-1">
       <div className={classes.editorContainer}>
-        <TitleInput
-          inputProps={{
-            onChange: onTitleChange,
-            value: postTitle,
-            placeholder: text.title,
-          }}
-        />
+        <div className="flex flex-row items-center">
+          <TitleInput
+            inputProps={{
+              onChange: onTitleChange,
+              value: postTitle,
+              placeholder: text.title,
+              className: 'flex-1',
+            }}
+          />
+          <Dropdown
+            dropdownRef={dropdownRef}
+            optionList={postTypeOptions}
+            position="above"
+            horizontalPosition="right"
+            dropdownButton={
+              <Button variant={null} ref={dropdownRef}>
+                <h3 className="">{postText}</h3>
+                <IconChevronDown />
+              </Button>
+            }
+            onSelect={s => setPostType(s as PostType)}
+          />
+        </div>
         <MarkdownEditor
-          body={body}
+          body={bodies[bodyIndex]}
           onBodyChange={onBodyChange}
           onPressTags={() => {
             tagRef.current?.showModal();
           }}
+          tabOption={tabOption}
         />
         <ManageTags
           ref={tagRef}
@@ -168,7 +263,7 @@ const QuestionEditor: React.FC<Props> = (props) => {
           subspaceId={props.subspaceId}
         />
         <button className={classes.submit} onClick={onSubmitCreatePost}>
-          {'Post your question'}
+          {`Post your ${postText}`}
         </button>
       </div>
     </div>

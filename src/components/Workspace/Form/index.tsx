@@ -3,7 +3,6 @@ import { generate, Pattern } from '@prescott/geo-pattern';
 
 import { Formik, Field } from 'formik';
 import { Button } from 'src/components/Button';
-// import { UploadImage } from 'src/sections/sidebar/UploadImage';
 import Avatar from 'src/components/Avatar';
 import { IconRotate } from '@tabler/icons';
 import * as yup from 'yup';
@@ -45,8 +44,6 @@ export const WorkspaceForm = () => {
 
   const submitCallback = React.useCallback(
     async (values, { setSubmitting }) => {
-      console.log(' value ', values);
-
       /*
        * Should save the images first and then create the
        * workspace id.

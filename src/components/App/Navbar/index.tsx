@@ -10,7 +10,7 @@ import { SubspaceForm } from 'src/components/Subspace';
 import { useSearchInSubspaceLazyQuery } from 'src/generated/apollo';
 import { keyBy } from 'lodash';
 
-import Dropdown from 'src/components/Dropdown';
+import Dropdown, { DropdownOption as DropdownOptionType } from 'src/components/Dropdown';
 import InputSearch from 'src/components/Input/Search';
 
 type NavbarProps = {
@@ -50,8 +50,7 @@ const Navbar = (props: NavbarProps) => {
 
   React.useEffect(() => {
     if (dropdownRef?.current) {
-      dropdownRef.current.onmousedown = (e) => {
-        console.log('ddd', e.target, e.currentTarget);
+      dropdownRef.current.onmousedown = () => {
         setShowDropdown(!showDropdown);
       };
     }
@@ -110,13 +109,7 @@ const Navbar = (props: NavbarProps) => {
             light: 'bg-night-light',
           }}
           optionList={options}
-          onOptionClick={(val: {
-            text?: string;
-            type?: string;
-            id?: string;
-            href?: string;
-          }) => {
-            console.log('val', val);
+          onOptionClick={(val: DropdownOptionType) => {
             if (val?.type) {
               setSelectedOption(val.type);
             }
@@ -166,7 +159,7 @@ const Navbar = (props: NavbarProps) => {
   const onFocusCallback = () => {};
 
   return (
-    <div className="flex flex-1 bg-night-medium">
+    <div className="flex flex-1 bg-night-dark">
       <div className="flex flex-1 h-full justify-start">
         {reduxState.authUser && (
           <>
@@ -216,6 +209,7 @@ const Navbar = (props: NavbarProps) => {
           leftNode={searchBarOptions()}
           rightNode={<IconSearch size={24} />}
           labelTitle={''}
+          className={"flex-1"}
         />
       </div>
       <div className="flex flex-1 h-full justify-end">

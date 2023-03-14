@@ -15,8 +15,6 @@ interface Props {
 const SubspaceRow: React.FC<Props> = (props) => {
   const { logoAvatarProps } = props;
 
-  console.log('props ', props.subspace);
-
   return (
     <div className="flex min-w-80 md:w-1/2 border-b border-darkpen-medium items-center">
       <div className="flex flex-1 my-2">

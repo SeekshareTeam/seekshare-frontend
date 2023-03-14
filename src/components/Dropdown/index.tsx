@@ -1,5 +1,13 @@
 import * as React from 'react';
 
+export interface DropdownOption {
+  text: string;
+  type?: string;
+  id: string;
+  href?: string;
+  callback?: () => void;
+}
+
 type DropdownProps = {
   /**
    * above or below the button
@@ -20,16 +28,11 @@ type DropdownProps = {
   /**
    * Dropdown Button Options
    */
-  optionList?: { text?: string; type?: string; id?: string; href?: string; callback?: () => void; }[];
+  optionList?: DropdownOption[];
   /**
    *
    */
-  onOptionClick?: (option: {
-    text?: string;
-    type?: string;
-    id?: string;
-    href?: string;
-  }) => void;
+  onOptionClick?: (option: DropdownOption) => void;
   /**
    * Different dropdown rendering modes
    */
@@ -43,8 +46,13 @@ type DropdownProps = {
    * Submit a dark medium and light gradation
    */
   bgColor?: { dark: string; medium: string; light: string };
+  /**
+   *
+   */
+  onSelect?: (_: string) => void;
 };
 
+// TODO: make the a generic component that accepts id types
 const Dropdown: React.FC<DropdownProps> = (props) => {
   const [show, setShow] = React.useState(false);
   const divRef = React.useRef<HTMLDivElement>(null);
@@ -65,7 +73,6 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
       if (show) {
         divRef.current.focus();
       } else {
-        console.log('am i calling blur first');
         divRef.current.blur();
       }
     }
@@ -104,21 +111,26 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
           <div className="py-1" role="none">
             {props?.optionList?.map((option, ix) => (
               <a
+                key={option?.id}
                 className={`text-lightpen-medium dark:text-darkpen-medium ${bgAnchorClass} block px-4 py-2 text-sm cursor-pointer`}
-                role="menuitem"
-                tabIndex={-1}
                 id={option?.id + '-' + ix}
                 onMouseDown={(e) => {
                   e.preventDefault();
                 }}
+                role="menuitem"
+                tabIndex={-1}
+                // optionList ids shouldn't be optional
                 onClick={() => {
                   if (option?.callback) {
                     option.callback();
                   } else {
                     if (props?.onOptionClick) {
                       props.onOptionClick(option);
+                    } else {
+                      props.onSelect?.(option?.id ?? '');
                     }
                   }
+                  setShow(false);
                 }}
               >
                 {option.text}
@@ -131,5 +143,75 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     </div>
   );
 };
+
+
+type DropdownComponentProps = {
+  /**
+   * above or below the button
+   */
+  position: 'above' | 'below';
+  /**
+   * Dropdown Button
+   */
+  horizontalPosition: 'left' | 'right';
+  /*
+   * Dropdown Button
+   */
+  dropdownButton: (option: DropdownOption | null, dropdownRef: React.RefObject<HTMLButtonElement>) => React.ReactNode;
+  /**
+   * Dropdown Button Options
+   */
+  optionList?: DropdownOption[];
+  /**
+   *
+   */
+  onOptionClick?: (option: DropdownOption) => void;
+  /**
+   * Different dropdown rendering modes
+   */
+  abstractControl?: boolean;
+  /**
+   * External show variable;
+   */
+  abstractShow?: boolean;
+  /**
+   * Submit the css for background color
+   * Submit a dark medium and light gradation
+   */
+  bgColor?: { dark: string; medium: string; light: string };
+  /**
+   *
+   */
+  onSelect?: (_: string) => void;
+};
+
+
+export const ReusableDropdown: React.FC<DropdownComponentProps> = (props) => {
+  const [selectedOption, setSelectedOption] = React.useState<DropdownOption | null>(null);
+
+  const dropdownRef = React.useRef<HTMLButtonElement>(null);
+
+  /**
+   * Creates a dictionary of all the options by their types
+   */
+  React.useEffect(() => {
+    if (props.optionList && props.optionList.length >= 1) {
+      setSelectedOption(props.optionList[0])
+    }
+  }, [props.optionList]);
+
+  return (
+    <Dropdown
+      dropdownRef={dropdownRef}
+      dropdownButton={props.dropdownButton(selectedOption, dropdownRef)}
+      bgColor={props.bgColor}
+      onSelect={props.onSelect}
+      onOptionClick={props.onOptionClick}
+      optionList={props.optionList}
+      position={props.position}
+      horizontalPosition={props.horizontalPosition}
+    />
+  )
+}
 
 export default Dropdown;

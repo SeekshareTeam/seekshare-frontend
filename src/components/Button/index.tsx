@@ -138,27 +138,33 @@ function buttonVariantSwitch(
 ) {
   switch (type) {
     case 'primary':
-      return `self-center text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
+      return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
         disabled
           ? ''
           : 'hover:bg-' + fillColor + '-800 dark:hover:bg-primary-dark'
-      } border-opacity-100 border border-lightpen-medium dark:border-primary-medium`;
+      } border-lightpen-medium dark:border-primary-medium`;
     case 'secondary':
-      return `self-center text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-secondary-medium ${
+      return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-secondary-medium ${
         disabled
           ? ''
           : 'hover:bg-' + fillColor + '-800 dark:hover:bg-secondary-dark'
       } border-opacity-100 border border-lightpen-medium dark:border-secondary-medium`;
     case 'outline':
-      return `self-center ${
+      return `${
         !selected
           ? `text-${
               textColor ? textColor : 'green'
             }-700 dark:bg-night-medium hover:bg-${fillColor}-700`
           : `bg-${fillColor}-700`
       } text-lightpen-medium dark:text-darkpen-medium dark:hover:text-darkpen-medium hover:text-lightpen-light shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
+    case 'dark':
+      return `text-lightpen-medium dark:text-darkpen-medium dark:bg-night-light ${
+        disabled
+          ? ''
+          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-night-medium'
+      } border-lightpen-medium shadow-sm`;
     default:
-      return 'transition-all duration-200 self-center text-lightpen-medium dark:text-darkpen-medium hover:text-lightpen-dark hover:dark:text-darkpen-dark';
+      return 'transition-all duration-200 text-lightpen-medium dark:text-darkpen-medium hover:text-lightpen-dark hover:dark:text-darkpen-dark';
   }
 }
 

@@ -1,38 +1,18 @@
 import * as React from 'react';
 import * as yup from 'yup';
 import axios from 'axios';
-import { isObject } from 'lodash';
 
-import colors from 'tailwindcss/colors';
-import { DefaultColors } from 'tailwindcss/types/generated/colors';
+// import { DefaultColors } from 'tailwindcss/types/generated/colors';
+// import { toast } from 'react-toastify'
 
-import { IconPlus } from '@tabler/icons';
+import { IconPlus, IconUpload } from '@tabler/icons';
 
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Button } from 'src/components/Button';
 import { useSubspaceApi } from 'src/api/context';
 import { UploadImage } from 'src/components/Input/UploadImage';
 
-const colorPalette: string[] = [];
-const nonSafeList = [
-  'lightBlue',
-  'warmGray',
-  'trueGray',
-  'coolGray',
-  'blueGray',
-];
-
-Object.keys(colors).forEach((c) => {
-  if (
-    isObject(colors[c as keyof DefaultColors]) &&
-    typeof colors[c as keyof DefaultColors] !== 'function' &&
-    // @ts-ignore
-    500 in colors[c as keyof DefaultColors] &&
-    !nonSafeList.includes(c)
-  ) {
-    colorPalette.push(c);
-  }
-});
+import IconPicker from 'src/components/IconPicker';
 
 interface SubspaceFormProps {
   workspaceId?: string;
@@ -54,11 +34,11 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
     'Code',
     'Description',
   ]);
-
-  const [subspaceImgUrl, setSubspaceImgUrl] = React.useState('');
-  const [fromColor, setFromColor] = React.useState('slate');
-  const [toColor, setToColor] = React.useState('zinc')
-
+  const [subspaceImgUrl, setSubspaceImgUrl] = React.useState<{
+    type: 'color' | 'image';
+    value: string;
+  }>({ type: 'color', value: 'from-slate-500 to-zinc-500' });
+  const [showIconPicker, setShowIconPicker] = React.useState(false);
 
   const initialValues = {
     subspaceFields: [],
@@ -68,47 +48,10 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
     readability: 'public',
   };
 
-  // const [validationObjectSchema, setValidationObjectSchema] = React.useState<{
-  //   [key: string]: any;
-  // }>({});
-
-  // React.useEffect(() => {
-  //   let validationObject: { [key: string]: any } = {};
-  //   numOfSubspace.map((val) => {
-  //     if (val === 'Description') {
-  //       validationObject[val] = yup.string();
-  //     } else {
-  //       validationObject[val] = yup
-  //         .string()
-  //         .min(2, 'Too short')
-  //         .max(50, 'Too Long!')
-  //         .required('Required!');
-  //     }
-  //   });
-
-  //   setValidationObjectSchema(validationObject);
-  // }, [numOfSubspace]);
-
-  // const backgroundCard = ({ children }) => {
-  //   return (
-  //     <div className="z-10 w-80 sm:w-80 xl:w-full sm:w-80 dark:text-darkpen-medium rounded-xl flex flex-wrap flex-col">
-  //       {children}
-  //     </div>
-  //   );
-  // };
-
   const strHashFunction = (subString: string) => {
-    const valFrom =
-      [...subString].reduce((acc, v) => acc + v.charCodeAt(0), 0) %
-      colorPalette.length;
-
-    const valTo = (valFrom * 2 + 2) % colorPalette.length;
-
-    console.log('color from', colorPalette[valFrom]);
-    console.log('color to', colorPalette[valTo]);
-
-    setFromColor(colorPalette[valFrom]);
-    setToColor(colorPalette[valTo])
+    const colorHash =
+      [...subString].reduce((acc, v) => acc + v.charCodeAt(0), 0) % 15;
+    console.log(colorHash);
   };
 
   const headerComponent = () => {
@@ -155,7 +98,6 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
     );
   };
 
-  // const subspaceValidationSchema = yup.object().shape(validationObjectSchema);
   const subspaceValidationSchema = yup.object().shape({
     subspace: yup
       .array()
@@ -206,6 +148,46 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
     );
   };
 
+  const iconPicker = () => {
+    return (
+      <div className="flex flex-col items-center">
+        <button
+          className={`w-20 h-20 rounded-lg ${
+            subspaceImgUrl.type === 'color'
+              ? subspaceImgUrl.value
+              : 'bg-gradient-to-r from-slate-500 to-zinc-500'
+          } hover:opacity-50 cursor-pointer flex justify-center items-center`}
+          type={'button'}
+          onClick={() => {
+            setShowIconPicker(true);
+          }}
+        >
+          <IconPlus size={36} />
+        </button>
+        <IconPicker
+          show={showIconPicker}
+          onBlur={() => {
+            setShowIconPicker(false);
+          }}
+          onSelect={(val: string) => {
+            setSubspaceImgUrl({ type: 'color', value: val });
+            setShowIconPicker(false);
+          }}
+          uploadImageNode={
+            <UploadImage
+              imageEndpoint="subspace_logo"
+              onUploadImage={onUploadImage}
+              displayLabel={
+                <IconUpload className="hover:opacity-50 cursor-pointer" />
+              }
+            />
+          }
+        />
+        <p className="text-xs text-darkpen-dark">{'Add Icon'}</p>
+      </div>
+    );
+  };
+
   const onUploadImage = async (uploadFile: File) => {
     const formData = new FormData();
 
@@ -222,7 +204,7 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         data: formData,
       });
 
-      setSubspaceImgUrl(subspaceImgRes?.data);
+      setSubspaceImgUrl({ value: subspaceImgRes?.data, type: 'image' });
     }
   };
 
@@ -242,14 +224,19 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         'fieldFour',
       ];
 
+      let iconUrl: string = subspaceImgUrl.type || '';
+      let iconType: string = subspaceImgUrl.value || '';
+
       const subspaceVariable: SubspaceParameters = {
         name: 'placeholder',
         fieldTwo: null,
         fieldThree: null,
         fieldFour: null,
         workspaceId: props.workspaceId || '',
-        subspaceImgUrl: subspaceImgUrl,
+        subspaceImgUrl: iconUrl,
+        subspaceImgType: iconType,
       };
+
       values.subspace.map((v, ix) => {
         const nKey = subspaceNamingKeys[ix];
         subspaceVariable[nKey] = v;
@@ -267,7 +254,8 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
       validationSchema={subspaceValidationSchema}
       onSubmit={onSubmit}
     >
-      {({ values, handleChange, handleBlur, isSubmitting, isValid, dirty }) => {
+      {({ values, handleChange, handleBlur, isSubmitting, isValid, dirty, errors }) => {
+        console.log('subit form error', errors);
         return (
           <Form className="w-full">
             <div className="z-10 w-80 sm:w-80 xl:w-full dark:text-darkpen-medium rounded-xl flex flex-wrap flex-col">
@@ -284,31 +272,7 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
                     }
                   )}
                 </div>
-                <div className="flex flex-col items-center">
-                  <UploadImage
-                    imageEndpoint="subspace_logo"
-                    onUploadImage={onUploadImage}
-                    displayLabel={
-                      <div
-                        className={`w-20 h-20 rounded-lg ${
-                          subspaceImgUrl
-                            ? ''
-                            : `bg-gradient-to-r from-${fromColor}-500 to-${toColor}-500 hover:opacity-50`
-                        } cursor-pointer flex justify-center items-center`}
-                      >
-                        {subspaceImgUrl ? (
-                          <img
-                            className="h-20 rounded-lg"
-                            src={subspaceImgUrl}
-                          />
-                        ) : (
-                          <IconPlus size={36} />
-                        )}
-                      </div>
-                    }
-                  />
-                  <p className="text-xs text-darkpen-dark">{'Add Icon'}</p>
-                </div>
+                {iconPicker()}
                 <div className="px-4">
                   {numOfSubspace.map((spaceName, ix) => {
                     if (spaceName === 'Description') {

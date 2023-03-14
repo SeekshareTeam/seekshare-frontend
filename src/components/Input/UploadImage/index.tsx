@@ -21,7 +21,7 @@ interface Props {
 export const UploadImage: React.FC<Props> = (props) => {
 
   return (
-    <form>
+    <>
       <label htmlFor={`${props.imageEndpoint}_upload_image`}>
         {props.displayLabel || 'Upload File'}
       </label>
@@ -37,6 +37,6 @@ export const UploadImage: React.FC<Props> = (props) => {
           }
         }}
       />
-    </form>
+    </>
   );
 };

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import clsx from 'clsx'
 import { Badge } from 'src/components/Badges';
 import { TextLink } from 'src/components/Button';
 
@@ -71,13 +72,13 @@ export const PostTitle: React.FC<PostTitleProps> = (props: PostTitleProps) => {
           size="small"
           shape="large"
           type="workspace"
-          name={'K. International School Tokyo'}
+          text={'K. International School Tokyo'}
         />
         <Badge
           size="small"
           shape="circle"
           type="subspace"
-          name={'IB MATH HL'}
+          text={'IB MATH HL'}
         />
         <TextLink
           normalText={'Posted by'}
@@ -106,9 +107,9 @@ export const TitleInput: React.FC<TitleInputProps> = (
     <>
       {/*<Title value={props.title} />*/}
       <input
-        className={classes.title}
         style={{ fontFamily: 'Jetbrains Mono' }}
         {...props.inputProps}
+        className={clsx(classes.title, props.inputProps.className)}
       />
     </>
   );

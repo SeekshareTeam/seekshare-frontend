@@ -146,14 +146,14 @@ type BadgeProps = {
   size?: string;
   type?: string;
   shape?: string;
-  name?: string;
+  text?: string;
 };
 
 export const Badge: React.FC<BadgeProps> = ({
   size,
   type,
   shape,
-  name,
+  text,
 }: BadgeProps) => {
   const baseClasses =
     'inline-block font-bold text-white  hover:bg-gray-500 opacity-90 hover:opacity-100';
@@ -164,7 +164,7 @@ export const Badge: React.FC<BadgeProps> = ({
   const styleClass = `${baseClasses} ${sizeClass} ${typeClass} ${shapeClass}`;
   return (
     <div className="self-start">
-      <span className={styleClass}>{name}</span>
+      <span className={styleClass}>{text}</span>
     </div>
   );
 };

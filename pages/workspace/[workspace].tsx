@@ -33,9 +33,7 @@ interface WorkspaceProps {
   workspaceId: string;
 }
 
-const Workspace: PageWithLayout<WorkspaceProps> = (props) => {
-  console.log('props ', props);
-
+const Workspace: PageWithLayout<WorkspaceProps> = () => {
   const [selectedTab, setSelectedTab] = React.useState('subspaces');
 
   const [tabs] = React.useState([
@@ -43,8 +41,11 @@ const Workspace: PageWithLayout<WorkspaceProps> = (props) => {
     { tabValue: 'Posts', tabKey: 'posts' },
     { tabValue: 'Q + A', tabKey: 'q_+_a' },
     { tabValue: 'Question Bank', tabKey: 'quizzes' },
+    { tabValue: 'Settings', tabKey: 'settings' },
   ]);
 
+
+  // Ensure that this is the current workspace and subspace that is being served
   const reduxState = useAppSelector(
     (state) => ({
       subspaces: state?.workspace?.server?.subspaces,

@@ -1,3 +1,6 @@
+import * as React from 'react';
+import { toast } from 'react-toastify';
+
 import { createSubspace } from 'src/modules/Subspace/slice';
 import { subscribeSubspace, unsubscribeSubspace } from 'src/modules/Auth/slice';
 
@@ -12,15 +15,19 @@ import {
 const api = () => {
   // Use a pattern where if undefined then load it
   // otherwise return the value. jk
-  const [createSubspaceMutation, { error: errorCreateSubspace }] = useCustomMutation<
-    typeof createSubspace,
-    typeof useCreateSubspaceMutation
-  >({
-    action: createSubspace,
-    useApolloMutation: useCreateSubspaceMutation,
-    variables: undefined,
-    onMount: false,
-  });
+  const [createSubspaceMutation, { error: errorCreateSubspace }] =
+    useCustomMutation<typeof createSubspace, typeof useCreateSubspaceMutation>({
+      action: createSubspace,
+      useApolloMutation: useCreateSubspaceMutation,
+      variables: undefined,
+      onMount: false,
+    });
+
+  React.useEffect(() => {
+    if (errorCreateSubspace?.message) {
+      toast.error(errorCreateSubspace.message);
+    }
+  }, [errorCreateSubspace]);
 
   const subscribeSubspaceMutation = useCustomMutation<
     typeof subscribeSubspace,
@@ -49,6 +56,7 @@ const api = () => {
     fieldFour = null,
     workspaceId = '',
     subspaceImgUrl = '',
+    subspaceImgType = '',
   }: {
     name: string;
     fieldTwo: string | null;
@@ -56,10 +64,19 @@ const api = () => {
     fieldFour: string | null;
     workspaceId: string;
     subspaceImgUrl: string;
+    subspaceImgType: string;
   }) => {
     await createSubspaceMutation({
       variables: {
-        subspaceInput: { name, fieldTwo, fieldThree, fieldFour, workspaceId, subspaceImgUrl },
+        subspaceInput: {
+          name,
+          fieldTwo,
+          fieldThree,
+          fieldFour,
+          workspaceId,
+          subspaceImgUrl,
+          subspaceImgType,
+        },
       },
     });
   };
@@ -88,7 +105,7 @@ const api = () => {
     subscribeSubspaceMutation,
     unsubscribeSubspaceMutation,
     onCreateSubspace,
-    errorCreateSubspace
+    errorCreateSubspace,
   };
 };
 

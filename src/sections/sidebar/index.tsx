@@ -166,7 +166,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       sidebarToggle={props.sidebarToggle}
       searchSubspace={<SearchSubspace />}
       tabSections={sections.map((sec, labelIndex) => {
-        return <SidebarSection labelIndex={labelIndex} sectionElement={sec} />;
+        return <SidebarSection key={sec.id} labelIndex={labelIndex} sectionElement={sec} />;
       })}
       userControl={
         <UserControl

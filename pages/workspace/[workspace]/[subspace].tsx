@@ -5,8 +5,9 @@ import AddButton from 'src/components/Subspace/AddButton';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
 import { fetchPostList } from 'src/modules/PostList/slice';
 import { serverFetchSubspace } from 'src/modules/Subspace/slice';
+import { serverFetchWorkspace } from 'src/modules/Workspace/slice';
 import { Button } from 'src/components/Button';
-import { ssrFetchSubspace } from 'src/generated/page';
+import { ssrFetchSubspace, ssrFetchWorkspace } from 'src/generated/page';
 import { useFetchAllPostsFromSubspaceLazyQuery } from 'src/generated/apollo';
 import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
 import { shallowEqual } from 'react-redux';
@@ -213,6 +214,21 @@ export const getStaticProps = wrapper.getStaticProps(
     const workspace = context?.params?.workspace;
     const subspace = context?.params?.subspace;
 
+    // Might want to add a condition here that makes the fetching
+    // of workspace conditional
+
+    // if (store.getState().server.workspace.id === workspace) {
+    // }
+
+    await fetchSSRQuery({
+      action: serverFetchWorkspace,
+      ssrApolloQuery: ssrFetchWorkspace.getServerPage,
+      variables: {
+        workspaceId: workspace || 'some',
+      },
+      dispatch: store.dispatch,
+    });
+
     await fetchSSRQuery({
       action: serverFetchSubspace,
       ssrApolloQuery: ssrFetchSubspace.getServerPage,
@@ -222,10 +238,11 @@ export const getStaticProps = wrapper.getStaticProps(
       dispatch: store.dispatch,
     });
 
+    // console.log('@@workspace', workspace);
+    // console.log('@@store', store.getState());
     /*
-    In case we want to do server side fetching of post lists.
-     */
-
+      In case we want to do server side fetching of post lists.
+    */
     return {
       props: { workspaceId: workspace, subspaceId: subspace },
     };

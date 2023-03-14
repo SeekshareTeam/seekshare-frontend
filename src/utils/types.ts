@@ -16,3 +16,11 @@ export type DualIconItem<T> = {
 
   onSelect?: (item?: T) => void;
 }
+
+export type SidebarTab = {
+  tabValue: string;
+  tabKey: string;
+  children?: SidebarTab[];
+  icon?: React.ReactNode;
+}
+

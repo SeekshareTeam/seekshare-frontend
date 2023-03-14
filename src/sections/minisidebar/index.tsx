@@ -36,7 +36,7 @@ const MiniSidebar: React.FC = () => {
   return (
     <MiniSidebarLayout
       userWorkspaces={reduxState?.userWorkspaces?.map((w) => (
-        <LogoAvatar imgUrl={w.url || ''} />
+        <LogoAvatar key={w.id} imgUrl={w.url || ''} />
       ))}
       addWorkspace={
         <AuthCheck

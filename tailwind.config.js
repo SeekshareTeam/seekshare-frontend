@@ -23,6 +23,10 @@ module.exports = {
     {
       pattern: /(from|via|to|bg)-(.+)-([1-9]00)/,
     },
+    // {
+    //   pattern: /(text|border)-(.+)-([1-9]00)/,
+    //   variants: ['dark', 'hover', 'dark:hover']
+    // },
   ],
   plugins: [require('tw-elements/dist/plugin')],
   theme: {
@@ -41,9 +45,9 @@ module.exports = {
           extralight: colors.white,
         },
         primary: {
-          medium: colors.cyan['700'],
-          dark: colors.cyan['900'],
-          light: colors.cyan['500'],
+          medium: colors.emerald['700'],
+          dark: colors.emerald['900'],
+          light: colors.emerald['500'],
         },
         night: {
           dark: colors.black,

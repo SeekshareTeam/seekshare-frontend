@@ -14,9 +14,9 @@ const Login: NextPage & { layoutType: string } = () => {
   const { callbackUrl = '/' } = router.query;
   const [error, setError] = React.useState<string>('');
 
-  React.useEffect(() => {
-    console.log('@ callback url', callbackUrl);
-  }, [callbackUrl]);
+  // React.useEffect(() => {
+  //   console.log('@ callback url', callbackUrl);
+  // }, [callbackUrl]);
 
   return (
     <div className="flex flex-col items-center justify-center shadow-lg h-full">
