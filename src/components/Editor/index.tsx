@@ -149,7 +149,7 @@ const QuestionEditor: React.FC<Props> = props => {
     const result = await createPostMutation({
       variables: {
         postInput: {
-          body: bodies[0],
+          bodies: bodies,
           title: postTitle,
           type: postType,
           tags: postTags,
