@@ -6,7 +6,7 @@ import { DefaultColors } from 'tailwindcss/types/generated/colors';
 
 import ColorPicker from 'src/components/IconPicker/Children/ColorPicker';
 
-const colorPalette: string[] = [];
+const colorPaletteGlobal: string[] = [];
 const nonSafeList = [
   'lightBlue',
   'warmGray',
@@ -27,38 +27,67 @@ Object.keys(colors).forEach((c) => {
     500 in colors[c as keyof DefaultColors] &&
     !nonSafeList.includes(c)
   ) {
-    colorPalette.push(c);
+    colorPaletteGlobal.push(c);
   }
 });
 
-const colorGradientPalette: { [key: string]: string[] } = {};
+const colorGradientPaletteGlobal: { [key: string]: string[] } = {};
 
-colorPalette.forEach((c1, ix) => {
-  colorGradientPalette[c1] = [];
-  colorPalette.forEach((c2, jx) => {
+colorPaletteGlobal.forEach((c1, ix) => {
+  colorGradientPaletteGlobal[c1] = [];
+  colorPaletteGlobal.forEach((c2, jx) => {
     if (ix !== jx) {
-      colorGradientPalette[c1].push(
+      colorGradientPaletteGlobal[c1].push(
         `bg-gradient-to-r from-${c1}-500 to-${c2}-500`
       );
     }
   });
 });
 
+type PickerType = 'color' | 'image';
+
 interface Props {
   onSelect: ((val: string) => Promise<void>) | ((val: string) => void);
   onBlur: () => void;
   show: boolean;
   uploadImageNode: React.ReactNode;
+  pickerTypes?: PickerType[];
+  colorGradientPalette?: { [key: string]: string[] };
+  colorPalette?: string[];
 }
 
-const pickerTypes = ['color', 'image'];
+// const pickerTypes = ['color', 'image'];
 
-type PickerType = typeof pickerTypes[number];
-
+// type PickerType = typeof pickerTypes[number];
 const IconPicker: React.FC<Props> = (props) => {
-  const [pickerType, setPickerType] = React.useState<PickerType>(
-    pickerTypes[0]
-  );
+  const [pickerTypes, setPickerTypes] = React.useState<PickerType[]>([
+    'color',
+    'image',
+  ]);
+  const [pickerType, setPickerType] = React.useState<PickerType>('color');
+  const [colorPalette] = React.useState<string[]>(props?.colorPalette || colorPaletteGlobal)
+  const [colorGradientPalette] = React.useState<{
+    [key: string]: string[];
+  }>(props?.colorGradientPalette || colorGradientPaletteGlobal);
+
+  React.useEffect(() => {
+    if (props.pickerTypes && props?.pickerTypes.length > 0) {
+      setPickerTypes(props.pickerTypes);
+      setPickerType(props.pickerTypes[0]);
+    }
+  }, [props?.pickerTypes]);
+
+  // React.useEffect(() => {
+  //   if (props.colorPalette) {
+  //     setColorPalette(colorPalette);
+  //   }
+  // }, [props?.colorPalette])
+
+  // React.useEffect(() => {
+  //   if (!isEmpty(props.colorGradientPalette) && props.colorGradientPalette) {
+  //     setColorGradientPalette(props.colorGradientPalette);
+  //   }
+  // }, [props?.colorGradientPalette]);
 
   const divRef = React.useRef<HTMLDivElement>(null);
 
@@ -94,7 +123,7 @@ const IconPicker: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="relative inline-block mx-auto w-48">
+    <div className="relative inline-block mx-auto">
       {props.show && (
         <div
           className="p-3 z-10 h-48 w-48 flex flex-col overflow-y-scroll overflow-x-hidden box-border shadow absolute dark:bg-slate-700 rounded"

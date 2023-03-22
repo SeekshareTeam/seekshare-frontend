@@ -224,8 +224,8 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         'fieldFour',
       ];
 
-      let iconUrl: string = subspaceImgUrl.type || '';
-      let iconType: string = subspaceImgUrl.value || '';
+      let iconType: string = subspaceImgUrl.type || '';
+      let iconUrl: string = subspaceImgUrl.value || '';
 
       const subspaceVariable: SubspaceParameters = {
         name: 'placeholder',
@@ -233,8 +233,8 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         fieldThree: null,
         fieldFour: null,
         workspaceId: props.workspaceId || '',
-        subspaceImgUrl: iconUrl,
-        subspaceImgType: iconType,
+        logoUrl: iconUrl,
+        logoType: iconType,
       };
 
       values.subspace.map((v, ix) => {
@@ -254,7 +254,15 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
       validationSchema={subspaceValidationSchema}
       onSubmit={onSubmit}
     >
-      {({ values, handleChange, handleBlur, isSubmitting, isValid, dirty, errors }) => {
+      {({
+        values,
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        isValid,
+        dirty,
+        errors,
+      }) => {
         console.log('subit form error', errors);
         return (
           <Form className="w-full">

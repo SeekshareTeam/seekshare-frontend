@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import  { TAG_FRAGMENT } from 'src/modules/Home/query.graphql';
 
 export const QUERY_SEARCH_TAGS = gql`
   query searchTags(
@@ -13,13 +14,10 @@ export const QUERY_SEARCH_TAGS = gql`
       queryString: $queryString
       pageNumber: $pageNumber
     ) {
-      id
-      workspaceId
-      subspaceId
-      value
-      description
+      ...TagFragment
     }
   }
+  ${TAG_FRAGMENT}
 `;
 
 export const QUERY_SEARCH_EXACT_TAGS = gql`
@@ -35,29 +33,23 @@ export const QUERY_SEARCH_EXACT_TAGS = gql`
       queryString: $queryString
       pageNumber: $pageNumber
     ) {
-      id
-      workspaceId
-      subspaceId
-      value
-      description
+      ...TagFragment
     }
   }
+  ${TAG_FRAGMENT}
 `;
 
 export const CREATE_TAG_MUTATION = gql`
-  mutation createTag($workspaceId: ID!, $subspaceId: ID!, $value: String!, $description: String) {
-    createTag(workspaceId: $workspaceId, subspaceId: $subspaceId, value: $value, description: $description)
+  mutation createTag($input: TagInput!) {
+    createTag(input: $input)
   }
 `;
 
 export const QUERY_ALL_TAGS = gql`
   query fetchSubspaceTags($workspaceId: ID!, $subspaceId: ID!) {
     fetchSubspaceTags(workspaceId: $workspaceId, subspaceId: $subspaceId) {
-      id
-      workspaceId
-      subspaceId
-      value
-      description
+      ...TagFragment
     }
   }
+  ${TAG_FRAGMENT}
 `;

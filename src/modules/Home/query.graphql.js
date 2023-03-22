@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const WORKSPACE_FRAGMENT = gql`
   fragment WorkspaceFragment on Workspace {
@@ -12,6 +12,38 @@ export const WORKSPACE_FRAGMENT = gql`
   }
 `;
 
+export const TAG_FRAGMENT = gql`
+  fragment TagFragment on Tag {
+    id
+    value
+    workspaceId
+    subspaceId
+    description
+    colorString
+    createdBy
+    status
+    createdAt
+    updatedAt
+  }
+`;
+
+export const SUBSPACE_FRAGMENT = gql`
+  fragment SubspaceFragment on Subspace {
+    id
+    name
+    fieldTwo
+    fieldThree
+    fieldFour
+    workspaceId
+    logoUrl
+    logoType
+    tags {
+      ...TagFragment
+    }
+  }
+  ${TAG_FRAGMENT}
+`;
+
 export const FETCH_WORKSPACE_QUERY = gql`
   ${WORKSPACE_FRAGMENT}
   query fetchWorkspaces($page: Int!, $limit: Int!) {
@@ -20,4 +52,3 @@ export const FETCH_WORKSPACE_QUERY = gql`
     }
   }
 `;
-

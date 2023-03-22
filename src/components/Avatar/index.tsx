@@ -84,11 +84,14 @@ function drawRect(
   ctx.closePath();
 }
 
+export type LogoType = 'canvas' | 'image' | 'color';
+
 interface Props {
   height?: number;
   width?: number;
   displayHeight?: string;
   displayWidth?: string;
+  type: LogoType;
   imgUrl?: Maybe<string>;
   className?: string;
   loading?: boolean;
@@ -109,6 +112,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
       className = undefined,
       imgUrl = undefined,
       loading = false,
+      type = 'color',
     },
     ref
   ) => {
@@ -217,24 +221,31 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
     }, []);
 
     const renderAvatar = () => {
-      if (imgUrl) {
-        return (
-          <img
-            className={`rounded-lg ${displayHeight} ${displayWidth}`}
-            src={imgUrl}
-          />
-        );
-      } else {
-        return (
-          <canvas
-            className={`rounded-lg ${displayHeight} ${displayWidth}`}
-            height={height}
-            width={width}
-            ref={(node) => {
-              canvasRef.current = node;
-            }}
-          />
-        );
+      switch (type) {
+        case 'image':
+          return (
+            <img
+              className={`rounded-lg ${displayHeight} ${displayWidth}`}
+              src={imgUrl || undefined}
+            />
+          );
+        case 'canvas':
+          return (
+            <canvas
+              className={`rounded-lg ${displayHeight} ${displayWidth}`}
+              height={height}
+              width={width}
+              ref={(node) => {
+                canvasRef.current = node;
+              }}
+            />
+          );
+        case 'color':
+          return (
+            <div className={`rounded-lg ${displayHeight} ${displayWidth} ${imgUrl}`} />
+          )
+        default:
+          return null;
       }
     };
 
@@ -243,8 +254,8 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
         return (
           <ContentLoader
             className="rounded-lg"
-            width={150}
-            height={150}
+            width={width}
+            height={height}
             viewBox="0 0 200 200"
           >
             <rect x="0" y="0" width="100%" height="100%" />
@@ -257,7 +268,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
 
     return (
       <div
-        className={`inline-block rounded-lg shadow-xl p-1 ${
+        className={`inline-block m-auto rounded-lg shadow-xl ${
           !loading ? 'bg-yellow-100' : ''
         } ${className}`}
       >

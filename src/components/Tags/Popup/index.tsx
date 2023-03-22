@@ -6,7 +6,7 @@ import { UnderlineTabs } from 'src/components/Tabs';
 import InputSearch from 'src/components/Input/Search';
 import TagItemList from 'src/components/Tags/ItemList';
 import TagItem from 'src/components/Tags/Item';
-import { Tag as TagType } from 'src/generated/types';
+import { Tag as TagType, TagStatus } from 'src/generated/types';
 import {
   useSearchTagsLazyQuery,
   useFetchSubspaceTagsLazyQuery,
@@ -101,11 +101,16 @@ const TagPopup: React.FC<Props> = (props) => {
       if (val) {
         await createTagMutation({
           variables: {
-            value: val,
-            workspaceId:
-              props.workspaceId || 'e139398b-9b19-46fe-a11a-5408b21b2aa0',
-            subspaceId:
-              props.subspaceId || '33a8789a-cdea-4e88-91d6-c4e5f10e9e38',
+            input: {
+              value: val,
+              workspaceId:
+                props.workspaceId || 'e139398b-9b19-46fe-a11a-5408b21b2aa0',
+              subspaceId:
+                props.subspaceId || '33a8789a-cdea-4e88-91d6-c4e5f10e9e38',
+              colorString: 'bg-blue-700',
+              description: '',
+              status: TagStatus.Requested
+            },
           },
         });
       }
@@ -175,7 +180,10 @@ const TagPopup: React.FC<Props> = (props) => {
                 labelTitle={'Search For Tags'}
                 inputPlaceholder={'Search Tags'}
                 leftNode={
-                  <IconTags size={24} className={'text-gray-500 px-1 dark:text-white'} />
+                  <IconTags
+                    size={24}
+                    className={'text-gray-500 px-1 dark:text-white'}
+                  />
                 }
               />
               <div className="relative w-full">
@@ -191,7 +199,9 @@ const TagPopup: React.FC<Props> = (props) => {
             </div>
             {!isEmpty(selectedTags) && (
               <div>
-                <h4 className="text-gray-700 font-medium dark:text-white">{'Selected Tags'}</h4>
+                <h4 className="text-gray-700 font-medium dark:text-white">
+                  {'Selected Tags'}
+                </h4>
                 <div className="flex flex-wrap space-x-1 [&>*]:mb-1">
                   {selectedTags.map((sTag) => {
                     return (
@@ -222,7 +232,9 @@ const TagPopup: React.FC<Props> = (props) => {
               </div>
             )}
             <div>
-              <h4 className="text-gray-700 font-medium dark:text-white">{'Available Tags'}</h4>
+              <h4 className="text-gray-700 font-medium dark:text-white">
+                {'Available Tags'}
+              </h4>
               <div className="flex flex-wrap space-x-1 [&>*]:mb-1">
                 {availableTags.map((aTag) => {
                   return (

@@ -8,6 +8,7 @@ import {
 type WorkspaceSliceType = {
   server?: { subspaces?: SubspaceType[]; workspace?: WorkspaceType };
   data?: WorkspaceType;
+  subspaces?: SubspaceType[];
 };
 
 const initialState: WorkspaceSliceType = {};
@@ -21,6 +22,12 @@ const workspaceSlice = createSlice({
         ...state,
         data: action.payload,
       };
+    },
+    clientFetchSubspaces: (state, action) => {
+      return {
+        ...state,
+        subspaces: action.payload
+      }
     },
     serverFetchWorkspace: (state, action) => {
       const serverState = state?.server || {};
@@ -56,7 +63,7 @@ const workspaceSlice = createSlice({
   },
 });
 
-export const { createWorkspace, serverFetchSubspaces, serverFetchWorkspace } =
+export const { createWorkspace, serverFetchSubspaces, serverFetchWorkspace, clientFetchSubspaces } =
   workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

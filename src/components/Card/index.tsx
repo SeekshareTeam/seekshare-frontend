@@ -57,6 +57,7 @@ const Card: React.FC<Props> = (props) => {
         >
           <Avatar
             imgUrl={props.imgUrl}
+            type={'image'}
             className={'absolute bottom-0 left-0 ml-4 -mb-6'}
             displayHeight={'h-16'}
             displayWidth={'w-16'}

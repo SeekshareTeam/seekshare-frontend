@@ -14,6 +14,7 @@ const ColorPicker: React.FC<Props> = (props) => {
   const [selectedColor, setSelectedColor] = React.useState(
     props.colorPalette[0] || 'Gray'
   );
+
   return (
     <>
       <div className="w-full py-1 flex-none overflow-x-scroll inline-block whitespace-nowrap">

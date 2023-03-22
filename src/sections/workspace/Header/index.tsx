@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Workspace as WorkspaceType } from 'src/generated/types';
 import WorkspaceTitle from 'src/components/Workspace/Title';
-// import LogoAvatar, {
-//   Props as LogoAvatarProps,
-// } from 'src/components/Sidebar/LogoAvatar';
 import Avatar from 'src/components/Avatar';
 
 interface Props {
@@ -34,7 +31,7 @@ const WorkspaceHeader: React.FC<Props> = (props) => {
       style={{ backgroundImage: `url("${workspace?.backgroundImage}")` }}
     >
       <div className="flex ml-4 items-end">
-        <Avatar imgUrl={workspace?.url} loading={props.loading} />
+        <Avatar type={'image'} imgUrl={workspace?.url} loading={props.loading} />
         <WorkspaceTitle title={props.workspace.name} loading={props.loading} />
       </div>
     </div>

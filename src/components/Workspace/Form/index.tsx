@@ -233,6 +233,7 @@ export const WorkspaceForm = () => {
               <div className="flex flex-col w-1/2">
                 <div className="self-center">
                   <Avatar
+                    type={'canvas'}
                     ref={avatarRef}
                     displayHeight={'h-24'}
                     displayWidth={'w-24'}

@@ -5,7 +5,7 @@ import { keyBy } from 'lodash';
 import { PostTitle } from 'src/components/Input';
 import { CommentThread } from 'src/components/Comments';
 import Viewer, { Props as ViewerProps } from 'src/plugins/components/Viewer';
-import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
+import { useCustomQuery, useAppSelector } from 'src/modules/Redux';
 
 import { fetchCommentsByPost } from 'src/modules/Comment/slice';
 import { useFetchCommentsByPostLazyQuery } from 'src/generated/apollo';

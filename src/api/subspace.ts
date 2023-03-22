@@ -55,16 +55,16 @@ const api = () => {
     fieldThree = null,
     fieldFour = null,
     workspaceId = '',
-    subspaceImgUrl = '',
-    subspaceImgType = '',
+    logoUrl = '',
+    logoType = '',
   }: {
     name: string;
     fieldTwo: string | null;
     fieldThree: string | null;
     fieldFour: string | null;
     workspaceId: string;
-    subspaceImgUrl: string;
-    subspaceImgType: string;
+    logoUrl: string;
+    logoType: string;
   }) => {
     await createSubspaceMutation({
       variables: {
@@ -74,8 +74,8 @@ const api = () => {
           fieldThree,
           fieldFour,
           workspaceId,
-          subspaceImgUrl,
-          subspaceImgType,
+          logoUrl,
+          logoType,
         },
       },
     });
