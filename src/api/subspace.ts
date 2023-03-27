@@ -14,7 +14,7 @@ import {
 
 const api = () => {
   // Use a pattern where if undefined then load it
-  // otherwise return the value. jk
+  // otherwise return the value.
   const [createSubspaceMutation, { error: errorCreateSubspace }] =
     useCustomMutation<typeof createSubspace, typeof useCreateSubspaceMutation>({
       action: createSubspace,

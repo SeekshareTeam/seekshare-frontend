@@ -4,7 +4,7 @@ import LogoAvatar, {
   Props as LogoAvatarProps,
 } from 'src/components/Sidebar/LogoAvatar';
 import { Subspace as SubspaceType } from 'src/generated/types';
-import Link from 'next/Link';
+import Link from 'next/link';
 
 interface Props {
   logoAvatarProps: LogoAvatarProps;
@@ -16,7 +16,7 @@ const SubspaceRow: React.FC<Props> = (props) => {
   const { logoAvatarProps } = props;
 
   return (
-    <div className="flex min-w-80 md:w-1/2 border-b border-darkpen-medium items-center">
+    <div className="flex min-w-80 md:w-1/2 border-b dark:border-night-extralight items-center">
       <div className="flex flex-1 my-2">
         <button className="flex justify-start items-center">
           <LogoAvatar {...logoAvatarProps} />

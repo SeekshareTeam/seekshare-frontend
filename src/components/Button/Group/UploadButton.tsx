@@ -1,23 +1,11 @@
 import * as React from 'react';
 
-/* State Management */
-import { Subspace as SubspaceType } from 'src/generated/types';
-
 /* Components */
 import ContentLoader from 'react-content-loader';
-import Logo, { LogoType } from 'src/components/Avatar';
+import { IconUpload } from '@tabler/icons';
+import { Button } from 'src/components/Button';
 
-interface Props {
-  subspace: SubspaceType;
-
-  className?: string;
-
-  titleClassName?: string;
-
-  loading?: boolean;
-}
-
-export const SubspaceCardLoader = () => {
+export const UploadButtonLoader: React.FC = () => {
   /*
    * Viewport:
    * This is set by providing the width and height values
@@ -50,40 +38,27 @@ export const SubspaceCardLoader = () => {
       <rect x="50" y="10" rx="4" ry="4" width="145" height="20" />
       <rect x="8" y="10" rx="4" ry="4" width="35" height="20" />
     </ContentLoader>
-  )
-}
-
-
-const SubspaceCard: React.FC<Props> = (props) => {
-
-
-  if (props.loading) {
-    /**
-     */
-    return (
-      <SubspaceCardLoader />
-    );
-  }
-
-  return (
-    <div
-      className={`dark:text-darkpen-medium flex flex-row items-start ${
-        props.className || ''
-      }`}
-    >
-      <div className="flex flex-row">
-        <Logo
-          type={props.subspace.logoType as LogoType}
-          imgUrl={props.subspace.logoUrl}
-          displayHeight={'h-6'}
-          displayWidth={'w-6'}
-        />
-        <h4 className={`mx-1 ${props.titleClassName || ''}`}>
-          {props.subspace.name}
-        </h4>
-      </div>
-    </div>
   );
 };
 
-export default SubspaceCard;
+interface Props {
+  text: string;
+
+  type?: string;
+}
+
+const UploadButton: React.FC<Props> = (props) => {
+  return (
+    <Button
+      className="dark:bg-night-light border border-night-extralight dark:text-darkpen-light shadow hover:brightness-110 hover:shadow pointer-events-none"
+      size={'medium'}
+      type={props.type}
+      radius={'small'}
+    >
+      <span>{props.text}</span>
+      <IconUpload size={16} />
+    </Button>
+  );
+};
+
+export default UploadButton;

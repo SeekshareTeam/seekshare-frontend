@@ -86,7 +86,7 @@ const Search: React.FC<Props> = (props) => {
             boxFocus
               ? 'ring-1 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
               : ''
-          } p-1 dark:border-white dark:bg-night-light dark:caret-white dark:text-white`}
+          } p-1 dark:border-night-extralight dark:bg-night-light dark:caret-white dark:text-white`}
         >
           {props.leftNode}
           <input

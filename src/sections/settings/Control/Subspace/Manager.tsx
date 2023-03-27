@@ -20,8 +20,6 @@ const SubspaceManagerLayout: React.FC<LayoutProps> = (props) => {
   const divRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-
-
     // Check what's going on here.
     if (divRef?.current) {
       divRef.current.style.height = divRef.current.offsetHeight - 80 + 'px';
@@ -49,6 +47,24 @@ const SubspaceManagerLayout: React.FC<LayoutProps> = (props) => {
       </div>
     </div>
   );
+};
+
+const SubspaceManagerView: React.FC<{
+  tabKey: string;
+  subspace: SubspaceType;
+}> = (props) => {
+  switch (props.tabKey) {
+    case 'tags':
+      return (
+        <TagManager
+          tags={props.subspace.tags}
+          subspaceId={props.subspace.id}
+          workspaceId={props.subspace.workspaceId}
+        />
+      );
+    default:
+      return null;
+  }
 };
 
 interface Props {
@@ -82,7 +98,9 @@ const SubspaceManager: React.FC<Props> = (props) => {
           active={selectedTab}
         />
       }
-      manager={<TagManager tags={props.subspace.tags} subspaceId={props.subspace.id} workspaceId={props.subspace.workspaceId} />}
+      manager={
+        <SubspaceManagerView subspace={props.subspace} tabKey={selectedTab} />
+      }
     />
   );
 };

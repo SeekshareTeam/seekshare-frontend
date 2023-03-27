@@ -263,7 +263,6 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         dirty,
         errors,
       }) => {
-        console.log('subit form error', errors);
         return (
           <Form className="w-full">
             <div className="z-10 w-80 sm:w-80 xl:w-full dark:text-darkpen-medium rounded-xl flex flex-wrap flex-col">

@@ -6,10 +6,11 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import type { AppProps /*, AppContext */ } from 'next/app';
 import * as React from 'react';
 import { ApolloProvider } from '@apollo/client';
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify';
 import NextNProgress from 'nextjs-progressbar';
 
 import { GeneralLayoutType } from 'src/components/Layouts';
+import ErrorBoundary from 'src/components/ErrorBoundary';
 import { getApolloClient } from 'src/config/apollo/client';
 import { wrapper } from 'src/modules/Redux';
 import { Provider } from 'react-redux';
@@ -31,11 +32,10 @@ function MyApp({
   Component,
   ...rest
 }: AppProps & { Component: AppWithLayout<AppProps['Component']> }) {
-
   const GetLayout =
     Component.layoutType in myLayouts
       ? myLayouts[Component.layoutType]
-      : ((props => <>{props.children}</>) as React.FC);
+      : (((props) => <>{props.children}</>) as React.FC);
 
   const { store, props } = wrapper.useWrappedStore(rest);
 
@@ -48,9 +48,11 @@ function MyApp({
             <AuthGate>
               <NextNProgress height={3} options={{ showSpinner: false }} />
               <div id="modal-root" />
-              <GetLayout>
-                <Component {...props.pageProps} />
-              </GetLayout>
+              <ErrorBoundary>
+                <GetLayout>
+                  <Component {...props.pageProps} />
+                </GetLayout>
+              </ErrorBoundary>
             </AuthGate>
           </SessionProvider>
         </ApiProvider>

@@ -32,7 +32,7 @@ type DropdownProps = {
   /**
    *
    */
-  onOptionClick?: (option: DropdownOption) => void;
+  onOptionClick?: (option: DropdownOption) => Promise<void> | void;
   /**
    * Different dropdown rendering modes
    */
@@ -144,7 +144,6 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   );
 };
 
-
 type DropdownComponentProps = {
   /**
    * above or below the button
@@ -157,7 +156,10 @@ type DropdownComponentProps = {
   /*
    * Dropdown Button
    */
-  dropdownButton: (option: DropdownOption | null, dropdownRef: React.RefObject<HTMLButtonElement>) => React.ReactNode;
+  dropdownButton: (
+    option: DropdownOption | null,
+    dropdownRef: React.RefObject<HTMLButtonElement>
+  ) => React.ReactNode;
   /**
    * Dropdown Button Options
    */
@@ -185,9 +187,9 @@ type DropdownComponentProps = {
   onSelect?: (_: string) => void;
 };
 
-
 export const ReusableDropdown: React.FC<DropdownComponentProps> = (props) => {
-  const [selectedOption, setSelectedOption] = React.useState<DropdownOption | null>(null);
+  const [selectedOption, setSelectedOption] =
+    React.useState<DropdownOption | null>(null);
 
   const dropdownRef = React.useRef<HTMLButtonElement>(null);
 
@@ -196,7 +198,7 @@ export const ReusableDropdown: React.FC<DropdownComponentProps> = (props) => {
    */
   React.useEffect(() => {
     if (props.optionList && props.optionList.length >= 1) {
-      setSelectedOption(props.optionList[0])
+      setSelectedOption(props.optionList[0]);
     }
   }, [props.optionList]);
 
@@ -206,12 +208,17 @@ export const ReusableDropdown: React.FC<DropdownComponentProps> = (props) => {
       dropdownButton={props.dropdownButton(selectedOption, dropdownRef)}
       bgColor={props.bgColor}
       onSelect={props.onSelect}
-      onOptionClick={props.onOptionClick}
+      onOptionClick={(option: DropdownOption) => {
+        setSelectedOption(option);
+        if (props.onOptionClick) {
+          props.onOptionClick(option);
+        }
+      }}
       optionList={props.optionList}
       position={props.position}
       horizontalPosition={props.horizontalPosition}
     />
-  )
-}
+  );
+};
 
 export default Dropdown;

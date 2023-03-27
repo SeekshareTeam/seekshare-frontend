@@ -12,6 +12,7 @@ import authReducer from 'src/modules/Auth/slice';
 import workspaceReducer from 'src/modules/Workspace/slice';
 import themeReducer from 'src/modules/theme/slice';
 import homeReducer from 'src/modules/Home/slice';
+import usersReducer from 'src/modules/Users/slice';
 
 import { isEmpty } from 'lodash';
 import {
@@ -35,6 +36,7 @@ const makeStore = () => {
       subspace: subspaceReducer,
       theme: themeReducer,
       home: homeReducer,
+      users: usersReducer,
     },
     // devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),

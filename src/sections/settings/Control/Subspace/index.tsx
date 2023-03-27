@@ -5,7 +5,7 @@ import { Subspace as SubspaceType } from 'src/generated/types';
 
 /* Components */
 import { Modal } from 'src/components/Modal';
-import SubspaceCard from './SubspaceCard';
+import SubspaceCard, { SubspaceCardLoader } from './SubspaceCard';
 import SubspaceManager from './Manager';
 
 interface GridItem {
@@ -46,6 +46,8 @@ const SubspacePanelGridLayout: React.FC<GridLayout> = (props) => {
 
 interface Props {
   subspaces?: SubspaceType[];
+
+  loading: boolean;
 }
 
 const Subspaces: React.FC<Props> = (props) => {
@@ -57,6 +59,12 @@ const Subspaces: React.FC<Props> = (props) => {
   const [selectedSubspace, setSelectedSubspace] =
     React.useState<SubspaceType | null>(null);
   const [showSubspaceManager, setShowSubspaceManager] = React.useState(false);
+  const [loadingGrid] = React.useState([
+    {
+      cell1: [...Array(10).keys()].map(() => <SubspaceCardLoader />),
+      cell2: null,
+    },
+  ]);
 
   const headers = {
     cell1: <p className="font-semibold">{'Name'}</p>,
@@ -71,8 +79,9 @@ const Subspaces: React.FC<Props> = (props) => {
             setSelectedSubspace(subspace);
             setShowSubspaceManager(true);
           }}
+          disabled={props.loading}
         >
-          <SubspaceCard subspace={subspace} />
+          <SubspaceCard subspace={subspace} loading={props.loading} />
         </button>
       ),
       cell2: null,
@@ -95,7 +104,7 @@ const Subspaces: React.FC<Props> = (props) => {
       )}
       <SubspacePanelGridLayout
         headers={headers}
-        gridData={subspaceGridData}
+        gridData={props.loading ? loadingGrid : subspaceGridData}
         className="text-darkpen-medium"
       />
     </>

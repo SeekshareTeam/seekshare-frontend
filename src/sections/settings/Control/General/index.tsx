@@ -1,124 +1,77 @@
 import * as React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
-
-import { IconUpload } from '@tabler/icons';
 
 /* State Management */
 import { Workspace as WorkspaceType } from 'src/generated/types';
+import { useEditGeneralSettingsMutation } from 'src/generated/apollo';
 
 /* Components */
 import { Button } from 'src/components/Button';
-import { UploadImage } from 'src/components/Input/UploadImage';
+import UploadWorkspaceCover from 'src/sections/settings/Control/General/UploadWorkspaceCover';
+import UploadWorkspaceLogo from 'src/sections/settings/Control/General/UploadWorkspaceLogo';
+
+interface GeneralLayoutProps {
+  uploadWorkspaceCover: React.ReactNode;
+
+  uploadWorkspaceImage: React.ReactNode;
+
+  workspaceName: React.ReactNode;
+
+  workspaceDescription: React.ReactNode;
+
+  submitButton: React.ReactNode;
+}
+
+const GeneralLayout: React.FC<GeneralLayoutProps> = (props) => {
+  return (
+    <div>
+      {props.uploadWorkspaceCover}
+      {props.uploadWorkspaceImage}
+      {props.workspaceName}
+      {props.workspaceDescription}
+      {props.submitButton}
+    </div>
+  );
+};
 
 interface Props {
-  workspace: WorkspaceType;
+  workspace?: WorkspaceType;
 
   loading: boolean;
 }
 
 const General: React.FC<Props> = (props) => {
-  const [workspaceImgObj, setWorkspaceImgObj] = React.useState<{
-    value: string;
+  const [workspaceCover, setWorkspaceCover] = React.useState<{
+    value: string | undefined;
     type: string;
-  } | null>(null);
+  } | null>(
+    { value: props.workspace?.backgroundImage || undefined, type: 'image' } ||
+      null
+  );
+  const [workspaceImage, setWorkspaceImage] = React.useState<{
+    value: string | undefined;
+    type: string;
+  } | null>(
+    { value: props.workspace?.url || undefined, type: 'image' } || null
+  );
 
+  React.useEffect(() => {
+    setWorkspaceCover({
+      value: props.workspace?.backgroundImage || undefined,
+      type: 'image',
+    });
+  }, [props.workspace?.backgroundImage]);
 
-  const renderUploadButton = ({ title }: { title: string; }) => {
-    return (
-      <Button
-        variant="dark"
-        className="flex flex-row">
-        <span>{title}</span>
-        <IconUpload size={16} />
-      </Button>
-    );
-  };
+  React.useEffect(() => {
+    setWorkspaceImage({
+      value: props.workspace?.url || undefined,
+      type: 'image',
+    });
+  }, [props.workspace?.url]);
 
-  // const onUploadCoverPhoto = async (uploadFile: File) => {
-  //   const formData = new FormData();
-
-  //   if (uploadFile) {
-  //     formData.append('workspace_cover');
-
-  //     const workspaceCoverRes = await axios({
-  //       method: 'post',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-type': 'multipart/form-data',
-  //       },
-  //       url: process.env.NEXT_PUBLIC_IMAGE_SERVICE + 'upload_iamge',
-  //       data: formData,
-  //     });
-  //   }
-
-  // };
-
-  const modifyWorkspaceCover = ({ labelHtmlFor }: { labelHtmlFor: string }) => {
-    console.log('labelHtmlFor', labelHtmlFor);
-    return (
-      <div className="flex flex-col items-start">
-        <p className="dark:text-darkpen-medium font-bold">
-          {'Change Workspace Cover Photo'}
-        </p>
-        <div
-          className="w-80 h-44"
-          style={{
-            backgroundImage: `url(\'${props.workspace?.backgroundImage}\')`,
-          }}
-        ></div>
-        <UploadImage
-          imageEndpoint={'upload_image'}
-          onUploadImage={onUploadWorkspaceImage}
-          displayLabel={renderUploadButton({ title: 'Upload Cover Photo' })}
-        />
-      </div>
-    );
-  };
-
-  const onUploadWorkspaceImage = async (uploadFile: File) => {
-    const formData = new FormData();
-
-    if (uploadFile) {
-      formData.append('workspace_logo', uploadFile);
-
-      const workspaceImgRes = await axios({
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'multipart/form-data',
-        },
-        url: process.env.NEXT_PUBLIC_IMAGE_SERVICE + 'upload_iamge',
-        data: formData,
-      });
-
-      setWorkspaceImgObj({ value: workspaceImgRes?.data, type: 'image' });
-    }
-  };
-
-  const modifyWorkspaceImage = ({ labelHtmlFor }: { labelHtmlFor: string }) => {
-    workspaceImgObj;
-    return (
-      <div className="flex flex-col items-start">
-        <label
-          className="dark:text-darkpen-medium font-bold"
-          htmlFor={labelHtmlFor}
-        >
-          {'Change Workspace Icon'}
-        </label>
-        <img
-          src={props.workspace?.url || undefined}
-          className="ml-2 w-16 h-16 shadow rounded"
-        />
-        <UploadImage
-          imageEndpoint={'upload_image'}
-          onUploadImage={onUploadWorkspaceImage}
-          displayLabel={renderUploadButton({ title: 'Upload Workspace Logo' })}
-        />
-      </div>
-    );
-  };
+  const [editGeneralSettingsMutation, { loading: editLoading }] =
+    useEditGeneralSettingsMutation();
 
   const newInputFormRow = ({
     labelHtmlFor,
@@ -141,22 +94,15 @@ const General: React.FC<Props> = (props) => {
         >
           {labelName}
         </label>
-          <input
-            type="text"
-            name={labelHtmlFor}
-            id={labelHtmlFor}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={inputValue[labelHtmlFor]}
-            className="dark:bg-night-light rounded dark:text-darkpen-medium"
-          />
-          <Button
-            variant="dark"
-            fillColor="dark"
-            onClick={() => {}}
-          >
-            {'Rename'}
-          </Button>
+        <input
+          type="text"
+          name={labelHtmlFor}
+          id={labelHtmlFor}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={inputValue[labelHtmlFor]}
+          className="dark:bg-night-light rounded dark:text-darkpen-medium"
+        />
       </div>
     );
   };
@@ -187,47 +133,101 @@ const General: React.FC<Props> = (props) => {
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
           rows={4}
-          className="rounded-lg shadow-md border border-blue-400 dark:border-darkpen-dark outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-night-light dark:focus:ring-gray-400"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-night-extralight outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-night-light dark:focus:ring-gray-400"
         />
       </div>
     );
   };
 
   const generalSettingsSchema = yup.object().shape({
-    workspaceName: yup
-      .string()
-      .min(2, 'Too short')
-      .max(50, 'Too Long!')
-      .required('Required!'),
+    workspaceName: yup.string().min(2, 'Too short').required('Required!'),
   });
+
+  const initialValues = {
+    workspaceName: props?.workspace?.name || '',
+    description: props?.workspace?.description || '',
+    formLogo: workspaceImage?.value || '',
+    formCover: workspaceCover?.value || '',
+  };
 
   return (
     <Formik
-      initialValues={{
-        workspaceName: props.workspace?.name || '',
-        description: props.workspace?.description || '',
-      }}
+      initialValues={initialValues}
       validationSchema={generalSettingsSchema}
-      onSubmit={() => {}}
+      onSubmit={async (values: typeof initialValues) => {
+        if (props.workspace?.id) {
+          await editGeneralSettingsMutation({
+            variables: {
+              workspaceInput: {
+                name: values.workspaceName,
+                description: values.description,
+                url: values.formLogo,
+                backgroundImage: values.formCover,
+                workspaceId: props.workspace.id,
+              },
+            },
+          });
+        }
+      }}
+      enableReinitialize
     >
-      {({ values, handleChange, handleBlur, handleSubmit }) => (
+      {({ values, handleChange, handleBlur, handleSubmit, isValid, dirty }) => (
         <form onSubmit={handleSubmit} className="">
-          {modifyWorkspaceCover({ labelHtmlFor: 'workspace_cover' })}
-          {modifyWorkspaceImage({ labelHtmlFor: 'workspaceImageIcon' })}
-          {newInputFormRow({
-            labelHtmlFor: 'workspaceName',
-            labelName: 'Workspace Name',
-            inputValue: values,
-            handleChange,
-            handleBlur,
-          })}
-          {newTextareaFormRow({
-            labelHtmlFor: 'description',
-            labelName: 'Description',
-            inputValue: values,
-            handleChange,
-            handleBlur,
-          })}
+          <GeneralLayout
+            uploadWorkspaceCover={
+              <UploadWorkspaceCover
+                loading={props.loading}
+                labelHtmlFor={'workspace_cover'}
+                coverImage={workspaceCover}
+                onImageResponse={(imageResponse: {
+                  value: string;
+                  type: string;
+                }) => {
+                  setWorkspaceCover(imageResponse);
+                }}
+              />
+            }
+            uploadWorkspaceImage={
+              <UploadWorkspaceLogo
+                loading={props.loading}
+                labelHtmlFor={'workspaceImageIcon'}
+                logoImage={workspaceImage}
+                workspaceId={props.workspace?.id}
+                onImageResponse={(imageResponse: {
+                  value: string;
+                  type: string;
+                }) => {
+                  setWorkspaceImage(imageResponse);
+                }}
+              />
+            }
+            workspaceName={newInputFormRow({
+              labelHtmlFor: 'workspaceName',
+              labelName: 'Workspace Name',
+              inputValue: values,
+              handleChange,
+              handleBlur,
+            })}
+            workspaceDescription={newTextareaFormRow({
+              labelHtmlFor: 'description',
+              labelName: 'Description',
+              inputValue: values,
+              handleChange,
+              handleBlur,
+            })}
+            submitButton={
+              <Button
+                disabled={!isValid || !dirty}
+                variant={'primary'}
+                size={'medium'}
+                radius={'small'}
+                loading={editLoading}
+                type="submit"
+              >
+                {'Update'}
+              </Button>
+            }
+          />
         </form>
       )}
     </Formik>
@@ -235,4 +235,3 @@ const General: React.FC<Props> = (props) => {
 };
 
 export default General;
-

@@ -9,6 +9,11 @@ export const WORKSPACE_FRAGMENT = gql`
     name
     gradient
     backgroundImage
+    permissionTypes {
+      id
+      type
+      text
+    }
   }
 `;
 

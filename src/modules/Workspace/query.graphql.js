@@ -12,6 +12,12 @@ export const CREATE_WORKSPACE_MUTATION = gql`
   }
 `;
 
+export const EDIT_WORKSPACE_GENERAL_MUTATION = gql`
+  mutation editGeneralSettings($workspaceInput: EditWorkspaceInput!) {
+    editGeneralSettings(workspaceInput: $workspaceInput)
+  }
+`;
+
 export const FETCH_WORKSPACE_QUERY = gql`
   query fetchWorkspace($workspaceId: ID!) {
     fetchWorkspace(workspaceId: $workspaceId) {

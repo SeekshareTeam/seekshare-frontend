@@ -29,10 +29,16 @@ interface TagViewProps {
   createTagError?: ApolloError;
 }
 
-const TagView: React.FC<TagViewProps> = (props) => {
+const TagManagerView: React.FC<TagViewProps> = (props) => {
   switch (props.selectedTabKey) {
     case 'dashboard':
-      return <TagDashboard tags={props.tags} />;
+      return (
+        <TagDashboard
+          tags={props.tags.filter(
+            (tag) => tag.status === 'active' || tag.status === 'inactive'
+          )}
+        />
+      );
     case 'create':
       return (
         <TagCreate
@@ -45,7 +51,11 @@ const TagView: React.FC<TagViewProps> = (props) => {
         />
       );
     case 'requests':
-      return <TagRequest />;
+      return (
+        <TagRequest
+          tags={props.tags.filter((tag) => tag.status === 'requested')}
+        />
+      );
     default:
       return null;
   }
@@ -72,7 +82,7 @@ const TagManager: React.FC<Props> = (props) => {
   const [
     createTagMutation,
     { loading: createTagLoading, error: createTagError },
-  ] = useCreateTagMutation();
+  ] = useCreateTagMutation ({ onError: () => null });
 
   return (
     <div className="flex flex-row dark:text-darkpen-medium h-full">
@@ -83,7 +93,7 @@ const TagManager: React.FC<Props> = (props) => {
               key={tab.key}
               className={`py-1 hover:text-darkpen-medium w-full ${
                 selectedTab.key === tab.key
-                  ? 'bg-zinc-700 dark:text-darkpen-medium'
+                  ? 'bg-night-extralight dark:text-darkpen-medium'
                   : 'dark:text-darkpen-dark'
               }`}
               onClick={() => {
@@ -96,7 +106,7 @@ const TagManager: React.FC<Props> = (props) => {
         })}
       </div>
       <div className="flex-1">
-        <TagView
+        <TagManagerView
           selectedTabKey={selectedTab.key}
           tags={props?.tags || []}
           createTagMutation={createTagMutation}

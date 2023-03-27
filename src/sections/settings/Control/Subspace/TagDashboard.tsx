@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { upperFirst } from 'lodash';
+import { upperCase } from 'lodash';
 
 /* State Management */
 import { Tag as TagType } from 'src/generated/types';
 
 /* Components */
 import { IconPencil } from '@tabler/icons';
+import { Button } from 'src/components/Button';
 
 interface GridItem {
   /*
@@ -41,30 +42,16 @@ const TagDashboardGridLayout: React.FC<GridLayout> = (props) => {
 
   return (
     <div
-      className={`grid grid-cols-6 items-center gap-4 dark:text-darkpen-medium ${props.className}`}
+      className={`grid grid-cols-6 items-center gap-4 m-4 dark:text-darkpen-medium ${props.className}`}
     >
       {data.map((row, ix) => {
         return (
           <React.Fragment key={`subspace_panel_row_${ix}`}>
-            <div className="col-start-1 col-end-1">
-              <div className="flex flex-row justify-center">
-                {row?.cell1}
-              </div>
-            </div>
-            <div className="col-start-2 col-end-4 col-span-2">
-              <div className="flex flex-row justify-center w-full">
-                {row?.cell2}
-              </div>
-            </div>
-            <div className="col-start-4 col-end-4">
-              {row?.cell3}
-            </div>
-            <div className="col-start-5 col-end-5">
-              {row?.cell4}
-            </div>
-            <div className="col-start-6 col-end-6">
-              {row?.cell5}
-            </div>
+            <div className="col-start-1 col-end-1">{row?.cell1}</div>
+            <div className="col-start-2 col-end-4 col-span-2">{row?.cell2}</div>
+            <div className="col-start-4 col-end-4">{row?.cell3}</div>
+            <div className="col-start-5 col-end-5">{row?.cell4}</div>
+            <div className="col-start-6 col-end-6">{row?.cell5}</div>
           </React.Fragment>
         );
       })}
@@ -96,16 +83,26 @@ const TagDashboard: React.FC<Props> = (props) => {
   const formattedTagData = props.tags.map((tag: TagType) => {
     return {
       cell1: (
-        <span
-          className={`${tag.colorString} text-darkpen-medium text-xs px-2 py-1 rounded-full`}
-        >
-          {upperFirst(tag.value)}
-        </span>
+        <div className="flex flex-row justify-start items-center overflow-hidden">
+          <span
+            className={`${tag.colorString} text-darkpen-medium text-xs px-2 py-1 rounded-full whitespace-nowrap`}
+          >
+            {upperCase(tag.value)}
+          </span>
+        </div>
       ),
-      cell2: <p>{tag.description}</p>,
+      cell2: (
+        <div className="flex flex-row justify-start items-center w-full">
+          <p>{tag.description}</p>
+        </div>
+      ),
       cell3: null,
       cell4: <span>{tag.createdAt}</span>,
-      cell5: <IconPencil />,
+      cell5: (
+        <Button>
+          <IconPencil />
+        </Button>
+      ),
     };
   });
 

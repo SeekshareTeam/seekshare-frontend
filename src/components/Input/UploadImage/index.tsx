@@ -22,7 +22,7 @@ export const UploadImage: React.FC<Props> = (props) => {
 
   return (
     <>
-      <label htmlFor={`${props.imageEndpoint}_upload_image`}>
+      <label htmlFor={`${props.imageEndpoint}_upload_image`} className="cursor-pointer">
         {props.displayLabel || 'Upload File'}
       </label>
       <input

@@ -31,7 +31,7 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
   return (
     <div
       className={
-        'flex border-b border-1 pb-4 bg-night-medium border-gray-100 flex-row lg:w-4/5 md:w-full'
+        'flex border-b pb-4 bg-night-medium dark:border-night-extralight flex-row lg:w-4/5 md:w-full'
       }
     >
       <div

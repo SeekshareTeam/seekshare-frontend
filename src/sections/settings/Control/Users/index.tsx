@@ -1,11 +1,10 @@
 import * as React from 'react';
 
+/* State Management */
+import { PermissionType, User as UserType } from 'src/generated/types';
+
 /* Components */
-import {
-  ReusableDropdown,
-  DropdownOption as DropdownOptionType,
-} from 'src/components/Dropdown';
-import { Button } from 'src/components/Button';
+import UserPermission from './UserPermission';
 
 /* Types */
 type GridItem = {
@@ -33,32 +32,31 @@ const UserPanelGridLayout: React.FC<{
   );
 };
 
-const Users: React.FC = () => {
+interface Props {
+  accessRoles: PermissionType[];
+
+  usersData: UserType[];
+}
+
+const Users: React.FC<Props> = (props) => {
   /**
    * Things to display:
    * User name and role
    */
-
-  const accessRoles = [
-    { type: 'read', text: 'Read Only', id: 'read' },
-    { type: 'read_and_write', text: 'Read and Write', id: 'read_and_write' },
-    { type: 'owner', text: 'Owner', id: 'owner' },
-  ];
-
-  const dummyUserData = [
-    {
-      firstname: 'Abhinav',
-      lastname: 'Bhandari',
-      email: 'abhinav@seekshare.com',
-      userPermissions: 'read',
-    },
-    {
-      firstname: 'Chris',
-      lastname: 'Fortin',
-      email: 'chris@seekshare.com',
-      userPermissions: 'read_and_write',
-    },
-  ];
+  // const dummyUserData = [
+  //   {
+  //     firstname: 'Abhinav',
+  //     lastname: 'Bhandari',
+  //     email: 'abhinav@seekshare.com',
+  //     userPermissions: 'read',
+  //   },
+  //   {
+  //     firstname: 'Chris',
+  //     lastname: 'Fortin',
+  //     email: 'chris@seekshare.com',
+  //     userPermissions: 'read_and_write',
+  //   },
+  // ];
 
   const headers = {
     cell1: <p className="font-semibold">{'Name'}</p>,
@@ -82,48 +80,47 @@ const Users: React.FC = () => {
     );
   };
 
-  const renderCell2 = ({ userPermissions }: { userPermissions: string }) => {
-    return (
-      <div className="flex items-center justify-end w-full">
-        <ReusableDropdown
-          optionList={accessRoles}
-          position={'above'}
-          horizontalPosition={'right'}
-          bgColor={{
-            dark: 'bg-night-dark',
-            medium: 'bg-night-medium',
-            light: 'bg-night-light',
-          }}
-          dropdownButton={(
-            option: DropdownOptionType | null,
-            dropdownRef: React.RefObject<HTMLButtonElement>
-          ) => {
+  // const renderCell2 = ({ userPermissions }: { userPermissions: string }) => {
+  //   return (
+  //     <div className="flex items-center justify-end w-full">
+  //       <ReusableDropdown
+  //         optionList={props.accessRoles}
+  //         position={'above'}
+  //         horizontalPosition={'right'}
+  //         bgColor={{
+  //           dark: 'bg-night-dark',
+  //           medium: 'bg-night-medium',
+  //           light: 'bg-night-light',
+  //         }}
+  //         dropdownButton={(
+  //           option: DropdownOptionType | null,
+  //           dropdownRef: React.RefObject<HTMLButtonElement>
+  //         ) => {
+  //           return (
+  //             <Button
+  //               className="w-32 justify-between"
+  //               type="button"
+  //               variant={null}
+  //               ref={dropdownRef}
+  //             >
+  //               {option ? option.text : ''}
+  //             </Button>
+  //           );
+  //         }}
+  //       />
+  //       <span>{userPermissions}</span>
+  //     </div>
+  //   );
+  // };
 
-            return (
-              <Button
-                className="w-32 justify-between"
-                type="button"
-                variant={null}
-                ref={dropdownRef}
-              >
-                {option ? option.text : ''}
-              </Button>
-            );
-          }}
-        />
-        <span>{userPermissions}</span>
-      </div>
-    );
-  };
-
-  const formatDataForGrid: GridItem[] = dummyUserData.map((dummy) => {
+  const formatDataForGrid: GridItem[] = props.usersData.map((data) => {
     return {
       cell1: renderCell1({
-        firstname: dummy.firstname,
-        lastname: dummy.lastname,
-        email: dummy.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
       }),
-      cell2: renderCell2({ userPermissions: dummy.userPermissions }),
+      cell2: <UserPermission accessRoles={props.accessRoles} />,
     };
   });
 
@@ -131,4 +128,3 @@ const Users: React.FC = () => {
 };
 
 export default Users;
-

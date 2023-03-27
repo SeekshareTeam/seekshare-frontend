@@ -95,7 +95,7 @@ export const WorkspaceForm = () => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
-          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-gray-400 dark:bg-black"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-gray-400 dark:bg-night-dark"
         />
       </div>
     );
@@ -130,7 +130,7 @@ export const WorkspaceForm = () => {
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
           rows={4}
-          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-black dark:focus:ring-gray-400"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-night-dark dark:focus:ring-gray-400"
         />
       </div>
     );

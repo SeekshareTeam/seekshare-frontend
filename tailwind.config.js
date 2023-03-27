@@ -50,10 +50,10 @@ module.exports = {
           light: colors.emerald['500'],
         },
         night: {
-          dark: colors.black,
-          medium: colors.zinc['900'],
-          light: colors.zinc['800'],
-          extralight: colors.zinc['700'],
+          dark: colors.slate['900'],
+          medium: colors.slate['800'],
+          light: colors.slate['700'],
+          extralight: colors.slate['600'],
         },
         dusk: {
           medium: colors.gray['700'],

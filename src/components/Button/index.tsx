@@ -52,7 +52,7 @@ interface BaseButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   iconRight?: React.ReactNode;
   iconLeft?: React.ReactNode;
   loading?: boolean;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | null;
 }
 
 // type ButtonAsButton = BaseButtonProps &
@@ -87,6 +87,8 @@ function getSize(size: string | undefined) {
     case 'large-full': {
       return 'px-4 py-2 text-sm w-full';
     }
+    case 'medium':
+      return 'px-2 py-1';
     case 'small': {
       return 'px-2.5 py-1.5 text-sm';
     }
@@ -97,7 +99,8 @@ function getSize(size: string | undefined) {
       return 'p-2 text-sm';
     }
     default: {
-      return 'px-2 py-0.5 text-sm';
+      return '';
+      // return 'px-2 py-0.5 text-sm';
       // return 'px-4 py-2 text-sm w-full';
     }
   }
@@ -111,15 +114,12 @@ function getRadius(size: string | undefined) {
   switch (size) {
     case 'full':
       return 'rounded-full';
-    case 'large': {
+    case 'large':
       return 'rounded-lg';
-    }
-    case 'small': {
+    case 'small':
       return 'rounded';
-    }
-    default: {
-      return 'rounded-md';
-    }
+    default:
+      return '';
   }
 }
 
@@ -132,17 +132,23 @@ const composer = {
 function buttonVariantSwitch(
   textColor: string,
   fillColor: string,
-  type: string = 'primary',
+  type: string | null | undefined = 'primary',
   disabled: boolean = false,
   selected: boolean = false
 ) {
+  let defaultClass =
+    'text-lightpen-medium dark:text-darkpen-dark hover:text-lightpen-dark hover:dark:text-darkpen-medium';
+
   switch (type) {
     case 'primary':
-      return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
-        disabled
-          ? ''
-          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-primary-dark'
-      } border-lightpen-medium dark:border-primary-medium`;
+      return `${defaultClass} bg-primary-medium dark:bg-primary-medium ${
+        disabled ? '' : 'hover:bg-primary-dark dark:hover:bg-primary-light'
+      } shadow-sm`;
+    // return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
+    //   disabled
+    //     ? ''
+    //     : 'hover:bg-' + fillColor + '-800 dark:hover:bg-primary-dark'
+    // } border-lightpen-medium dark:border-primary-medium`;
     case 'secondary':
       return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-secondary-medium ${
         disabled
@@ -164,7 +170,7 @@ function buttonVariantSwitch(
           : 'hover:bg-' + fillColor + '-800 dark:hover:bg-night-medium'
       } border-lightpen-medium shadow-sm`;
     default:
-      return 'transition-all duration-200 text-lightpen-medium dark:text-darkpen-medium hover:text-lightpen-dark hover:dark:text-darkpen-dark';
+      return defaultClass;
   }
 }
 
@@ -176,7 +182,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fillColor = 'pink',
       iconRight = null,
       iconLeft = null,
-      variant = 'primary',
+      variant = null,
       loading = false,
       className = '',
       ...props

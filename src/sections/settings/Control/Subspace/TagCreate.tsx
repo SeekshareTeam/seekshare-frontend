@@ -3,14 +3,14 @@ import { upperFirst } from 'lodash';
 import { ApolloError } from '@apollo/client';
 
 /* State Management */
-import {
-  CreateTagMutationFn,
-} from 'src/generated/apollo';
+import { CreateTagMutationFn } from 'src/generated/apollo';
 import { TagStatus } from 'src/generated/types';
 
 /* Components */
 import IconPicker from 'src/components/IconPicker';
 import IconCircle from 'src/components/IconPicker/Children/IconCircle';
+import ErrorMessage from 'src/components/ErrorMessage';
+import { Button } from 'src/components/Button';
 
 /* Initialize Global Color Palette */
 import palette from 'src/utils/palette';
@@ -53,7 +53,7 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
     handleBlur: (e: any) => void
   ) => {
     return (
-      <div className="flex flex-col py-1 justify-between items-start">
+      <div className="inline-flex flex-col py-1 justify-between items-start">
         <label
           className="font-semibold text-sm capitalize text-gray-700 dark:text-darkpen-dark"
           htmlFor={inputName}
@@ -113,6 +113,14 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
         },
         () => {}
       )}
+      <div>
+        <ErrorMessage
+          error={props.createTagError}
+          errorComponent={(val: string) => (
+            <span className="text-red-700">{val}</span>
+          )}
+        />
+      </div>
       <div className="flex flex-row items-center mr-2">
         <div className="flex flex-col items-center">
           <IconCircle
@@ -153,7 +161,10 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
         },
         () => {}
       )}
-      <button
+      <Button
+        variant={'primary'}
+        size={'medium'}
+        radius={'small'}
         onClick={async () => {
           await props.createTagMutation({
             variables: {
@@ -168,10 +179,9 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
             },
           });
         }}
-        className="bg-primary-medium p-1 rounded-lg dark:text-darkpen-medium my-1"
       >
         {'Add Tag'}
-      </button>
+      </Button>
     </div>
   );
 };
