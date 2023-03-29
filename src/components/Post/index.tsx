@@ -78,7 +78,7 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
     }
   }, [props.pid]);
 
-  const reduxState = useAppSelector((state) => {
+  const reduxState = useAppSelector(state => {
     return {
       post: state?.post?.data,
       loading: state?.app?.loading,
@@ -86,25 +86,25 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
   }, shallowEqual);
 
   if (
-    reduxState?.post?.content?.body &&
+    reduxState?.post?.content?.[0]?.body &&
     reduxState?.post?.title &&
     reduxState?.post?.user
   ) {
-    console.log('this is the state', reduxState);
     let savedComponents: ViewerProps['savedComponents'] = undefined;
-    if (
-      reduxState.post.content.components &&
-      reduxState.post.content.components != null
-    ) {
-      let nonNullComponents: Component[] = [];
-      reduxState.post.content.components.forEach((c) => {
-        if (c !== null) {
-          nonNullComponents.push(c as Component);
-        }
-      });
-      savedComponents = (keyBy(nonNullComponents, 'id') ||
-        undefined) as ViewerProps['savedComponents'];
-    }
+    let nonNullComponents: Component[] = [];
+    reduxState.post.content.forEach(content => {
+      if (content?.components && content?.components != null) {
+        content.components.forEach(c => {
+          if (c !== null) {
+            nonNullComponents.push(c as Component);
+          }
+        });
+      }
+    });
+
+    savedComponents = (keyBy(nonNullComponents, 'id') ||
+      undefined) as ViewerProps['savedComponents'];
+
     return (
       <PostLayout
         title={
@@ -120,7 +120,10 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
             votes={<Votes size="medium" />}
             content={
               <Viewer
-                text={reduxState.post.content.body}
+                // TODO: change behavior based on type of post
+                text={reduxState.post.content.reduce((acc, content) => {
+                  return content?.body ? `${acc}\n\n${content.body}` : acc;
+                }, '')}
                 savedComponents={savedComponents}
                 mode="read"
               />

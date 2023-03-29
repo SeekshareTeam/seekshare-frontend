@@ -10,12 +10,18 @@ import 'easymde/dist/easymde.min.css';
 import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
 import { TitleInput } from 'src/components/Input';
-import { Button } from 'src/components/Button';
-import Dropdown from 'src/components/Dropdown';
 import ManageTags, { ManageTagsHandle } from 'src/components/Tags/Create';
 import { setLoading } from 'src/modules/App/slice';
 
-import { IconChevronDown } from '@tabler/icons';
+import PostTypeDropdown, {
+  PostType,
+  QnaType,
+  getPostTypeText,
+} from './PostTypeDropdown';
+import WorkspaceDropdown from './WorkspaceDropdown';
+import SubspaceDropdown from './SubspaceDropdown';
+
+import useWorkspaceSubspaceSelector from './useWorkspaceSubspaceSelector';
 
 import type { Props as EditorProps } from 'src/plugins/components/Editor';
 
@@ -96,12 +102,9 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 };
 
 interface Props {
-  subspaceId: string;
-  workspaceId: string;
+  subspaceId?: string;
+  workspaceId?: string;
 }
-
-type PostType = 'question' | 'note' | 'qna' | 'quiz';
-type QnaType = 'question' | 'answer';
 
 const QuestionEditor: React.FC<Props> = props => {
   const [postTitle, setTitle] = React.useState('');
@@ -115,6 +118,11 @@ const QuestionEditor: React.FC<Props> = props => {
       id: string;
     }[]
   >([]);
+
+  const workspaceSubspaceSelector = useWorkspaceSubspaceSelector(
+    props.workspaceId,
+    props.subspaceId
+  );
 
   const tagRef = React.useRef<ManageTagsHandle>(null);
   // const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -132,19 +140,15 @@ const QuestionEditor: React.FC<Props> = props => {
     dispatch(setLoading(loading));
   }, [loading]);
 
-  const dropdownRef = React.useRef(null);
-  const postTypeOptions = React.useMemo<{ id: PostType; text: string }[]>(
-    () => [
-      { id: 'question', text: 'Question' },
-      { id: 'note', text: 'Note' },
-      { id: 'qna', text: 'QnA' },
-      { id: 'quiz', text: 'Quiz' },
-    ],
-    []
-  );
-
   const onSubmitCreatePost = React.useCallback(async () => {
-    // TODO: submit multiple bodies
+    if (
+      !workspaceSubspaceSelector.workspace.selectedId ||
+      !workspaceSubspaceSelector.subspace.selectedId
+    ) {
+      alert('Select a workspace and a subspace');
+      return;
+    }
+
     const postTags = currentTags.map(ct => ct.id);
     const result = await createPostMutation({
       variables: {
@@ -153,8 +157,8 @@ const QuestionEditor: React.FC<Props> = props => {
           title: postTitle,
           type: postType,
           tags: postTags,
-          workspaceId: props.workspaceId,
-          subspaceId: props.subspaceId,
+          workspaceId: workspaceSubspaceSelector.workspace.selectedId,
+          subspaceId: workspaceSubspaceSelector.subspace.selectedId,
         },
       },
     });
@@ -162,7 +166,14 @@ const QuestionEditor: React.FC<Props> = props => {
     if (result?.data?.createPost?.postId) {
       router.push('/post/' + result.data.createPost.postId);
     }
-  }, [bodies, postTitle, currentTags, postType]);
+  }, [
+    bodies,
+    postTitle,
+    currentTags,
+    postType,
+    workspaceSubspaceSelector.workspace.selectedId,
+    workspaceSubspaceSelector.subspace.selectedId,
+  ]);
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -175,11 +186,6 @@ const QuestionEditor: React.FC<Props> = props => {
       );
     },
     [bodyIndex]
-  );
-
-  const postText = React.useMemo(
-    () => postTypeOptions.find(x => x.id === postType)?.text,
-    [postType]
   );
 
   // Configure editor tabs here
@@ -223,6 +229,8 @@ const QuestionEditor: React.FC<Props> = props => {
     setBodyIndex(index);
   }, [tabOption?.selected]);
 
+  const postText = React.useMemo(() => getPostTypeText(postType), [postType]);
+
   return (
     <div className="justify-center w-full flex-1">
       <div className={classes.editorContainer}>
@@ -235,18 +243,19 @@ const QuestionEditor: React.FC<Props> = props => {
               className: 'flex-1',
             }}
           />
-          <Dropdown
-            dropdownRef={dropdownRef}
-            optionList={postTypeOptions}
-            position="above"
-            horizontalPosition="right"
-            dropdownButton={
-              <Button variant={null} ref={dropdownRef}>
-                <h3 className="">{postText}</h3>
-                <IconChevronDown />
-              </Button>
-            }
+          <PostTypeDropdown
+            selectedPostType={postType}
             onSelect={s => setPostType(s as PostType)}
+          />
+          <WorkspaceDropdown
+            selectedWorkspaceId={workspaceSubspaceSelector.workspace.selectedId}
+            workspaceOptions={workspaceSubspaceSelector.workspace.options}
+            onSelect={workspaceSubspaceSelector.workspace.updateSelected}
+          />
+          <SubspaceDropdown
+            selectedSubspaceId={workspaceSubspaceSelector.subspace.selectedId}
+            subspaceOptions={workspaceSubspaceSelector.subspace.options}
+            onSelect={workspaceSubspaceSelector.subspace.updateSelected}
           />
         </div>
         <MarkdownEditor

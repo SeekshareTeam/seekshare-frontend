@@ -26,8 +26,14 @@ const workspaceSlice = createSlice({
     clientFetchSubspaces: (state, action) => {
       return {
         ...state,
-        subspaces: action.payload
-      }
+        subspaces: action.payload,
+      };
+    },
+    clientClearSubspaces: (state) => {
+      return {
+        ...state,
+        subspaces: [],
+      };
     },
     serverFetchWorkspace: (state, action) => {
       const serverState = state?.server || {};
@@ -63,7 +69,12 @@ const workspaceSlice = createSlice({
   },
 });
 
-export const { createWorkspace, serverFetchSubspaces, serverFetchWorkspace, clientFetchSubspaces } =
-  workspaceSlice.actions;
+export const {
+  createWorkspace,
+  serverFetchSubspaces,
+  serverFetchWorkspace,
+  clientFetchSubspaces,
+  clientClearSubspaces,
+} = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
