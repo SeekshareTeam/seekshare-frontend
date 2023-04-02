@@ -8,7 +8,7 @@ export interface DropdownOption {
   callback?: () => void;
 }
 
-type DropdownProps = {
+export type DropdownProps = {
   /**
    * above or below the button
    */

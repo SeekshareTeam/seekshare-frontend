@@ -161,7 +161,7 @@ export const useCustomMutation = <
     notifyOnNetworkStatusChange: true,
   });
   if (error) {
-    console.log(error);
+    console.log('useCustomMutation:', error);
   }
   React.useEffect(() => {
     if (data) {

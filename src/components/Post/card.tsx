@@ -13,7 +13,7 @@ interface PostCardProps extends PostType {
   answerCount?: number;
 }
 
-export const PostCard: React.FC<PostCardProps> = (props) => {
+export const PostCard: React.FC<PostCardProps> = props => {
   /*
     Numero:
      - Number of answers
@@ -52,7 +52,11 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
           className={'cursor-pointer'}
         />
       </div>
-      <div className={'flex flex-col text-lightpen-medium dark:text-darkpen-medium'}>
+      <div
+        className={
+          'flex flex-col text-lightpen-medium dark:text-darkpen-medium'
+        }
+      >
         <div>
           <span className="text-sm">{`${
             props?.user?.firstname || 'Author Information'
@@ -60,16 +64,20 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
         </div>
         <h3 className="text-2xl mb-2 hover:text-darkpen-dark">
           <Link href={`/post/${props.postId}`}>
-            <a>
-              {props.title}
-            </a>
+            <a>{props.title}</a>
           </Link>
         </h3>
         <div title="Summary">
-          <p>{props.content?.body}</p>
+          <p>
+            {props.content.reduce(
+              (acc, content) =>
+                content?.body ? `${acc}\n\n${content.body}` : acc,
+              ''
+            )}
+          </p>
         </div>
         <div className={'flex flex-row'} title="Tags">
-          {props.tags?.map((tag) => (
+          {props.tags?.map(tag => (
             <button
               id={tag.id}
               onClick={() => {}}

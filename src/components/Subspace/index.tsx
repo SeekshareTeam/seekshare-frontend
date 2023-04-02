@@ -261,7 +261,7 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         isSubmitting,
         isValid,
         dirty,
-        errors,
+        // errors,
       }) => {
         return (
           <Form className="w-full">
