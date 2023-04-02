@@ -36,6 +36,11 @@ export const AUTH_USER_QUERY = gql`
           workspaceId
         }
       }
+      permissions {
+        id
+        type
+        accessLevel
+      }
     }
   }
 `;

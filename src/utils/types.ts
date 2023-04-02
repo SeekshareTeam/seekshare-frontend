@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
-export type PageWithLayout<T> = NextPage<T> & { layoutType: string };
+export type PageWithLayout<T> = NextPage<T> & { layoutType: string, accessLevel?: { [key: string | 'page']: string } };
 
 export type SpaceRequiredProps = {
   subspaceId: string;

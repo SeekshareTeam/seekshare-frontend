@@ -29,9 +29,22 @@ const workspaceSlice = createSlice({
         subspaces: action.payload
       }
     },
+    modifyWorkspace: (state, action) => {
+      // This is a temporary fix
+      const serverState = state?.server || {};
+
+      return {
+        ...state,
+        server: {
+          ...serverState,
+          workspace: {
+            ...action.payload
+          }
+        },
+      }
+    },
     serverFetchWorkspace: (state, action) => {
       const serverState = state?.server || {};
-      // console.log('@ server action', )
       return {
         ...state,
         server: {
@@ -41,7 +54,6 @@ const workspaceSlice = createSlice({
       };
     },
     serverFetchSubspaces: (state, action) => {
-      // console.log('server subspaces', action);
       const serverState = state?.server || {};
       return {
         ...state,
@@ -63,7 +75,7 @@ const workspaceSlice = createSlice({
   },
 });
 
-export const { createWorkspace, serverFetchSubspaces, serverFetchWorkspace, clientFetchSubspaces } =
+export const { createWorkspace, serverFetchSubspaces, serverFetchWorkspace, clientFetchSubspaces, modifyWorkspace } =
   workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

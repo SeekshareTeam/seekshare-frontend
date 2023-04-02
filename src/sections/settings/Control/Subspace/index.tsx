@@ -5,7 +5,7 @@ import { Subspace as SubspaceType } from 'src/generated/types';
 
 /* Components */
 import { Modal } from 'src/components/Modal';
-import SubspaceCard, { SubspaceCardLoader } from './SubspaceCard';
+import SubspaceCard, { SubspaceCardLoader } from 'src/components/Subspace/SubspaceCard';
 import SubspaceManager from './Manager';
 
 interface GridItem {

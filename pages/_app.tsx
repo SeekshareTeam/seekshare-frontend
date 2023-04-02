@@ -18,10 +18,12 @@ import { SessionProvider } from 'next-auth/react';
 import { ApiProvider } from 'src/api/context';
 import { AuthGate } from 'src/components/Layouts/AuthGate';
 import { GeneralLayout } from 'src/components/Layouts';
+import PageAuthenticator from 'src/components/Auth';
 
 type AppWithLayout<T> = T & {
   getLayout?: GeneralLayoutType;
   layoutType: string;
+  accessLevel?: { [key: string | 'page']: string };
 };
 
 const myLayouts: { [key: string]: any } = {
@@ -49,9 +51,11 @@ function MyApp({
               <NextNProgress height={3} options={{ showSpinner: false }} />
               <div id="modal-root" />
               <ErrorBoundary>
-                <GetLayout>
-                  <Component {...props.pageProps} />
-                </GetLayout>
+                <PageAuthenticator permissionTypes={Component?.accessLevel}>
+                  <GetLayout>
+                    <Component {...props.pageProps} />
+                  </GetLayout>
+                </PageAuthenticator>
               </ErrorBoundary>
             </AuthGate>
           </SessionProvider>

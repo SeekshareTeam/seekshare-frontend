@@ -53,13 +53,6 @@ const SettingControl: React.FC<Props> = (props) => {
   );
 
   React.useEffect(() => {
-    console.log('@@@ redux', reduxState);
-    if (reduxState.users) {
-      console.log('@@@ users', reduxState.users);
-    }
-  }, [reduxState?.users]);
-
-  React.useEffect(() => {
     if (reduxState?.workspace?.id) {
       setLoading(true);
       (async (workspaceId: string) => {

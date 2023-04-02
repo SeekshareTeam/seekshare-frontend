@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Subspace as SubspaceType } from 'src/generated/types';
 
 /* Components */
-import SubspaceCard from './SubspaceCard';
+import SubspaceCard from 'src/components/Subspace/SubspaceCard';
 import TagManager from './TagManager';
 import { UnderlineTabs } from 'src/components/Tabs';
 

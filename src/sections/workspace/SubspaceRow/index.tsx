@@ -1,10 +1,15 @@
 import * as React from 'react';
+import Link from 'next/link';
+
+/* State Management */
+import { Subspace as SubspaceType } from 'src/generated/types';
+
+/* Components */
 import { Button } from 'src/components/Button';
 import LogoAvatar, {
   Props as LogoAvatarProps,
 } from 'src/components/Sidebar/LogoAvatar';
-import { Subspace as SubspaceType } from 'src/generated/types';
-import Link from 'next/link';
+import SubspaceCard from 'src/components/Subspace/SubspaceCard';
 
 interface Props {
   logoAvatarProps: LogoAvatarProps;
@@ -19,10 +24,11 @@ const SubspaceRow: React.FC<Props> = (props) => {
     <div className="flex min-w-80 md:w-1/2 border-b dark:border-night-extralight items-center">
       <div className="flex flex-1 my-2">
         <button className="flex justify-start items-center">
-          <LogoAvatar {...logoAvatarProps} />
-          <Link href={`/workspace/${props?.subspace?.workspaceId}/${props?.subspace?.id}`}>
-            <a className="text-xl mx-2 text-lightpen-light hover:text-lightpen-dark dark:text-darkpen-dark dark:hover:text-darkpen-light">
-              {props?.subspace?.name || 'Subspace'}
+          <Link
+            href={`/workspace/${props?.subspace?.workspaceId}/${props?.subspace?.id}`}
+          >
+            <a>
+              <SubspaceCard subspace={props.subspace} titleClassName={"dark:text-darkpen-dark dark:hover:text-darkpen-medium transition-all duration-200"} />
             </a>
           </Link>
         </button>

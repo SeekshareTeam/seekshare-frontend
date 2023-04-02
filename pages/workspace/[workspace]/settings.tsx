@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { IconSettings, IconUsers, IconAccessPoint } from '@tabler/icons';
 
+/* State Management */
 import { ssrFetchWorkspace } from 'src/generated/page';
-
 import { PageWithLayout, SidebarTab } from 'src/utils/types';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
-
 import {
   serverFetchWorkspace,
 } from 'src/modules/Workspace/slice';
 
+/* Components */
+import { IconSettings, IconUsers, IconAccessPoint } from '@tabler/icons';
 import SettingControl from 'src/sections/settings/Control';
 import SettingSidebar from 'src/sections/settings/Sidebar';
 
@@ -32,6 +32,9 @@ const SettingsLayout: React.FC<SettingsLayoutProps> = (props) => {
 const Settings: PageWithLayout<{}> = () => {
   /**
    * Have General Settings
+   * Conditions for viewing this page:
+   * The authenticated user, must be an owner of this workspace
+   * workspace: { }
    */
   const [tabs] = React.useState<SidebarTab[]>([
     {
@@ -99,5 +102,7 @@ export const getStaticPaths = async () => {
 
 
 Settings.layoutType = 'general';
+
+Settings.accessLevel = { 'page': 'admin', workspace: 'admin' };
 
 export default Settings;

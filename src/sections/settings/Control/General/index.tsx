@@ -5,6 +5,8 @@ import * as yup from 'yup';
 /* State Management */
 import { Workspace as WorkspaceType } from 'src/generated/types';
 import { useEditGeneralSettingsMutation } from 'src/generated/apollo';
+import { useCustomMutation } from 'src/modules/Redux';
+import { modifyWorkspace } from 'src/modules/Workspace/slice';
 
 /* Components */
 import { Button } from 'src/components/Button';
@@ -71,7 +73,15 @@ const General: React.FC<Props> = (props) => {
   }, [props.workspace?.url]);
 
   const [editGeneralSettingsMutation, { loading: editLoading }] =
-    useEditGeneralSettingsMutation();
+    useCustomMutation<
+      typeof modifyWorkspace,
+      typeof useEditGeneralSettingsMutation
+    >({
+      action: modifyWorkspace,
+      useApolloMutation: useEditGeneralSettingsMutation,
+      variables: undefined,
+      onMount: false,
+    });
 
   const newInputFormRow = ({
     labelHtmlFor,
