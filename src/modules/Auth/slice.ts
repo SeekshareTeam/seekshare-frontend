@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { User as UserType } from 'src/generated/types';
+import { User as UserType, PostTypeArray } from 'src/generated/types';
 
 type AuthSliceType = {
   data?: UserType;
+  posts?: PostTypeArray[];
 };
 
 const initialState: AuthSliceType = {};
@@ -17,13 +18,13 @@ export const authSlice = createSlice({
           ...state,
           data: {
             ...state.data,
-            avatar: action.payload
-          }
-        }
+            avatar: action.payload,
+          },
+        };
       }
       return {
-        ...state
-      }
+        ...state,
+      };
     },
     fetchSessionUser: (state, action) => {
       return {
@@ -44,20 +45,31 @@ export const authSlice = createSlice({
       );
 
       if (hasSubspace !== undefined) {
-         return;
+        return;
       }
 
       userCurrentWorkspace?.userSubspaces?.push(action.payload);
     },
     unsubscribeSubspace: (state, action) => {
-      const currentWorkspaceId =  state?.data?.currentWorkspace;
+      const currentWorkspaceId = state?.data?.currentWorkspace;
 
-      const currentWorkspace = state?.data?.userWorkspaces?.find(uw => uw.id === currentWorkspaceId);
+      const currentWorkspace = state?.data?.userWorkspaces?.find(
+        (uw) => uw.id === currentWorkspaceId
+      );
 
-      const subspaceIndex = currentWorkspace?.userSubspaces?.findIndex(us => us.id === action.payload);
+      const subspaceIndex = currentWorkspace?.userSubspaces?.findIndex(
+        (us) => us.id === action.payload
+      );
 
       if (subspaceIndex !== undefined && subspaceIndex >= 0) {
         currentWorkspace?.userSubspaces?.splice(subspaceIndex, 1);
+      }
+    },
+    fetchPostsByUser: (state, action) => {
+      console.log('@@@ in action', action.payload);
+      return {
+        ...state,
+        posts: action.payload
       }
     },
     clearSessionUser: () => {
@@ -68,6 +80,13 @@ export const authSlice = createSlice({
   },
 });
 
-export const { fetchSessionUser, clearSessionUser, subscribeSubspace, unsubscribeSubspace, updateAvatar } = authSlice.actions;
+export const {
+  fetchSessionUser,
+  clearSessionUser,
+  subscribeSubspace,
+  unsubscribeSubspace,
+  updateAvatar,
+  fetchPostsByUser,
+} = authSlice.actions;
 
 export default authSlice.reducer;

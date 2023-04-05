@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { PageWithLayout } from 'src/utils/types';
-import { UnderlineTabs } from 'src/components/Tabs';
-import WorkspaceHeader from 'src/sections/workspace/Header';
-import SubspaceRow from 'src/sections/workspace/SubspaceRow';
+
+/* State Management */
 import {
   serverFetchSubspaces,
   serverFetchWorkspace,
@@ -10,6 +8,12 @@ import {
 import { ssrFetchSubspaces, ssrFetchWorkspace } from 'src/generated/page';
 import { wrapper, fetchSSRQuery, useAppSelector } from 'src/modules/Redux';
 import { shallowEqual } from 'react-redux';
+
+/* Components */
+import { PageWithLayout } from 'src/utils/types';
+import { UnderlineTabs } from 'src/components/Tabs';
+import WorkspaceHeader from 'src/sections/workspace/Header';
+import SubspaceRow from 'src/sections/workspace/SubspaceRow';
 
 interface WorkspaceLayoutProps {
   underlineTabs: React.ReactNode;

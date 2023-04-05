@@ -5,7 +5,7 @@ import SidebarSection from 'src/sections/sidebar/Sections';
 import TitleHeader from 'src/sections/sidebar/TitleHeader';
 import UserControl from 'src/sections/sidebar/UserControl';
 import { SearchSubspace } from 'src/components/Subspace/Search';
-import { IconHash, IconBox } from '@tabler/icons';
+import { IconHash, IconBox, IconHome } from '@tabler/icons';
 import { useAppSelector } from 'src/modules/Redux';
 import { updateAvatar } from 'src/modules/Auth/slice';
 
@@ -52,12 +52,12 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   const [sections, setSections] = React.useState<SectionElement[]>([
     {
       id: 'home',
-      label: 'Station',
-      icon: null,
+      label: 'My Activity',
+      icon: <IconHome size={24} />,
       items: [
         {
           href: '#',
-          label: 'Home',
+          label: 'Dashboard',
           icon: null,
         },
       ],
@@ -159,14 +159,18 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   return (
     <SidebarLayout
       titleHeader={
-        <TitleHeader
-          currentWorkspace={reduxState.currentWorkspace}
-        />
+        <TitleHeader currentWorkspace={reduxState.currentWorkspace} />
       }
       sidebarToggle={props.sidebarToggle}
       searchSubspace={<SearchSubspace />}
-      tabSections={sections.map((sec, labelIndex) => {
-        return <SidebarSection key={sec.id} labelIndex={labelIndex} sectionElement={sec} />;
+      tabSections={sections.map((section, labelIndex) => {
+        return (
+          <SidebarSection
+            key={section.id}
+            labelIndex={labelIndex}
+            sectionElement={section}
+          />
+        );
       })}
       userControl={
         <UserControl

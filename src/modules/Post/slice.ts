@@ -26,8 +26,8 @@ export const postSlice = createSlice({
     serverFetchPost: (state, action) => {
       return {
         ...state,
-        data: action.payload
-      }
+        data: action.payload,
+      };
     },
     fetchPost: (state, action) => {
       return {
@@ -46,6 +46,7 @@ export const postSlice = createSlice({
   },
 });
 
-export const { clearPost, createPost, fetchPost, serverFetchPost } = postSlice.actions;
+export const { clearPost, createPost, fetchPost, serverFetchPost } =
+  postSlice.actions;
 
 export default postSlice.reducer;

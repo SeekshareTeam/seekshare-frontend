@@ -9,7 +9,6 @@ import { ApolloProvider } from '@apollo/client';
 import { ToastContainer } from 'react-toastify';
 import NextNProgress from 'nextjs-progressbar';
 
-import { GeneralLayoutType } from 'src/components/Layouts';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 import { getApolloClient } from 'src/config/apollo/client';
 import { wrapper } from 'src/modules/Redux';
@@ -19,12 +18,14 @@ import { ApiProvider } from 'src/api/context';
 import { AuthGate } from 'src/components/Layouts/AuthGate';
 import { GeneralLayout } from 'src/components/Layouts';
 import PageAuthenticator from 'src/components/Auth';
+import { PageWithLayout } from 'src/utils/types';
+// import { GeneralLayoutType } from 'src/components/Layouts';
 
-type AppWithLayout<T> = T & {
-  getLayout?: GeneralLayoutType;
-  layoutType: string;
-  accessLevel?: { [key: string | 'page']: string };
-};
+// type AppWithLayout<T> = T & {
+//   getLayout?: GeneralLayoutType;
+//   layoutType: string;
+//   accessLevel?: { [key: string | 'page']: string };
+// };
 
 const myLayouts: { [key: string]: any } = {
   general: GeneralLayout,
@@ -33,9 +34,9 @@ const myLayouts: { [key: string]: any } = {
 function MyApp({
   Component,
   ...rest
-}: AppProps & { Component: AppWithLayout<AppProps['Component']> }) {
+}: AppProps & { Component: PageWithLayout<AppProps['Component']> }) {
   const GetLayout =
-    Component.layoutType in myLayouts
+    Component.layoutType !== undefined && Component.layoutType in myLayouts
       ? myLayouts[Component.layoutType]
       : (((props) => <>{props.children}</>) as React.FC);
 

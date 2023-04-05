@@ -1,11 +1,16 @@
 import { NextPage } from 'next';
 
-export type PageWithLayout<T> = NextPage<T> & { layoutType: string, accessLevel?: { [key: string | 'page']: string } };
+export type AccessLevel = { page: 'admin' | 'user'; [key: string]: string | undefined };
+
+export type PageWithLayout<T> = NextPage<T> & {
+  layoutType?: string;
+  accessLevel?: AccessLevel;
+};
 
 export type SpaceRequiredProps = {
   subspaceId?: string;
   workspaceId?: string;
-}
+};
 
 export type DualIconItem<T> = {
   item: T;
@@ -15,12 +20,11 @@ export type DualIconItem<T> = {
   rightIcon?: React.ReactNode;
 
   onSelect?: (item?: T) => void;
-}
+};
 
 export type SidebarTab = {
   tabValue: string;
   tabKey: string;
   children?: SidebarTab[];
   icon?: React.ReactNode;
-}
-
+};

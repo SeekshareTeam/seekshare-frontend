@@ -13,7 +13,7 @@ export const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
   const { labelIndex, sectionElement } = props;
   return (
     <ul key={labelIndex}>
-      <div className="flex items-center pt-5 pb-2">
+      <li className="flex items-center pt-5 pb-2">
         <span>{sectionElement.icon}</span>
         <h4
           key={labelIndex}
@@ -21,7 +21,7 @@ export const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
         >
           {sectionElement.label}
         </h4>
-      </div>
+      </li>
       {sectionElement?.items.map((it) => (
         <SidebarTab key={it.label} {...it} />
       ))}

@@ -58,6 +58,27 @@ export const SUBSCRIBE_SUBSPACE_MUTATION = gql`
   }
 `;
 
+export const FETCH_POSTS_BY_USER_QUERY = gql`
+  query fetchPostsByUser($workspaceId: ID!) {
+    fetchPostsByUser(workspaceId: $workspaceId) {
+      type
+      posts {
+        postId
+        user {
+          id
+          firstname
+          lastname
+        }
+        title
+        createdAt
+        tags {
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const UNSUBSCRIBE_SUBSPACE_MUTATION = gql`
   mutation unsubscribeSubspace($subspaceId: ID!) {
     unsubscribeSubspace(subspaceId: $subspaceId)

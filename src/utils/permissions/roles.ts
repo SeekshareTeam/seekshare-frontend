@@ -1,16 +1,21 @@
 import { get, set } from 'lodash';
-// const { get, set } = require('lodash');
 
-const adminRoutes = [
-  '/workspace/[workspace]/settings/blah/blah/blah',
-  '/workspace/[workspace]/settings',
-  '/workspace/[workspace]/settings/test1',
-  '/workspace/[workspace]/*',
-  '/workspace/[workspace]/settings/test1/test3',
-  '/subspace/settings',
+const userRoutes = [
+  '/user/dashboard'
 ];
 
-const sampleRoute = '/workspace/[workspace333]/settings/test2';
+const adminRoutes = [
+  '/workspace/[workspace]/settings',
+  ...userRoutes
+  // The rest of the routes are for testing
+  // '/workspace/[workspace]/settings/blah/blah/blah',
+  // '/workspace/[workspace]/settings/test1',
+  // '/workspace/[workspace]/*',
+  // '/workspace/[workspace]/settings/test1/test3',
+  // '/subspace/settings',
+];
+
+// const sampleRoute = '/workspace/[workspace333]/settings/test2';
 // const sampleRoute2 = '/workspace/[workspace]/settings/test1';
 // const sampleRoute3 = '/workspace/[workspace]/';
 // const sampleRoute4 = '/workspace/[workspace]/settings/test5';
@@ -162,4 +167,10 @@ export const validateRoute = (route: string, routeValidator: RouteValidatorType)
   return isPathValid;
 };
 
-export const routeValidator = convertRoutesToValidator(adminRoutes);
+const adminRouteValidator = convertRoutesToValidator(adminRoutes);
+const userRouteValidator = convertRoutesToValidator(userRoutes);
+
+export const routeValidator = {
+  'admin': adminRouteValidator,
+  'user': userRouteValidator,
+}

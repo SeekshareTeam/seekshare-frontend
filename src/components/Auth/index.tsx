@@ -2,6 +2,7 @@ import * as React from 'react';
 
 /* Tools */
 import { validateRoute, routeValidator } from 'src/utils/permissions/roles';
+import { isEmpty } from 'lodash';
 
 /* State Management */
 import { useAppSelector } from 'src/modules/Redux';
@@ -11,6 +12,8 @@ import {
   User as UserType,
   Permission as PermissionType,
 } from 'src/generated/types';
+import { AccessLevel } from 'src/utils/types';
+import { useSession } from 'next-auth/react';
 
 /**
   Get the workspace and subspace permissions:
@@ -47,7 +50,7 @@ const useState = () => {
 };
 
 interface Props {
-  permissionTypes?: { [key: string | 'page']: string };
+  permissionTypes?: AccessLevel;
 }
 
 const keyIntoArray = <T extends {}, K extends keyof T>(arr: T[], index: K) => {
@@ -70,16 +73,16 @@ const keyIntoArray = <T extends {}, K extends keyof T>(arr: T[], index: K) => {
 
 const validateQueryParams = (
   queryParams: ReturnType<typeof useRouter>['query'],
-  pageAccessLevels: { [key: string | 'page']: string },
+  pageAccessLevels: AccessLevel,
   permissions?: NonNullable<UserType['permissions']>
 ) => {
   // No query params
-  if (!queryParams) {
+  if (isEmpty(queryParams)) {
     return true;
   }
   // No permissions
-  if (!permissions) {
-    return false;
+  if (!permissions || isEmpty(permissions)) {
+    return true;
   }
 
   const permissionByType = keyIntoArray<PermissionType, 'type'>(
@@ -106,36 +109,33 @@ const validateQueryParams = (
 };
 
 const PageAuthenticator: React.FC<Props> = (props) => {
-  const router = useRouter();
 
+  const { status } = useSession();
+  const router = useRouter();
   const state = useState();
 
   React.useEffect(() => {
-    console.log('@@@ state', state.auth);
-    console.log('@@@ route', router.isReady, router.query, router.pathname);
-    console.log('@@@ permission', JSON.stringify(props.permissionTypes));
     // This is a bug: https://stackoverflow.com/questions/72031976/isready-is-true-from-next-route-when-using-getinitialprops
     // Currently isReady is always true. Update NextJS version
     if (router.isReady && props.permissionTypes) {
-      switch (props.permissionTypes['page']) {
-        case 'admin':
-          const isPathValid = validateRoute(router.pathname, routeValidator);
+      if (props.permissionTypes['page']) {
+        const isPathValid = validateRoute(
+          router.pathname,
+          routeValidator[props.permissionTypes['page']]
+        );
 
-          const areParamsValid = validateQueryParams(
-            router.query,
-            props.permissionTypes,
-            state.auth?.permissions || undefined
-          );
+        const areParamsValid = validateQueryParams(
+          router.query,
+          props.permissionTypes,
+          state.auth?.permissions || undefined
+        );
 
-          if (!(isPathValid && areParamsValid)) {
-            router.push('/noaccess');
-          }
-          break;
-        default:
-          break;
+        if (status === 'unauthenticated' || !(isPathValid && areParamsValid)) {
+          router.push('/noaccess');
+        }
       }
     }
-  }, [props.permissionTypes, router, state.auth]);
+  }, [status, props.permissionTypes, router, state.auth,]);
 
   return <>{props.children}</>;
 };

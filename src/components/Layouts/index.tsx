@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import Navbar from 'src/components/App/Navbar/';
 import Sidebar from 'src/sections/sidebar';
-import MiniSidebar from 'src/sections/minisidebar'
+import MiniSidebar from 'src/sections/minisidebar';
 
 type GeneralViewProps = {
   minisidebar: JSX.Element;
   sidebar: JSX.Element;
   header: JSX.Element;
-}
+};
 
 export const GeneralView: React.FC<GeneralViewProps> = (props) => {
   return (
@@ -30,7 +30,13 @@ export const GeneralLayout: React.FC = (props) => {
     <GeneralView
       minisidebar={<MiniSidebar />}
       sidebar={<Sidebar sidebarToggle={sidebarToggle} />}
-      header={<Navbar sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />}>
+      header={
+        <Navbar
+          sidebarToggle={sidebarToggle}
+          setSidebarToggle={setSidebarToggle}
+        />
+      }
+    >
       {props.children}
     </GeneralView>
   );
