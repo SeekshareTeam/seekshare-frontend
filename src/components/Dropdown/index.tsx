@@ -5,7 +5,6 @@ export interface DropdownOption {
   type?: string;
   id: string;
   href?: string;
-  callback?: () => void;
 }
 
 export type DropdownProps = {
@@ -121,14 +120,8 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                 tabIndex={-1}
                 // optionList ids shouldn't be optional
                 onClick={() => {
-                  if (option?.callback) {
-                    option.callback();
-                  } else {
-                    if (props?.onOptionClick) {
-                      props.onOptionClick(option);
-                    } else {
-                      props.onSelect?.(option?.id ?? '');
-                    }
+                  if (props?.onOptionClick) {
+                    props.onOptionClick(option);
                   }
                   setShow(false);
                 }}
@@ -207,7 +200,6 @@ export const ReusableDropdown: React.FC<DropdownComponentProps> = (props) => {
       dropdownRef={dropdownRef}
       dropdownButton={props.dropdownButton(selectedOption, dropdownRef)}
       bgColor={props.bgColor}
-      onSelect={props.onSelect}
       onOptionClick={(option: DropdownOption) => {
         setSelectedOption(option);
         if (props.onOptionClick) {

@@ -1,28 +1,20 @@
 import React from 'react';
 
-import { IconChevronDown } from '@tabler/icons';
-import Dropdown, { DropdownProps } from 'src/components/Dropdown';
-import { Button } from 'src/components/Button';
+/* Tools */
+import { PostType, PostTypeOptions } from 'src/utils/types';
 
-// should these be in a separate file?
-export type PostType = 'question' | 'note' | 'qna' | 'quiz';
-export type QnaType = 'question' | 'answer';
+import { IconChevronDown } from '@tabler/icons';
+import Dropdown, { DropdownOption } from 'src/components/Dropdown';
+import { Button } from 'src/components/Button';
 
 export type Props = {
   selectedPostType: PostType;
-  onSelect: DropdownProps['onSelect'];
+  onSelect: (value: string) => void;
 };
-
-const postTypeOptions: { id: PostType; text: string }[] = [
-  { id: 'question', text: 'Question' },
-  { id: 'note', text: 'Note' },
-  { id: 'qna', text: 'QnA' },
-  { id: 'quiz', text: 'Quiz' },
-];
 
 export const getPostTypeText = (postType: PostType): string => {
   return (
-    postTypeOptions.find(x => x.id === postType)?.text || 'invalid post type'
+    PostTypeOptions.find((x) => x.id === postType)?.text || 'invalid post type'
   );
 };
 
@@ -37,9 +29,12 @@ const PostTypeDropdown = (props: Props) => {
   return (
     <Dropdown
       dropdownRef={dropdownRef}
-      optionList={postTypeOptions}
+      optionList={PostTypeOptions}
       position="above"
       horizontalPosition="right"
+      onOptionClick={(option: DropdownOption) => {
+        props.onSelect(option.id ?? '');
+      }}
       dropdownButton={
         <Button variant={null} ref={dropdownRef}>
           <h3>{postText}</h3>

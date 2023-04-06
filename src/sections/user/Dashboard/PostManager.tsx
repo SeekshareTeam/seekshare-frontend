@@ -25,11 +25,21 @@ const PostManager: React.FC<Props> = (props) => {
     tabValue: 'Question',
   }));
 
+  const [activeTabKey, setActiveTabKey] = React.useState<string>(
+    tabTypes[0].tabKey
+  );
+
+  console.log('@@@ postArray', props.postsTypeArray);
+
   return (
     <div>
-      <UnderlineTabs tabs={tabTypes} active={'Questyion'} onSelectTab={() => {}} />
+      <UnderlineTabs
+        tabs={tabTypes}
+        active={activeTabKey}
+        onSelectTab={setActiveTabKey}
+      />
       {props.postsTypeArray.map((postArray) => {
-        return <PostGrid posts={postArray.posts} />
+        return <PostGrid posts={postArray.posts} />;
       })}
     </div>
   );

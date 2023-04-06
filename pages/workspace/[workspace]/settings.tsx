@@ -100,6 +100,7 @@ export const getStaticPaths = async () => {
   };
 };
 
+// workspace - testworkspace || 'admin'
 
 Settings.layoutType = 'general';
 

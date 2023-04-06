@@ -1,13 +1,15 @@
 import React from 'react';
 
 import { IconChevronDown } from '@tabler/icons';
-import Dropdown, { DropdownProps } from 'src/components/Dropdown';
+import Dropdown, {
+  DropdownOption,
+} from 'src/components/Dropdown';
 import { Button } from 'src/components/Button';
 
 export type Props = {
   selectedWorkspaceId?: string;
   workspaceOptions: Record<string, string>;
-  onSelect: DropdownProps['onSelect'];
+  onSelect: (value: string) => void;
 };
 
 const WorkspaceDropdown = (props: Props) => {
@@ -15,7 +17,7 @@ const WorkspaceDropdown = (props: Props) => {
 
   const options = React.useMemo(
     () =>
-      Object.keys(props.workspaceOptions).map(id => ({
+      Object.keys(props.workspaceOptions).map((id) => ({
         id,
         text: props.workspaceOptions[id],
       })),
@@ -28,7 +30,9 @@ const WorkspaceDropdown = (props: Props) => {
       optionList={options}
       position="above"
       horizontalPosition="right"
-      onSelect={props.onSelect}
+      onOptionClick={(option: DropdownOption) => {
+        props.onSelect(option?.id ?? '');
+      }}
       dropdownButton={
         <Button variant={null} ref={dropdownRef}>
           <h3>

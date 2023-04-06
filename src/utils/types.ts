@@ -28,3 +28,14 @@ export type SidebarTab = {
   children?: SidebarTab[];
   icon?: React.ReactNode;
 };
+
+export type PostType = 'question' | 'notes' | 'qna' | 'quiz';
+export type QnaType = 'question' | 'answer';
+
+export const PostTypeOptions: { id: PostType; text: string }[] = [
+  { id: 'question', text: 'Question' },
+  { id: 'notes', text: 'Note' },
+  { id: 'qna', text: 'QnA' },
+  { id: 'quiz', text: 'Quiz' },
+];
+

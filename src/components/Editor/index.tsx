@@ -3,26 +3,24 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { isEmpty } from 'lodash';
 
-import text from './text.json';
-
 import 'easymde/dist/easymde.min.css';
 
+/* State Management */
+import text from './text.json';
+import { PostType, QnaType } from 'src/utils/types';
 import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
+import { setLoading } from 'src/modules/App/slice';
+import useWorkspaceSubspaceSelector from './useWorkspaceSubspaceSelector';
+
+/* Components */
 import { TitleInput } from 'src/components/Input';
 import ManageTags, { ManageTagsHandle } from 'src/components/Tags/Create';
-import { setLoading } from 'src/modules/App/slice';
-
 import PostTypeDropdown, {
-  PostType,
-  QnaType,
   getPostTypeText,
 } from './PostTypeDropdown';
 import WorkspaceDropdown from './WorkspaceDropdown';
 import SubspaceDropdown from './SubspaceDropdown';
-
-import useWorkspaceSubspaceSelector from './useWorkspaceSubspaceSelector';
-
 import type { Props as EditorProps } from 'src/plugins/components/Editor';
 
 const classes = {

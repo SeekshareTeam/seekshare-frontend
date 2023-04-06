@@ -63,10 +63,10 @@ const PostGrid: React.FC<Props> = (props) => {
    */
 
   const headers = {
-    cell1: <p>{'User'}</p>,
-    cell2: <p>{'Title'}</p>,
-    cell3: <p>{'Tags'}</p>,
-    cell4: <p>{'Date Created'}</p>,
+    cell1: <p className="font-semibold">{'User'}</p>,
+    cell2: <p className="font-semibold">{'Title'}</p>,
+    cell3: <p className="font-semibold">{'Tags'}</p>,
+    cell4: <p className="font-semibold">{'Date Created'}</p>,
   };
 
   const gridData = props.posts.map((post) => {
@@ -74,7 +74,7 @@ const PostGrid: React.FC<Props> = (props) => {
       cell1: <p>{post.user?.firstname + ' ' + post.user?.lastname}</p>,
       cell2: <p>{post.title}</p>,
       cell3: <p>{'tags'}</p>,
-      cell4: <p>{post.createdAt}</p>,
+      cell4: <p>{new Date(post.createdAt).toString()}</p>,
     };
   });
 

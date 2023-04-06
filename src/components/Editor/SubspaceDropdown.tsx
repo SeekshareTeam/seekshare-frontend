@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { IconChevronDown } from '@tabler/icons';
-import Dropdown, { DropdownProps } from 'src/components/Dropdown';
+import Dropdown, { DropdownOption } from 'src/components/Dropdown';
 import { Button } from 'src/components/Button';
 
 export type Props = {
   selectedSubspaceId?: string;
   subspaceOptions: Record<string, string>;
-  onSelect: DropdownProps['onSelect'];
+  onSelect: (value: string) => void;
 };
 
 const SubspaceDropdown = (props: Props) => {
@@ -28,7 +28,9 @@ const SubspaceDropdown = (props: Props) => {
       optionList={options}
       position="above"
       horizontalPosition="right"
-      onSelect={props.onSelect}
+      onOptionClick={(option: DropdownOption) => {
+        props.onSelect(option?.id ?? '')
+      }}
       dropdownButton={
         <Button variant={null} ref={dropdownRef}>
           <h3>
