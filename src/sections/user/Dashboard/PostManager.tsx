@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 /* State Management */
-import { PostTypeArray } from 'src/generated/types';
+import { PostTypeArray, Post as PostType } from 'src/generated/types';
+import { PostTypeOptionKey } from 'src/utils/types';
 
 /* Components */
 import { UnderlineTabs } from 'src/components/Tabs';
@@ -20,16 +21,29 @@ const PostManager: React.FC<Props> = (props) => {
      tags
    */
 
+  // This should be a static value
   const tabTypes = props.postsTypeArray.map((p) => ({
     tabKey: p.type,
-    tabValue: 'Question',
+    tabValue: PostTypeOptionKey[p.type].text,
   }));
 
   const [activeTabKey, setActiveTabKey] = React.useState<string>(
     tabTypes[0].tabKey
   );
 
-  console.log('@@@ postArray', props.postsTypeArray);
+  const [displayPostArray, setDisplayPostArray] = React.useState<
+    PostType[] | undefined
+  >();
+
+  React.useEffect(() => {
+    if (activeTabKey) {
+      setDisplayPostArray(
+        props.postsTypeArray.find(
+          (typeArray) => typeArray.type === activeTabKey
+        )?.posts
+      );
+    }
+  }, [activeTabKey]);
 
   return (
     <div>
@@ -38,9 +52,7 @@ const PostManager: React.FC<Props> = (props) => {
         active={activeTabKey}
         onSelectTab={setActiveTabKey}
       />
-      {props.postsTypeArray.map((postArray) => {
-        return <PostGrid posts={postArray.posts} />;
-      })}
+      <PostGrid posts={displayPostArray} />
     </div>
   );
 };

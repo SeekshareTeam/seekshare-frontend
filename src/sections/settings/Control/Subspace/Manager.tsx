@@ -20,18 +20,10 @@ const SubspaceManagerLayout: React.FC<LayoutProps> = (props) => {
   const divRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    // Check what's going on here.
+    // Check what's going on here. Since this doesn't work
     if (divRef?.current) {
       divRef.current.style.height = divRef.current.offsetHeight - 80 + 'px';
     }
-
-    // const subspaceManagerElement: HTMLElement | null =
-    //   document.getElementById('subspace-manager');
-    // console.log('@@@ subspace manager element', subspaceManagerElement);
-    // if (subspaceManagerElement) {
-    //   subspaceManagerElement.style.height =
-    //     subspaceManagerElement.offsetHeight - 80 + 'px';
-    // }
   }, [divRef]);
 
   return (

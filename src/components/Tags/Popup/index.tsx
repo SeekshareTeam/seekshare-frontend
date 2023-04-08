@@ -25,12 +25,12 @@ const TagPopup: React.FC<Props> = (props) => {
    */
   // const workspaceApi = useWorkspaceApi();
 
-  const [tagTabs] = React.useState([
+  const tagTabs = [
     { tabKey: 'select', tabValue: 'Select' },
     { tabKey: 'create', tabValue: 'Create' },
-  ]);
+  ];
 
-  const [selectedTab, setSelectedTab] = React.useState<string>('select');
+  const [selectedTab, setSelectedTab] = React.useState<string>(tagTabs[0].tabKey);
   const [searchedTags, setSearchedTags] = React.useState<TagType[]>([]);
   const [selectedTags, setSelectedTags] = React.useState<TagType[]>([]);
   const [availableTags, setAvailableTags] = React.useState<TagType[]>([]);
@@ -38,6 +38,7 @@ const TagPopup: React.FC<Props> = (props) => {
   const [createTagMutation] = useCreateTagMutation();
 
   const [searchTagsQuery, { data: dataSearchTags }] = useSearchTagsLazyQuery();
+
   const [fetchSubspaceTagsQuery, { data: dataSubspaceTags }] =
     useFetchSubspaceTagsLazyQuery();
   const [showTags, setShowTags] = React.useState(false);
@@ -149,7 +150,7 @@ const TagPopup: React.FC<Props> = (props) => {
   });
 
   return (
-    <div className="z-10 w-1/3 h-80 rounded-lg overflow-hidden dark:bg-night-light">
+    <div className="z-10 w-1/3 h-80 flex flex-col rounded-lg dark:bg-night-light">
       <div className="p-2">
         <h2 className="text-gray-700 ml-4 text-2xl font-normal dark:text-white">
           {'Manage Tags'}
@@ -163,9 +164,9 @@ const TagPopup: React.FC<Props> = (props) => {
         }}
         fullwidth={true}
       />
-      <div className="p-2">
+      <div className="p-2 flex-1 overflow-auto">
         {selectedTab === 'select' && (
-          <div className="overflow-y-auto space-y-2">
+          <div className="overflow-auto space-y-2">
             <div>
               <InputSearch
                 validationSchema={tagValidationSchema}

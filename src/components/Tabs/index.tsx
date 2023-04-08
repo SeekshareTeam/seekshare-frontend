@@ -47,7 +47,7 @@ export interface UnderlineTabProps extends BaseTabProps {
 export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
 
   return (
-    <div className="border-b border-lightpen-medium dark:border-darkpen-medium dark:bg-night-light flex flex-1 items-center relative">
+    <div className="border-b border-lightpen-medium dark:border-darkpen-dark dark:bg-night-light/60 flex items-center relative">
       {props.leftNode}
       <ul className="flex w-64 sm:w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-lightpen-dark dark:text-darkpen-dark justify-center whitespace-nowrap overflow-x-auto">
         {props.tabs.map((t) => (
@@ -56,7 +56,7 @@ export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
               role="button"
               className={`inline-block p-4 text-lightpen-dark border-b-2 ${
                 props.active === t.tabKey
-                  ? 'border-pink-600 text-lightpen-dark dark:border-darkpen-light dark:text-darkpen-light'
+                  ? 'border-pink-600 text-lightpen-dark dark:border-darkpen-medium dark:text-darkpen-light'
                   : 'border-transparent hover:text-gray-600 dark:text-darkpen-dark dark:hover:text-darkpen-light'
               } ${props.fullwidth ? 'w-full': ''}`}
               onClick={() => {

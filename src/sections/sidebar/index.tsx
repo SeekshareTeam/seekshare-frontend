@@ -1,13 +1,15 @@
 import * as React from 'react';
-import axios from 'axios';
 
 import SidebarSection from 'src/sections/sidebar/Sections';
 import TitleHeader from 'src/sections/sidebar/TitleHeader';
-import UserControl from 'src/sections/sidebar/UserControl';
 import { SearchSubspace } from 'src/components/Subspace/Search';
 import { IconHash, IconBox, IconHome } from '@tabler/icons';
 import { useAppSelector } from 'src/modules/Redux';
-import { updateAvatar } from 'src/modules/Auth/slice';
+
+// User Avatar related features
+// import axios from 'axios';
+// import UserControl from 'src/sections/sidebar/UserControl';
+// import { updateAvatar } from 'src/modules/Auth/slice';
 
 type SidebarProps = {
   sidebarToggle: boolean;
@@ -93,36 +95,36 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     })?.userSubspaces,
   }));
 
-  const onUploadAvatar = React.useCallback(
-    async (uploadFile: File) => {
-      const formData = new FormData();
+  // const onUploadAvatar = React.useCallback(
+  //   async (uploadFile: File) => {
+  //     const formData = new FormData();
 
-      const path = 'user/' + reduxState?.userId + '/avatar';
+  //     const path = 'user/' + reduxState?.userId + '/avatar';
 
-      if (reduxState?.userId) {
-        if (uploadFile) {
-          formData.append('storage_path', path);
-          formData.append('user_avatar', uploadFile);
-          formData.append('id', reduxState.userId);
+  //     if (reduxState?.userId) {
+  //       if (uploadFile) {
+  //         formData.append('storage_path', path);
+  //         formData.append('user_avatar', uploadFile);
+  //         formData.append('id', reduxState.userId);
 
-          const responseUrl = await axios({
-            method: 'post',
-            headers: {
-              Accept: 'application/json',
-              'Content-type': 'multipart/form-data',
-            },
-            url: process.env.NEXT_PUBLIC_AVATAR_UPLOAD,
-            data: formData,
-          });
+  //         const responseUrl = await axios({
+  //           method: 'post',
+  //           headers: {
+  //             Accept: 'application/json',
+  //             'Content-type': 'multipart/form-data',
+  //           },
+  //           url: process.env.NEXT_PUBLIC_AVATAR_UPLOAD,
+  //           data: formData,
+  //         });
 
-          updateAvatar(responseUrl);
-        }
-      } else {
-        console.log('throw error that user needs to be logged in.');
-      }
-    },
-    [reduxState.userId]
-  );
+  //         updateAvatar(responseUrl);
+  //       }
+  //     } else {
+  //       console.log('throw error that user needs to be logged in.');
+  //     }
+  //   },
+  //   [reduxState.userId]
+  // );
 
   function guard(arg: unknown): arg is object {
     return arg !== undefined;
@@ -173,12 +175,13 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
         );
       })}
       userControl={
-        <UserControl
+        null
+        /*<UserControl
           name={'Abhinav Bhandari'}
           userId={reduxState.userId}
           onUploadImage={onUploadAvatar}
           avatarUrl={reduxState.avatarUrl || ''}
-        />
+          />*/
       }
     />
   );

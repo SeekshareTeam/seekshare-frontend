@@ -73,6 +73,15 @@ export const FETCH_POSTS_BY_USER_QUERY = gql`
         createdAt
         tags {
           id
+          colorString
+          value
+          description
+          workspaceId
+          subspaceId
+          createdBy
+          createdAt
+          updatedAt
+          status
         }
       }
     }

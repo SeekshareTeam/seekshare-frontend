@@ -266,8 +266,8 @@ const QuestionEditor: React.FC<Props> = props => {
         />
         <ManageTags
           ref={tagRef}
-          workspaceId={props.workspaceId}
-          subspaceId={props.subspaceId}
+          workspaceId={workspaceSubspaceSelector.workspace.selectedId}
+          subspaceId={workspaceSubspaceSelector.subspace.selectedId}
         />
         <button className={classes.submit} onClick={onSubmitCreatePost}>
           {`Post your ${postText}`}
