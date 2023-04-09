@@ -15,7 +15,9 @@ import {
 import * as yup from 'yup';
 import { SpaceRequiredProps } from 'src/utils/types';
 
-interface Props extends SpaceRequiredProps {}
+interface Props extends SpaceRequiredProps {
+  onSubmitTags: (tags: TagType[]) => void;
+}
 
 const TagPopup: React.FC<Props> = (props) => {
   /**
@@ -30,7 +32,9 @@ const TagPopup: React.FC<Props> = (props) => {
     { tabKey: 'create', tabValue: 'Create' },
   ];
 
-  const [selectedTab, setSelectedTab] = React.useState<string>(tagTabs[0].tabKey);
+  const [selectedTab, setSelectedTab] = React.useState<string>(
+    tagTabs[0].tabKey
+  );
   const [searchedTags, setSearchedTags] = React.useState<TagType[]>([]);
   const [selectedTags, setSelectedTags] = React.useState<TagType[]>([]);
   const [availableTags, setAvailableTags] = React.useState<TagType[]>([]);
@@ -110,7 +114,7 @@ const TagPopup: React.FC<Props> = (props) => {
                 props.subspaceId || '33a8789a-cdea-4e88-91d6-c4e5f10e9e38',
               colorString: 'bg-blue-700',
               description: '',
-              status: TagStatus.Requested
+              status: TagStatus.Requested,
             },
           },
         });
@@ -208,6 +212,7 @@ const TagPopup: React.FC<Props> = (props) => {
                     return (
                       <TagItem
                         border
+                        key={`selected_${sTag.id}`}
                         item={sTag}
                         generalColor={'pink'}
                         textColor={'gray'}
@@ -241,6 +246,7 @@ const TagPopup: React.FC<Props> = (props) => {
                   return (
                     <TagItem
                       border={true}
+                      key={`available_${aTag.id}`}
                       generalColor={'red'}
                       onSelect={onSelectTag}
                       item={aTag}
@@ -253,6 +259,17 @@ const TagPopup: React.FC<Props> = (props) => {
                   );
                 })}
               </div>
+            </div>
+            <div>
+              <button
+                disabled={isEmpty(selectedTags)}
+                className="bg-primary-medium hover:bg-primary-dark dark:text-darkpen-medium rounded px-2 py-1"
+                onClick={() => {
+                  props.onSubmitTags(selectedTags);
+                }}
+              >
+                {'Submit Tags'}
+              </button>
             </div>
           </div>
         )}

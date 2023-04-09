@@ -7,18 +7,19 @@ import 'easymde/dist/easymde.min.css';
 
 /* State Management */
 import text from './text.json';
-import { PostType, QnaType } from 'src/utils/types';
+import { PostType } from 'src/utils/types';
 import { useAppDispatch } from 'src/modules/Redux';
 import { useCreatePostMutation } from 'src/generated/apollo';
+import { Tag as TagType } from 'src/generated/types';
 import { setLoading } from 'src/modules/App/slice';
 import useWorkspaceSubspaceSelector from './useWorkspaceSubspaceSelector';
 
 /* Components */
 import { TitleInput } from 'src/components/Input';
 import ManageTags, { ManageTagsHandle } from 'src/components/Tags/Create';
-import PostTypeDropdown, {
-  getPostTypeText,
-} from './PostTypeDropdown';
+import PostTypeDropdown, { getPostTypeText } from './PostTypeDropdown';
+import QnaExtension, { useQnaExtensionHooks } from './Toolbar/QnaExtension';
+import TagsToolbarExtension from './Toolbar/TagExtension';
 import WorkspaceDropdown from './WorkspaceDropdown';
 import SubspaceDropdown from './SubspaceDropdown';
 import type { Props as EditorProps } from 'src/plugins/components/Editor';
@@ -39,6 +40,7 @@ const Editor = dynamic(() => import('src/plugins/components/Editor'), {
 
 type MarkdownEditorProps = {
   onBodyChange: (val: string) => void;
+  toolbarExtensions?: React.ReactNode[];
   body: string;
   size?: string;
   onSubmit?: (body: string) => Promise<void>;
@@ -55,7 +57,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   type,
   tabNode,
   onPressTags,
-  tabOption,
+  toolbarExtensions,
 }: MarkdownEditorProps) => {
   const options = React.useMemo(
     () => ({
@@ -75,7 +77,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         value={body}
         onChange={onBodyChange}
         onPressTags={onPressTags}
-        tabOption={tabOption}
+        toolbarExtensions={toolbarExtensions}
       />
       {type === 'comment' && (
         <div
@@ -104,18 +106,15 @@ interface Props {
   workspaceId?: string;
 }
 
-const QuestionEditor: React.FC<Props> = props => {
+const QuestionEditor: React.FC<Props> = (props) => {
   const [postTitle, setTitle] = React.useState('');
   const [postType, setPostType] = React.useState<PostType>('question');
-  const [qnaType, setQnaType] = React.useState<QnaType>('question');
+
+  const { qnaType, setQnaType, qnaOptions } = useQnaExtensionHooks();
+
   const [bodies, setBodies] = React.useState<string[]>(['']);
   const [bodyIndex, setBodyIndex] = React.useState(0);
-  const [currentTags] = React.useState<
-    {
-      value: string;
-      id: string;
-    }[]
-  >([]);
+  const [currentTags, setCurrentTags] = React.useState<TagType[]>([]);
 
   const workspaceSubspaceSelector = useWorkspaceSubspaceSelector(
     props.workspaceId,
@@ -123,7 +122,6 @@ const QuestionEditor: React.FC<Props> = props => {
   );
 
   const tagRef = React.useRef<ManageTagsHandle>(null);
-  // const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const dispatch = useAppDispatch();
 
@@ -147,7 +145,7 @@ const QuestionEditor: React.FC<Props> = props => {
       return;
     }
 
-    const postTags = currentTags.map(ct => ct.id);
+    const postTags = currentTags.map((ct) => ct.id);
     const result = await createPostMutation({
       variables: {
         postInput: {
@@ -179,53 +177,57 @@ const QuestionEditor: React.FC<Props> = props => {
 
   const onBodyChange = React.useCallback(
     (val: string) => {
-      setBodies(state =>
+      setBodies((state) =>
         state.map((body, i) => (i === bodyIndex ? val : body))
       );
     },
     [bodyIndex]
   );
 
-  // Configure editor tabs here
-  const tabOption = React.useMemo<EditorProps['tabOption']>(() => {
-    if (postType !== 'qna') {
-      return undefined;
+  const qnaExtensionComp = React.useMemo(
+    () => (
+      <QnaExtension key={'qnaToolbar'} qnaType={qnaType} list={qnaOptions} onSelect={setQnaType} />
+    ),
+    [qnaType, setQnaType]
+  );
+
+  const tagsExtensionComp = React.useMemo(
+    () => <TagsToolbarExtension key={'tagToolbar'} tags={currentTags} />,
+    [currentTags]
+  );
+
+  const toolbarExtensions = React.useMemo(() => {
+    const toolbar = [];
+    if (postType === 'qna') {
+      toolbar.push(qnaExtensionComp);
     }
+    toolbar.push(tagsExtensionComp);
 
-    return {
-      list: [
-        { value: 'question', label: 'Question' },
-        { value: 'answer', label: 'Answer' },
-      ],
-      selected: qnaType,
-      onSelect: x => setQnaType(x as QnaType),
-    };
-  }, [postType, qnaType]);
-
+    return toolbar;
+  }, [postType, qnaExtensionComp, tagsExtensionComp]);
+  // Configure editor tabs here
   // Callback for when the tabs change
   React.useEffect(() => {
-    if (!tabOption) {
+    if (postType === 'qna' && qnaType) {
+      const index = qnaOptions.findIndex((option) => option.value === qnaType);
+      if (index === -1) {
+        return setBodyIndex(0);
+      }
+
+      if (bodies.length - 1 < index) {
+        setBodies((state) => {
+          const newState = [...state];
+          for (let i = bodies.length; i <= index; i += 1) {
+            newState.push('');
+          }
+          return newState;
+        });
+      }
+      setBodyIndex(index);
+    } else {
       return setBodyIndex(0);
     }
-    const index = tabOption.list.findIndex(
-      item => item.value === tabOption.selected
-    );
-
-    if (index === -1) {
-      return setBodyIndex(0);
-    }
-
-    if (bodies.length - 1 < index) {
-      setBodies(state => {
-        const newState = [...state];
-        for (let i = bodies.length; i <= index; i += 1) {
-          newState.push('');
-        }
-        return newState;
-      });
-    }
-    setBodyIndex(index);
-  }, [tabOption?.selected]);
+  }, [postType, qnaType]);
 
   const postText = React.useMemo(() => getPostTypeText(postType), [postType]);
 
@@ -243,7 +245,7 @@ const QuestionEditor: React.FC<Props> = props => {
           />
           <PostTypeDropdown
             selectedPostType={postType}
-            onSelect={s => setPostType(s as PostType)}
+            onSelect={(s) => setPostType(s as PostType)}
           />
           <WorkspaceDropdown
             selectedWorkspaceId={workspaceSubspaceSelector.workspace.selectedId}
@@ -259,13 +261,16 @@ const QuestionEditor: React.FC<Props> = props => {
         <MarkdownEditor
           body={bodies[bodyIndex]}
           onBodyChange={onBodyChange}
+          toolbarExtensions={toolbarExtensions}
           onPressTags={() => {
             tagRef.current?.showModal();
           }}
-          tabOption={tabOption}
         />
         <ManageTags
           ref={tagRef}
+          onSubmitTags={(tags: TagType[]) => {
+            setCurrentTags(tags);
+          }}
           workspaceId={workspaceSubspaceSelector.workspace.selectedId}
           subspaceId={workspaceSubspaceSelector.subspace.selectedId}
         />

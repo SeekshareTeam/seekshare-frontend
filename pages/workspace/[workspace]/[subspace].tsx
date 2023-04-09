@@ -38,7 +38,7 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
       <Head>
         <title>Subspace</title>
       </Head>
-      <div className="flex w-full flex-wrap bg-night-light pt-4">
+      <div className="flex w-full flex-wrap bg-night-light/60 pt-4">
         <div className="flex justify-start flex-1">
           <div className="w-24 h-24 justify-self-start rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 shadow relative ml-24">
             <div className="absolute bottom-0 left-0 px-2 py-0.5 text-gray-700 dark:text-darkpen-medium shadow-sm font-medium text-3xl rounded-md translate-x-12 translate-y-2 transform bg-white dark:bg-night-light whitespace-nowrap">
@@ -173,13 +173,11 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
           {reduxState?.subspace?.name && reduxState?.auth && (
             <Button
               variant="outline"
-              radius="full"
-              size="xs"
-              fillColor="pink"
-              textColor="pink"
+              radius="large"
+              size={"medium"}
               loading={onSubscribeSubspaceState.loading}
               onClick={onSubscribe}
-              iconLeft={<span>{'alksdjfa;sd '}</span>}
+              className="self-center shadow"
             >
               {reduxState?.hasSubspace
                 ? `LEAVE ${upperCase(reduxState.subspace.name)}`

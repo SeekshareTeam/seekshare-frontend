@@ -160,9 +160,9 @@ function buttonVariantSwitch(
         !selected
           ? `text-${
               textColor ? textColor : 'green'
-            }-700 dark:bg-night-medium hover:bg-${fillColor}-700`
+            }-700 dark:bg-night-medium/20 hover:bg-primary-medium`
           : `bg-${fillColor}-700`
-      } text-lightpen-medium dark:text-darkpen-medium dark:hover:text-darkpen-medium hover:text-lightpen-light shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
+    } text-lightpen-medium dark:text-darkpen-medium dark:hover:text-darkpen-medium hover:text-lightpen-light shadow-sm border dark:border-primary-dark`;
     case 'dark':
       return `text-lightpen-medium dark:text-darkpen-medium dark:bg-night-light ${
         disabled
@@ -179,7 +179,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       children,
       textColor = 'gray',
-      fillColor = 'pink',
+      fillColor = 'primary',
       iconRight = null,
       iconLeft = null,
       variant = null,

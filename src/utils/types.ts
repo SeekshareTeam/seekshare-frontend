@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 
 import { keyBy } from 'lodash';
+import { Tag as TagType } from 'src/generated/types';
 
 export type AccessLevel = {
   page: 'admin' | 'user';
@@ -34,6 +35,7 @@ export type SidebarTab = {
   icon?: React.ReactNode;
 };
 
+/* Post */
 export type PostType = 'question' | 'notes' | 'qna' | 'quiz';
 export type QnaType = 'question' | 'answer';
 
@@ -48,11 +50,10 @@ export const PostTypeOptionKey: {
   [key: string]: { id: PostType; text: string };
 } = keyBy(PostTypeOptions, 'id');
 
+export type DisplayTagType = Pick<TagType, 'id' | 'value'>;
+
 /* Table */
 export type GridItem<T extends string> = {
-  /*
-   * React Node
-   */
   [key in T]: React.ReactNode;
 };
 

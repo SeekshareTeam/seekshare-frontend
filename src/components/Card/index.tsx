@@ -45,7 +45,7 @@ const Card: React.FC<Props> = (props) => {
   }, [props.title]);
 
   return (
-    <div className="md:w-96 bg-white rounded-lg border border-gray-200 shadow-md m-2 dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+    <div className="md:w-80 bg-white rounded-lg border border-gray-200 shadow-md m-2 dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
       {props.imgUrl ? (
         <div
           style={{

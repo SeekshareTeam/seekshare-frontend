@@ -6,8 +6,7 @@ import { PostTypeOptionKey } from 'src/utils/types';
 
 /* Components */
 import { UnderlineTabs } from 'src/components/Tabs';
-import PostGrid from 'src/sections/user/Dashboard/PostRow';
-// import { useFetchPostsByUserLazyQuery } from 'src/generated/apollo';
+import PostGrid from 'src/sections/user/Dashboard/PostGrid';
 
 interface Props {
   postsTypeArray: PostTypeArray[];

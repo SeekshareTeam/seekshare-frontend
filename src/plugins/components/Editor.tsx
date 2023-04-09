@@ -48,9 +48,10 @@ export interface Props
   viewerProps?: Partial<ViewerProps>;
   onPressTags?: () => void;
   tabOption?: TabOption;
+  toolbarExtensions?: React.ReactNode[];
 }
 
-const Editor: React.FC<Props> = props => {
+const Editor: React.FC<Props> = (props) => {
   const [previewMode, setPreviewMode] = React.useState('hidden');
   const [containers, setContainers] = React.useState<
     ReturnType<typeof getContainers>
@@ -65,7 +66,7 @@ const Editor: React.FC<Props> = props => {
   }, []);
 
   const setHeight = React.useCallback(
-    height => {
+    (height) => {
       // prevent the editor from expanding in height
       if (containers.codeMirrorScroll) {
         containers.codeMirrorScroll.style.maxHeight = `${height}px`;
@@ -134,8 +135,8 @@ const Editor: React.FC<Props> = props => {
   const toolbarPortal = React.useRef(document.createElement('div'));
 
   React.useEffect(() => {
-    if (props.tabOption) {
-      containers.toolbar?.prepend(toolbarPortal.current);
+    if (props.toolbarExtensions) {
+      containers.toolbar?.append(toolbarPortal.current);
       if (containers.toolbar) {
         containers.toolbar.style.display = 'flex';
       }
@@ -149,7 +150,7 @@ const Editor: React.FC<Props> = props => {
         containers.toolbar?.removeChild(toolbarPortal.current);
       } catch {}
     };
-  }, [props.tabOption]);
+  }, [props.toolbarExtensions, containers.toolbar]);
 
   const options = React.useMemo(() => {
     const tb = props.options?.toolbar;
@@ -159,14 +160,14 @@ const Editor: React.FC<Props> = props => {
       {
         name: 'preview',
         action: () =>
-          setPreviewMode(mode => (mode === 'full' ? 'hidden' : 'full')),
+          setPreviewMode((mode) => (mode === 'full' ? 'hidden' : 'full')),
         className: 'fa fa-eye no-disable',
         title: 'Toggle Preview',
       },
       {
         name: 'side-by-side',
         action: () =>
-          setPreviewMode(mode => (mode === 'side' ? 'hidden' : 'side')),
+          setPreviewMode((mode) => (mode === 'side' ? 'hidden' : 'side')),
         className: 'fa fa-columns no-disable no-mobile',
         title: 'Toggle Side by Side',
       },
@@ -213,10 +214,16 @@ const Editor: React.FC<Props> = props => {
           />
         </Side>
       )}
+      {props.toolbarExtensions != null && (
+        <TabContainer container={toolbarPortal.current}>
+          <div className={'flex flex-1'}>{props.toolbarExtensions}</div>
+        </TabContainer>
+      )}
+
       {props.tabOption != null && (
         <TabContainer container={toolbarPortal.current}>
-          <div className="flex flex-row">
-            {props.tabOption?.list.map(item => (
+          <div className="flex flex-row flex-1">
+            {props.tabOption?.list.map((item) => (
               <div
                 key={item.value}
                 className="py-0.5 px-2"
@@ -246,7 +253,7 @@ interface PortalProps {
   container?: Element;
 }
 
-const Full: React.FC<PortalProps> = props => {
+const Full: React.FC<PortalProps> = (props) => {
   if (!props.container) {
     return null;
   }
@@ -261,7 +268,7 @@ const Full: React.FC<PortalProps> = props => {
   );
 };
 
-const Side: React.FC<PortalProps> = props => {
+const Side: React.FC<PortalProps> = (props) => {
   if (!props.container) {
     return null;
   }
@@ -269,7 +276,7 @@ const Side: React.FC<PortalProps> = props => {
   return ReactDom.createPortal(props.children, props.container);
 };
 
-const TabContainer: React.FC<PortalProps> = props => {
+const TabContainer: React.FC<PortalProps> = (props) => {
   if (!props.container) {
     return null;
   }

@@ -1,10 +1,16 @@
 import * as React from 'react';
+
+/* State Management */
+import { SpaceRequiredProps } from 'src/utils/types';
+import { Tag as TagType } from 'src/generated/types';
+
+/* Components */
 import { Modal } from 'src/components/Modal';
 import TagPopup from 'src/components/Tags/Popup';
 
-import { SpaceRequiredProps } from 'src/utils/types';
-
-interface Props extends SpaceRequiredProps {}
+interface Props extends SpaceRequiredProps {
+  onSubmitTags: (tags: TagType[]) => void;
+}
 
 export interface ManageTagsHandle {
   showModal: () => void;
@@ -30,7 +36,9 @@ const ManageTags: React.ForwardRefRenderFunction<ManageTagsHandle, Props> = (
         setShowTagForm(false);
       }}
     >
-      <TagPopup workspaceId={props.workspaceId} subspaceId={props.subspaceId} />
+      <TagPopup workspaceId={props.workspaceId} subspaceId={props.subspaceId}
+        onSubmitTags={props.onSubmitTags}
+      />
     </Modal>
   );
 };
