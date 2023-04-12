@@ -5,6 +5,7 @@ export interface DropdownOption {
   type?: string;
   id: string;
   href?: string;
+  callback?: () => void;
 }
 
 export type DropdownProps = {
@@ -120,6 +121,9 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                 tabIndex={-1}
                 // optionList ids shouldn't be optional
                 onClick={() => {
+                  if (option?.callback) {
+                    option.callback()
+                  }
                   if (props?.onOptionClick) {
                     props.onOptionClick(option);
                   }

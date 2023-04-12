@@ -172,9 +172,9 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
         <>
           {reduxState?.subspace?.name && reduxState?.auth && (
             <Button
-              variant="outline"
+              variant="primary"
               radius="large"
-              size={"medium"}
+              size="large"
               loading={onSubscribeSubspaceState.loading}
               onClick={onSubscribe}
               className="self-center shadow"

@@ -35,7 +35,7 @@ const SubspaceRow: React.FC<Props> = (props) => {
         </button>
       </div>
       <div className="flex-1 flex justify-end">
-        <Button variant="primary" radius="full">
+        <Button variant="primary" size={"medium"} radius="large">
           {'Join'}
         </Button>
       </div>

@@ -141,8 +141,8 @@ function buttonVariantSwitch(
 
   switch (type) {
     case 'primary':
-      return `text-lightpen-medium dark:text-darkpen-dark bg-primary-medium dark:bg-primary-medium ${
-        disabled ? '' : 'hover:bg-primary-dark dark:hover:brightness-110'
+      return `text-lightpen-medium dark:text-darkpen-medium bg-primary-medium dark:bg-primary-medium ${
+      disabled ? '' : 'hover:bg-primary-dark dark:hover:bg-primary-dark dark:hover:text-darkpen-dark'
       } shadow-sm`;
     // return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
     //   disabled

@@ -12,7 +12,7 @@ interface Props {
 
 const TagsToolbarExtension: React.FC<Props> = (props) => {
   return (
-    <div className="flex self-end">
+    <div className="flex self-center space-x-1">
       {props.tags.map((tag) => (
         <TagItem key={tag.id} colorString={tag.colorString} value={tag.value} />
       ))}

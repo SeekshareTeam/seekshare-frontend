@@ -40,7 +40,10 @@ const Editor = dynamic(() => import('src/plugins/components/Editor'), {
 
 type MarkdownEditorProps = {
   onBodyChange: (val: string) => void;
-  toolbarExtensions?: React.ReactNode[];
+  toolbarExtensions?: {
+    component: React.ReactNode;
+    position: 'right' | 'left';
+  }[];
   body: string;
   size?: string;
   onSubmit?: (body: string) => Promise<void>;
@@ -186,7 +189,12 @@ const QuestionEditor: React.FC<Props> = (props) => {
 
   const qnaExtensionComp = React.useMemo(
     () => (
-      <QnaExtension key={'qnaToolbar'} qnaType={qnaType} list={qnaOptions} onSelect={setQnaType} />
+      <QnaExtension
+        key={'qnaToolbar'}
+        qnaType={qnaType}
+        list={qnaOptions}
+        onSelect={setQnaType}
+      />
     ),
     [qnaType, setQnaType]
   );
@@ -197,11 +205,14 @@ const QuestionEditor: React.FC<Props> = (props) => {
   );
 
   const toolbarExtensions = React.useMemo(() => {
-    const toolbar = [];
+    const toolbar: {
+      component: React.ReactNode;
+      position: 'left' | 'right';
+    }[] = [];
     if (postType === 'qna') {
-      toolbar.push(qnaExtensionComp);
+      toolbar.push({ component: qnaExtensionComp, position: 'left' });
     }
-    toolbar.push(tagsExtensionComp);
+    toolbar.push({ component: tagsExtensionComp, position: 'right' });
 
     return toolbar;
   }, [postType, qnaExtensionComp, tagsExtensionComp]);

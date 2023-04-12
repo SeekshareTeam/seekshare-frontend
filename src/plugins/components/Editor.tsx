@@ -1,4 +1,5 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 import ReactDom from 'react-dom';
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor';
 
@@ -48,7 +49,10 @@ export interface Props
   viewerProps?: Partial<ViewerProps>;
   onPressTags?: () => void;
   tabOption?: TabOption;
-  toolbarExtensions?: React.ReactNode[];
+  toolbarExtensions?: {
+    component: React.ReactNode;
+    position: 'right' | 'left';
+  }[];
 }
 
 const Editor: React.FC<Props> = (props) => {
@@ -139,6 +143,7 @@ const Editor: React.FC<Props> = (props) => {
       containers.toolbar?.append(toolbarPortal.current);
       if (containers.toolbar) {
         containers.toolbar.style.display = 'flex';
+        toolbarPortal.current.classList.add('flex', 'flex-1');
       }
     } else {
       try {
@@ -188,6 +193,13 @@ const Editor: React.FC<Props> = (props) => {
     };
   }, [props.options]);
 
+  const rightToolbarExtensions = props?.toolbarExtensions
+    ?.filter((ext) => ext.position === 'right')
+    ?.map((ext) => ext.component);
+  const leftToolbarExtensions = props?.toolbarExtensions
+    ?.filter((ext) => ext.position === 'left')
+    ?.map((ext) => ext.component);
+
   return (
     <React.Fragment>
       <SimpleMDE
@@ -214,34 +226,12 @@ const Editor: React.FC<Props> = (props) => {
           />
         </Side>
       )}
-      {props.toolbarExtensions != null && (
+      {(!isEmpty(rightToolbarExtensions) || !isEmpty(leftToolbarExtensions)) !=
+        null && (
         <TabContainer container={toolbarPortal.current}>
-          <div className={'flex flex-1'}>{props.toolbarExtensions}</div>
-        </TabContainer>
-      )}
-
-      {props.tabOption != null && (
-        <TabContainer container={toolbarPortal.current}>
-          <div className="flex flex-row flex-1">
-            {props.tabOption?.list.map((item) => (
-              <div
-                key={item.value}
-                className="py-0.5 px-2"
-                style={{
-                  color:
-                    props.tabOption?.selected === item.value
-                      ? 'white'
-                      : '#91A699',
-                  backgroundColor:
-                    props.tabOption?.selected === item.value
-                      ? '#91A699'
-                      : '#232325',
-                }}
-                onClick={() => props.tabOption?.onSelect(item.value)}
-              >
-                {item.label}
-              </div>
-            ))}
+          <div className="flex flex-1 justify-start">{leftToolbarExtensions}</div>
+          <div className="flex justify-end flex-1 ">
+            {rightToolbarExtensions}
           </div>
         </TabContainer>
       )}

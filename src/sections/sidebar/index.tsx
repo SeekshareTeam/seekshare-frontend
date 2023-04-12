@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import SidebarSection from 'src/sections/sidebar/Sections';
 import TitleHeader from 'src/sections/sidebar/TitleHeader';
-import { SearchSubspace } from 'src/components/Subspace/Search';
+// import { SearchSubspace } from 'src/components/Subspace/Search';
 import { IconHash, IconBox, IconHome } from '@tabler/icons';
 import { useAppSelector } from 'src/modules/Redux';
 
@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       icon: <IconHome size={24} />,
       items: [
         {
-          href: '#',
+          href: '/user/dashboard',
           label: 'Dashboard',
           icon: null,
         },
@@ -164,7 +164,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
         <TitleHeader currentWorkspace={reduxState.currentWorkspace} />
       }
       sidebarToggle={props.sidebarToggle}
-      searchSubspace={<SearchSubspace />}
+      searchSubspace={null}
       tabSections={sections.map((section, labelIndex) => {
         return (
           <SidebarSection

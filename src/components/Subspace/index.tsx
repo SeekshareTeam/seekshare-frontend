@@ -11,6 +11,7 @@ import { Formik, Form, FormikHelpers } from 'formik';
 import { Button } from 'src/components/Button';
 import { useSubspaceApi } from 'src/api/context';
 import { UploadImage } from 'src/components/Input/UploadImage';
+import { FormInput, FormTextArea } from './Form';
 
 import IconPicker from 'src/components/IconPicker';
 
@@ -48,11 +49,10 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
     readability: 'public',
   };
 
-  const strHashFunction = (subString: string) => {
-    const colorHash =
-      [...subString].reduce((acc, v) => acc + v.charCodeAt(0), 0) % 15;
-    console.log(colorHash);
-  };
+  // const strHashFunction = (subString: string) => {
+  //   const colorHash =
+  //     [...subString].reduce((acc, v) => acc + v.charCodeAt(0), 0) % 15;
+  // };
 
   const headerComponent = () => {
     return (
@@ -65,35 +65,6 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
             'Subspaces are work stations that belong to a parent Workspace. In a subspace you can manage content, members, and permissions.'
           }
         </p>
-      </div>
-    );
-  };
-
-  const addInput = (
-    ix: number,
-    type: string,
-    value: string,
-    handleChange: (e: React.ChangeEvent<any>) => void,
-    handleBlur: (e: any) => void
-  ) => {
-    return (
-      <div className="flex flex-col py-1 justify-between items-start">
-        <label
-          className="font-semibold text-sm capitalize text-gray-700 dark:text-darkpen-dark"
-          htmlFor={`subspace.${ix}`}
-        >
-          {type}
-        </label>
-        <input
-          name={`subspace.${ix}`}
-          onChange={(val) => {
-            handleChange(val);
-            strHashFunction(val.target.value);
-          }}
-          onBlur={handleBlur}
-          value={value}
-          className="rounded md:w-full xs:flex-1 dark:bg-dusk-dark shadow-md border focus:border-blue-400 outline-none focus:ring-1 focus:ring-blue-600 focus:ring-opacity-20 p-1"
-        />
       </div>
     );
   };
@@ -117,36 +88,6 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         }
       ),
   });
-
-  const addTextArea = (
-    ix: number,
-    type: string,
-    value: string,
-    handleChange: (e: React.ChangeEvent<any>) => void,
-    handleBlur: (e: any) => void
-  ) => {
-    return (
-      <div className="flex flex-col py-1 justify-between items-start">
-        <label
-          className="font-semibold text-sm capitalize text-gray-700 dark:text-darkpen-dark"
-          htmlFor={`subspace.${ix}`}
-        >
-          {type}
-        </label>
-        <textarea
-          style={{ resize: 'none' }}
-          name={`subspace.${ix}`}
-          placeholder={'Optional'}
-          onChange={handleChange}
-          id={`subspace.${ix}`}
-          onBlur={handleBlur}
-          value={value}
-          rows={4}
-          className="rounded-lg shadow-md w-full border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-dusk-dark dark:focus:ring-gray-400"
-        />
-      </div>
-    );
-  };
 
   const iconPicker = () => {
     return (
@@ -283,20 +224,25 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
                 <div className="px-4">
                   {numOfSubspace.map((spaceName, ix) => {
                     if (spaceName === 'Description') {
-                      return addTextArea(
-                        ix,
-                        spaceName,
-                        values.subspace[ix],
-                        handleChange,
-                        handleBlur
+                      return (
+                        <FormTextArea
+                          ix={ix}
+                          type={spaceName}
+                          value={values.subspace[ix]}
+                          handleChange={handleChange}
+                          handleBlur={handleBlur}
+                        />
                       );
                     }
-                    return addInput(
-                      ix,
-                      spaceName,
-                      values.subspace[ix],
-                      handleChange,
-                      handleBlur
+
+                    return (
+                      <FormInput
+                        ix={ix}
+                        type={spaceName}
+                        value={values.subspace[ix]}
+                        handleChange={handleChange}
+                        handleBlur={handleBlur}
+                      />
                     );
                   })}
                 </div>

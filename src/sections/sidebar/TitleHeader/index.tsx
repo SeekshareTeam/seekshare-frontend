@@ -1,4 +1,6 @@
 import * as React from 'react';
+
+import { useRouter } from 'next/router';
 import { IconChevronDown, IconEdit } from '@tabler/icons';
 import { Workspace as WorkspaceType } from 'src/generated/types';
 
@@ -13,21 +15,27 @@ interface TitleHeaderProps {
 
 const TitleHeader: React.FC<TitleHeaderProps> = (props) => {
   const dropdownRef = React.useRef(null);
+  const router = useRouter();
+
   const [showSubspaceForm, setShowSubspaceForm] = React.useState(false);
 
   const options = [
-    { text: 'Account Setting', href: '', id: '' },
-    { text: 'Support', href: '', id: '' },
     {
       text: 'Create Subspace',
       href: '',
-      id: '',
+      id: 'create_subspace',
       callback: () => {
         setShowSubspaceForm(true);
       },
     },
-    { text: 'License', href: '', id: '' },
-    { text: 'Sign Out', href: '', id: '' },
+    {
+      text: 'Settings',
+      href: ``,
+      id: 'settings',
+      callback: () => {
+        router.push(`/workspace/${props.currentWorkspace.id}/settings`);
+      },
+    },
   ];
 
   return (
