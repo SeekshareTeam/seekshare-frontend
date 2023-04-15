@@ -9,7 +9,7 @@ type UsersSliceType = {
 const initialState: UsersSliceType = {};
 
 export const usersSlice = createSlice({
-  name: 'auth',
+  name: 'multiple_users',
   initialState,
   reducers: {
     fetchUsersByWorkspace: (state, action) => {

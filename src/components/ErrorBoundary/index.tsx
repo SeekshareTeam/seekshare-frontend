@@ -1,14 +1,12 @@
 import * as React from 'react';
 
-interface Props {
-
-}
+interface Props {}
 
 interface State {
   hasError: boolean;
 }
 
-class ErrorBoundary extends React.Component<Props,State> {
+class ErrorBoundary extends React.Component<Props, State> {
   /**
    * Answer that explains error policy with Apollo excellently:
    * https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
@@ -32,7 +30,11 @@ class ErrorBoundary extends React.Component<Props,State> {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      return (
+        <div className="w-full h-screen flex items-center justify-centerUserlabel">
+          <h1 className="text-darkpen-medium">{'Something went wrong.'}</h1>
+        </div>
+      );
     }
 
     return this.props.children;

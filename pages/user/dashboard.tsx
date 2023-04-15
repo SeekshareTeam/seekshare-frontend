@@ -1,13 +1,12 @@
 import * as React from 'react';
 
 /* State Management */
+import { PageWithLayout } from 'src/utils/types';
 import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
-import { shallowEqual } from 'react-redux';
 import { useFetchPostsByUserLazyQuery } from 'src/generated/apollo';
 import { fetchPostsByUser } from 'src/modules/Auth/slice';
 
 /* Components */
-import { PageWithLayout } from 'src/utils/types';
 import PostManager from 'src/sections/user/Dashboard/PostManager';
 
 const useState = () => {
@@ -15,13 +14,13 @@ const useState = () => {
     (state) => ({
       auth: state?.auth?.data,
       postsTypeArray: state?.auth?.posts,
-    }),
-    shallowEqual
+    })
   );
 };
 
-const UserDashboard: PageWithLayout<{}> = () => {
+const useFetchPostsByUserHook = () => {
   const state = useState();
+
   const fetchPostsByUserQuery = useCustomQuery<
     typeof fetchPostsByUser,
     typeof useFetchPostsByUserLazyQuery
@@ -38,6 +37,13 @@ const UserDashboard: PageWithLayout<{}> = () => {
       })();
     }
   }, [state.auth, state?.auth?.currentWorkspace]);
+
+};
+
+const UserDashboard: PageWithLayout<{}> = () => {
+  const state = useState();
+
+  useFetchPostsByUserHook();
 
   if (state.postsTypeArray) {
     return <PostManager postsTypeArray={state.postsTypeArray} />;

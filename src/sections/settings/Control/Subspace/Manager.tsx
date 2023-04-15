@@ -5,6 +5,7 @@ import { Subspace as SubspaceType } from 'src/generated/types';
 
 /* Components */
 import SubspaceCard from 'src/components/Subspace/SubspaceCard';
+import GeneralManager from './GeneralManager';
 import TagManager from './TagManager';
 import { UnderlineTabs } from 'src/components/Tabs';
 
@@ -54,6 +55,13 @@ const SubspaceManagerView: React.FC<{
           workspaceId={props.subspace.workspaceId}
         />
       );
+    case 'general':
+      return (
+        <GeneralManager
+          subspaceId={props.subspace.id}
+          workspaceId={props.subspace.workspaceId}
+        />
+      );
     default:
       return null;
   }
@@ -65,7 +73,7 @@ interface Props {
 
 const SubspaceManager: React.FC<Props> = (props) => {
   const [tabs] = React.useState([
-    { tabValue: 'General', tabKey: 'posts' },
+    { tabValue: 'General', tabKey: 'general' },
     { tabValue: 'Tags', tabKey: 'tags' },
   ]);
   const [selectedTab, setSelectedTab] = React.useState('posts');

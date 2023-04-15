@@ -49,6 +49,18 @@ export const SUBSPACE_FRAGMENT = gql`
   ${TAG_FRAGMENT}
 `;
 
+export const PUBLIC_USER_FRAGMENT = gql`
+  fragment PublicUserFragment on User {
+    id
+    firstname
+    lastname
+    email
+    alias
+    fullname
+    avatar
+  }
+`;
+
 export const FETCH_WORKSPACE_QUERY = gql`
   ${WORKSPACE_FRAGMENT}
   query fetchWorkspaces($page: Int!, $limit: Int!) {

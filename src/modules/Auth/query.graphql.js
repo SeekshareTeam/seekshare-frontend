@@ -17,6 +17,7 @@ export const AUTH_USER_QUERY = gql`
       id
       firstname
       lastname
+      fullname
       email
       token
       currentWorkspace

@@ -45,7 +45,7 @@ const SettingControl: React.FC<Props> = (props) => {
   const reduxState = useAppSelector(
     (state) => ({
       workspace: state?.workspace?.server?.workspace,
-      users: state?.users?.client,
+      users: state?.multipleUsers?.client,
       subspaces: state?.workspace?.subspaces,
       loading: state.app.loading || false,
     }),

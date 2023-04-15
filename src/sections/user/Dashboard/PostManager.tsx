@@ -5,7 +5,8 @@ import { PostTypeArray, Post as PostType } from 'src/generated/types';
 import { PostTypeOptionKey } from 'src/utils/types';
 
 /* Components */
-import { UnderlineTabs } from 'src/components/Tabs';
+// import { UnderlineTabs } from 'src/components/Tabs';
+import UserActivityTabs from 'src/components/Tabs/UserActivityTabs';
 import PostGrid from 'src/sections/user/Dashboard/PostGrid';
 
 interface Props {
@@ -46,11 +47,13 @@ const PostManager: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <UnderlineTabs
-        tabs={tabTypes}
-        active={activeTabKey}
-        onSelectTab={setActiveTabKey}
-      />
+      <div className="p-4">
+        <UserActivityTabs
+          tabs={tabTypes}
+          active={activeTabKey}
+          onSelectTab={setActiveTabKey}
+        />
+      </div>
       <PostGrid posts={displayPostArray} />
     </div>
   );

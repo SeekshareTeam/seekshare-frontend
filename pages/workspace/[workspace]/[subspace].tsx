@@ -34,7 +34,7 @@ interface SubspaceLayoutProps {
 
 const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
   return (
-    <div className="flex-col flex-1 relative">
+    <div className="flex flex-col flex-1 relative overflow-hidden">
       <Head>
         <title>Subspace</title>
       </Head>
@@ -195,7 +195,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
       }
       itemsToDisplay={
         selectedTab === 'posts' && (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center flex-1 overflow-y-scroll">
             {reduxState?.postList?.map((epost) => (
               <PostCard {...epost} />
             ))}
@@ -235,9 +235,6 @@ export const getStaticProps = wrapper.getStaticProps(
       },
       dispatch: store.dispatch,
     });
-
-    // console.log('@@workspace', workspace);
-    // console.log('@@store', store.getState());
     /*
       In case we want to do server side fetching of post lists.
     */

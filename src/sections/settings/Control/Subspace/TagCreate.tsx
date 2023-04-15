@@ -43,8 +43,6 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
   );
   const [showColorPicker, setShowColorPicker] = React.useState(false);
 
-  // console.log('@@@ error', JSON.stringify(props.createTagError));
-
   const addInput = (
     inputName: string,
     labelName: string,

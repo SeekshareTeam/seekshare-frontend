@@ -29,6 +29,7 @@ const httpLink = createHttpLink({
 
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
+    console.log('@@@ printing');
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => {
         console.log(`[GraphQL error]: Message: ${message}`);

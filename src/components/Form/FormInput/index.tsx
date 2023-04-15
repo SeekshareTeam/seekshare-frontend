@@ -8,19 +8,19 @@ interface Props {
   inputValue: { [field: string]: any };
   handleChange: (e: React.ChangeEvent<any>) => void;
   handleBlur: (e: any) => void;
-  displayClass?: string;
+  containerClass?: string;
   inputWidth?: string;
   type?: string;
 }
 
 const FormInput: React.FC<Props> = (props) => {
-  const displayClass = props.displayClass
-    ? props.displayClass
+  const displayClass = props.containerClass
+    ? props.containerClass
     : 'flex flex-row py-2 items-center justify-between';
   return (
     <div className={displayClass}>
       <label
-        className="font-medium text-sm capitalize bold text-lightpen-medium dark:text-darkpen-dark"
+        className="font-medium text-sm capitalize bold text-lightpen-medium dark:text-darkpen-medium"
         htmlFor={props.labelHtmlFor}
       >
         {props.labelName}
@@ -33,9 +33,9 @@ const FormInput: React.FC<Props> = (props) => {
         aria-label={props.ariaLabel}
         aria-required={props.ariaRequirement}
         value={props.inputValue[props.labelHtmlFor]}
-        className={`rounded-lg shadow-md dark:text-darkpen-medium border border-blue-400 dark:border-darkpen-extradark outline-none focus:ring-1 ${
+        className={`rounded-lg dark:text-darkpen-medium border border-blue-400 dark:border-darkpen-extradark outline-none focus:ring-1 ${
           props.inputWidth ? props.inputWidth : 'w-1/2'
-        } focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-darkpen-dark dark:bg-night-dark`}
+        } focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-darkpen-dark dark:bg-night-light`}
       />
     </div>
   );

@@ -120,7 +120,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   //         updateAvatar(responseUrl);
   //       }
   //     } else {
-  //       console.log('throw error that user needs to be logged in.');
   //     }
   //   },
   //   [reduxState.userId]

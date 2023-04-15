@@ -30,7 +30,6 @@ const UserControl: React.FC<Props> = (props) => {
   return (
     <section className="flex py-4 pr-2 pl-1 dark:bg-night-light dark:text-darkpen-dark items-center w-full">
       <UserAvatar
-        userId={props.userId}
         imgUrl={props.avatarUrl}
         onUploadImage={props.onUploadImage}
       />

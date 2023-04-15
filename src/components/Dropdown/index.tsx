@@ -38,7 +38,9 @@ export type DropdownProps = {
    */
   abstractControl?: boolean;
   /**
-   * External show variable;
+   * External show variable; This variable basically controls the showing
+   * of the dropdown from the outside.
+   * By default it is false. It also requires abstractControl to be true.
    */
   abstractShow?: boolean;
   /**
@@ -66,7 +68,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
         e.preventDefault();
       };
     }
-  }, [props?.abstractControl, props?.abstractShow, props?.dropdownRef, show]);
+  }, [props?.abstractControl, props?.abstractShow, show]);
 
   React.useEffect(() => {
     if (!props?.abstractControl && divRef?.current) {

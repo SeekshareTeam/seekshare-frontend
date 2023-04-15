@@ -1,15 +1,17 @@
 import * as React from 'react';
-
-import { Formik, ErrorMessage } from 'formik';
-
 import * as Yup from 'yup';
+
+/* State Management & Functions */
+import { useUserSignUpMutation } from 'src/generated/apollo';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
-import { useUserSignUpMutation } from 'src/generated/apollo';
-
+/* Components */
+import { Formik, ErrorMessage } from 'formik';
 import { FormInput } from 'src/components/Form';
 import { Button } from 'src/components/Button';
+
+const formDisplayClass = 'flex flex-col items-start py-2';
 
 const SignUpForm: React.FC = () => {
   /**
@@ -21,12 +23,17 @@ const SignUpForm: React.FC = () => {
   const [userSignUpMutation] = useUserSignUpMutation();
   const [error, setError] = React.useState<string>('');
 
+  React.useEffect( () => {
+    console.log(error);
+  }, [error])
+
   return (
     <Formik
       initialValues={{
         email: '',
         password: '',
         firstName: '',
+        alias: '',
         lastName: '',
         confirmPassword: '',
       }}
@@ -52,6 +59,7 @@ const SignUpForm: React.FC = () => {
             userInput: {
               firstName: values.firstName,
               lastName: values.lastName,
+              alias: values.alias,
               email: values.email,
               secret: values.password,
             },
@@ -66,7 +74,6 @@ const SignUpForm: React.FC = () => {
           });
 
           if (res?.error) {
-            console.log('login error', error);
             setError(res.error);
           } else {
             setError('');
@@ -91,7 +98,18 @@ const SignUpForm: React.FC = () => {
           </div>
           <div className="bg-night-medium shadow-xl rounded-lg px-4 py-2 mb-4 md:w-72 border dark:border-night-light">
             <FormInput
-              displayClass={'flex flex-col items-start py-2'}
+              containerClass={formDisplayClass}
+              labelHtmlFor={'username'}
+              labelName={'Username'}
+              ariaLabel={'enter your user name'}
+              ariaRequirement={true}
+              inputValue={formik.values}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              inputWidth={'w-full'}
+            />
+            <FormInput
+              containerClass={formDisplayClass}
               labelHtmlFor={'firstName'}
               labelName={'First Name'}
               ariaLabel={'enter your first name'}
@@ -102,7 +120,7 @@ const SignUpForm: React.FC = () => {
               inputWidth={'w-full'}
             />
             <FormInput
-              displayClass={'flex flex-col items-start py-2'}
+              containerClass={formDisplayClass}
               labelHtmlFor={'lastName'}
               labelName={'Last Name'}
               ariaLabel={'enter your last name'}
@@ -113,7 +131,7 @@ const SignUpForm: React.FC = () => {
               inputWidth={'w-full'}
             />
             <FormInput
-              displayClass={'flex flex-col items-start py-2'}
+              containerClass={formDisplayClass}
               labelHtmlFor={'email'}
               labelName={'Email'}
               ariaLabel={'enter your email'}
@@ -128,7 +146,7 @@ const SignUpForm: React.FC = () => {
             </div>
             <div className="mb-2">
               <FormInput
-                displayClass={'flex flex-col items-start py-2'}
+                containerClass={formDisplayClass}
                 labelHtmlFor={'password'}
                 labelName={'Password'}
                 ariaLabel={'enter your password'}
@@ -143,7 +161,7 @@ const SignUpForm: React.FC = () => {
                 <ErrorMessage name="password" />
               </div>
               <FormInput
-                displayClass={'flex flex-col items-start py-2'}
+                containerClass={formDisplayClass}
                 labelHtmlFor={'confirmPassword'}
                 labelName={'Confirm Password'}
                 ariaLabel={'confirm your password'}

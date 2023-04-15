@@ -7,7 +7,6 @@ import {
 } from 'src/modules/Workspace/slice';
 import { ssrFetchSubspaces, ssrFetchWorkspace } from 'src/generated/page';
 import { wrapper, fetchSSRQuery, useAppSelector } from 'src/modules/Redux';
-import { shallowEqual } from 'react-redux';
 
 /* Components */
 import { PageWithLayout } from 'src/utils/types';
@@ -58,8 +57,7 @@ const Workspace: PageWithLayout<WorkspaceProps> = () => {
         id: '1',
       },
       loading: state.app.loading,
-    }),
-    shallowEqual
+    })
   );
 
   const onTabClick = (tabKey: string) => {
@@ -91,6 +89,13 @@ const Workspace: PageWithLayout<WorkspaceProps> = () => {
   );
 };
 
+export const getStaticPaths = async () => {
+  return {
+    paths: [], //indicates that no page needs be created at build time
+    fallback: true, //indicates the type of fallback
+  };
+};
+
 export const getStaticProps = wrapper.getStaticProps(
   (store) => async (context) => {
     const workspace = context?.params?.workspace;
@@ -119,13 +124,6 @@ export const getStaticProps = wrapper.getStaticProps(
     };
   }
 );
-
-export const getStaticPaths = async () => {
-  return {
-    paths: [], //indicates that no page needs be created at build time
-    fallback: true, //indicates the type of fallback
-  };
-};
 
 Workspace.layoutType = 'general';
 

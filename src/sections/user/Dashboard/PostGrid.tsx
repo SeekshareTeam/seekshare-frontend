@@ -47,7 +47,7 @@ const PostGrid: React.FC<Props> = (props) => {
   ];
 
   return (
-    <div className="m-2">
+    <div className="mx-4 p-2 rounded-lg dark:bg-night-medium">
       <GridTable
         config={config}
         columns={5}

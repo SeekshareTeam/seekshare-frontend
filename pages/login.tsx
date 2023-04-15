@@ -61,7 +61,7 @@ const Login: NextPage & { layoutType: string } = () => {
             <div className="bg-night-medium shadow-xl rounded-lg px-4 py-2 mb-4 md:w-72 border dark:border-night-light">
               <div>
                 <FormInput
-                  displayClass={'flex flex-col items-start py-3'}
+                  containerClass={'flex flex-col items-start py-3'}
                   labelHtmlFor={'email'}
                   labelName={'Email'}
                   ariaLabel={'enter your email'}
@@ -77,7 +77,7 @@ const Login: NextPage & { layoutType: string } = () => {
               </div>
               <div className="mb-2">
                 <FormInput
-                  displayClass={'flex flex-col items-start py-2'}
+                  containerClass={'flex flex-col items-start py-2'}
                   labelHtmlFor={'password'}
                   labelName={'Password'}
                   ariaLabel={'enter your password'}

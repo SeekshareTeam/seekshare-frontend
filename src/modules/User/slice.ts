@@ -1,25 +1,36 @@
+import { HYDRATE } from 'next-redux-wrapper';
 import { createSlice } from '@reduxjs/toolkit';
 import { User as UserType } from 'src/generated/types';
 
 type UserSliceType = {
-  data?: UserType;
+  client?: UserType;
+  server?: UserType;
 };
 
 const initialState: UserSliceType = {};
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: 'single_user',
   initialState,
   reducers: {
-    validateUser: (state, action) => {
+    serverFetchUser: (state, action) => {
       return {
         ...state,
-        data: action.payload,
+        server: action.payload,
+      };
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // console.log('@ action', action);
+      return {
+        ...state,
+        server: action.payload.singleUser.server,
       };
     },
   },
 });
 
-export const { validateUser } = userSlice.actions;
+export const { serverFetchUser } = userSlice.actions;
 
 export default userSlice.reducer;

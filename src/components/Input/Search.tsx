@@ -110,68 +110,6 @@ const Search: React.FC<Props> = (props) => {
         </div>
       </div>
   );
-
-  // return (
-  //   <div className="flex w-full">
-  //     <Formik
-  //       initialValues={{
-  //         [props.labelName]: '',
-  //       }}
-  //       validationSchema={props.validationSchema}
-  //       onSubmit={async (values, { setSubmitting }) => {
-  //         if (props.submissionCallback) {
-  //           await props.submissionCallback(values[props.labelName]);
-  //         }
-  //         setSubmitting(false);
-  //       }}
-  //     >
-  //       {({ values, handleBlur, handleSubmit, setFieldValue }) => {
-  //         return (
-  //           <form className="flex-1" onSubmit={handleSubmit}>
-  //             <div className="mb-2">
-  //               <label
-  //                 className="font-medium capitalize bold text-gray-700 dark:text-white"
-  //                 htmlFor={props.labelName}
-  //               >
-  //                 {props.labelTitle}
-  //               </label>
-  //             </div>
-  //             <div
-  //               onBlur={onLoseFocus}
-  //               onClick={onContainerClick}
-  //               className={`flex rounded shadow-md border border-blue-400 outline-none ${
-  //                 boxFocus
-  //                   ? 'ring-1 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
-  //                   : ''
-  //               } p-1 dark:border-white dark:bg-night-light dark:caret-white dark:text-white`}
-  //             >
-  //               {props.leftNode}
-  //               <input
-  //                 ref={inputRef}
-  //                 type="text"
-  //                 name={props.labelName}
-  //                 autoComplete="off"
-  //                 onKeyDown={handleKeyDown}
-  //                 onChange={(e) => {
-  //                   const targetValue = e?.target?.value || '';
-  //                   setFieldValue(props.labelName, targetValue);
-  //                   if (props.searchQueryCallback) {
-  //                     debounceCallback(targetValue);
-  //                   }
-  //                 }}
-  //                 onBlur={handleBlur}
-  //                 value={values[props.labelName]}
-  //                 placeholder={props.inputPlaceholder || ''}
-  //                 className="outline-none flex-1 dark:bg-night-light dark:caret-white"
-  //               />
-  //               {props.rightNode}
-  //             </div>
-  //           </form>
-  //         );
-  //       }}
-  //     </Formik>
-  //   </div>
-  // );
 };
 
 export default Search;

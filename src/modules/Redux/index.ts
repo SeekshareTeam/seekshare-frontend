@@ -12,7 +12,8 @@ import authReducer from 'src/modules/Auth/slice';
 import workspaceReducer from 'src/modules/Workspace/slice';
 import themeReducer from 'src/modules/theme/slice';
 import homeReducer from 'src/modules/Home/slice';
-import usersReducer from 'src/modules/Users/slice';
+import singleUserReducer from 'src/modules/User/slice';
+import multipleUsersReducer from 'src/modules/Users/slice';
 
 import { isEmpty } from 'lodash';
 import {
@@ -36,7 +37,8 @@ const makeStore = () => {
       subspace: subspaceReducer,
       theme: themeReducer,
       home: homeReducer,
-      users: usersReducer,
+      singleUser: singleUserReducer,
+      multipleUsers: multipleUsersReducer,
     },
     // devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
@@ -60,12 +62,12 @@ export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch']; // .dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useShallowSelector = (
-  selectorFunc: Parameters<typeof useAppSelector>[0]
-): ReturnType<typeof useAppSelector> => {
-  return useAppSelector(selectorFunc, shallowEqual);
+export const useAppSelector: TypedUseSelectorHook<RootState> = (
+  selectorFunc
+) => {
+  return useSelector(selectorFunc, shallowEqual);
 };
 
 export const useTheme = () => {

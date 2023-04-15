@@ -1,19 +1,13 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import axios from 'axios';
 
 // import { DefaultColors } from 'tailwindcss/types/generated/colors';
 // import { toast } from 'react-toastify'
 
-import { IconPlus, IconUpload } from '@tabler/icons';
-
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Button } from 'src/components/Button';
 import { useSubspaceApi } from 'src/api/context';
-import { UploadImage } from 'src/components/Input/UploadImage';
-import { FormInput, FormTextArea } from './Form';
-
-import IconPicker from 'src/components/IconPicker';
+import { FormInput, FormTextArea, SubspaceIconPicker } from './Form';
 
 interface SubspaceFormProps {
   workspaceId?: string;
@@ -89,65 +83,45 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
       ),
   });
 
-  const iconPicker = () => {
-    return (
-      <div className="flex flex-col items-center">
-        <button
-          className={`w-20 h-20 rounded-lg ${
-            subspaceImgUrl.type === 'color'
-              ? subspaceImgUrl.value
-              : 'bg-gradient-to-r from-slate-500 to-zinc-500'
-          } hover:opacity-50 cursor-pointer flex justify-center items-center`}
-          type={'button'}
-          onClick={() => {
-            setShowIconPicker(true);
-          }}
-        >
-          <IconPlus size={36} />
-        </button>
-        <IconPicker
-          show={showIconPicker}
-          onBlur={() => {
-            setShowIconPicker(false);
-          }}
-          onSelect={(val: string) => {
-            setSubspaceImgUrl({ type: 'color', value: val });
-            setShowIconPicker(false);
-          }}
-          uploadImageNode={
-            <UploadImage
-              imageEndpoint="subspace_logo"
-              onUploadImage={onUploadImage}
-              displayLabel={
-                <IconUpload className="hover:opacity-50 cursor-pointer" />
-              }
-            />
-          }
-        />
-        <p className="text-xs text-darkpen-dark">{'Add Icon'}</p>
-      </div>
-    );
-  };
-
-  const onUploadImage = async (uploadFile: File) => {
-    const formData = new FormData();
-
-    if (uploadFile) {
-      formData.append('subspace_logo', uploadFile);
-
-      const subspaceImgRes = await axios({
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'multipart/form-data',
-        },
-        url: process.env.NEXT_PUBLIC_IMAGE_SERVICE + 'upload_subspace_logo',
-        data: formData,
-      });
-
-      setSubspaceImgUrl({ value: subspaceImgRes?.data, type: 'image' });
-    }
-  };
+  // const iconPicker = () => {
+  //   return (
+  //     <div className="flex flex-col items-center">
+  //       <button
+  //         className={`w-20 h-20 rounded-lg ${
+  //           subspaceImgUrl.type === 'color'
+  //             ? subspaceImgUrl.value
+  //             : 'bg-gradient-to-r from-slate-500 to-zinc-500'
+  //         } hover:opacity-50 cursor-pointer flex justify-center items-center`}
+  //         type={'button'}
+  //         onClick={() => {
+  //           setShowIconPicker(true);
+  //         }}
+  //       >
+  //         <IconPlus size={36} />
+  //       </button>
+  //       <IconPicker
+  //         show={showIconPicker}
+  //         onBlur={() => {
+  //           setShowIconPicker(false);
+  //         }}
+  //         onSelect={(val: string) => {
+  //           setSubspaceImgUrl({ type: 'color', value: val });
+  //           setShowIconPicker(false);
+  //         }}
+  //         uploadImageNode={
+  //           <UploadImage
+  //             imageEndpoint="subspace_logo"
+  //             onUploadImage={onUploadImage}
+  //             displayLabel={
+  //               <IconUpload className="hover:opacity-50 cursor-pointer" />
+  //             }
+  //           />
+  //         }
+  //       />
+  //       <p className="text-xs text-darkpen-dark">{'Add Icon'}</p>
+  //     </div>
+  //   );
+  // };
 
   const onSubmit = async (
     values: typeof initialValues,
@@ -220,7 +194,12 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
                     }
                   )}
                 </div>
-                {iconPicker()}
+                <SubspaceIconPicker
+                  setShowIconPicker={setShowIconPicker}
+                  showIconPicker={showIconPicker}
+                  subspaceImgUrl={subspaceImgUrl}
+                  setSubspaceImgUrl={setSubspaceImgUrl}
+                />
                 <div className="px-4">
                   {numOfSubspace.map((spaceName, ix) => {
                     if (spaceName === 'Description') {

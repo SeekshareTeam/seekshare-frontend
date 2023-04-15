@@ -1,17 +1,23 @@
 import * as React from 'react';
 import * as yup from 'yup';
+
+/* State Management & Functions */
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { Button, } from 'src/components/Button';
 import { useAppSelector } from 'src/modules/Redux';
+import { keyBy } from 'lodash';
+import { useSearchInSubspaceLazyQuery } from 'src/generated/apollo';
+
+/* Components */
+import { Button } from 'src/components/Button';
 import { IconChevronDown, IconMenu2, IconSearch } from '@tabler/icons';
 import { Modal } from 'src/components/Modal';
 import { SubspaceForm } from 'src/components/Subspace';
-import { useSearchInSubspaceLazyQuery } from 'src/generated/apollo';
-import { keyBy } from 'lodash';
-
-import Dropdown, { DropdownOption as DropdownOptionType } from 'src/components/Dropdown';
+import Dropdown, {
+  DropdownOption as DropdownOptionType,
+} from 'src/components/Dropdown';
 import InputSearch from 'src/components/Input/Search';
+import UserLabelDropdown from 'src/sections/user/UserLabel/Dropdown';
 
 type NavbarProps = {
   sidebarToggle: boolean;
@@ -54,7 +60,7 @@ const Navbar = (props: NavbarProps) => {
         setShowDropdown(!showDropdown);
       };
     }
-  }, [dropdownRef?.current, showDropdown]);
+  }, [showDropdown]);
 
   React.useEffect(() => {
     if (router.pathname === '/login') {
@@ -74,8 +80,6 @@ const Navbar = (props: NavbarProps) => {
       subspace: state?.subspace?.server,
     };
   });
-
-  const fullName = reduxState?.authUser?.firstname + ' ' + reduxState?.authUser?.lastname;
 
   const tagValidationSchema = yup.object().shape({
     tagName: yup
@@ -209,7 +213,7 @@ const Navbar = (props: NavbarProps) => {
           leftNode={searchBarOptions()}
           rightNode={<IconSearch size={24} />}
           labelTitle={''}
-          className={"flex-1"}
+          className={'flex-1'}
         />
       </div>
       <div className="flex flex-1 h-full justify-end">
@@ -228,11 +232,8 @@ const Navbar = (props: NavbarProps) => {
             </Button>
           )}
           {reduxState.authUser && (
-            <>
-              <div className="self-center px-2 text-xs dark:text-darkpen-medium">
-                {fullName}
-              </div>
-
+            <div className="flex items-center justify-center">
+              <UserLabelDropdown name={reduxState.authUser.fullname || ''} imgUrl={reduxState?.authUser?.avatar || ''} />
               <Button
                 size={'small'}
                 variant={null}
@@ -242,7 +243,7 @@ const Navbar = (props: NavbarProps) => {
               >
                 {'Sign Out'}
               </Button>
-            </>
+            </div>
           )}
         </div>
       </div>

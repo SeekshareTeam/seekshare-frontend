@@ -1,7 +1,8 @@
 import { get, set } from 'lodash';
 
 const userRoutes = [
-  '/user/dashboard'
+  '/user/dashboard',
+  '/user/settings'
 ];
 
 const adminRoutes = [

@@ -1,10 +1,12 @@
 import * as React from 'react';
 import workspaceApiHook, { WorkspaceApiResultType } from 'src/api/workspace';
 import subspaceApiHook, { SubspaceApiResultType } from 'src/api/subspace';
+import authApiHook, { AuthApiResultType } from 'src/api/auth';
 
 export interface ApiContextInterface {
   workspaceApi: WorkspaceApiResultType;
   subspaceApi: SubspaceApiResultType;
+  authApi: AuthApiResultType;
 }
 
 /**
@@ -19,10 +21,12 @@ export const ApiContext = React.createContext<Readonly<ApiContextInterface>>(
 export const ApiProvider: React.FC = (props) => {
   const workspaceApi: WorkspaceApiResultType = workspaceApiHook();
   const subspaceApi: SubspaceApiResultType = subspaceApiHook();
+  const authApi: AuthApiResultType = authApiHook();
 
   const value: ApiContextInterface = {
     workspaceApi,
     subspaceApi,
+    authApi,
   };
 
   return (
@@ -40,6 +44,12 @@ export const useSubspaceApi = () => {
   const api = React.useContext(ApiContext);
 
   return api.subspaceApi;
+};
+
+export const useAuthApi = () => {
+  const api = React.useContext(ApiContext);
+
+  return api.authApi;
 };
 
 // export const useApi = <K extends keyof ApiContextInterface>(

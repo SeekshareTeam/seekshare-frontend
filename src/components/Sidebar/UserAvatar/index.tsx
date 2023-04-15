@@ -1,25 +1,32 @@
 import * as React from 'react';
 
-import { IconUpload } from '@tabler/icons';
-
 type Props = {
   imgUrl?: string;
 
-  userId?: string;
+  displayWidth?: string;
+
+  displayHeight?: string;
 
   onUploadImage: (uploadFile: File) => Promise<void>;
 };
 
 const UserAvatar: React.FC<Props> = (props) => {
+  console.log('@@@ imgurl', props.imgUrl);
   return (
-    <form>
+    <div className="inline-flex">
       <label htmlFor="user_avatar">
-        <div className="h-8 w-8 mx-1 rounded-full flex bg-gray-700 hover:bg-gray-800 items-center justify-center cursor-pointer overflow-hidden">
-          {props.imgUrl ? (
-            <img src={props.imgUrl} className="w-8 rounded-full" />
-          ) : (
-            <IconUpload size={16} className={'dark:text-darkpen-dark'} />
-          )}
+        <div
+          className={`${props.displayHeight ?? 'h-8'} ${
+            props.displayWidth ?? 'w-8'
+          } mx-1 rounded-full flex bg-gray-700 hover:bg-gray-800 items-center justify-center cursor-pointer overflow-hidden`}
+        >
+          <img
+            src={
+              props.imgUrl ??
+              'https://s3-us-west-1.amazonaws.com/s3-lc-upload/assets/default_avatar.jpg'
+            }
+            className={`${props.displayWidth ?? 'w-8'} rounded-full`}
+          />
         </div>
       </label>
       <input
@@ -34,7 +41,7 @@ const UserAvatar: React.FC<Props> = (props) => {
           }
         }}
       />
-    </form>
+    </div>
   );
 };
 
