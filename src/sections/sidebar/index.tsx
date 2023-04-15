@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 import SidebarSection from 'src/sections/sidebar/Sections';
 import TitleHeader from 'src/sections/sidebar/TitleHeader';
@@ -13,6 +14,7 @@ import { useAppSelector } from 'src/modules/Redux';
 
 type SidebarProps = {
   sidebarToggle: boolean;
+  setSidebarToggle: (val: boolean) => void;
 };
 
 export type SectionElement = {
@@ -23,25 +25,87 @@ export type SectionElement = {
 };
 
 interface SidebarLayoutProps {
+  sidebarToggle: boolean;
+
+  onPressBlur: () => void;
+
+  sidebar: React.ReactNode;
+}
+
+const ResponsiveSidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
+  const [container, setContainer] = React.useState<Element | null>(null);
+  const [root, setRoot] = React.useState<HTMLElement | null>(null);
+  const [sidebarToggle, setSidebarToggle] = React.useState(props.sidebarToggle);
+
+  React.useEffect(() => {
+    setRoot(document.getElementById('sidebar-root'));
+    setContainer(document.createElement('div'));
+  }, []);
+
+  React.useEffect(() => {
+    if (root && container) {
+      root.appendChild(container);
+
+      return () => {
+        root.removeChild(container);
+      };
+    }
+  }, [container, root]);
+
+  React.useEffect(() => {
+    setSidebarToggle(props.sidebarToggle);
+  }, [props.sidebarToggle]);
+
+  if (!sidebarToggle || !container) {
+    return null;
+  }
+
+  return ReactDOM.createPortal(
+    <div
+      className="transition-all duration-500 z-20 md:hidden fixed w-full h-screen top-0 left-0 flex-shrink-0 bg-night-dark bg-opacity-50"
+      onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+        if (event.target === event.currentTarget) {
+          props.onPressBlur();
+        }
+      }}
+    >
+      {props.sidebar}
+    </div>,
+    container
+  );
+};
+
+const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
+  // const [container, setContainer] = React.useState<Element>(null);
+
+  return (
+    <>
+      <ResponsiveSidebarLayout
+        sidebarToggle={props.sidebarToggle}
+        sidebar={props.sidebar}
+        onPressBlur={props.onPressBlur}
+      />
+
+      <div className="md:block hidden top-0">
+        {props.sidebar}
+      </div>
+    </>
+  );
+};
+
+interface SidebarAssembledProps {
   searchSubspace: React.ReactNode;
 
   tabSections: React.ReactNode;
-
-  sidebarToggle: boolean;
 
   titleHeader: React.ReactNode;
 
   userControl: React.ReactNode;
 }
 
-const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
+const SidebarAssembled: React.FC<SidebarAssembledProps> = (props) => {
   return (
-    <aside
-      tabIndex={0}
-      className={`transition-all duration-500 md:sticky fixed w-64 max-w-64 top-0 flex flex-shrink-0 flex-col md:w-64 ${
-        props.sidebarToggle ? '-ml-64 md:ml-0' : 'ml-0 md:-ml-64 md:flex-0'
-      } h-screen bg-primary-dark dark:bg-night-medium text-darkpen-medium border-r border-pink-300 dark:border-night-light`}
-    >
+    <aside tabIndex={0} className={`flex flex-col w-64 max-w-64 flex-shrink-0 md:w-64 md:ml-0 ml-0 md:flex-0 h-screen bg-primary-dark dark:bg-night-medium text-darkpen-medium border-r border-pink-300 dark:border-night-light`}>
       {props.titleHeader}
       {props.searchSubspace}
       <div className="flex-1 px-3 py-3">{props.tabSections}</div>
@@ -159,28 +223,27 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 
   return (
     <SidebarLayout
-      titleHeader={
-        <TitleHeader currentWorkspace={reduxState.currentWorkspace} />
-      }
       sidebarToggle={props.sidebarToggle}
-      searchSubspace={null}
-      tabSections={sections.map((section, labelIndex) => {
-        return (
-          <SidebarSection
-            key={section.id}
-            labelIndex={labelIndex}
-            sectionElement={section}
-          />
-        );
-      })}
-      userControl={
-        null
-        /*<UserControl
-          name={'Abhinav Bhandari'}
-          userId={reduxState.userId}
-          onUploadImage={onUploadAvatar}
-          avatarUrl={reduxState.avatarUrl || ''}
-          />*/
+      onPressBlur={() => {
+        props.setSidebarToggle(false);
+      }}
+      sidebar={
+        <SidebarAssembled
+          titleHeader={
+            <TitleHeader currentWorkspace={reduxState.currentWorkspace} />
+          }
+          searchSubspace={null}
+          tabSections={sections.map((section, labelIndex) => {
+            return (
+              <SidebarSection
+                key={section.id}
+                labelIndex={labelIndex}
+                sectionElement={section}
+              />
+            );
+          })}
+          userControl={null}
+        />
       }
     />
   );

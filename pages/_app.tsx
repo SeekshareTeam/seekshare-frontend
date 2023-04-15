@@ -51,6 +51,7 @@ function MyApp({
             <AuthGate>
               <NextNProgress height={3} options={{ showSpinner: false }} />
               <div id="modal-root" />
+              <div id="sidebar-root" />
               <ErrorBoundary>
                 <PageAuthenticator permissionTypes={Component?.accessLevel}>
                   <GetLayout>

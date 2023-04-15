@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 /* State Management & APIs */
-import { User as UserType } from 'src/generated/types';
 import { useAppSelector } from 'src/modules/Redux';
 
 /* Components */
@@ -32,7 +31,7 @@ const useState = () => {
 
 interface Props {}
 
-const ProfileManager: React.FC<Props> = (props) => {
+const ProfileManager: React.FC<Props> = () => {
   const state = useState();
 
   return (

@@ -186,9 +186,9 @@ const Navbar = (props: NavbarProps) => {
               onClick={() => {
                 props.setSidebarToggle(!props.sidebarToggle);
               }}
-              className="sm:hidden hover:bg-gray-100 rounded-lg"
+              className="md:hidden rounded-lg dark:text-darkpen-medium hover:dark:text-darkpen-dark"
             >
-              <IconMenu2 size={36} stroke={1} color={'red'} />
+              <IconMenu2 size={36} stroke={1} className=""  />
             </button>
             {/*<Button
               variant={'primary'}

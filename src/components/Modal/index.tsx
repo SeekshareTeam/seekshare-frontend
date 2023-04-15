@@ -23,6 +23,13 @@ export const useDisableBodyScroll = (open: boolean) => {
 
 // const modalRoot = document.getElementById('modal-root');
 
+/**
+ * Refer to these two links to see if we should avoid using a useState to
+ * hold onto the values of the documents:
+ * https://www.learnbestcoding.com/post/101/how-to-create-a-portal-in-next-js
+ * https://stackoverflow.com/questions/54660685/react-and-using-reactdom-createportal-target-container-is-not-a-dom-element
+ */
+
 export const Modal: React.FC<ModalProps> = ({
   blurBackground = false,
   ...props
@@ -47,7 +54,7 @@ export const Modal: React.FC<ModalProps> = ({
   }, [root, container]);
 
   if (!container) {
-    return null
+    return null;
   }
 
   return ReactDOM.createPortal(

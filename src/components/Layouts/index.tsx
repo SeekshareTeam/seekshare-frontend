@@ -24,12 +24,17 @@ export const GeneralView: React.FC<GeneralViewProps> = (props) => {
 };
 
 export const GeneralLayout: React.FC = (props) => {
-  const [sidebarToggle, setSidebarToggle] = React.useState(true);
+  const [sidebarToggle, setSidebarToggle] = React.useState(false);
 
   return (
     <GeneralView
       minisidebar={<MiniSidebar />}
-      sidebar={<Sidebar sidebarToggle={sidebarToggle} />}
+      sidebar={
+        <Sidebar
+          sidebarToggle={sidebarToggle}
+          setSidebarToggle={setSidebarToggle}
+        />
+      }
       header={
         <Navbar
           sidebarToggle={sidebarToggle}
