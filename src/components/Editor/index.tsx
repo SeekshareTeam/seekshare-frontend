@@ -25,7 +25,7 @@ import SubspaceDropdown from './SubspaceDropdown';
 import type { Props as EditorProps } from 'src/plugins/components/Editor';
 
 const classes = {
-  editorContainer: 'w-full h-full flex flex-col justify-center',
+  editorContainer: 'w-full h-full flex flex-col justify-start',
   main: 'w-2/3 card p-2 self-center',
   title:
     'appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300',
@@ -37,6 +37,13 @@ const classes = {
 const Editor = dynamic(() => import('src/plugins/components/Editor'), {
   ssr: false,
 });
+
+const QuizBuilder = dynamic(
+  () => import('src/plugins/plugins/quiz_builder/Builder'),
+  {
+    ssr: false,
+  }
+);
 
 type MarkdownEditorProps = {
   onBodyChange: (val: string) => void;
@@ -251,7 +258,7 @@ const QuestionEditor: React.FC<Props> = (props) => {
               onChange: onTitleChange,
               value: postTitle,
               placeholder: text.title,
-              className: 'flex-1',
+              className: 'flex-1 dark:bg-night-dark',
             }}
           />
           <PostTypeDropdown
@@ -269,25 +276,34 @@ const QuestionEditor: React.FC<Props> = (props) => {
             onSelect={workspaceSubspaceSelector.subspace.updateSelected}
           />
         </div>
-        <MarkdownEditor
-          body={bodies[bodyIndex]}
-          onBodyChange={onBodyChange}
-          toolbarExtensions={toolbarExtensions}
-          onPressTags={() => {
-            tagRef.current?.showModal();
-          }}
-        />
-        <ManageTags
-          ref={tagRef}
-          onSubmitTags={(tags: TagType[]) => {
-            setCurrentTags(tags);
-          }}
-          workspaceId={workspaceSubspaceSelector.workspace.selectedId}
-          subspaceId={workspaceSubspaceSelector.subspace.selectedId}
-        />
-        <button className={classes.submit} onClick={onSubmitCreatePost}>
-          {`Post your ${postText}`}
-        </button>
+        <div className="flex flex-col flex-1">
+          {postType !== 'quiz' && (
+            <>
+              <MarkdownEditor
+                body={bodies[bodyIndex]}
+                onBodyChange={onBodyChange}
+                toolbarExtensions={toolbarExtensions}
+                onPressTags={() => {
+                  tagRef.current?.showModal();
+                }}
+              />
+              <ManageTags
+                ref={tagRef}
+                onSubmitTags={(tags: TagType[]) => {
+                  setCurrentTags(tags);
+                }}
+                workspaceId={workspaceSubspaceSelector.workspace.selectedId}
+                subspaceId={workspaceSubspaceSelector.subspace.selectedId}
+              />
+              <button className={classes.submit} onClick={onSubmitCreatePost}>
+                {`Post your ${postText}`}
+              </button>
+            </>
+          )}
+          {postType === 'quiz' && (
+            <QuizBuilder />
+          )}
+        </div>
       </div>
     </div>
   );

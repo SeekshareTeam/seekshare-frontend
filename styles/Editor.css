@@ -55,7 +55,7 @@
   border-right: none !important;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  @apply dark:bg-slate-900 !important;
+  @apply dark:bg-night-dark !important;
 }
 
 .EasyMDEContainer .CodeMirror {

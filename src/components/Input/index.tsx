@@ -8,7 +8,7 @@ const classes = {
     'appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300',
   titleStyle: 'font-sans text-gray-700 text-2xl md:text-3xl text-primary',
   title:
-    'appearance-none focus:outline-none leading-tight px-4 py-2 dark:bg-slate-900 dark:caret-white dark:text-white placeholder:text-darkpen-dark',
+    'appearance-none focus:outline-none leading-tight px-4 py-2 dark:bg-night-dark dark:caret-white dark:text-white placeholder:text-darkpen-dark',
 };
 
 // type InputProps = {

@@ -91,7 +91,7 @@ const Editor: React.FC<Props> = (props) => {
       containers.codeMirror.style.padding = '0';
     }
 
-    containers.codeMirrorScroll?.classList.add('dark:bg-slate-900');
+    containers.codeMirrorScroll?.classList.add('dark:bg-night-dark');
     containers.codeMirrorScroll?.classList.add('dark:px-2');
     containers.iconEye?.classList.add('dark:text-white');
     containers.iconColumns?.classList.add('dark:text-white');

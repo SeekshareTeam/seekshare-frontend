@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { IconChevronDown } from '@tabler/icons';
-import Dropdown, {
-  DropdownOption,
-} from 'src/components/Dropdown';
+import Dropdown, { DropdownOption } from 'src/components/Dropdown';
 import { Button } from 'src/components/Button';
+import LabeledButton from 'src/components/Button/LabeledButton';
 
 export type Props = {
   selectedWorkspaceId?: string;
@@ -34,13 +33,19 @@ const WorkspaceDropdown = (props: Props) => {
         props.onSelect(option?.id ?? '');
       }}
       dropdownButton={
-        <Button variant={null} ref={dropdownRef}>
-          <h3>
-            {props.workspaceOptions[props.selectedWorkspaceId ?? '-1'] ??
-              'Workspace not selected'}
-          </h3>
-          <IconChevronDown />
-        </Button>
+        <LabeledButton
+          legend="Workspace"
+          legendBackground={"dark:bg-night-dark"}
+          button={
+            <Button variant={null} ref={dropdownRef}>
+              <h3>
+                {props.workspaceOptions[props.selectedWorkspaceId ?? '-1'] ??
+                  'Workspace not selected'}
+              </h3>
+              <IconChevronDown size={16} />
+            </Button>
+          }
+        />
       }
     />
   );
