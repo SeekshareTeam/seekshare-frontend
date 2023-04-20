@@ -12,12 +12,12 @@ export interface BaseTabProps {
 }
 
 export const BaseTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
-  const active = 'bg-red-400 text-gray-100';
-  const nonactive = 'text-gray-700';
+  const active = 'bg-primary-medium text-gray-100';
+  const nonactive = 'text-lightpen-medium dark:text-darkpen-medium dark:hover:bg-white/10';
   const all = 'px-2 py-0.5 rounded-lg text-sm';
 
   return (
-    <ul className="rounded-tl-md rounded-tr-md py-2 px-2 inline-block border-l-2 border-t-2 border-r-2 border-red-800">
+    <ul className="rounded-tl-md rounded-tr-md py-2 px-2 inline-block">
       {props.tabs.map((t) => {
         return (
           <li key={t.tabKey} className="inline-block">

@@ -1,47 +1,43 @@
 import * as React from 'react';
 
 import Dropdown, { DropdownOption } from 'src/components/Dropdown';
+import { IconChevronDown } from '@tabler/icons';
 
-interface Props {}
+interface Props {
+  optionList: DropdownOption[];
 
-const QuizType: React.FC<Props> = () => {
-  const optionList: DropdownOption[] = React.useMemo(() => {
-    return [
-      {
-        text: 'Multiple Choice',
-        type: 'multiple_choice',
-        id: 'multiple_choice',
-        href: '',
-      },
-      { text: 'Longform Text', type: 'longform', id: 'longform', href: '' },
-    ];
-  }, []);
+  option: DropdownOption;
 
-  const [quizType, setQuizType] = React.useState<DropdownOption>(optionList[0]);
+  onOptionClick: (option: DropdownOption) => void;
+}
+
+const QuizType: React.FC<Props> = (props) => {
+
   const dropdownRef = React.useRef(null);
 
   return (
     <Dropdown
       position={'above'}
       horizontalPosition={'left'}
-      optionList={optionList}
+      optionList={props.optionList}
       dropdownRef={dropdownRef}
       bgColor={{
         dark: 'dark:bg-night-dark',
         medium: 'dark:bg-night-medium',
-        light: 'dark:bg-night-light',
+        light: 'dark:bg-night-light hover:dark:brightness-105',
       }}
       onOptionClick={(option) => {
-        setQuizType(option);
+        props.onOptionClick(option)
       }}
       dropdownButton={
         <button
           className={
-            'rounded-lg border dark:border-darkpen-dark dark:text-darkpen-dark hover:dark:text-darkpen-medium'
+            'flex justify-between items-center rounded px-2 py-1 dark:bg-night-light hover:dark:brightness-105 shadow border dark:border-darkpen-dark dark:text-darkpen-medium w-40'
           }
           ref={dropdownRef}
         >
-          {quizType.text}
+          {props.option.text}
+          <IconChevronDown size={16} />
         </button>
       }
     />

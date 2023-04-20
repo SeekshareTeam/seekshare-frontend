@@ -116,6 +116,8 @@ function getRadius(size: string | undefined) {
       return 'rounded-full';
     case 'large':
       return 'rounded-lg';
+    case 'medium':
+      return 'rounded-md';
     case 'small':
       return 'rounded';
     default:

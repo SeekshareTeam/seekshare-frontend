@@ -37,10 +37,10 @@ const WorkspaceDropdown = (props: Props) => {
           legend="Workspace"
           legendBackground={"dark:bg-night-dark"}
           button={
-            <Button variant={null} ref={dropdownRef}>
+            <Button variant={null} ref={dropdownRef} className={"w-44 justify-between"}>
               <h3>
                 {props.workspaceOptions[props.selectedWorkspaceId ?? '-1'] ??
-                  'Workspace not selected'}
+                  'Select Workspace'}
               </h3>
               <IconChevronDown size={16} />
             </Button>

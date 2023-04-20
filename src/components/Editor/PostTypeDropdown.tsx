@@ -38,7 +38,7 @@ const PostTypeDropdown = (props: Props) => {
       dropdownButton={
         <Button variant={null} ref={dropdownRef}>
           <h3>{postText}</h3>
-          <IconChevronDown />
+          <IconChevronDown size={16} />
         </Button>
       }
     />

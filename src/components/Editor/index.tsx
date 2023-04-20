@@ -118,7 +118,7 @@ interface Props {
 
 const QuestionEditor: React.FC<Props> = (props) => {
   const [postTitle, setTitle] = React.useState('');
-  const [postType, setPostType] = React.useState<PostType>('question');
+  const [postType, setPostType] = React.useState<PostType>('quiz');
 
   const { qnaType, setQnaType, qnaOptions } = useQnaExtensionHooks();
 

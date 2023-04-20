@@ -37,10 +37,10 @@ const SubspaceDropdown = (props: Props) => {
           legend="Subspace"
           legendBackground={"dark:bg-night-dark"}
           button={
-            <Button variant={null} ref={dropdownRef}>
+            <Button variant={null} ref={dropdownRef} className={'w-44 justify-between'}>
               <h3>
                 {props.subspaceOptions[props.selectedSubspaceId ?? '-1'] ??
-                  'Subspace not selected'}
+                  'Select Subspace'}
               </h3>
               <IconChevronDown size={16} />
             </Button>

@@ -102,3 +102,7 @@ export interface GridRow<T extends GridItem<string>, K extends keyof T> {
   row: T;
   config: ConfigType<K>[];
 }
+
+/* Quiz Builder */
+
+export type QuizOption = { key: string; val: string; answerValue: string | boolean };
