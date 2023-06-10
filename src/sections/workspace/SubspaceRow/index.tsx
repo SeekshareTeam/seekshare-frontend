@@ -23,19 +23,17 @@ const SubspaceRow: React.FC<Props> = (props) => {
           <Link
             href={`/workspace/${props?.subspace?.workspaceId}/${props?.subspace?.id}`}
           >
-            <a>
-              <SubspaceCard
-                subspace={props.subspace}
-                titleClassName={
-                  'dark:text-darkpen-dark dark:hover:text-darkpen-medium transition-all duration-200'
-                }
-              />
-            </a>
+            <SubspaceCard
+              subspace={props.subspace}
+              titleClassName={
+                'dark:text-darkpen-dark dark:hover:text-darkpen-medium transition-all duration-200'
+              }
+            />
           </Link>
         </button>
       </div>
       <div className="flex-1 flex justify-end">
-        <Button variant="primary" size={"medium"} radius="large">
+        <Button variant="primary" size={'medium'} radius="large">
           {'Join'}
         </Button>
       </div>

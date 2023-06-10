@@ -13,7 +13,7 @@ interface PostCardProps extends PostType {
   answerCount?: number;
 }
 
-export const PostCard: React.FC<PostCardProps> = props => {
+export const PostCard: React.FC<PostCardProps> = (props) => {
   /*
     Numero:
      - Number of answers
@@ -64,7 +64,7 @@ export const PostCard: React.FC<PostCardProps> = props => {
         </div>
         <h3 className="text-2xl mb-2 hover:text-darkpen-dark">
           <Link href={`/post/${props.postId}`}>
-            <a>{props.title}</a>
+            {props.title}
           </Link>
         </h3>
         <div title="Summary">
@@ -77,7 +77,7 @@ export const PostCard: React.FC<PostCardProps> = props => {
           </p>
         </div>
         <div className={'flex flex-row'} title="Tags">
-          {props.tags?.map(tag => (
+          {props.tags?.map((tag) => (
             <button
               id={tag.id}
               onClick={() => {}}

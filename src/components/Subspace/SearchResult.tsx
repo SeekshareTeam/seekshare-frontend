@@ -34,16 +34,15 @@ export const SearchResult: React.FC<SearchResultProps<SubspaceType>> = (
             'bg-pink-800 rounded-md text-gray-100 m-2 hover:bg-pink-700'
           }
         >
-          <Link href={`/workspace/${result.workspaceId}/${result.id}`}>
-            <a
-              onClick={() => {
-                props.onSelectSearch();
-              }}
-              className={'p-2 flex flex-row'}
-            >
-              <IconBook className="mx-2" />
-              {result.name}
-            </a>
+          <Link
+            href={`/workspace/${result.workspaceId}/${result.id}`}
+            onClick={() => {
+              props.onSelectSearch();
+            }}
+            className={'p-2 flex flex-row'}
+          >
+            <IconBook className="mx-2" />
+            {result.name}
           </Link>
         </li>
       ))}
