@@ -108,9 +108,9 @@ const Navbar = (props: NavbarProps) => {
           abstractControl={true}
           abstractShow={showDropdown}
           bgColor={{
-            dark: 'bg-night-dark',
-            medium: 'bg-night-medium',
-            light: 'bg-night-light',
+            dark: 'dark:bg-night-dark',
+            medium: 'dark:bg-night-medium',
+            light: 'dark:bg-night-medium',
           }}
           optionList={options}
           onOptionClick={(val: DropdownOptionType) => {

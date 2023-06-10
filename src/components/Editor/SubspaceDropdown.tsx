@@ -3,6 +3,7 @@ import React from 'react';
 import { IconChevronDown } from '@tabler/icons';
 import Dropdown, { DropdownOption } from 'src/components/Dropdown';
 import { Button } from 'src/components/Button';
+import LabeledButton from 'src/components/Button/LabeledButton';
 
 export type Props = {
   selectedSubspaceId?: string;
@@ -15,7 +16,7 @@ const SubspaceDropdown = (props: Props) => {
 
   const options = React.useMemo(
     () =>
-      Object.keys(props.subspaceOptions).map(id => ({
+      Object.keys(props.subspaceOptions).map((id) => ({
         id,
         text: props.subspaceOptions[id],
       })),
@@ -29,16 +30,22 @@ const SubspaceDropdown = (props: Props) => {
       position="above"
       horizontalPosition="right"
       onOptionClick={(option: DropdownOption) => {
-        props.onSelect(option?.id ?? '')
+        props.onSelect(option?.id ?? '');
       }}
       dropdownButton={
-        <Button variant={null} ref={dropdownRef}>
-          <h3>
-            {props.subspaceOptions[props.selectedSubspaceId ?? '-1'] ??
-              'Subspace not selected'}
-          </h3>
-          <IconChevronDown />
-        </Button>
+        <LabeledButton
+          legend="Subspace"
+          legendBackground={"dark:bg-night-dark"}
+          button={
+            <Button variant={null} ref={dropdownRef} className={'w-44 justify-between'}>
+              <h3>
+                {props.subspaceOptions[props.selectedSubspaceId ?? '-1'] ??
+                  'Select Subspace'}
+              </h3>
+              <IconChevronDown size={16} />
+            </Button>
+          }
+        />
       }
     />
   );

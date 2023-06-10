@@ -81,7 +81,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   }, [props?.abstractControl, show]);
 
   const bgAnchorClass = props.bgColor
-    ? props.bgColor.light + ' hover:' + props.bgColor.dark
+    ? props.bgColor.light
     : 'bg-secondary-medium hover:bg-secondary-dark';
 
   return (
