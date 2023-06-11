@@ -154,9 +154,9 @@ const TagPopup: React.FC<Props> = (props) => {
   });
 
   return (
-    <div className="z-10 w-1/3 h-80 flex flex-col rounded-lg dark:bg-night-light">
+    <div className="z-10 w-1/3 h-80 flex flex-col rounded-lg bg-nord-4 dark:bg-nord-1">
       <div className="p-2">
-        <h2 className="text-gray-700 ml-4 text-2xl font-normal dark:text-white">
+        <h2 className="text-gray-700 ml-4 text-2xl font-normal text-nord-0 dark:text-nord-6">
           {'Manage Tags'}
         </h2>
       </div>
@@ -187,7 +187,7 @@ const TagPopup: React.FC<Props> = (props) => {
                 leftNode={
                   <IconTags
                     size={24}
-                    className={'text-gray-500 px-1 dark:text-white'}
+                    className={'text-nord-0 px-1 dark:text-nord-6'}
                   />
                 }
               />
@@ -204,7 +204,7 @@ const TagPopup: React.FC<Props> = (props) => {
             </div>
             {!isEmpty(selectedTags) && (
               <div>
-                <h4 className="text-gray-700 font-medium dark:text-white">
+                <h4 className="text-gray-700 font-medium text-nord-0 dark:text-nord-6">
                   {'Selected Tags'}
                 </h4>
                 <div className="flex flex-wrap space-x-1 [&>*]:mb-1">
@@ -238,7 +238,7 @@ const TagPopup: React.FC<Props> = (props) => {
               </div>
             )}
             <div>
-              <h4 className="text-gray-700 font-medium dark:text-white">
+              <h4 className="text-nord-0 font-medium dark:text-nord-6">
                 {'Available Tags'}
               </h4>
               <div className="flex flex-wrap space-x-1 [&>*]:mb-1">
@@ -263,7 +263,7 @@ const TagPopup: React.FC<Props> = (props) => {
             <div>
               <button
                 disabled={isEmpty(selectedTags)}
-                className="bg-primary-medium hover:bg-primary-dark dark:text-darkpen-medium rounded px-2 py-1"
+                className="bg-nord-7 hover:bg-nord-7/50 text-nord-0 dark:text-nord-6 rounded px-2 py-1"
                 onClick={() => {
                   props.onSubmitTags(selectedTags);
                 }}
@@ -286,7 +286,7 @@ const TagPopup: React.FC<Props> = (props) => {
                   <IconPlus
                     size={24}
                     className={
-                      'text-gray-500 hover:text-blue-500 transform transition-colors duration-500'
+                      'text-nord-0 dark:text-nord-6 hover:text-blue-500 transform transition-colors duration-500'
                     }
                   />
                 </button>

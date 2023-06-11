@@ -92,11 +92,11 @@ const SignUpForm: React.FC = () => {
         >
           <div className="flex flex-col items-center space-y-2 my-4">
             <img src={'/static/images/logo.png'} className="h-16" />
-            <h1 className="text-2xl font-light text-darkpen-medium mb-4">
+            <h1 className="text-2xl font-light text-nord-0 text-nord-6 mb-4">
               {'Create An Account.'}
             </h1>
           </div>
-          <div className="bg-night-medium shadow-xl rounded-lg px-4 py-2 mb-4 md:w-72 border dark:border-night-light">
+          <div className="bg-nord-4 dark:bg-nord-1 shadow-xl rounded-lg px-4 py-2 mb-4 md:w-72 border border-nord-5 dark:border-nord-2">
             <FormInput
               containerClass={formDisplayClass}
               labelHtmlFor={'username'}

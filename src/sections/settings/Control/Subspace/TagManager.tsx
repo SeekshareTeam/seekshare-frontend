@@ -85,16 +85,16 @@ const TagManager: React.FC<Props> = (props) => {
   ] = useCreateTagMutation ({ onError: () => null });
 
   return (
-    <div className="flex flex-row dark:text-darkpen-medium h-full">
-      <div className="flex flex-col items-center xs:w-full md:w-64 border-r border-night-dark">
+    <div className="flex flex-row text-nord-0 dark:text-nord-6 h-full">
+      <div className="flex flex-col items-center xs:w-full md:w-64 border-r border-nord-5 dark:border-nord-2">
         {tabs.map((tab) => {
           return (
             <button
               key={tab.key}
-              className={`py-1 hover:text-darkpen-medium w-full ${
+              className={`py-1 hover:text-nord-1 dark:hover:text-nord-5 w-full ${
                 selectedTab.key === tab.key
-                  ? 'bg-night-extralight dark:text-darkpen-medium'
-                  : 'dark:text-darkpen-dark'
+                  ? 'bg-nord-4 dark:bg-nord-1 text-nord-0 dark:text-nord-6'
+                  : 'text-nord-0 dark:text-nord-6'
               }`}
               onClick={() => {
                 setSelectedTab(tab);

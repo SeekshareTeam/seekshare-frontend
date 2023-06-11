@@ -99,7 +99,7 @@ const General: React.FC<Props> = (props) => {
     return (
       <div className="flex flex-col space-y-1 items-start">
         <label
-          className="dark:text-darkpen-medium font-bold"
+          className="text-nord-0 dark:text-nord-6 font-bold"
           htmlFor={labelHtmlFor}
         >
           {labelName}
@@ -111,7 +111,7 @@ const General: React.FC<Props> = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
-          className="dark:bg-night-light rounded dark:text-darkpen-medium"
+          className="rounded text-nord-0 bg-nord-4 dark:bg-nord-1 dark:text-nord-6"
         />
       </div>
     );
@@ -131,7 +131,7 @@ const General: React.FC<Props> = (props) => {
     handleBlur: (e: any) => void;
   }) => {
     return (
-      <div className="flex flex-col py-2 items-start justify-between text-lightpen-medium dark:text-darkpen-medium">
+      <div className="flex flex-col py-2 items-start justify-between text-nord-0 dark:text-nord-6">
         <label className="font-bold capitalize" htmlFor={labelHtmlFor}>
           {labelName}
         </label>
@@ -143,7 +143,7 @@ const General: React.FC<Props> = (props) => {
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
           rows={4}
-          className="rounded-lg shadow-md border border-blue-400 dark:border-night-extralight outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-night-light dark:focus:ring-gray-400"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-nord-3 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-nord-1 dark:focus:ring-nord-4"
         />
       </div>
     );

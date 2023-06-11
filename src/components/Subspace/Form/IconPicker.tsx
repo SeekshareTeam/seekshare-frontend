@@ -73,7 +73,7 @@ const SubspaceIconPicker: React.FC<Props> = (props) => {
           />
         }
       />
-      <p className="text-xs text-darkpen-dark">{'Add Icon'}</p>
+      <p className="text-xs text-nord-0 dark:text-nord-6">{'Add Icon'}</p>
     </div>
   );
 };

@@ -10,10 +10,10 @@ const svgToDataUri = require('mini-svg-data-uri');
 // },
 
 module.exports = {
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   content: [
-    './src/**/*.{ts,tsx,js,html}',
-    './pages/**/*.{ts,tsx,js,html}',
+    './src/**/*.{ts,tsx,js,html,css}',
+    './pages/**/*.{ts,tsx,js,html,css}',
     './node_modules/tw-elements/dist/js/**/*.js',
   ],
   safelist: [
@@ -28,9 +28,14 @@ module.exports = {
     //   variants: ['dark', 'hover', 'dark:hover']
     // },
   ],
-  plugins: [require('tw-elements/dist/plugin')],
+  plugins: [
+    require('tw-elements/dist/plugin'),
+    require('tailwind-nord'),
+    require('@tailwindcss/typography')
+  ],
   theme: {
     extend: {
+      /*
       colors: {
         lightpen: {
           dark: colors.gray['800'],
@@ -71,6 +76,7 @@ module.exports = {
           light: colors.blue['200'],
         },
       },
+      */
       backgroundImage: (theme) => ({
         squiggle: `url("${svgToDataUri(
           `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 3" enable-background="new 0 0 6 3" width="6" height="3" fill="${theme(

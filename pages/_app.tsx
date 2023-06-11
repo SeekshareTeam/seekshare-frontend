@@ -1,6 +1,8 @@
 import '@fontsource/jetbrains-mono';
+import '@milkdown/theme-nord/style.css';
 import '../styles/globals.css';
-import '../styles/Editor.css';
+import '../styles/prose.css';
+import '../styles/prosemirror.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 import type { AppProps /*, AppContext */ } from 'next/app';
@@ -41,6 +43,10 @@ function MyApp({
       : (((props) => <>{props.children}</>) as React.FC);
 
   const { store, props } = wrapper.useWrappedStore(rest);
+
+  React.useEffect(() => {
+    document.documentElement.classList.add('dark')
+  }, []);
 
   return (
     <ApolloProvider client={getApolloClient()}>

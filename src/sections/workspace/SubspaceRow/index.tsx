@@ -17,7 +17,7 @@ interface Props {
 
 const SubspaceRow: React.FC<Props> = (props) => {
   return (
-    <div className="flex min-w-80 md:w-1/2 border-b dark:border-night-extralight items-center">
+    <div className="flex min-w-80 md:w-1/2 border-b border-nord-5 dark:border-nord-1 items-center">
       <div className="flex flex-1 my-2">
         <button className="flex justify-start items-center">
           <Link
@@ -27,7 +27,7 @@ const SubspaceRow: React.FC<Props> = (props) => {
               <SubspaceCard
                 subspace={props.subspace}
                 titleClassName={
-                  'dark:text-darkpen-dark dark:hover:text-darkpen-medium transition-all duration-200'
+                  'text-nord-0 dark:text-nord-6 dark:hover:text-nord-5 transition-all duration-200'
                 }
               />
             </a>

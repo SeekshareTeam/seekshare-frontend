@@ -22,10 +22,10 @@ const InputRadio: React.FC<Props> = (props) => {
           className="cursor-pointer"
           onChange={() => {}}
         />
-        <label className="px-2 text-gray-700 dark:text-darkpen-medium cursor-pointer" htmlFor={props.id}>
+        <label className="px-2 text-nord-0 dark:text-nord-6 cursor-pointer" htmlFor={props.id}>
           {props.labelTitle}
         </label>
-        <div className="text-gray-500 text-xs font-medium dark:text-darkpen-dark">
+        <div className="text-nord-0 text-xs font-medium dark:text-nord-6">
           {props.childDescription}
         </div>
       </div>

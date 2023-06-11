@@ -112,8 +112,8 @@ const SettingControl: React.FC<Props> = (props) => {
 
   return (
     <div className="w-full h-full">
-      <div className="w-full m-2 box-content border-b border-lightpen-dark">
-        <h2 className="dark:text-darkpen-medium text-2xl font-light">
+      <div className="w-full m-2 box-content border-b border-nord-0">
+        <h2 className="text-nord-0 dark:text-nord-6 text-2xl font-light">
           {props.tab.tabValue}
         </h2>
       </div>

@@ -17,7 +17,7 @@ const WorkspaceTitle: React.FC<Props> = (props) => {
   }
 
   return (
-    <h2 className="mx-4 inline-block text-4xl text-lightpen-dark font-bold dark:text-darkpen-dark">
+    <h2 className="mx-4 inline-block text-4xl text-nord-0 font-bold dark:text-nord-6">
       {props.title}
     </h2>
   );

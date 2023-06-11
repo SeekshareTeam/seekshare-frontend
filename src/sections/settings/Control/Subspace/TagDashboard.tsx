@@ -42,7 +42,7 @@ const TagDashboardGridLayout: React.FC<GridLayout> = (props) => {
 
   return (
     <div
-      className={`grid grid-cols-6 items-center gap-4 m-4 dark:text-darkpen-medium ${props.className}`}
+      className={`grid grid-cols-6 items-center gap-4 m-4 text-nord-0 dark:text-nord-6 ${props.className}`}
     >
       {data.map((row, ix) => {
         return (
@@ -85,7 +85,7 @@ const TagDashboard: React.FC<Props> = (props) => {
       cell1: (
         <div className="flex flex-row justify-start items-center overflow-hidden">
           <span
-            className={`${tag.colorString} text-darkpen-medium text-xs px-2 py-1 rounded-full whitespace-nowrap`}
+            className={`${tag.colorString} text-nord-0 dark:text-nord-6 text-xs px-2 py-1 rounded-full whitespace-nowrap`}
           >
             {upperCase(tag.value)}
           </span>

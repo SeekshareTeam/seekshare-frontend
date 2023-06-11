@@ -82,7 +82,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
   const bgAnchorClass = props.bgColor
     ? props.bgColor.light + ' hover:' + props.bgColor.dark
-    : 'bg-secondary-medium hover:bg-secondary-dark';
+    : 'bg-nord-4 dark:bg-nord-2 bg-nord-4/50 dark:hover:bg-nord-2/50';
 
   return (
     <div tabIndex={1} className="relative my-auto inline-block">
@@ -94,7 +94,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
           } ${
             props?.horizontalPosition === 'right' ? 'right-0' : 'left-0'
           } w-56 rounded-md shadow-lg ${
-            props.bgColor ? props.bgColor.light : 'bg-secondary-medium'
+            props.bgColor ? props.bgColor.light : 'bg-nord-7'
           } ring-1 ring-black ring-opacity-5 focus:outline-none my-2`}
           role="menu"
           aria-orientation="vertical"
@@ -114,7 +114,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
             {props?.optionList?.map((option, ix) => (
               <a
                 key={option?.id}
-                className={`text-lightpen-medium dark:text-darkpen-medium ${bgAnchorClass} block px-4 py-2 text-sm cursor-pointer`}
+                className={`text-nord-0 dark:text-nord-6 ${bgAnchorClass} block px-4 py-2 text-sm cursor-pointer`}
                 id={option?.id + '-' + ix}
                 onMouseDown={(e) => {
                   e.preventDefault();

@@ -11,7 +11,7 @@ interface UserCardLayoutProps {
 
 const UserCardLayout: React.FC<UserCardLayoutProps> = (props) => {
   return (
-    <div className="inline-flex items-start justify-start space-x-1 dark:bg-night-medium rounded px-2 py-1 w-60">
+    <div className="inline-flex items-start justify-start space-x-1 bg-nord-4 dark:bg-nord-1 rounded px-2 py-1 w-60">
       <div className="flex ml-4">
         {props.userAvatar}
         <div className="flex-col self-start ml-2">
@@ -34,9 +34,9 @@ const UserCard: React.FC<Props> = (props) => {
   return (
     <UserCardLayout
       userAvatar={<UserAvatar displayHeight={'h-16'} displayWidth={'w-16'} />}
-      name={<p className="dark:text-darkpen-medium">{props.name}</p>}
+      name={<p className="text-nord-0 dark:text-nord-6">{props.name}</p>}
       userInfo={
-        <p className="text-sm dark:text-darkpen-dark">
+        <p className="text-sm text-nord-0 dark:text-nord-6">
           {props.currentPosition}
         </p>
       }

@@ -47,7 +47,7 @@ const TitleHeader: React.FC<TitleHeaderProps> = (props) => {
           setShowSubspaceForm(false);
         }}
       >
-        <div className="z-10 lg:w-1/4 sm:w-80 bg-white dark:bg-dusk-dark rounded-xl">
+        <div className="z-10 lg:w-1/4 sm:w-80 bg-nord-4 dark:bg-nord-1 rounded-xl">
           <SubspaceForm
             workspaceId={props.currentWorkspace.id}
             workspaceName={props.currentWorkspace.name}
@@ -58,7 +58,7 @@ const TitleHeader: React.FC<TitleHeaderProps> = (props) => {
         </div>
       </Modal>
 
-      <div className="relative inline-block m-auto dark:bg-night-medium w-full py-4">
+      <div className="relative inline-block m-auto bg-nord-4 dark:bg-nord-1 w-full py-4">
         <div className="flex justify-between items-center w-full px-4 bg-none">
           <div className="flex flex-1 items-center justify-start">
             <Dropdown

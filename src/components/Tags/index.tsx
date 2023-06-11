@@ -12,7 +12,7 @@ const TagItem: React.FC<Props> = (props) => {
 
   return (
     <span
-      className={`${props.colorString} text-darkpen-medium text-xs px-2 py-1 rounded-full whitespace-nowrap`}
+      className={`${props.colorString} text-nord-0 dark:text-nord-6 text-xs px-2 py-1 rounded-full whitespace-nowrap`}
     >
       {upperCase(props.value)}
     </span>

@@ -31,7 +31,7 @@ export const gridData = (params: { posts: PostType[] }) => {
             })}
           </div>
         ) : (
-          <p className="dark:text-darkpen-dark">{'No Tags'}</p>
+          <p className="text-nord-0 dark:text-nord-1">{'No Tags'}</p>
         ),
       cell4: <p>{post.createdAt}</p>,
       itemKey: `dashboard_grid_${ix}`,

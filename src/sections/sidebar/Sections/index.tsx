@@ -17,7 +17,7 @@ export const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
         <span>{sectionElement.icon}</span>
         <h4
           key={labelIndex}
-          className="px-2 font-semibold text-lightpen-medium dark:text-darkpen-medium"
+          className="px-2 font-semibold text-nord-0 dark:text-nord-6"
         >
           {sectionElement.label}
         </h4>

@@ -23,7 +23,7 @@ const AddWorkspace: React.FC = () => {
           console.log(showWorkspaceForm);
           setShowWorkspaceForm(true);
         }}
-        className="w-12 h-12 overflow-hidden rounded mt-1 rounded-full text-lightpen-medium hover:text-lightpen-dark dark:hover:bg-night-extralight dark:hover:text-darkpen-extralight dark:text-darkpen-medium"
+        className="w-12 h-12 overflow-hidden rounded mt-1 rounded-full text-nord-0 hover:text-nord-1 bg-nord-4 hover:bg-nord-1 dark:hover:bg-nord-5 dark:text-nord-6"
       >
         <IconPlus size={36} className="m-auto" />
       </button>
