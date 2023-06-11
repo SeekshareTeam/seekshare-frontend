@@ -30,7 +30,7 @@ const SubspaceManagerLayout: React.FC<LayoutProps> = (props) => {
   return (
     <div
       id={'subspace-manager'}
-      className="mx-32 h-4/5 w-full dark:bg-night-light box-border flex flex-wrap"
+      className="mx-32 h-4/5 w-full bg-nord-4 dark:bg-nord-1 box-border flex flex-wrap"
       ref={divRef}
     >
       <div className="flex flex-col flex-1">
@@ -88,7 +88,7 @@ const SubspaceManager: React.FC<Props> = (props) => {
         <SubspaceCard
           subspace={props.subspace}
           className={'ml-4 my-4'}
-          titleClassName="text-xl dark:text-darkpen-dark"
+          titleClassName="text-xl text-nord-0 dark:text-nord-6"
         />
       }
       tabbedMenu={

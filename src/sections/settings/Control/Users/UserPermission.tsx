@@ -25,9 +25,9 @@ const UserPermission: React.FC<Props> = (props) => {
         position={'above'}
         horizontalPosition={'right'}
         bgColor={{
-          dark: 'bg-night-dark',
-          medium: 'bg-night-medium',
-          light: 'bg-night-light',
+          dark: 'bg-nord-0',
+          medium: 'bg-nord-1',
+          light: 'bg-nord-2',
         }}
         dropdownButton={(
           option: DropdownOptionType | null,

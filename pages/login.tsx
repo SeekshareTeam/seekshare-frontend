@@ -54,11 +54,11 @@ const Login: NextPage & { layoutType: string } = () => {
           >
             <div className="flex flex-col items-center space-y-2 my-4">
               <img src={'/static/images/logo.png'} className="h-16" />
-              <h1 className="text-2xl font-light text-darkpen-medium mb-4">
+              <h1 className="text-2xl font-light text-nord-0 dark:text-nord-6 mb-4">
                 {'Sign in to Seekshare'}
               </h1>
             </div>
-            <div className="bg-night-medium shadow-xl rounded-lg px-4 py-2 mb-4 md:w-72 border dark:border-night-light">
+            <div className="bg-nord-4 dark:bg-nord-1 shadow-xl rounded-lg px-4 py-2 mb-4 md:w-72 border dark:border-nord-2">
               <div>
                 <FormInput
                   containerClass={'flex flex-col items-start py-3'}
@@ -104,7 +104,7 @@ const Login: NextPage & { layoutType: string } = () => {
           </form>
         )}
       </Formik>
-      <div className="my-4 rounded-full border dark:border-night-light flex p-4 justify-center items-center">
+      <div className="my-4 rounded-full border dark:border-nord-2 flex p-4 justify-center items-center">
         <TextLink
           size={'small'}
           normalText={'New to Seekshare?'}

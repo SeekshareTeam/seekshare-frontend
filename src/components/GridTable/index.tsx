@@ -24,7 +24,7 @@ const GridTable = <T extends GridItem<string>, K extends keyof T>(
     <div
       className={`grid ${
         gridColumns[props.columns]
-      } gap-4 dark:text-darkpen-medium ${props.className}`}
+      } gap-4 text-nord-0 dark:text-nord-6 ${props.className}`}
     >
       {data?.map((row) => {
         if (!row) {

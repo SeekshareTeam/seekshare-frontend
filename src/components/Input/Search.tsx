@@ -73,7 +73,7 @@ const Search: React.FC<Props> = (props) => {
       <div className={props.className}>
         <div className="mb-2">
           <label
-            className="font-medium capitalize bold text-gray-700 dark:text-white"
+            className="font-medium capitalize bold text-nord-0 dark:text-nord-6"
             htmlFor={props.labelName}
           >
             {props.labelTitle}
@@ -86,7 +86,7 @@ const Search: React.FC<Props> = (props) => {
             boxFocus
               ? 'ring-1 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
               : ''
-          } p-1 dark:border-night-extralight dark:bg-night-light dark:caret-white dark:text-white`}
+          } p-1 bg-nord-4 dark:bg-nord-1 caret-nord-0 dark:caret-nord-4 text-nord-0 dark:text-nord-6`}
         >
           {props.leftNode}
           <input
@@ -104,7 +104,7 @@ const Search: React.FC<Props> = (props) => {
             }}
             value={searchText}
             placeholder={props.inputPlaceholder || ''}
-            className="outline-none flex-1 dark:bg-night-light dark:caret-white"
+            className="outline-none flex-1 bg-nord-4 dark:bg-nord-1 caret-nord-0 dark:caret-nord-4"
           />
           {props.rightNode}
         </div>

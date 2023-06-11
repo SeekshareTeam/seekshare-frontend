@@ -50,7 +50,7 @@ interface Props {
 const UploadButton: React.FC<Props> = (props) => {
   return (
     <Button
-      className="dark:bg-night-light border border-night-extralight dark:text-darkpen-light shadow hover:brightness-110 hover:shadow pointer-events-none"
+      className="bg-nord-4 dark:bg-nord-2 border border-nord-3 text-nord-0 dark:text-node-0 shadow hover:brightness-110 hover:shadow pointer-events-none"
       size={'medium'}
       type={props.type}
       radius={'small'}

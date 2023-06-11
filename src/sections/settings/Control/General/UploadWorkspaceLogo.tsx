@@ -81,7 +81,7 @@ const UploadWorkspaceLogo: React.FC<Props> = ({
   return (
     <UploadWorkspaceLogoLayout
       title={
-        <h4 className="dark:text-darkpen-medium font-bold">
+        <h4 className="text-nord-0 dark:text-nord-6 font-bold">
           {'Change Workspace Cover Photo'}
         </h4>
       }

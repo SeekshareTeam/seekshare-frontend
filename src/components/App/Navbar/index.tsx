@@ -108,9 +108,9 @@ const Navbar = (props: NavbarProps) => {
           abstractControl={true}
           abstractShow={showDropdown}
           bgColor={{
-            dark: 'dark:bg-night-dark',
-            medium: 'dark:bg-night-medium',
-            light: 'dark:bg-night-medium',
+            dark: 'bg-nord-0',
+            medium: 'bg-nord-1',
+            light: 'bg-nord-2',
           }}
           optionList={options}
           onOptionClick={(val: DropdownOptionType) => {
@@ -163,7 +163,7 @@ const Navbar = (props: NavbarProps) => {
   const onFocusCallback = () => {};
 
   return (
-    <div className="flex flex-1 bg-night-dark">
+    <div className="flex flex-1 bg-nord-4 dark:bg-nord-1">
       <div className="flex flex-1 h-full justify-start">
         {reduxState.authUser && (
           <>
@@ -186,9 +186,9 @@ const Navbar = (props: NavbarProps) => {
               onClick={() => {
                 props.setSidebarToggle(!props.sidebarToggle);
               }}
-              className="md:hidden rounded-lg dark:text-darkpen-medium hover:dark:text-darkpen-dark"
+              className="md:hidden rounded-lg text-nord-0 dark:text-nord-6"
             >
-              <IconMenu2 size={36} stroke={1} className=""  />
+              <IconMenu2 size={36} stroke={1} className="" />
             </button>
             {/*<Button
               variant={'primary'}
@@ -220,7 +220,7 @@ const Navbar = (props: NavbarProps) => {
         <div className="flex flex-row mr-4">
           {!reduxState.authUser && !hideSignIn && (
             <Button
-              className="text-lightpen-medium hover:text-lightpen-dark transition-all duration-200 dark:text-darkpen-dark dark:hover:text-darkpen-light"
+              className="text-nord-0 transition-all duration-200 dark:text-nord-6"
               onClick={async () => {
                 router.push({
                   pathname: '/login',
@@ -233,7 +233,10 @@ const Navbar = (props: NavbarProps) => {
           )}
           {reduxState.authUser && (
             <div className="flex items-center justify-center">
-              <UserLabelDropdown name={reduxState.authUser.fullname || ''} imgUrl={reduxState?.authUser?.avatar || ''} />
+              <UserLabelDropdown
+                name={reduxState.authUser.fullname || ''}
+                imgUrl={reduxState?.authUser?.avatar || ''}
+              />
               <Button
                 size={'small'}
                 variant={null}

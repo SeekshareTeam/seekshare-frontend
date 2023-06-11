@@ -38,7 +38,7 @@ const TagRequestGridLayout: React.FC<GridLayout> = (props) => {
 
   return (
     <div
-      className={`grid grid-cols-6 items-center gap-4 m-4 dark:text-darkpen-medium ${props.className}`}
+      className={`grid grid-cols-6 items-center gap-4 m-4 text-nord-0 dark:text-nord-6 ${props.className}`}
     >
       {data.map((row, ix) => {
         return (
@@ -75,7 +75,7 @@ const TagRequest: React.FC<Props> = (props) => {
       cell1: (
         <div className="flex flex-row justify-start items-center">
           <span
-            className={`${tag.colorString} text-darkpen-medium text-xs px-2 py-1 rounded-full`}
+            className={`${tag.colorString} text-nord-0 dark:text-nord-6 text-xs px-2 py-1 rounded-full`}
           >
             {upperFirst(tag.value)}
           </span>
@@ -90,7 +90,7 @@ const TagRequest: React.FC<Props> = (props) => {
       cell4: <span>{tag.createdAt}</span>,
       cell5: (
         <div className="flex flex-col items-start space-y-1">
-          <button className="bg-primary-medium w-20 px-2 py-1 rounded">
+          <button className="bg-nord-4 dark:bg-nord-1 w-20 px-2 py-1 rounded">
             {'Activate'}
           </button>
           <button className="bg-red-700 w-20 px-2 py-1 rounded">

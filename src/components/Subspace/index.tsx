@@ -50,11 +50,11 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
 
   const headerComponent = () => {
     return (
-      <div className="bg-gray-50 dark:bg-dusk-dark py-4 px-6 flex flex-col rounded-t-xl w-full items-center justify-center">
-        <h2 className="font-semibold text-gray-700 dark:text-darkpen-medium text-xl">
+      <div className="bg-gray-50 bg-nord-4 dark:bg-nord-1 py-4 px-6 flex flex-col rounded-t-xl w-full items-center justify-center">
+        <h2 className="font-semibold text-nord-0 dark:text-nord-6 text-xl">
           {'Add Subspace'}
         </h2>
-        <p className="text-darkpen-dark font-light text-xs">
+        <p className="text-nord-0 dark:text-nord-6 font-light text-xs">
           {
             'Subspaces are work stations that belong to a parent Workspace. In a subspace you can manage content, members, and permissions.'
           }
@@ -118,7 +118,7 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
   //           />
   //         }
   //       />
-  //       <p className="text-xs text-darkpen-dark">{'Add Icon'}</p>
+  //       <p className="text-xs text-nord-6">{'Add Icon'}</p>
   //     </div>
   //   );
   // };
@@ -180,14 +180,14 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
       }) => {
         return (
           <Form className="w-full">
-            <div className="z-10 w-80 sm:w-80 xl:w-full dark:text-darkpen-medium rounded-xl flex flex-wrap flex-col">
+            <div className="z-10 w-80 sm:w-80 xl:w-full text-nord-0 dark:text-nord-6 rounded-xl flex flex-wrap flex-col">
               {headerComponent()}
-              <div className="px-4 dark:bg-dusk-dark">
+              <div className="px-4 bg-nord-4 dark:bg-nord-1">
                 <div className="flex justify-center py-1 mb-2">
                   {['Parent Workspace:', props.workspaceName].map(
                     (subTitle) => {
                       return (
-                        <h3 className="dark:text-darkpen-medium font-semibold text-lg px-1">
+                        <h3 className="text-nord-0 dark:text-nord-6 font-semibold text-lg px-1">
                           {subTitle}
                         </h3>
                       );

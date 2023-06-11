@@ -67,7 +67,7 @@ const SubspaceCard: React.FC<Props> = (props) => {
 
   return (
     <div
-      className={`dark:text-darkpen-medium flex flex-row items-start ${
+      className={`text-nord-0 dark:text-nord-6 flex flex-row items-start ${
         props.className || ''
       }`}
     >

@@ -30,7 +30,7 @@ const SubspacePanelGridLayout: React.FC<GridLayout> = (props) => {
 
   return (
     <div
-      className={`grid grid-cols-4 gap-4 dark:text-darkpen-medium ${props.className}`}
+      className={`grid grid-cols-4 gap-4 text-nord-0 dark:text-nord-6 ${props.className}`}
     >
       {data.map((row, ix) => {
         return (
@@ -105,7 +105,7 @@ const Subspaces: React.FC<Props> = (props) => {
       <SubspacePanelGridLayout
         headers={headers}
         gridData={props.loading ? loadingGrid : subspaceGridData}
-        className="text-darkpen-medium"
+        className="text-nord-0 dark:text-nord-6"
       />
     </>
   );

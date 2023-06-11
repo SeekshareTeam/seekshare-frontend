@@ -156,7 +156,7 @@ export const Badge: React.FC<BadgeProps> = ({
   text,
 }: BadgeProps) => {
   const baseClasses =
-    'inline-block font-bold text-white  hover:bg-gray-500 opacity-90 hover:opacity-100';
+    'inline-block font-bold text-nord-6 hover:bg-gray-500 opacity-90 hover:opacity-100';
   const sizeClass = composer.getSize(size);
   const typeClass = composer.getType(type);
   const shapeClass = composer.getShape(shape);

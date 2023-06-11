@@ -39,7 +39,7 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
   const [tagName, setTagName] = React.useState('');
   const [tagDescription, setTagDescription] = React.useState('');
   const [tagColor, setTagColor] = React.useState(
-    palette[0] ? `bg-${palette[0]}-500` : 'bg-primary-medium'
+    palette[0] ? `bg-${palette[0]}-500` : 'bg-nord-1'
   );
   const [showColorPicker, setShowColorPicker] = React.useState(false);
 
@@ -53,7 +53,7 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
     return (
       <div className="inline-flex flex-col py-1 justify-between items-start">
         <label
-          className="font-semibold text-sm capitalize text-gray-700 dark:text-darkpen-dark"
+          className="font-semibold text-sm capitalize text-nord-0 dark:text-nord-6"
           htmlFor={inputName}
         >
           {labelName}
@@ -63,7 +63,7 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={value}
-          className="w-64 xs:flex-1 shadow-md bg-transparent border-b focus:border-blue-400 outline-none p-1 dark:text-darkpen-medium dark:placeholder:text-darkpen-dark"
+          className="w-64 xs:flex-1 shadow-md bg-transparent border-b focus:border-blue-400 outline-none p-1 text-nord-0 placeholder:text-nord-1 dark:text-nord-6 dark:placeholder:text-nord-5"
           placeholder={'Insert new tag name here.'}
         />
       </div>
@@ -80,7 +80,7 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
     return (
       <div className="flex flex-col w-80 py-1 justify-between items-start">
         <label
-          className="font-semibold text-sm capitalize text-gray-700 dark:text-darkpen-dark"
+          className="font-semibold text-sm capitalize text-nord-0 dark:text-nord-6"
           htmlFor={textareaName}
         >
           {labelName}
@@ -94,14 +94,14 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
           onBlur={handleBlur}
           value={value}
           rows={4}
-          className="rounded-lg shadow-md w-full border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-night-light dark:focus:ring-gray-400"
+          className="rounded-lg shadow-md w-full border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-20 p-1 bg-node-4 dark:bg-nord-1 dark:focus:ring-gray-400"
         />
       </div>
     );
   };
 
   return (
-    <div className="dark:text-darkpen-medium m-4">
+    <div className="text-nord-0 dark:text-nord-6 m-4">
       {addInput(
         'tagName',
         'Tag Name',
@@ -144,7 +144,7 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
         </div>
         {tagName && (
           <span
-            className={`${tagColor} text-darkpen-medium text-xs px-2 py-1 rounded-full`}
+            className={`${tagColor} text-nord-0 dark:text-nord-6 text-xs px-2 py-1 rounded-full`}
           >
             {upperFirst(tagName)}
           </span>

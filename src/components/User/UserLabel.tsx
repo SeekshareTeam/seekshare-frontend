@@ -17,7 +17,7 @@ const UserLabel: React.FC<Props> = (props) => {
         className={'rounded-full'}
         imgUrl={props.imgUrl}
       />
-      <span className="font-light dark:text-darkpen-medium hidden md:inline">{props.name}</span>
+      <span className="font-light text-nord-0 dark:text-nord-6 hidden md:inline">{props.name}</span>
     </div>
   );
 };

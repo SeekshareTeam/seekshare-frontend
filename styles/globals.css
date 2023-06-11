@@ -7,7 +7,17 @@ html {
   overscroll-behavior: none;
 }
 
+html,
+body,
+#__next {
+  @apply min-h-screen;
+}
+
+#__next {
+  @apply flex flex-col;
+}
+
 body {
-  background-color: rgb(24 24 27);
+  @apply dark:bg-nord-0 bg-nord-6 text-nord-0 dark:text-nord-6;
 }
 

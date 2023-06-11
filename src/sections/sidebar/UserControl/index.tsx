@@ -28,13 +28,13 @@ const UserControl: React.FC<Props> = (props) => {
   const dropdownRef = React.useRef(null);
 
   return (
-    <section className="flex py-4 pr-2 pl-1 dark:bg-night-light dark:text-darkpen-dark items-center w-full">
+    <section className="flex py-4 pr-2 pl-1 bg-nord-4 dark:bg-nord-1 text-nord-0 dark:text-nord-6 items-center w-full">
       <UserAvatar
         imgUrl={props.avatarUrl}
         onUploadImage={props.onUploadImage}
       />
-      <span className="text-sm dark:text-darkpen-medium">{props.name}</span>
-      <div className="flex flex-1 justify-end dark:hover:text-darkpen-light cursor-pointer">
+      <span className="text-sm text-nord-0 dark:text-nord-6">{props.name}</span>
+      <div className="flex flex-1 justify-end hover:text-nord-1 dark:hover:text-nord-5 cursor-pointer">
         <Dropdown
           dropdownRef={dropdownRef}
           dropdownButton={

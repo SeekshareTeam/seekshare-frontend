@@ -26,10 +26,10 @@ const AccessLevel: React.FC = () => {
   }) => {
     return (
       <div>
-        <p className="dark:text-darkpen-medium font-medium mb-2 text-lg">
+        <p className="text-nord-0 dark:text-nord-6 font-medium mb-2 text-lg">
           {title}
         </p>
-        {description && <p className="dark:text-darkpen-dark">{description}</p>}
+        {description && <p className="text-nord-0 dark:text-nord-6">{description}</p>}
       </div>
     );
   };

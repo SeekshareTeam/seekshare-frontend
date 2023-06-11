@@ -45,7 +45,7 @@ const Card: React.FC<Props> = (props) => {
   }, [props.title]);
 
   return (
-    <div className="md:w-80 bg-white rounded-lg border border-gray-200 shadow-md m-2 dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+    <div className="md:w-80 bg-nord-4 rounded-lg border border-gray-200 shadow-md m-2 dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
       {props.imgUrl ? (
         <div
           style={{
@@ -68,11 +68,11 @@ const Card: React.FC<Props> = (props) => {
       )}
       <div className="w-full mt-6 py-2 px-5">
         <Link href={props.pageUrl || ''}>
-          <h5 className="mb-2 text-2xl tracking-tight text-gray-900 dark:text-darkpen-medium dark:hover:text-darkpen-extralight">
+          <h5 className="mb-2 text-2xl tracking-tight text-gray-900 dark:text-nord-6 dark:hover:text-nord-6">
             {props.title}
           </h5>
         </Link>
-        <p className="mb-3 font-normal text-lightpen-medium dark:text-darkpen-dark">
+        <p className="mb-3 font-normal text-nord-0 dark:text-nord-6">
           {props.description}
         </p>
       </div>

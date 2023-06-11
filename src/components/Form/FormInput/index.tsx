@@ -20,7 +20,7 @@ const FormInput: React.FC<Props> = (props) => {
   return (
     <div className={displayClass}>
       <label
-        className="font-medium text-sm capitalize bold text-lightpen-medium dark:text-darkpen-medium"
+        className="font-medium text-sm capitalize bold text-nord-0 dark:text-nord-6"
         htmlFor={props.labelHtmlFor}
       >
         {props.labelName}
@@ -33,9 +33,9 @@ const FormInput: React.FC<Props> = (props) => {
         aria-label={props.ariaLabel}
         aria-required={props.ariaRequirement}
         value={props.inputValue[props.labelHtmlFor]}
-        className={`rounded-lg dark:text-darkpen-medium border border-blue-400 dark:border-darkpen-extradark outline-none focus:ring-1 ${
+        className={`rounded-lg text-nord-0 dark:text-nord-6 border border-blue-400 dark:border-nord-0 outline-none focus:ring-1 ${
           props.inputWidth ? props.inputWidth : 'w-1/2'
-        } focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-darkpen-dark dark:bg-night-light`}
+        } focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-nord-1 dark:bg-nord-1`}
       />
     </div>
   );

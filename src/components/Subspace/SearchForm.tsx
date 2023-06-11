@@ -42,7 +42,7 @@ export const SearchForm: React.FC<SearchFormProps> = (props) => {
   return (
     <section
       className={
-        'z-50 p-2 max-w-md w-64 lg:w-80 bg-pink-900 dark:bg-gray-800 rounded-xl shadow-md border-gray-900 text-gray-400 dark:text-darkpen-dark'
+        'z-50 p-2 max-w-md w-64 lg:w-80 bg-pink-900 dark:bg-nord-1 rounded-xl shadow-md border-gray-900 text-nord-0 dark:text-nord-6'
       }
     >
       <form
@@ -66,7 +66,7 @@ export const SearchForm: React.FC<SearchFormProps> = (props) => {
             value={searchValue}
             placeholder={'Search Subspaces'}
             className={
-              'flex-1 outline-none bg-pink-900 dark:bg-gray-800 appearance-none p-1 mx-1'
+              'flex-1 outline-none bg-pink-900 bg-nord-4 dark:bg-nord-1 appearance-none p-1 mx-1'
             }
           />
         </div>

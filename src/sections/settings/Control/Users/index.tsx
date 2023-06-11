@@ -19,7 +19,7 @@ const UserPanelGridLayout: React.FC<{
   const data = [headers, ...gridData];
 
   return (
-    <div className="grid grid-cols-4 gap-4 dark:text-darkpen-medium">
+    <div className="grid grid-cols-4 gap-4 text-nord-0 dark:text-nord-6">
       {data.map((row) => {
         return (
           <>
@@ -74,8 +74,8 @@ const Users: React.FC<Props> = (props) => {
   }) => {
     return (
       <div className="flex flex-col">
-        <p className="text-darkpen-medium">{firstname + ' ' + lastname}</p>
-        <span className="text-darkpen-dark text-sm">{email}</span>
+        <p className="text-nord-0 dark:text-nord-6">{firstname + ' ' + lastname}</p>
+        <span className="text-nord-0 text-nord-6 text-sm">{email}</span>
       </div>
     );
   };
@@ -88,9 +88,9 @@ const Users: React.FC<Props> = (props) => {
   //         position={'above'}
   //         horizontalPosition={'right'}
   //         bgColor={{
-  //           dark: 'bg-night-dark',
-  //           medium: 'bg-night-medium',
-  //           light: 'bg-night-light',
+  //           dark: 'bg-nord-0',
+  //           medium: 'bg-nord-1',
+  //           light: 'bg-nord-2',
   //         }}
   //         dropdownButton={(
   //           option: DropdownOptionType | null,

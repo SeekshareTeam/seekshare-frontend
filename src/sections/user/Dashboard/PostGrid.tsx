@@ -36,7 +36,7 @@ const PostGrid: React.FC<Props> = (props) => {
   const { posts } = usePosts(props);
 
   if (isEmpty(props.posts)) {
-    return <p className="dark:text-darkpen-dark text-xl">{'No Activity.'}</p>;
+    return <p className="text-nord-0 dark:text-nord-6 text-xl">{'No Activity.'}</p>;
   }
 
   const config: ConfigType<'cell1' | 'cell2' | 'cell3' | 'cell4'>[] = [
@@ -47,7 +47,7 @@ const PostGrid: React.FC<Props> = (props) => {
   ];
 
   return (
-    <div className="mx-4 p-2 rounded-lg dark:bg-night-medium">
+    <div className="mx-4 p-2 rounded-lg bg-node-4 dark:bg-nord-1">
       <GridTable
         config={config}
         columns={5}

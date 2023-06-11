@@ -92,7 +92,7 @@ export const WorkspaceForm = () => {
     return (
       <div className="flex flex-row py-2 items-center justify-between">
         <label
-          className="font-medium capitalize bold text-gray-700 dark:text-gray-300"
+          className="font-medium capitalize bold text-nord-0 dark:text-nord-6"
           htmlFor={labelHtmlFor}
         >
           {labelName}
@@ -104,7 +104,7 @@ export const WorkspaceForm = () => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
-          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-gray-400 dark:bg-night-dark"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:focus:ring-gray-400 bg-nord-4 dark:bg-nord-1"
         />
       </div>
     );
@@ -126,7 +126,7 @@ export const WorkspaceForm = () => {
     return (
       <div className="flex flex-row py-2 items-center justify-between">
         <label
-          className="font-medium capitalize bold text-gray-700 dark:text-gray-300"
+          className="font-medium capitalize bold text-nord-0 dark:text-nord-6"
           htmlFor={labelHtmlFor}
         >
           {labelName}
@@ -139,7 +139,7 @@ export const WorkspaceForm = () => {
           onBlur={handleBlur}
           value={inputValue[labelHtmlFor]}
           rows={4}
-          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 dark:bg-night-dark dark:focus:ring-gray-400"
+          className="rounded-lg shadow-md border border-blue-400 dark:border-gray-300 outline-none focus:ring-2 w-1/2 focus:ring-blue-600 focus:ring-opacity-20 p-1 bg-nord-4 dark:bg-nord-1 dark:focus:ring-gray-400"
         />
       </div>
     );
@@ -169,10 +169,10 @@ export const WorkspaceForm = () => {
           value={value}
           checked={value === inputValue}
         />
-        <label className="px-2 text-gray-700 dark:text-gray-300" htmlFor={id}>
+        <label className="px-2 text-nord-0 dark:text-nord-6" htmlFor={id}>
           {labelName}
         </label>
-        <div className="text-gray-500 text-xs font-medium dark:text-gray-400">
+        <div className="text-nord-1 text-xs font-medium dark:text-nord-5">
           {childDescription}
         </div>
       </div>
@@ -198,11 +198,11 @@ export const WorkspaceForm = () => {
       {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
         <form
           onSubmit={handleSubmit}
-          className="z-40 w-1/2 h-3/4 bg-white rounded-xl dark:bg-gray-800 dark:text-gray-300 overflow-y-scroll"
+          className="z-40 w-1/2 h-3/4 bg-nord-4 rounded-xl dark:bg-gray-800 dark:text-gray-300 overflow-y-scroll"
         >
           <h1
             className={
-              'p-2 overflow-hidden w-full text-2xl text-darkpen-medium bg-gray-700'
+              'p-2 overflow-hidden w-full text-2xl text-nord-0 dark:text-nord-6 bg-nord-4 dark:bg-gray-700'
             }
           >
             {'Create A New Workspace.'}
@@ -257,7 +257,7 @@ export const WorkspaceForm = () => {
             </div>
 
             <div className="flex flex-row py-2 items-start justify-between">
-              <label className="font-medium capitalize bold text-gray-700 w-1/2 dark:text-gray-300">
+              <label className="font-medium capitalize bold text-nord-0 w-1/2 dark:text-nord-6">
                 {'Privacy'}
               </label>
 

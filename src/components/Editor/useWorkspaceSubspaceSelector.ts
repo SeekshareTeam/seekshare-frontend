@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { shallowEqual } from 'react-redux';
 
 import {
@@ -23,8 +24,8 @@ type Option = Record<string, string>;
 
 type Selector = {
   options: Option;
-  selectedId: ReturnType<typeof useSelectedState>[0];
-  updateSelected: ReturnType<typeof useSelectedState>[1];
+  selectedId?: string;
+  updateSelected: Dispatch<SetStateAction<string | undefined>>;
 };
 
 type useWorkspaceSubspaceSelectorReturn = {
@@ -49,10 +50,10 @@ const useWorkspaceSubspaceSelector = (
     typeof useFetchSubspacesLazyQuery
   >(clientFetchSubspaces, useFetchSubspacesLazyQuery, undefined, false);
 
-  const [selectedWorkspaceId, setSelectedWorkspaceId] = useSelectedState(
+  const [selectedWorkspaceId, setSelectedWorkspaceId] = React.useState(
     initiallySelectedWorkspaceId
   );
-  const [selectedSubspaceId, setSelectedSubspaceId] = useSelectedState(
+  const [selectedSubspaceId, setSelectedSubspaceId] = React.useState(
     initiallySelectedSubspaceId
   );
 

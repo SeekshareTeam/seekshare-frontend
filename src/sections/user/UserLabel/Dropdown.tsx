@@ -44,14 +44,14 @@ const UserLabelDropdown: React.FC<Props> = (props) => {
       <Dropdown
         dropdownRef={dropdownRef}
         dropdownButton={
-          <button ref={dropdownRef} className="flex hover:bg-night-light items-center justify-center px-2 py-1 rounded-full">
+          <button ref={dropdownRef} className="flex bg-nord-4 hover:bg-nord-1 dark:bg-nord-1 dark:hover:bg-nord-5 items-center justify-center px-2 py-1 rounded-full">
             <UserLabel name={props.name} imgUrl={props.imgUrl} />
           </button>
         }
         bgColor={{
-          dark: 'bg-night-dark',
-          medium: 'bg-night-medium',
-          light: 'bg-night-light',
+          dark: 'bg-nord-0',
+          medium: 'bg-nord-1',
+          light: 'bg-nord-2',
         }}
         optionList={options}
         position={'above'}

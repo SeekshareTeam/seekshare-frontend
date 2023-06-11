@@ -80,12 +80,12 @@ const UploadWorkspaceCover: React.FC<Props> = ({
   return (
     <UploadWorkspaceCoverLayout
       title={
-        <h4 className="dark:text-darkpen-medium font-bold">
+        <h4 className="text-nord-0 dark:text-nord-6 font-bold">
           {'Change Workspace Cover Photo'}
         </h4>
       }
       coverImageNode={
-        <div className="p-0.5 dark:bg-night-light rounded overflow-hidden shadow">
+        <div className="p-0.5 bg-nord-4 dark:bg-nord-1 rounded overflow-hidden shadow">
           <CoverImage
             className={'w-80 h-44 rounded'}
             imgUrl={props.coverImage?.value}

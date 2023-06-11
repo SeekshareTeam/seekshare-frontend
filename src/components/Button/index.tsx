@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Spinner from 'src/components/Spinner';
 
 const classes = {
-  wrapper: 'flex flex-row mr-3 text-lightpen-medium dark:text-darkpen-medium',
+  wrapper: 'flex flex-row mr-3 text-nord-0 dark:text-nord-6',
 };
 
 type TextLinkProps = {
@@ -32,7 +32,7 @@ export const TextLink: React.FC<TextLinkProps> = (props: TextLinkProps) => {
   return (
     <div className={styleClass}>
       <p className="pr-1">{props.normalText}</p>
-      <Link href={props.href} className={'text-link-medium hover:text-link-dark'}>
+      <Link href={props.href} className={'text-nord-0 dark:text-nord-6 hover:text-nord-1 dark:hover:text-nord-5'}>
         {props.linkText}
       </Link>
     </div>
@@ -136,39 +136,33 @@ function buttonVariantSwitch(
   disabled: boolean = false,
   selected: boolean = false
 ) {
-  let defaultClass =
-    'text-lightpen-medium dark:text-darkpen-dark hover:text-lightpen-dark hover:dark:text-darkpen-medium';
+  let defaultClass = 'text-nord-0 dark:text-nord-6';
 
   switch (type) {
     case 'primary':
-      return `text-lightpen-medium dark:text-darkpen-medium bg-primary-medium dark:bg-primary-medium ${
-      disabled ? '' : 'hover:bg-primary-dark dark:hover:bg-primary-dark dark:hover:text-darkpen-dark'
-      } shadow-sm`;
-    // return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-primary-medium ${
-    //   disabled
-    //     ? ''
-    //     : 'hover:bg-' + fillColor + '-800 dark:hover:bg-primary-dark'
-    // } border-lightpen-medium dark:border-primary-medium`;
+      return `shadow-sm text-nord-0 dark:text-nord-6 bg-nord-7 ${
+        disabled ? '' : 'hover:bg-nord-8'
+      }`;
     case 'secondary':
-      return `text-${textColor}-200 dark:text-darkpen-medium shadow-sm bg-${fillColor}-700 dark:bg-secondary-medium ${
+      return `shadow-sm text-${textColor}-200 dark:text-nord-6 bg-${fillColor}-700 dark:bg-nord-7 ${
         disabled
           ? ''
-          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-secondary-dark'
-      } border-opacity-100 border border-lightpen-medium dark:border-secondary-medium`;
+          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-nord-7'
+      } border-opacity-100 border border-nord-8 dark:border-nord-7`;
     case 'outline':
       return `${
         !selected
           ? `text-${
               textColor ? textColor : 'green'
-            }-700 dark:bg-night-medium/20 hover:bg-primary-medium`
+            }-700 dark:bg-nord-7/20 hover:bg-nord-7`
           : `bg-${fillColor}-700`
-    } text-lightpen-medium dark:text-darkpen-medium dark:hover:text-darkpen-medium hover:text-lightpen-light shadow-sm border dark:border-primary-dark`;
+      } text-nord-0 dark:text-nord-6 shadow-sm border dark:border-nord-1`;
     case 'dark':
-      return `text-lightpen-medium dark:text-darkpen-medium dark:bg-night-light ${
+      return `text-nord-0 dark:text-nord-6 dark:bg-nord-2 ${
         disabled
           ? ''
-          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-night-medium'
-      } border-lightpen-medium shadow-sm`;
+          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-nord-2'
+      } border-nord-3 shadow-sm`;
     default:
       return defaultClass;
   }
@@ -250,8 +244,8 @@ export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const classes = `self-center ${
       !props.selected
         ? `text-${textColor ? textColor : 'green'}-500`
-        : `text-gray-100`
-    } hover:text-gray-100 shadow-sm bg-white border-opacity-100 border border-${fillColor}-500`;
+        : `text-nord-0`
+    } hover:text-nord-0 shadow-sm bg-nord-6 border-opacity-100 border border-${fillColor}-500`;
     const filled = `bg-${fillColor}-500`;
     const background = props.selected ? `${filled}` : `hover:${filled}`;
     const size = composer.getSize(props.size);
