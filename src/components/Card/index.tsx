@@ -68,11 +68,9 @@ const Card: React.FC<Props> = (props) => {
       )}
       <div className="w-full mt-6 py-2 px-5">
         <Link href={props.pageUrl || ''}>
-          <a>
-            <h5 className="mb-2 text-2xl tracking-tight text-gray-900 dark:text-nord-6 dark:hover:text-nord-6">
-              {props.title}
-            </h5>
-          </a>
+          <h5 className="mb-2 text-2xl tracking-tight text-gray-900 dark:text-nord-6 dark:hover:text-nord-6">
+            {props.title}
+          </h5>
         </Link>
         <p className="mb-3 font-normal text-nord-0 dark:text-nord-6">
           {props.description}

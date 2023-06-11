@@ -32,10 +32,8 @@ export const TextLink: React.FC<TextLinkProps> = (props: TextLinkProps) => {
   return (
     <div className={styleClass}>
       <p className="pr-1">{props.normalText}</p>
-      <Link href={props.href}>
-        <a className={'text-nord-0 dark:text-nord-6 hover:text-nord-1 dark:hover:text-nord-5'}>
-          {props.linkText}
-        </a>
+      <Link href={props.href} className={'text-nord-0 dark:text-nord-6 hover:text-nord-1 dark:hover:text-nord-5'}>
+        {props.linkText}
       </Link>
     </div>
   );
