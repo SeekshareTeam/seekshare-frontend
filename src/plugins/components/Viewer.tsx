@@ -14,7 +14,7 @@ import type { SavedComponents } from '../utils/types';
 import TableOfContents from '../components/TableOfContents';
 import { useHeaders } from '../utils/toc';
 
-// import 'katex/dist/katex.min.css';
+import 'katex/dist/katex.min.css';
 // import './Viewer.css';
 
 const remarkPlugins = [remarkMath];

@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+/* State Management & APIs */
+import { QuizOption } from 'src/utils/types';
+
 import { DropdownOption } from 'src/components/Dropdown';
 import MultipleChoice from 'src/plugins/plugins/quiz_builder/MultipleChoice';
 import QuizType from './QuizType';
@@ -28,7 +31,9 @@ const QuizBuilderLayout: React.FC<LayoutProps> = (props) => {
 const QuizControl: React.FC<{ type: string | undefined }> = (props) => {
   switch (props.type) {
     case 'multiple':
-      return <MultipleChoice />;
+      return (
+        <MultipleChoice options={props.options} setOptions={props.setOptions} />
+      );
     default:
       return null;
   }
@@ -58,8 +63,15 @@ const useQuizOptions = () => {
   };
 };
 
+const useOptionResponses = () => {
+  const [options, setOptions] = React.useState<QuizOption[]>([]);
+
+  return { options, setOptions };
+};
+
 const QuizBuilder: React.FC = () => {
   const { quizType, setQuizType, quizOptionList } = useQuizOptions();
+  const { options, setOptions } = useOptionResponses();
 
   return (
     <QuizBuilderLayout
@@ -70,8 +82,16 @@ const QuizBuilder: React.FC = () => {
           option={quizType}
         />
       }
-      leftView={<QuizControl type={quizType.type} />}
-      rightView={<Viewer mode={'read'} text={''} />}
+      leftView={
+        <QuizControl
+          type={quizType.type}
+          options={options}
+          setOptions={setOptions}
+        />
+      }
+      rightView={options.map((x) => (
+        <Viewer mode={'read'} text={x.val} />
+      ))}
     />
   );
 };

@@ -2,9 +2,21 @@ import * as React from 'react';
 
 import PortableEditor from 'src/plugins/components/PortableEditor';
 
-const Question: React.FC = () => {
-  const [value, setValue] = React.useState('');
+export const useQuestionState: {
+  question: string;
+  setQuestion: (val: string) => void;
+} = () => {
+  const [question, setQuestion] = React.useState('');
 
+  return { question, setQuestion };
+};
+
+interface Props {
+  value: string;
+  setValue: (val: string) => void;
+}
+
+const Question: React.FC<Props> = (props) => {
   const options = React.useMemo(
     () => ({
       spellChecker: false,
@@ -16,11 +28,13 @@ const Question: React.FC = () => {
   );
 
   const onChange = React.useCallback((val: string) => {
-    setValue(val);
+    props.setValue(val);
   }, []);
 
   return (
-    <div className={'rounded-lg border border-darkpen-dark overflow-hidden block'}>
+    <div
+      className={'rounded-lg border border-darkpen-dark overflow-hidden block'}
+    >
       <div className="rounded-t-lg">
         <span className="mx-2 text-sm dark:text-darkpen-dark">
           {'Question 1.'}
@@ -29,7 +43,7 @@ const Question: React.FC = () => {
 
       <PortableEditor
         options={options}
-        value={value}
+        value={props.value}
         onChange={onChange}
       />
     </div>

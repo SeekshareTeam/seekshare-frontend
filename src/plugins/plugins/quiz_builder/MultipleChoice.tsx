@@ -2,8 +2,9 @@ import * as React from 'react';
 
 /* State Management & APIs */
 import { QuizOption } from 'src/utils/types';
+import { useCreateQuizMutation } from 'src/generated/apollo';
 
-import Question from './Question';
+import Question, { useQuestionState } from './Question';
 import OptionControl from './OptionControl';
 import { BaseTab } from 'src/components/Tabs';
 import { Button } from 'src/components/Button';
@@ -45,15 +46,13 @@ const useResponseTypes = () => {
   return { active, setActive, responseTypes };
 };
 
-const useOptionResponses = () => {
-  const [options, setOptions] = React.useState<
-    QuizOption[]
-  >([]);
+interface Props {
+  options: QuizOption[];
 
-  return { options, setOptions };
-};
+  setOptions: (options: QuizOption[]) => void;
+}
 
-const MultipleChoice = () => {
+const MultipleChoice: React.FC<Props> = (props) => {
   /*
    * Should display
 
@@ -61,7 +60,8 @@ const MultipleChoice = () => {
    * A very easy to add options and remove options
    */
   const { active, setActive, responseTypes } = useResponseTypes();
-  const { options, setOptions } = useOptionResponses();
+  const [createQuizMutation, { data }] = useCreateQuizMutation();
+  const { question, setQuestion } = useQuestionState();
 
   return (
     <MultipleChoiceLayout
@@ -74,11 +74,11 @@ const MultipleChoice = () => {
           }}
         />
       }
-      question={<Question />}
+      question={<Question value={question} setValue={setQuestion} />}
       optionControl={
         <OptionControl
-          options={options}
-          setOptions={setOptions}
+          options={props.options}
+          setOptions={props.setOptions}
           responseType={active}
         />
       }
@@ -86,7 +86,25 @@ const MultipleChoice = () => {
         <div className="h-full flex items-center">
           <div className="flex-1"> </div>
           <div className="flex-1 flex justify-end">
-            <Button variant={'primary'} size={'large'} radius={'large'}>
+            <Button
+              variant={'primary'}
+              size={'large'}
+              radius={'large'}
+              onClick={async () => {
+                await createQuizMutation({
+                  variables: {
+                    quizInput: {
+                      body: question,
+                      type: active,
+                      options: props.options.map((option) => ({
+                        body: option.val,
+                        isAnswer: true,
+                      })),
+                    },
+                  },
+                });
+              }}
+            >
               {'Add Question'}
             </Button>
           </div>

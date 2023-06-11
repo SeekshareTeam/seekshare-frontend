@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IconX, } from '@tabler/icons';
+import { IconX } from '@tabler/icons';
 import PortableEditor from 'src/plugins/components/PortableEditor';
 
 interface OptionToolbarProps
