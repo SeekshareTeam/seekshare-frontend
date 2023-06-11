@@ -46,7 +46,7 @@ export const CommentThread: React.FC<CommentThreadProps> = (props) => {
   };
 
   const onAddComment = React.useCallback(
-    async (value) => {
+    async (value: string) => {
       await props.commentApi.onAddComment({ comment: value, commentType });
       setBody('');
     },

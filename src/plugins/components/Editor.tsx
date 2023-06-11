@@ -70,7 +70,7 @@ const Editor: React.FC<Props> = (props) => {
   }, []);
 
   const setHeight = React.useCallback(
-    (height) => {
+    (height: number) => {
       // prevent the editor from expanding in height
       if (containers.codeMirrorScroll) {
         containers.codeMirrorScroll.style.maxHeight = `${height}px`;
@@ -229,7 +229,9 @@ const Editor: React.FC<Props> = (props) => {
       {(!isEmpty(rightToolbarExtensions) || !isEmpty(leftToolbarExtensions)) !=
         null && (
         <TabContainer container={toolbarPortal.current}>
-          <div className="flex flex-1 justify-start">{leftToolbarExtensions}</div>
+          <div className="flex flex-1 justify-start">
+            {leftToolbarExtensions}
+          </div>
           <div className="flex justify-end flex-1 ">
             {rightToolbarExtensions}
           </div>
@@ -241,6 +243,7 @@ const Editor: React.FC<Props> = (props) => {
 
 interface PortalProps {
   container?: Element;
+  children?: React.ReactNode;
 }
 
 const Full: React.FC<PortalProps> = (props) => {

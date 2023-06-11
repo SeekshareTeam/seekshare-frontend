@@ -10,7 +10,7 @@ const useContainerRef = (isPreview?: boolean) => {
     React.useRef<null | HTMLElement>(null);
 
   const refCallback = React.useCallback(
-    (node) => {
+    (node: any) => {
       if (node) {
         const codeMirror = node.querySelector('div.CodeMirror');
         const codeMirrorScroll = node.querySelector('div.CodeMirror-scroll');
@@ -86,8 +86,7 @@ const useOptions = <T,>(
 };
 
 interface Props
-  extends Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'> {
-}
+  extends Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'> {}
 
 const PortableEditor: React.FC<Props> = (props) => {
   const [previewMode, setPreviewMode] = React.useState('hidden');
@@ -122,7 +121,9 @@ const PortableEditor: React.FC<Props> = (props) => {
   );
 };
 
-const Full: React.FC<{ parentRef: HTMLElement }> = (props) => {
+const Full: React.FC<{ parentRef: HTMLElement; children?: React.ReactNode }> = (
+  props
+) => {
   return ReactDom.createPortal(
     <div
       id="seekshare-preview-full"

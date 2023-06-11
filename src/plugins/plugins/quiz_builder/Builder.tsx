@@ -28,7 +28,11 @@ const QuizBuilderLayout: React.FC<LayoutProps> = (props) => {
   );
 };
 
-const QuizControl: React.FC<{ type: string | undefined }> = (props) => {
+const QuizControl: React.FC<{
+  type: string | undefined;
+  options: QuizOption[];
+  setOptions: (options: QuizOption[]) => void;
+}> = (props) => {
   switch (props.type) {
     case 'multiple':
       return (

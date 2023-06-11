@@ -5,6 +5,7 @@ type ModalProps = {
   onPressBlur: () => void;
   blurBackground: Boolean;
   show: boolean;
+  children?: React.ReactNode;
 };
 
 export const useDisableBodyScroll = (open: boolean) => {

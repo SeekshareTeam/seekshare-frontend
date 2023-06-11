@@ -114,6 +114,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 interface Props {
   subspaceId?: string;
   workspaceId?: string;
+  children?: React.ReactNode;
 }
 
 const QuestionEditor: React.FC<Props> = (props) => {
@@ -300,9 +301,7 @@ const QuestionEditor: React.FC<Props> = (props) => {
               </button>
             </>
           )}
-          {postType === 'quiz' && (
-            <QuizBuilder />
-          )}
+          {postType === 'quiz' && <QuizBuilder />}
         </div>
       </div>
     </div>

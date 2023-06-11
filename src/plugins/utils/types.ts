@@ -1,8 +1,8 @@
 export interface Set {
-  [key: string]: 1
+  [key: string]: 1;
 }
 
-export function isKeyOfObject<T>(
+export function isKeyOfObject<T extends {}>(
   key: string | number | symbol,
   obj: T
 ): key is keyof T {
@@ -14,7 +14,7 @@ export interface SavedComponent<T> {
   code: string;
   type: T;
   // TODO: add events
-};
+}
 
 export interface SavedComponents<T> {
   [key: string]: SavedComponent<T>;

@@ -76,7 +76,7 @@ const TagPopup: React.FC<Props> = (props) => {
   }, []);
 
   const searchTagsQueryCallback = React.useCallback(
-    async (val, onEnter = false) => {
+    async (val: string, onEnter = false) => {
       /*
          TODO: Write in a functionality that onEnter
          the debounce function should search for a tag

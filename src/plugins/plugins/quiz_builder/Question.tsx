@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import PortableEditor from 'src/plugins/components/PortableEditor';
 
-export const useQuestionState: {
+export const useQuestionState: () => {
   question: string;
   setQuestion: (val: string) => void;
 } = () => {

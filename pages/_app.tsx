@@ -38,7 +38,9 @@ function MyApp({
   const GetLayout =
     Component.layoutType !== undefined && Component.layoutType in myLayouts
       ? myLayouts[Component.layoutType]
-      : (((props) => <>{props.children}</>) as React.FC);
+      : (((props: { children: React.ReactNode }) => (
+          <>{props.children}</>
+        )) as React.FC);
 
   const { store, props } = wrapper.useWrappedStore(rest);
 

@@ -8,6 +8,7 @@ type GeneralViewProps = {
   minisidebar: JSX.Element;
   sidebar: JSX.Element;
   header: JSX.Element;
+  children?: React.ReactNode;
 };
 
 export const GeneralView: React.FC<GeneralViewProps> = (props) => {
@@ -23,7 +24,11 @@ export const GeneralView: React.FC<GeneralViewProps> = (props) => {
   );
 };
 
-export const GeneralLayout: React.FC = (props) => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+export const GeneralLayout: React.FC<Props> = (props) => {
   const [sidebarToggle, setSidebarToggle] = React.useState(false);
 
   return (

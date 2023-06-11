@@ -60,7 +60,7 @@ const MultipleChoice: React.FC<Props> = (props) => {
    * A very easy to add options and remove options
    */
   const { active, setActive, responseTypes } = useResponseTypes();
-  const [createQuizMutation, { data }] = useCreateQuizMutation();
+  const [createQuizMutation] = useCreateQuizMutation();
   const { question, setQuestion } = useQuestionState();
 
   return (

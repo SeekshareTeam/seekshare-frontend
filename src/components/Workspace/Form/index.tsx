@@ -18,6 +18,12 @@ export const WorkspaceForm = () => {
     undefined
   );
 
+  const initialValues = {
+    workspaceName: '',
+    description: '',
+    readability: 'public',
+  };
+
   React.useEffect(() => {
     (async () => {
       const pattern = await generate({ input: workspaceNameGen });
@@ -43,7 +49,10 @@ export const WorkspaceForm = () => {
   }, [avatarRef.current]);
 
   const submitCallback = React.useCallback(
-    async (values, { setSubmitting }) => {
+    async (
+      values: typeof initialValues,
+      { setSubmitting }: { setSubmitting: (val: boolean) => void }
+    ) => {
       /*
        * Should save the images first and then create the
        * workspace id.
@@ -182,11 +191,7 @@ export const WorkspaceForm = () => {
 
   return (
     <Formik
-      initialValues={{
-        workspaceName: '',
-        description: '',
-        readability: 'public',
-      }}
+      initialValues={initialValues}
       validationSchema={workspaceValidationSchema}
       onSubmit={submitCallback}
     >

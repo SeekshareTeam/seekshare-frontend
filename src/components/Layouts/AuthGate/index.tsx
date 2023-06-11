@@ -8,7 +8,11 @@ import { useRouter } from 'next/router';
 // import { useAppDispatch } from 'src/modules/Redux';
 // import { clearSessionUser } from 'src/modules/Auth/slice';
 
-export const AuthGate: React.FC = (props) => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+export const AuthGate: React.FC<Props> = (props) => {
   const { data: session, status } = useSession();
   // This gets initialized every time Auth Gate is called.
   // Hence loading variable is established multiple times.

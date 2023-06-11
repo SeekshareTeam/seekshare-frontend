@@ -50,6 +50,7 @@ const useState = () => {
 };
 
 interface Props {
+  children?: React.ReactNode;
   permissionTypes?: AccessLevel;
 }
 
@@ -109,7 +110,6 @@ const validateQueryParams = (
 };
 
 const PageAuthenticator: React.FC<Props> = (props) => {
-
   const { status } = useSession();
   const router = useRouter();
   const state = useState();
@@ -135,7 +135,7 @@ const PageAuthenticator: React.FC<Props> = (props) => {
         }
       }
     }
-  }, [status, props.permissionTypes, router, state.auth,]);
+  }, [status, props.permissionTypes, router, state.auth]);
 
   return <>{props.children}</>;
 };

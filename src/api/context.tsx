@@ -18,7 +18,11 @@ export const ApiContext = React.createContext<Readonly<ApiContextInterface>>(
   {} as ApiContextInterface
 );
 
-export const ApiProvider: React.FC = (props) => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+export const ApiProvider: React.FC<Props> = (props) => {
   const workspaceApi: WorkspaceApiResultType = workspaceApiHook();
   const subspaceApi: SubspaceApiResultType = subspaceApiHook();
   const authApi: AuthApiResultType = authApiHook();
