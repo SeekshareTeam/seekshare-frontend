@@ -148,12 +148,16 @@ const Editor: React.FC<Props> = (props) => {
     } else {
       try {
         containers.toolbar?.removeChild(toolbarPortal.current);
-      } catch {}
+      } catch {
+        console.log('Toolbar not found');
+      }
     }
     return () => {
       try {
         containers.toolbar?.removeChild(toolbarPortal.current);
-      } catch {}
+      } catch {
+        console.log('Toolbar not fonud');
+      }
     };
   }, [props.toolbarExtensions, containers.toolbar]);
 

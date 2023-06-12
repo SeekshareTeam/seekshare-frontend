@@ -21,7 +21,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = (props) => {
   );
 };
 
-const Home: PageWithLayout<{}> = () => {
+const Home: PageWithLayout<Record<string, never>> = () => {
   const reduxState = useAppSelector(
     (state) => ({
       workspaces: state.home?.workspaces,
@@ -35,8 +35,9 @@ const Home: PageWithLayout<{}> = () => {
 
   return (
     <HomeLayout
-      workspaceCards={reduxState?.workspaces?.map((w) => (
+      workspaceCards={reduxState?.workspaces?.map((w, i) => (
         <Card
+          key={i}
           pageUrl={`/workspace/${w.id}`}
           imgUrl={w?.url}
           title={w.name}

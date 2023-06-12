@@ -6,60 +6,66 @@ import Viewer from './Viewer';
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor';
 
 const useContainerRef = (isPreview?: boolean) => {
-  const codemirrorRef: React.MutableRefObject<null | HTMLElement> =
-    React.useRef<null | HTMLElement>(null);
+  const codemirrorRef = React.useRef<null | HTMLElement>(null);
 
-  const refCallback = React.useCallback(
-    (node: any) => {
-      if (node) {
-        const codeMirror = node.querySelector('div.CodeMirror');
-        const codeMirrorScroll = node.querySelector('div.CodeMirror-scroll');
-        const preview = node.querySelector('div.editor-preview');
-        const toolbar = node.querySelector('div.editor-toolbar');
-        const iconEye = node.querySelector('i.fa-eye');
-        const iconColumns = node.querySelector('i.fa-columns');
-        const iconTag = node.querySelector('i.fa-tag');
-        const footer = node.querySelector('div.editor-statusbar');
+  const refCallback = React.useCallback(() => {
+    const codeMirror = document.querySelector(
+      'div.CodeMirror'
+    ) as HTMLDivElement;
+    const codeMirrorScroll = document.querySelector(
+      'div.CodeMirror-scroll'
+    ) as HTMLDivElement;
+    const preview = document.querySelector(
+      'div.editor-preview'
+    ) as HTMLDivElement;
+    const toolbar = document.querySelector(
+      'div.editor-toolbar'
+    ) as HTMLDivElement;
+    const iconEye = document.querySelector('i.fa-eye') as HTMLDivElement;
+    const iconColumns = document.querySelector(
+      'i.fa-columns'
+    ) as HTMLDivElement;
+    const iconTag = document.querySelector('i.fa-tag') as HTMLDivElement;
+    const footer = document.querySelector(
+      'div.editor-statusbar'
+    ) as HTMLDivElement;
 
-        if (codeMirror) {
-          codeMirror.style.padding = '0';
-          codeMirror.style.border = 0;
-        }
+    if (codeMirror) {
+      codeMirror.style.padding = '0';
+      codeMirror.style.border = '0';
+    }
 
-        toolbar?.classList.add('hidden');
-        footer?.classList.add('hidden');
-        codeMirrorScroll?.classList.add('dark:bg-night-dark');
-        codeMirrorScroll?.classList.add('dark:px-2');
+    toolbar?.classList.add('hidden');
+    footer?.classList.add('hidden');
+    codeMirrorScroll?.classList.add('dark:bg-night-dark');
+    codeMirrorScroll?.classList.add('dark:px-2');
 
-        iconEye?.classList.add('dark:text-darkpen-medium');
-        iconColumns?.classList.add('dark:text-darkpen-medium');
-        iconTag?.classList.add('dark:text-darkpen-medium');
+    iconEye?.classList.add('dark:text-darkpen-medium');
+    iconColumns?.classList.add('dark:text-darkpen-medium');
+    iconTag?.classList.add('dark:text-darkpen-medium');
 
-        const setHeight = (height: number) => {
-          // prevent the editor from expanding in height
-          if (codeMirrorScroll) {
-            codeMirrorScroll.style.maxHeight = `${height}px`;
-          }
-
-          // prevent the preview div from expanding
-          if (preview) {
-            preview.style.maxHeight = `${height}px`;
-          }
-        };
-
-        setTimeout(() => {
-          setHeight(codeMirror?.offsetHeight ?? 0);
-        }, 0);
-
-        setTimeout(() => {
-          codemirrorRef.current = codeMirror;
-        }, 0);
+    const setHeight = (height: number) => {
+      // prevent the editor from expanding in height
+      if (codeMirrorScroll) {
+        codeMirrorScroll.style.maxHeight = `${height}px`;
       }
-    },
-    [isPreview]
-  );
 
-  return [codemirrorRef, refCallback];
+      // prevent the preview div from expanding
+      if (preview) {
+        preview.style.maxHeight = `${height}px`;
+      }
+    };
+
+    setTimeout(() => {
+      setHeight(codeMirror?.offsetHeight ?? 0);
+    }, 0);
+
+    setTimeout(() => {
+      codemirrorRef.current = codeMirror;
+    }, 0);
+  }, [isPreview]);
+
+  return [codemirrorRef, refCallback] as const;
 };
 
 const useOptions = <T,>(
@@ -85,7 +91,7 @@ const useOptions = <T,>(
   }, [options]);
 };
 
-type Props = Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'>
+type Props = Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'>;
 
 const PortableEditor: React.FC<Props> = (props) => {
   const [previewMode, setPreviewMode] = React.useState('hidden');
@@ -100,22 +106,16 @@ const PortableEditor: React.FC<Props> = (props) => {
   return (
     <div>
       <SimpleMDE
-        ref={containerRefCallback as (node: any) => void}
+        ref={containerRefCallback}
         options={options}
         onChange={props.onChange}
         value={props.value}
       />
-      {previewMode === 'full' &&
-        !!(containerRef as React.MutableRefObject<HTMLElement | null>)
-          .current && (
-          <Full
-            parentRef={
-              (containerRef as React.MutableRefObject<HTMLElement>).current
-            }
-          >
-            <Viewer mode="write" text={props.value || ''} />
-          </Full>
-        )}
+      {previewMode === 'full' && !!containerRef.current && (
+        <Full parentRef={containerRef.current}>
+          <Viewer mode="write" text={props.value || ''} />
+        </Full>
+      )}
     </div>
   );
 };

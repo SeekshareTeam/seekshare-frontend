@@ -143,7 +143,7 @@ const AccessLevel: React.FC = () => {
         privatePermissions: privateAccountPermissions[0].value,
       }}
       validationSchema={generalSettingsSchema}
-      onSubmit={() => {}}
+      onSubmit={() => { console.log('onSubmit: AccessLevel') }}
     >
       {({ values, handleSubmit }) => (
         <form onSubmit={handleSubmit} className="">

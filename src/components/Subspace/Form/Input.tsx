@@ -4,8 +4,8 @@ interface Props {
   ix: number;
   type: string;
   value: string;
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  handleBlur: (e: any) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 const FormInput: React.FC<Props> = (props) => {

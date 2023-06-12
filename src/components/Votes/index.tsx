@@ -10,8 +10,12 @@ export const Votes: React.FC<MultiVoteProps> = (
     setUp: false,
     setDown: false,
     count: 0,
-    onUpvoteClick: () => {},
-    onDownvoteClick: () => {},
+    onUpvoteClick: () => {
+      console.log('onUpvoteClick: Votes');
+    },
+    onDownvoteClick: () => {
+      console.log('onDownvoteClick: Votes');
+    },
   }
 ) => {
   return (

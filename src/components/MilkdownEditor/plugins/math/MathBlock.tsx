@@ -27,7 +27,9 @@ const MathBlock: FC = () => {
           codePanel.current,
           getEditor().ctx.get(katexOptionsCtx.key)
         );
-      } catch {}
+      } catch {
+        console.log('MathBlock rendening failed')
+      }
     });
   }, [code, getEditor, loading, value]);
 

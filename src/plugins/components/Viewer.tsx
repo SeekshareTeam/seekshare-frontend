@@ -56,13 +56,14 @@ const MarkdownViewer: React.FC<Props> = props => {
       <div className="viewer-container">
         <div id="viewer-content" className="viewer-content">
           <ReactMarkdown
-            children={props.text}
             remarkPlugins={remarkPlugins}
             rehypePlugins={rehypePlugins}
             components={{
               code: codeblock,
             }}
-          />
+          >
+            {props.text}
+          </ReactMarkdown>
         </div>
       </div>
       {props.displayToc && (

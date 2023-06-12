@@ -94,7 +94,7 @@ const QuizBuilder: React.FC = () => {
         />
       }
       rightView={options.map((x) => (
-        <Viewer mode={'read'} text={x.val} />
+        <Viewer key={x.key} mode={'read'} text={x.val} />
       ))}
     />
   );

@@ -5,9 +5,9 @@ interface Props {
   labelName: string;
   ariaLabel: string;
   ariaRequirement: boolean;
-  inputValue: { [field: string]: any };
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  handleBlur: (e: any) => void;
+  inputValue: Record<string, string>;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   containerClass?: string;
   inputWidth?: string;
   type?: string;

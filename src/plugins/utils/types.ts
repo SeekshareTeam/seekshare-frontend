@@ -2,7 +2,7 @@ export interface Set {
   [key: string]: 1;
 }
 
-export function isKeyOfObject<T extends {}>(
+export function isKeyOfObject<T extends object>(
   key: string | number | symbol,
   obj: T
 ): key is keyof T {

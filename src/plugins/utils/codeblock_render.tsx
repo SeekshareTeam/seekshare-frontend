@@ -13,8 +13,8 @@ import type { SavedComponents } from './types';
 
 const defaultComponent = (
   className: string,
-  props: {},
-  children: React.ReactNode,
+  props: object,
+  children: React.ReactNode
 ) => (
   <pre>
     <code className={className} {...props}>
@@ -33,55 +33,59 @@ interface Config extends Editable {
 
 type CodeProps = NonNullable<CodeComponent['defaultProps']>;
 
-const codeblockRender = (config: Config) => (args: CodeProps) => {
-  const { node, inline, className, children, ...props } = args;
+const codeblockRender = (config: Config) => {
+  const Component = (args: CodeProps) => {
+    const { node, inline, className, children, ...props } = args;
 
-  const type = codeblockTypeRegex.exec(className || '')?.[1];
-  const body = children?.[0];
+    const type = codeblockTypeRegex.exec(className || '')?.[1];
+    const body = children?.[0];
 
-  if (type === 'id') {
-    const id = (node?.data?.meta || '') as string;
-    const savedComponent = config.savedComponents?.[id];
-    if (!savedComponent) {
-      return defaultComponent(
-        className || '',
-        props,
-        `Cannot find saved component with id ${id}`,
+    if (type === 'id') {
+      const id = (node?.data?.meta || '') as string;
+      const savedComponent = config.savedComponents?.[id];
+      if (!savedComponent) {
+        return defaultComponent(
+          className || '',
+          props,
+          `Cannot find saved component with id ${id}`
+        );
+      }
+
+      return (
+        <Id
+          {...savedComponent}
+          mode={config.mode}
+          componentProps={config.componentProps}
+          onSubmit={config.onSaveComponent}
+        />
       );
     }
 
-    return (
-      <Id
-        {...savedComponent}
-        mode={config.mode}
-        componentProps={config.componentProps}
-        onSubmit={config.onSaveComponent}
-      />
-    );
-  }
-
-  if (inline || !type || !isPlugin(type) || typeof body !== 'string') {
-    return defaultComponent(className || '', props, children);
-  }
-
-  try {
-    const Component = createComponent({
-      type,
-      text: body,
-      props: {
-        mode: config.mode,
-      },
-      componentProps: config.componentProps,
-    });
-
-    return Component;
-  } catch (err) {
-    if (err instanceof Error) {
-      return defaultComponent(className || '', props, err.message);
+    if (inline || !type || !isPlugin(type) || typeof body !== 'string') {
+      return defaultComponent(className || '', props, children);
     }
-  }
 
-  return null;
+    try {
+      const Component = createComponent({
+        type,
+        text: body,
+        props: {
+          mode: config.mode,
+        },
+        componentProps: config.componentProps,
+      });
+
+      return Component;
+    } catch (err) {
+      if (err instanceof Error) {
+        return defaultComponent(className || '', props, err.message);
+      }
+    }
+
+    return null;
+  };
+
+  return Component;
 };
 
 export type { ComponentProps };

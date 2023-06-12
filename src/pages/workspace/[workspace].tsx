@@ -79,8 +79,9 @@ const Workspace: PageWithLayout<WorkspaceProps> = () => {
           active={selectedTab}
         />
       }
-      subspaceRow={reduxState?.subspaces?.map((subspace) => (
+      subspaceRow={reduxState?.subspaces?.map((subspace, i) => (
         <SubspaceRow
+          key={i}
           logoAvatarProps={{ rounded: true, height: 100, width: 100 }}
           subspace={subspace}
         />

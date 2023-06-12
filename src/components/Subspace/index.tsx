@@ -185,9 +185,12 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
               <div className="px-4 bg-nord-4 dark:bg-nord-1">
                 <div className="flex justify-center py-1 mb-2">
                   {['Parent Workspace:', props.workspaceName].map(
-                    (subTitle) => {
+                    (subTitle, i) => {
                       return (
-                        <h3 className="text-nord-0 dark:text-nord-6 font-semibold text-lg px-1">
+                        <h3
+                          key={i}
+                          className="text-nord-0 dark:text-nord-6 font-semibold text-lg px-1"
+                        >
                           {subTitle}
                         </h3>
                       );
@@ -205,6 +208,7 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
                     if (spaceName === 'Description') {
                       return (
                         <FormTextArea
+                          key={ix}
                           ix={ix}
                           type={spaceName}
                           value={values.subspace[ix]}
@@ -216,6 +220,7 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
 
                     return (
                       <FormInput
+                        key={ix}
                         ix={ix}
                         type={spaceName}
                         value={values.subspace[ix]}

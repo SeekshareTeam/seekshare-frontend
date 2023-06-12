@@ -15,7 +15,7 @@ const useState = () => {
   }));
 };
 
-const UserProfile: PageWithLayout<{}> = () => {
+const UserProfile: PageWithLayout<Record<string, never>> = () => {
   /**
    * User:
    * Name

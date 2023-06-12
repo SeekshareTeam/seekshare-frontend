@@ -13,7 +13,7 @@ const Editor = dynamic(() => import('src/components/MilkdownEditor/Editor'), {
 });
 // import Lol from 'src/components/MilkdownEditor/Editor';
 
-const Create: PageWithLayout<{}> = () => {
+const Create: PageWithLayout<Record<string, never>> = () => {
   const router = useRouter();
   let { subspaceId, workspaceId } = router.query;
 

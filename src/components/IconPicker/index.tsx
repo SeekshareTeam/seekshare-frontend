@@ -20,11 +20,12 @@ const nonSafeList = [
 ];
 
 Object.keys(colors).forEach((c) => {
+  const color = colors[c as keyof DefaultColors];
+
   if (
-    isObject(colors[c as keyof DefaultColors]) &&
-    typeof colors[c as keyof DefaultColors] !== 'function' &&
-    // @ts-ignore
-    500 in colors[c as keyof DefaultColors] &&
+    isObject(color) &&
+    typeof color !== 'function' &&
+    500 in color &&
     !nonSafeList.includes(c)
   ) {
     colorPaletteGlobal.push(c);
@@ -141,9 +142,10 @@ const IconPicker: React.FC<Props> = (props) => {
           ref={divRef}
         >
           <div className="w-full flex-none flex">
-            {pickerTypes.map((pType) => {
+            {pickerTypes.map((pType, i) => {
               return (
                 <button
+                  key={i}
                   className={`flex-1 ${
                     pickerType === pType
                       ? 'dark:text-gray-100 dark:border-gray-100 py-1 border-t border-x rounded-t-lg shadow '

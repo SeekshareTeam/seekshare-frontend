@@ -6,7 +6,7 @@ import QuestionEditor from 'src/components/Editor';
 
 type Query = string | undefined;
 
-const Create: PageWithLayout<{}> = () => {
+const Create: PageWithLayout<Record<string, never>> = () => {
   const router = useRouter();
 
   const { subspaceId, workspaceId } = router.query;

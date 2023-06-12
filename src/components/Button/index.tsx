@@ -210,13 +210,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
+Button.displayName = 'Button';
+
 export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       textColor = 'gray',
       fillColor = 'pink',
-      iconRight = null,
-      iconLeft = null,
+      // iconRight = null,
+      // iconLeft = null,
       ...props
     }: ButtonProps,
     ref
@@ -235,6 +237,8 @@ export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
+
+DropdownButton.displayName = 'DropdownButton';
 
 export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -255,3 +259,5 @@ export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return <BaseButton forwardedRef={ref} className={composed} {...props} />;
   }
 );
+
+GhostButton.displayName = 'GhostButton';

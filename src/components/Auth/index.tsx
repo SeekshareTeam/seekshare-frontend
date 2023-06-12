@@ -54,7 +54,7 @@ interface Props {
   permissionTypes?: AccessLevel;
 }
 
-const keyIntoArray = <T extends {}, K extends keyof T>(arr: T[], index: K) => {
+const keyIntoArray = <T extends object, K extends keyof T>(arr: T[], index: K) => {
   const grouped: { [key: string]: T[] } = {};
   arr.forEach((val: T) => {
     if (index in val) {
@@ -92,7 +92,7 @@ const validateQueryParams = (
   );
   let hasPermission = true;
 
-  for (var [key, value] of Object.entries(queryParams)) {
+  for (const [key, value] of Object.entries(queryParams)) {
     if (key !== 'page') {
       const keyedPermission = permissionByType[key];
 

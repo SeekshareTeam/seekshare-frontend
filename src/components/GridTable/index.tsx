@@ -26,12 +26,12 @@ const GridTable = <T extends GridItem<string>, K extends keyof T>(
         gridColumns[props.columns]
       } gap-4 text-nord-0 dark:text-nord-6 ${props.className}`}
     >
-      {data?.map((row) => {
+      {data?.map((row, i) => {
         if (!row) {
           return null;
         }
 
-        return <GridRow row={row} config={props.config} />;
+        return <GridRow key={i} row={row} config={props.config} />;
       })}
     </div>
   );

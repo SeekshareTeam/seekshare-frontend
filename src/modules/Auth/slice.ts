@@ -66,7 +66,6 @@ export const authSlice = createSlice({
       }
     },
     fetchPostsByUser: (state, action) => {
-      console.log('@@@ in action', action.payload);
       return {
         ...state,
         posts: action.payload

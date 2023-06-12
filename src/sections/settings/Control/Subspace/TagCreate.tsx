@@ -47,8 +47,8 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
     inputName: string,
     labelName: string,
     value: string,
-    handleChange: (e: React.ChangeEvent<any>) => void,
-    handleBlur: (e: any) => void
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void
   ) => {
     return (
       <div className="inline-flex flex-col py-1 justify-between items-start">
@@ -74,8 +74,8 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
     textareaName: string,
     labelName: string,
     value: string,
-    handleChange: (e: React.ChangeEvent<any>) => void,
-    handleBlur: (e: any) => void
+    handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
+    handleBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void
   ) => {
     return (
       <div className="flex flex-col w-80 py-1 justify-between items-start">
@@ -106,10 +106,12 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
         'tagName',
         'Tag Name',
         tagName,
-        (e: React.ChangeEvent<any>) => {
+        (e) => {
           setTagName(e.target.value);
         },
-        () => {}
+        () => {
+          console.log('onBlur TagCreate');
+        }
       )}
       <div>
         <ErrorMessage
@@ -157,7 +159,9 @@ const TagCreate: React.FC<TagCreateProps> = (props) => {
         (e) => {
           setTagDescription(e.target.value);
         },
-        () => {}
+        () => {
+          console.log('onBlur: TagCreate');
+        }
       )}
       <Button
         variant={'primary'}

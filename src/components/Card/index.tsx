@@ -49,9 +49,9 @@ const Card: React.FC<Props> = (props) => {
       {props.imgUrl ? (
         <div
           style={{
-            backgroundImage: `url(\'${
+            backgroundImage: `url('${
               props?.bgImageUrl || geoPattern?.toDataURL()
-            }\')`,
+            }')`,
           }}
           className={'w-full h-44 relative'}
         >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import topicReducer from 'src/modules/Topic/slice';
@@ -79,8 +79,8 @@ export const useTheme = () => {
 };
 
 export const useCustomQuery = <
-  A extends (...args: any) => any,
-  T extends (...args: any) => any
+  A extends ActionCreatorWithPayload<object>,
+  T extends (...args: any) => any, /* eslint-disable-line */
 >(
   action: A,
   useApolloQuery: T,
@@ -102,8 +102,6 @@ export const useCustomQuery = <
       if (action) {
         dispatch(action(data[dataKeys[0]]));
       }
-
-      // dispatch(action(data));
     }
   }, [data]);
   React.useEffect(() => {
@@ -118,8 +116,8 @@ export const useCustomQuery = <
 };
 
 export const fetchSSRQuery = async <
-  A extends (...args: any) => any,
-  T extends (...args: any) => any
+  A extends ActionCreatorWithPayload<object>,
+  T extends (...args: any) => any /* eslint-disable-line */
 >({
   action,
   ssrApolloQuery,
@@ -135,8 +133,6 @@ export const fetchSSRQuery = async <
 
   const dataKeys = Object.keys(result?.props?.data || {});
 
-  // console.log('SSR APOLLO QUERY', JSON.stringify(result));
-
   if (!isEmpty(dataKeys) && result?.props?.data) {
     const { data } = result.props;
     dispatch(action(data[dataKeys[0]]));
@@ -144,8 +140,8 @@ export const fetchSSRQuery = async <
 };
 
 export const useCustomMutation = <
-  A extends (...args: any) => any,
-  T extends (...args: any) => any
+  A extends ActionCreatorWithPayload<object>,
+  T extends (...args: any) => any /* eslint-disable-line */
 >({
   action,
   useApolloMutation,

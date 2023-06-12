@@ -251,7 +251,7 @@ const TagPopup: React.FC<Props> = (props) => {
                       onSelect={onSelectTag}
                       item={aTag}
                       rightIcon={
-                        <button onClick={() => {}}>
+                        <button onClick={() => { console.log('onClick: popup') }}>
                           <IconPlus size={16} />
                         </button>
                       }

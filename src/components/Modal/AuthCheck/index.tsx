@@ -48,7 +48,7 @@ export const AuthCheck = (props: AuthCheckProps) => {
       {show && (
         <Modal show={show} onPressBlur={onHideModal} blurBackground={true} >
           <ModalCard
-            onPrimaryPress={() => {}}
+            onPrimaryPress={() => { console.log('onPrimaryPress: authcheck') }}
             onCancel={onHideModal}
             primaryText={'Login'}
             modalBody={props.message}

@@ -50,7 +50,7 @@ const generateBlockOptions = (config: Partial<AvatarConfig>): AvatarConfig => {
   return options;
 };
 
-function shuffleArray(array: any[]) {
+function shuffleArray(array: { length: number }[]) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     const temp = array[i];
@@ -277,5 +277,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
     );
   }
 );
+
+Avatar.displayName = 'Avatar';
 
 export default Avatar;
