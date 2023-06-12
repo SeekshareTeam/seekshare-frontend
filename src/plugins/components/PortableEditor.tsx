@@ -85,8 +85,7 @@ const useOptions = <T,>(
   }, [options]);
 };
 
-interface Props
-  extends Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'> {}
+type Props = Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'>
 
 const PortableEditor: React.FC<Props> = (props) => {
   const [previewMode, setPreviewMode] = React.useState('hidden');

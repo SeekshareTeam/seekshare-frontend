@@ -3,8 +3,7 @@ import * as React from 'react';
 import { IconX } from '@tabler/icons';
 import PortableEditor from 'src/plugins/components/PortableEditor';
 
-interface OptionToolbarProps
-  extends Pick<Props, 'title' | 'answerNode' | 'onClose'> {}
+type OptionToolbarProps = Pick<Props, 'title' | 'answerNode' | 'onClose'>
 
 const OptionToolbar: React.FC<OptionToolbarProps> = (props) => {
   return (

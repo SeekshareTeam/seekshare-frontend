@@ -6,16 +6,16 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 import {
   useNodeViewFactory,
-  usePluginViewFactory,
-  useWidgetViewFactory,
+  // usePluginViewFactory,
+  // useWidgetViewFactory,
 } from '@prosemirror-adapter/react';
 
 import useMathPlugin from './plugins/math/useMathPlugin';
 
 const useEditor = () => {
-  const pluginViewFactory = usePluginViewFactory();
+  // const pluginViewFactory = usePluginViewFactory();
   const nodeViewFactory = useNodeViewFactory();
-  const widgetViewFactory = useWidgetViewFactory();
+  // const widgetViewFactory = useWidgetViewFactory();
 
   const mathPlugin = useMathPlugin(nodeViewFactory);
 
@@ -25,7 +25,7 @@ const useEditor = () => {
         ctx.update(editorViewOptionsCtx, (prev) => ({
           ...prev,
           attributes: {
-            class: 'mx-auto px-2 py-4 box-border',
+            class: 'prose mx-auto px-2 py-4 box-border',
           },
         }));
         ctx.set(rootCtx, root);
@@ -36,6 +36,9 @@ const useEditor = () => {
       .use(listener)
       .use(mathPlugin)
   );
+
+  // TODO: remove line
+  editorInfo;
 };
 
 export default useEditor;

@@ -139,8 +139,8 @@ export const SubspaceForm: React.FC<SubspaceFormProps> = (props) => {
         'fieldFour',
       ];
 
-      let iconType: string = subspaceImgUrl.type || '';
-      let iconUrl: string = subspaceImgUrl.value || '';
+      const iconType: string = subspaceImgUrl.type || '';
+      const iconUrl: string = subspaceImgUrl.value || '';
 
       const subspaceVariable: SubspaceParameters = {
         name: 'placeholder',

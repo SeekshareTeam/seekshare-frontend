@@ -30,7 +30,7 @@ const Login: NextPage & { layoutType: string } = () => {
           password: Yup.string().required('Please enter your password'),
         })}
         onSubmit={async (values, { setSubmitting }) => {
-          let res = await signIn<'email'>('seekshare-backend', {
+          const res = await signIn<'email'>('seekshare-backend', {
             email: values.email,
             password: values.password,
             redirect: false,

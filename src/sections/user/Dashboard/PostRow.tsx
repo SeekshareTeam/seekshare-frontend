@@ -24,7 +24,7 @@ export const gridData = (params: { posts: PostType[] }) => {
           <div className="flex flex-wrap space-y-1">
             {post?.tags?.map((tag, ix) => {
               return (
-                <div className={`${ix > 0 ? 'mr-1' : ''}`}>
+                <div key={tag.value} className={`${ix > 0 ? 'mr-1' : ''}`}>
                   <TagItem colorString={tag.colorString} value={tag.value} />
                 </div>
               );

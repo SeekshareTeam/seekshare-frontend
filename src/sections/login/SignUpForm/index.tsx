@@ -67,7 +67,7 @@ const SignUpForm: React.FC = () => {
         });
 
         if (response?.data?.userSignUp === 'Created') {
-          let res = await signIn<'email'>('seekshare-backend', {
+          const res = await signIn<'email'>('seekshare-backend', {
             email: values.email,
             password: values.password,
             callbackUrl: 'http://localhost:3000',

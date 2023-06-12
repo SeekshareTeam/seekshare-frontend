@@ -30,7 +30,7 @@ export const AuthCheck = (props: AuthCheckProps) => {
     shallowEqual
   );
 
-  let divProps: {
+  const divProps: {
     onClickCapture?: (event: React.MouseEvent<HTMLDivElement>) => void;
   } = {};
 

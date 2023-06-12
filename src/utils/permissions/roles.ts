@@ -88,7 +88,7 @@ const routeIterator = (
   ) => void
 ): boolean => {
   let remainingPathIsVerified = false;
-  let currentPath: string = '';
+  let currentPath = '';
 
   routeByDir.forEach((directory) => {
     if (!remainingPathIsVerified) {

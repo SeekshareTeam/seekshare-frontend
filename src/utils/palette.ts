@@ -1,6 +1,7 @@
 import { isObject } from 'lodash';
 import colors from 'tailwindcss/colors';
-import { DefaultColors } from 'tailwindcss/types/generated/colors';
+
+import type { DefaultColors } from 'tailwindcss/types/generated/colors';
 
 const colorPalette: string[] = [];
 const nonSafeList = [
@@ -16,11 +17,12 @@ const nonSafeList = [
 ];
 
 Object.keys(colors).forEach((c) => {
+  const color = colors[c as keyof DefaultColors];
+
   if (
-    isObject(colors[c as keyof DefaultColors]) &&
-    typeof colors[c as keyof DefaultColors] !== 'function' &&
-    // @ts-ignore
-    500 in colors[c as keyof DefaultColors] &&
+    isObject(color) &&
+    typeof color !== 'function' &&
+    500 in color &&
     !nonSafeList.includes(c)
   ) {
     colorPalette.push(c);

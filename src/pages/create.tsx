@@ -15,7 +15,15 @@ const Editor = dynamic(() => import('src/components/MilkdownEditor/Editor'), {
 
 const Create: PageWithLayout<{}> = () => {
   const router = useRouter();
-  const { subspaceId, workspaceId } = router.query;
+  let { subspaceId, workspaceId } = router.query;
+
+  if (Array.isArray(subspaceId)) {
+    subspaceId = subspaceId[0];
+  }
+
+  if (Array.isArray(workspaceId)) {
+    workspaceId = workspaceId[0];
+  }
 
   return (
     <div className="flex-1">

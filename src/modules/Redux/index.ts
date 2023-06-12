@@ -180,7 +180,7 @@ export const useCustomMutation = <
 
   React.useEffect(() => {
     if (onMount) {
-      let params: { variables?: Parameters<T> | undefined } = {};
+      const params: { variables?: Parameters<T> | undefined } = {};
       if (variables) {
         params.variables = variables;
       }

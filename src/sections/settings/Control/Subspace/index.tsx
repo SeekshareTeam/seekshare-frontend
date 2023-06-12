@@ -61,7 +61,7 @@ const Subspaces: React.FC<Props> = (props) => {
   const [showSubspaceManager, setShowSubspaceManager] = React.useState(false);
   const [loadingGrid] = React.useState([
     {
-      cell1: [...Array(10).keys()].map(() => <SubspaceCardLoader />),
+      cell1: [...Array(10).keys()].map(i => <SubspaceCardLoader key={i} />),
       cell2: null,
     },
   ]);

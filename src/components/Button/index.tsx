@@ -133,10 +133,10 @@ function buttonVariantSwitch(
   textColor: string,
   fillColor: string,
   type: string | null | undefined = 'primary',
-  disabled: boolean = false,
-  selected: boolean = false
+  disabled = false,
+  selected = false
 ) {
-  let defaultClass = 'text-nord-0 dark:text-nord-6';
+  const defaultClass = 'text-nord-0 dark:text-nord-6';
 
   switch (type) {
     case 'primary':

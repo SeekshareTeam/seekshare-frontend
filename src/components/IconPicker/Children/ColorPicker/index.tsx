@@ -19,7 +19,7 @@ const ColorPicker: React.FC<Props> = (props) => {
     <>
       <div className="w-full py-1 flex-none overflow-x-scroll inline-block whitespace-nowrap">
         {props.colorPalette.map((colorGroup: string) => {
-          let isSelected = colorGroup === selectedColor;
+          const isSelected = colorGroup === selectedColor;
 
           const textColor = `dark:text-${colorGroup}-300`;
 

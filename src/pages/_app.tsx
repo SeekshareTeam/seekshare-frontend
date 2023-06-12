@@ -1,8 +1,8 @@
 import '@fontsource/jetbrains-mono';
 import '@milkdown/theme-nord/style.css';
-import '../styles/globals.css';
-import '../styles/prose.css';
-import '../styles/prosemirror.css';
+import '../../styles/globals.css';
+import '../../styles/prose.css';
+import '../../styles/prosemirror.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 import type { AppProps /*, AppContext */ } from 'next/app';

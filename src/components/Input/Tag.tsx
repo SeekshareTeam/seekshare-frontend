@@ -48,7 +48,7 @@ export const TagInput: React.FC<TagInputProps> = (props) => {
   React.useEffect(() => {
     if (dataExactTag) {
       if (dataExactTag.searchExactTag && newTag) {
-        let selectedTag = { value: newTag, id: `no_id_${new Date().getTime()}` };
+        const selectedTag = { value: newTag, id: `no_id_${new Date().getTime()}` };
         selectedTag['value'] = dataExactTag.searchExactTag['value'];
         selectedTag['id'] = dataExactTag.searchExactTag?.id;
 

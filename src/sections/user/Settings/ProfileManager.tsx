@@ -29,9 +29,7 @@ const useState = () => {
   }));
 };
 
-interface Props {}
-
-const ProfileManager: React.FC<Props> = () => {
+const ProfileManager: React.FC = () => {
   const state = useState();
 
   return (
