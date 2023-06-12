@@ -4,9 +4,10 @@ import * as React from 'react';
 import { QuizOption } from 'src/utils/types';
 
 import { DropdownOption } from 'src/components/Dropdown';
+import { useQuestionState } from './Question';
 import MultipleChoice from 'src/plugins/plugins/quiz_builder/MultipleChoice';
 import QuizType from './QuizType';
-import Viewer from 'src/plugins/components/Viewer';
+import QuizViewer from './QuizViewer';
 
 interface LayoutProps {
   quizType: React.ReactNode;
@@ -18,25 +19,38 @@ interface LayoutProps {
 
 const QuizBuilderLayout: React.FC<LayoutProps> = (props) => {
   return (
-    <div className="h-full flex overflow-y-auto">
-      <div className="flex-1 flex flex-col mx-4 ">
-        <div className="mt-2 mb-4">{props.quizType}</div>
-        <div className="flex-1">{props.leftView}</div>
+    <div className="h-full flex flex-col overflow-y-auto">
+      <div className="flex mx-4">
+        <div className="flex-1 mt-2 mb-4">{props.quizType}</div>
       </div>
-      <div className="flex-1">{props.rightView}</div>
+      <div className="flex flex-1 mx-4">
+        <div className="flex-1 flex flex-col">{props.leftView}</div>
+        <div className="flex-1 mt-10">{props.rightView}</div>
+      </div>
     </div>
   );
 };
 
 const QuizControl: React.FC<{
   type: string | undefined;
+  question: string;
+  setQuestion: (val: string) => void;
   options: QuizOption[];
   setOptions: (options: QuizOption[]) => void;
+  workspaceId: workspaceId;
+  subspaceId: subspaceId;
 }> = (props) => {
   switch (props.type) {
     case 'multiple':
       return (
-        <MultipleChoice options={props.options} setOptions={props.setOptions} />
+        <MultipleChoice
+          options={props.options}
+          setOptions={props.setOptions}
+          question={props.question}
+          setQuestion={props.setQuestion}
+          workspaceId={props.workspaceId}
+          subspaceId={props.subspaceId}
+        />
       );
     default:
       return null;
@@ -73,9 +87,15 @@ const useOptionResponses = () => {
   return { options, setOptions };
 };
 
-const QuizBuilder: React.FC = () => {
+interface Props {
+  subspaceId?: string;
+  workspaceId?: string;
+}
+
+const QuizBuilder: React.FC<Props> = (props) => {
   const { quizType, setQuizType, quizOptionList } = useQuizOptions();
   const { options, setOptions } = useOptionResponses();
+  const { question, setQuestion } = useQuestionState();
 
   return (
     <QuizBuilderLayout
@@ -91,11 +111,13 @@ const QuizBuilder: React.FC = () => {
           type={quizType.type}
           options={options}
           setOptions={setOptions}
+          question={question}
+          setQuestion={setQuestion}
+          workspaceId={props.workspaceId}
+          subspaceId={props.subspaceId}
         />
       }
-      rightView={options.map((x) => (
-        <Viewer mode={'read'} text={x.val} />
-      ))}
+      rightView={<QuizViewer question={question} options={options} />}
     />
   );
 };

@@ -28,12 +28,13 @@ const useContainerRef = (isPreview?: boolean) => {
 
         toolbar?.classList.add('hidden');
         footer?.classList.add('hidden');
-        codeMirrorScroll?.classList.add('dark:bg-night-dark');
+        codeMirrorScroll?.classList.add('dark:bg-nord-0');
         codeMirrorScroll?.classList.add('dark:px-2');
+        codeMirror?.classList.add('dark:text-nord-6');
 
-        iconEye?.classList.add('dark:text-darkpen-medium');
-        iconColumns?.classList.add('dark:text-darkpen-medium');
-        iconTag?.classList.add('dark:text-darkpen-medium');
+        iconEye?.classList.add('dark:text-nord-6');
+        iconColumns?.classList.add('dark:text-nord-6');
+        iconTag?.classList.add('dark:text-nord-6');
 
         const setHeight = (height: number) => {
           // prevent the editor from expanding in height

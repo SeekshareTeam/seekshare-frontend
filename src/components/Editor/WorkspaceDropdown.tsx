@@ -35,9 +35,13 @@ const WorkspaceDropdown = (props: Props) => {
       dropdownButton={
         <LabeledButton
           legend="Workspace"
-          legendBackground={"dark:bg-night-dark"}
+          legendBackground={'dark:bg-nord-0'}
           button={
-            <Button variant={null} ref={dropdownRef} className={"w-44 justify-between"}>
+            <Button
+              variant={null}
+              ref={dropdownRef}
+              className={'w-44 justify-between'}
+            >
               <h3>
                 {props.workspaceOptions[props.selectedWorkspaceId ?? '-1'] ??
                   'Select Workspace'}

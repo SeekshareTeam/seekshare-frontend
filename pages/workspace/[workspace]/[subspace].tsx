@@ -144,27 +144,6 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
     }
   };
 
-  // const postList = [
-  //   {
-  //     title: 'This is a sample title',
-  //     answerCount: 3,
-  //     commentCount: 3,
-  //     content: {
-  //       body: ' This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body.  ',
-  //     },
-  //     votes: 40,
-  //   },
-  //   {
-  //     title: 'This is a sample title',
-  //     answerCount: 3,
-  //     commentCount: 3,
-  //     content: {
-  //       body: ' This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body. This is a sample of a body.  ',
-  //     },
-  //     votes: 40,
-  //   },
-  // ];
-
   return (
     <SubspaceLayout
       title={<h2>{reduxState?.subspace?.name || 'Loading...'}</h2>}

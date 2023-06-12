@@ -4,10 +4,11 @@ import * as React from 'react';
 import { QuizOption } from 'src/utils/types';
 import { useCreateQuizMutation } from 'src/generated/apollo';
 
-import Question, { useQuestionState } from './Question';
+import Question from './Question';
 import OptionControl from './OptionControl';
 import { BaseTab } from 'src/components/Tabs';
 import { Button } from 'src/components/Button';
+import { IconBoxMultiple } from '@tabler/icons';
 
 interface LayoutProps {
   tabs: React.ReactNode;
@@ -50,6 +51,14 @@ interface Props {
   options: QuizOption[];
 
   setOptions: (options: QuizOption[]) => void;
+
+  question: string;
+
+  setQuestion: (val: string) => void;
+
+  workspaceId?: string;
+
+  subspaceId?: string;
 }
 
 const MultipleChoice: React.FC<Props> = (props) => {
@@ -61,7 +70,6 @@ const MultipleChoice: React.FC<Props> = (props) => {
    */
   const { active, setActive, responseTypes } = useResponseTypes();
   const [createQuizMutation] = useCreateQuizMutation();
-  const { question, setQuestion } = useQuestionState();
 
   return (
     <MultipleChoiceLayout
@@ -74,7 +82,9 @@ const MultipleChoice: React.FC<Props> = (props) => {
           }}
         />
       }
-      question={<Question value={question} setValue={setQuestion} />}
+      question={
+        <Question value={props.question} setValue={props.setQuestion} />
+      }
       optionControl={
         <OptionControl
           options={props.options}
@@ -84,25 +94,38 @@ const MultipleChoice: React.FC<Props> = (props) => {
       }
       submitBox={
         <div className="h-full flex items-center">
-          <div className="flex-1"> </div>
+          <div className="flex flex-1">
+            <div className="flex items-center hover:opacity-75">
+              <IconBoxMultiple className="text-nord-4" />
+              <span className="text-xs mx-1">{0}</span>
+            </div>
+          </div>
           <div className="flex-1 flex justify-end">
             <Button
               variant={'primary'}
               size={'large'}
               radius={'large'}
               onClick={async () => {
-                await createQuizMutation({
-                  variables: {
-                    quizInput: {
-                      body: question,
-                      type: active,
-                      options: props.options.map((option) => ({
-                        body: option.val,
-                        isAnswer: true,
-                      })),
+                console.log('@@@ w and s', props.workspaceId, props.subspaceId);
+                if (props.workspaceId && props.subspaceId) {
+                  await createQuizMutation({
+                    variables: {
+                      quizInput: {
+                        body: props.question,
+                        type: active,
+                        options: props.options.map((option) => ({
+                          body: option.val,
+                          isAnswer:
+                            typeof option.answerValue === 'boolean'
+                              ? option.answerValue
+                              : true,
+                        })),
+                      },
+                      workspaceId: props.workspaceId,
+                      subspaceId: props.subspaceId,
                     },
-                  },
-                });
+                  });
+                }
               }}
             >
               {'Add Question'}

@@ -67,9 +67,9 @@ export const Modal: React.FC<ModalProps> = ({
               props.onPressBlur();
             }
           }}
-          className={`h-screen w-full z-50 fixed left-0 top-0 flex justify-center items-center bg-nord-4 dark:bg-nord-1 ${
+          className={`h-screen w-full z-50 fixed left-0 top-0 flex justify-center items-center bg-nord-4/50 dark:bg-nord-1/50 ${
             blurBackground ? 'backdrop-filter backdrop-blur-md' : ''
-          } bg-opacity-50`}
+          }`}
         >
           {props.children}
         </div>

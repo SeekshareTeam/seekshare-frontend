@@ -47,7 +47,7 @@ const AnswerNode: React.FC<AnswerNodeProps> = (props) => {
           }}
           className={`${
             props.answerValue === true ? 'bg-green-700' : ''
-          } dark:text-darkpen-medium hover:dark:bg-green-700 border border-green-700 p-0.5 rounded-full`}
+          } text-nord-0 dark:text-nord-6 hover:dark:bg-green-700 border border-green-700 p-0.5 rounded-full`}
         >
           <IconCheck size={16} />
         </button>
@@ -60,7 +60,7 @@ const AnswerNode: React.FC<AnswerNodeProps> = (props) => {
           }}
           className={`${
             props.answerValue === true ? 'bg-green-700' : ''
-          } dark:text-darkpen-medium hover:dark:bg-green-700 border border-green-700 p-0.5 rounded`}
+          } text-nord-0 dark:text-nord-6 hover:dark:bg-green-700 border border-green-700 p-0.5 rounded`}
         >
           <IconCheck size={16} />
         </button>
@@ -69,7 +69,7 @@ const AnswerNode: React.FC<AnswerNodeProps> = (props) => {
       return (
         <input
           className={
-            'dark:text-darkpen-medium dark:bg-night-light rounded border border-green-700 w-10'
+            'text-nord-0 dark:text-nord-6 dark:bg-nord-2 rounded border border-green-700 w-10'
           }
           type={'number'}
           size={2}

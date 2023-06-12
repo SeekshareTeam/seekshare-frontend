@@ -259,7 +259,7 @@ const QuestionEditor: React.FC<Props> = (props) => {
               onChange: onTitleChange,
               value: postTitle,
               placeholder: text.title,
-              className: 'flex-1 dark:bg-night-dark',
+              className: 'flex-1 dark:bg-nord-0',
             }}
           />
           <PostTypeDropdown
@@ -301,7 +301,12 @@ const QuestionEditor: React.FC<Props> = (props) => {
               </button>
             </>
           )}
-          {postType === 'quiz' && <QuizBuilder />}
+          {postType === 'quiz' && (
+            <QuizBuilder
+              workspaceId={workspaceSubspaceSelector.workspace.selectedId}
+              subspaceId={workspaceSubspaceSelector.subspace.selectedId}
+            />
+          )}
         </div>
       </div>
     </div>
