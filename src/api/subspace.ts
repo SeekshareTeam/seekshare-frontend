@@ -13,7 +13,6 @@ import {
 import { createSubspace } from 'src/modules/Subspace/slice';
 import { subscribeSubspace, unsubscribeSubspace } from 'src/modules/Auth/slice';
 
-
 const api = () => {
   // Use a pattern where if undefined then load it
   // otherwise return the value.

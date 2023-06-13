@@ -37,8 +37,8 @@ const QuizControl: React.FC<{
   setQuestion: (val: string) => void;
   options: QuizOption[];
   setOptions: (options: QuizOption[]) => void;
-  workspaceId: workspaceId;
-  subspaceId: subspaceId;
+  workspaceId: string | undefined;
+  subspaceId: string | undefined;
 }> = (props) => {
   switch (props.type) {
     case 'multiple':

@@ -12,7 +12,9 @@ export const CREATE_QUIZ_MUTATION = gql`
       subspaceId: $subspaceId
     ) {
       id
-      question
+      question {
+        body
+      }
       workspaceId
       subspaceId
     }

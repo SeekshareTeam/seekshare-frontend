@@ -14,12 +14,14 @@ const QuestionViewer = (props: { text: string }) => {
 const OptionViewer = (props: {
   text: string;
   num: number;
-  isAnswer: boolean;
+  isAnswer: boolean | string;
 }) => {
   return (
     <div
       className={`flex flex-1 m-2 border ${
-        props.isAnswer ? 'dark:border-green-500' : 'dark:border-nord-3'
+        typeof props.isAnswer === 'boolean' && props.isAnswer
+          ? 'dark:border-green-500'
+          : 'dark:border-nord-3'
       } rounded p-2`}
     >
       <div>
