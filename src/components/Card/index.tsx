@@ -59,8 +59,8 @@ const Card: React.FC<Props> = (props) => {
             imgUrl={props.imgUrl}
             type={'image'}
             className={'absolute bottom-0 left-0 ml-4 -mb-6'}
-            displayHeight={'h-16'}
-            displayWidth={'w-16'}
+            displayHeight={64}
+            displayWidth={64}
           />
         </div>
       ) : (

@@ -58,8 +58,8 @@ const ProfileForm: React.FC<Props> = (props) => {
               onUploadImage={async (file) => {
                 await authApi.onUploadAvatar(file, props.user?.id);
               }}
-              displayHeight={'h-20'}
-              displayWidth={'w-20'}
+              height={80}
+              width={80}
             />
           }
           firstName={

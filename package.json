@@ -11,8 +11,7 @@
     "build": "next build",
     "start": "next start",
     "prepare": "husky install",
-    "lint": "eslint src/ --ext .ts,tsx --max-warnings 0",
-    "lint:fix": "eslint src/ --ext .ts,tsx --fix"
+    "lint": "next lint"
   },
   "dependencies": {
     "@apollo/client": "3.7.3",
@@ -92,7 +91,9 @@
     "@typescript-eslint/parser": "^5.3.1",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.2.0",
+    "eslint-config-next": "^13.4.5",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.0",
     "husky": "^7.0.4",

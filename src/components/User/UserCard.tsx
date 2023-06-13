@@ -33,7 +33,7 @@ const UserCard: React.FC<Props> = (props) => {
 
   return (
     <UserCardLayout
-      userAvatar={<UserAvatar displayHeight={'h-16'} displayWidth={'w-16'} />}
+      userAvatar={<UserAvatar height={64} width={64} />}
       name={<p className="text-nord-0 dark:text-nord-6">{props.name}</p>}
       userInfo={
         <p className="text-sm text-nord-0 dark:text-nord-6">

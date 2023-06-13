@@ -86,10 +86,15 @@ const UploadWorkspaceLogo: React.FC<Props> = ({
         </h4>
       }
       logoNode={
-        <Logo
-          imgUrl={props.logoImage?.value}
-          className={'ml-2 w-16 h-16 shadow rounded'}
-        />
+        props.logoImage?.value != null ? (
+          <Logo
+            imgUrl={props.logoImage.value}
+            className={'ml-2 shadow rounded'}
+            width={64}
+            height={64}
+            alt="Workspace logo"
+          />
+        ) : null
       }
       uploadImageNode={
         <UploadImage

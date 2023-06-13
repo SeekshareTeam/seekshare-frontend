@@ -1,31 +1,34 @@
 import * as React from 'react';
+import Image from 'next/image';
 
 type Props = {
   imgUrl?: string;
 
-  displayWidth?: string;
-
-  displayHeight?: string;
+  height?: number;
+  width?: number;
 
   onUploadImage: (uploadFile: File) => Promise<void>;
 };
 
 const UserAvatar: React.FC<Props> = (props) => {
-  console.log('@@@ imgurl', props.imgUrl);
+  const height = props.height ?? 64;
+  const width = props.width ?? 64;
+
   return (
     <div className="inline-flex">
       <label htmlFor="user_avatar">
         <div
-          className={`${props.displayHeight ?? 'h-8'} ${
-            props.displayWidth ?? 'w-8'
-          } mx-1 rounded-full flex bg-gray-700 hover:bg-gray-800 items-center justify-center cursor-pointer overflow-hidden`}
+          className={`${height} ${width} mx-1 rounded-full flex bg-gray-700 hover:bg-gray-800 items-center justify-center cursor-pointer overflow-hidden`}
         >
-          <img
+          <Image
             src={
               props.imgUrl ??
               'https://s3-us-west-1.amazonaws.com/s3-lc-upload/assets/default_avatar.jpg'
             }
-            className={`${props.displayWidth ?? 'w-8'} rounded-full`}
+            width={width}
+            height={height}
+            className={'rounded-full'}
+            alt="User Avatar"
           />
         </div>
       </label>

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import SvgComponents from 'src/components/SvgComponents';
-import { getTopics } from 'src/modules/Topic/actions';
-import { getUser } from 'src/modules/User/actions';
 import ChildElement from '../ChildElement';
 import { fetchTopics } from 'src/modules/Topic/slice';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { useSubjectsLazyQuery } from 'src/generated/apollo';
 import { useCustomQuery } from 'src/modules/Redux/index';

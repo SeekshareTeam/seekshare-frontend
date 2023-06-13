@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 
+import Image from 'next/image';
 import { Button, TextLink } from 'src/components/Button';
 import { FormInput } from 'src/components/Form';
 
@@ -37,13 +38,13 @@ const Login: NextPage & { layoutType: string } = () => {
             callbackUrl: 'http://localhost:3000' + callbackUrl,
           });
 
-            if (res?.error) {
-              setError(res.error);
-            } else if (res?.url) {
-              router.push(res.url);
-            } else {
-              setError('');
-            }
+          if (res?.error) {
+            setError(res.error);
+          } else if (res?.url) {
+            router.push(res.url);
+          } else {
+            setError('');
+          }
           setSubmitting(false);
         }}
       >
@@ -53,7 +54,12 @@ const Login: NextPage & { layoutType: string } = () => {
             className="flex flex-col items-center"
           >
             <div className="flex flex-col items-center space-y-2 my-4">
-              <img src={'/static/images/logo.png'} className="h-16" />
+              <Image
+                src="/static/images/logo.png"
+                height={64}
+                width={300}
+                alt="Seekshare logo"
+              />
               <h1 className="text-2xl font-light text-nord-0 dark:text-nord-6 mb-4">
                 {'Sign in to Seekshare'}
               </h1>
@@ -96,9 +102,7 @@ const Login: NextPage & { layoutType: string } = () => {
                 <Button variant="secondary" type="submit">
                   {formik.isSubmitting ? 'Please wait...' : 'Sign In'}
                 </Button>
-                <div className="text-red-600 text-sm">
-                  {error}
-                </div>
+                <div className="text-red-600 text-sm">{error}</div>
               </div>
             </div>
           </form>

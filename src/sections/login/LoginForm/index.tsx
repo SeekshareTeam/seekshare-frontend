@@ -1,1 +1,3 @@
-export default {}
+const loginForm = {};
+
+export default loginForm;
