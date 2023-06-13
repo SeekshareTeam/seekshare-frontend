@@ -108,7 +108,7 @@
     "@types/react": "^18.0.0"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,json}": "yarn lint"
+    "src/**/*.{ts,tsx,json}": "eslint --max-warnings 0"
   },
   "tailwindCSS.headwind.sortTailwindClasses": true
 }
