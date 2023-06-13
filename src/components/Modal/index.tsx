@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 
 type ModalProps = {
   onPressBlur: () => void;
-  blurBackground: Boolean;
+  blurBackground: boolean;
   show: boolean;
   children?: React.ReactNode;
 };

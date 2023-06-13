@@ -17,9 +17,6 @@ import {
   useFetchSubspacesLazyQuery,
 } from 'src/generated/apollo';
 
-const useSelectedState = (initialValue?: string) =>
-  React.useState(initialValue);
-
 type Option = Record<string, string>;
 
 type Selector = {

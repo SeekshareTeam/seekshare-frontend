@@ -9,7 +9,7 @@ interface Props {
 const GeneralManager: React.FC<Props> = (props) => {
   return (
     <SubspaceForm
-      onSubmit={() => {}}
+      onSubmit={() => { console.log('onSubmit GeneralManager') }}
       workspaceId={props.workspaceId}
       workspaceName={'Pending'}
     />

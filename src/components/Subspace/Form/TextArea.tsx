@@ -4,8 +4,8 @@ interface Props {
   ix: number;
   type: string;
   value: string;
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  handleBlur: (e: any) => void;
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
 }
 
 const FormTextArea: React.FC<Props> = (props) => {

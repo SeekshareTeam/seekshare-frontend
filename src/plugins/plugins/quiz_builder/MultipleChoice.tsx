@@ -2,7 +2,7 @@ import * as React from 'react';
 
 /* State Management & APIs */
 import { QuizOption } from 'src/utils/types';
-import { useCreateQuizMutation } from 'src/generated/apollo';
+import { useQuizApi } from 'src/api/context';
 
 import Question from './Question';
 import OptionControl from './OptionControl';
@@ -69,7 +69,7 @@ const MultipleChoice: React.FC<Props> = (props) => {
    * A very easy to add options and remove options
    */
   const { active, setActive, responseTypes } = useResponseTypes();
-  const [createQuizMutation] = useCreateQuizMutation();
+  const quizApi = useQuizApi();
 
   return (
     <MultipleChoiceLayout
@@ -106,9 +106,8 @@ const MultipleChoice: React.FC<Props> = (props) => {
               size={'large'}
               radius={'large'}
               onClick={async () => {
-                console.log('@@@ w and s', props.workspaceId, props.subspaceId);
                 if (props.workspaceId && props.subspaceId) {
-                  await createQuizMutation({
+                  await quizApi.createQuizMutation({
                     variables: {
                       quizInput: {
                         body: props.question,

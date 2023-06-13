@@ -6,7 +6,7 @@
 // } from 'src/generated/apollo';
 
 const api = () => {
-
+  console.log('api post')
 };
 
 export type PostApiType = typeof api;

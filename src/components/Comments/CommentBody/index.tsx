@@ -77,6 +77,7 @@ const CommentBody: React.FC<CommentBodyProps> = ({
 
   React.useEffect(() => {
     if (props?.commentResult?.commentAnswers) {
+      console.log('useEffect commentbody')
     }
   }, [props?.commentResult?.commentAnswers]);
 
@@ -165,7 +166,7 @@ const CommentBody: React.FC<CommentBodyProps> = ({
               body={body}
               size="xs"
               type="comment"
-              onPressTags={() => {}}
+              onPressTags={() => { console.log('onPressTags: comment body') }}
             />
           )}
           {props?.commentResult?.childComments?.map((cm) => {

@@ -20,7 +20,7 @@ type ColorPair = {
 };
 
 function getRandomColorPair(): ColorPair {
-  let colorPrimary = colors[Math.floor(Math.random() * colors.length)];
+  const colorPrimary = colors[Math.floor(Math.random() * colors.length)];
   let colorSecondary = colors[Math.floor(Math.random() * colors.length)];
   while (colorSecondary === colorPrimary) {
     colorSecondary = colors[Math.floor(Math.random() * colors.length)];
@@ -50,10 +50,10 @@ const generateBlockOptions = (config: Partial<AvatarConfig>): AvatarConfig => {
   return options;
 };
 
-function shuffleArray(array: any[]) {
+function shuffleArray(array: { length: number }[]) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    let temp = array[i];
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
     array[i] = array[j];
     array[j] = temp;
   }
@@ -277,5 +277,7 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
     );
   }
 );
+
+Avatar.displayName = 'Avatar';
 
 export default Avatar;

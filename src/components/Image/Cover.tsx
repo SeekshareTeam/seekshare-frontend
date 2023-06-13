@@ -51,7 +51,7 @@ const CoverImage: React.FC<Props> = (props) => {
       style={{
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 100%',
-        backgroundImage: props?.imgUrl ? `url(\'${props.imgUrl}\')` : undefined,
+        backgroundImage: props?.imgUrl ? `url('${props.imgUrl}')` : undefined,
       }}
     />
   );

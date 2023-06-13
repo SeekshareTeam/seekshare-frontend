@@ -3,7 +3,7 @@ import { IconPlus } from '@tabler/icons';
 
 interface Props {
   onClick: () => void;
-};
+}
 
 const AddButton: React.FC<Props> = (props) => {
   return (

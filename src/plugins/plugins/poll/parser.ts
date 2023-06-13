@@ -1,6 +1,6 @@
 const props = (text: string) => {
   const lines = text.split('\n-').reduce<string[]>((acc, t) => {
-    let sanitized = t.trim();
+    const sanitized = t.trim();
     if (!sanitized) {
       return acc;
     }

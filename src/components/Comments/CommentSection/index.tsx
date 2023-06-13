@@ -12,7 +12,7 @@ interface CommentSectionProps extends CommentsApiResultType {
    * Apollo Return type of fetchComments
    */
   comments: CommentType[];
-};
+}
 
 const CommentSection: React.FC<CommentSectionProps> = (props: CommentSectionProps) => {
   return (

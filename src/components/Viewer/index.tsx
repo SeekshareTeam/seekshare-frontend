@@ -7,9 +7,10 @@ import 'katex/dist/contrib/mhchem.js';
 export const MarkdownViewer = ({ text }: { text: string }) => {
   return (
     <ReactMarkdown
-      children={text}
       remarkPlugins={[remarkMath]}
       rehypePlugins={[rehypeKatex]}
-    />
+    >
+      {text}
+    </ReactMarkdown>
   );
 };

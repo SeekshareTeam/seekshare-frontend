@@ -91,7 +91,7 @@ export const Post: React.FC<PostProps> = (props: PostProps) => {
     reduxState?.post?.user
   ) {
     let savedComponents: ViewerProps['savedComponents'] = undefined;
-    let nonNullComponents: Component[] = [];
+    const nonNullComponents: Component[] = [];
     reduxState.post.content.forEach(content => {
       if (content?.components && content?.components != null) {
         content.components.forEach(c => {

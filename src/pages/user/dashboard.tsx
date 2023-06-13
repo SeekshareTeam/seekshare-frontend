@@ -40,7 +40,7 @@ const useFetchPostsByUserHook = () => {
 
 };
 
-const UserDashboard: PageWithLayout<{}> = () => {
+const UserDashboard: PageWithLayout<Record<string, never>> = () => {
   const state = useState();
 
   useFetchPostsByUserHook();

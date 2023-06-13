@@ -41,11 +41,9 @@ interface Props {
 const ProfileForm: React.FC<Props> = (props) => {
   const authApi = useAuthApi();
 
-  console.log('@@@@ uuu user', props.user);
-
   return (
     <Formik
-      onSubmit={() => {}}
+      onSubmit={() => { console.log('onSubmit ProfileForm') }}
       initialValues={{
         email: props.user?.email || '',
         firstName: props.user?.firstname || '',

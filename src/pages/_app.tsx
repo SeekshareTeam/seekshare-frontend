@@ -1,8 +1,8 @@
 import '@fontsource/jetbrains-mono';
 import '@milkdown/theme-nord/style.css';
-import '../styles/globals.css';
-import '../styles/prose.css';
-import '../styles/prosemirror.css';
+import '../../styles/globals.css';
+import '../../styles/prose.css';
+import '../../styles/prosemirror.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 import type { AppProps /*, AppContext */ } from 'next/app';
@@ -21,33 +21,46 @@ import { AuthGate } from 'src/components/Layouts/AuthGate';
 import { GeneralLayout } from 'src/components/Layouts';
 import PageAuthenticator from 'src/components/Auth';
 import { PageWithLayout } from 'src/utils/types';
-// import { GeneralLayoutType } from 'src/components/Layouts';
 
-// type AppWithLayout<T> = T & {
-//   getLayout?: GeneralLayoutType;
-//   layoutType: string;
-//   accessLevel?: { [key: string | 'page']: string };
-// };
+// TODO: remove other
+const layouts = ['general', 'other'] as const;
+type Layout = (typeof layouts)[number];
 
-const myLayouts: { [key: string]: any } = {
-  general: GeneralLayout,
+const isLayout = (layout: unknown): layout is Layout => {
+  // Using layouts.includes causes a typescript issue
+  return typeof layout === 'string' && layouts.some((l) => l === layout);
 };
+
+const getLayout = (layout: Layout): React.FC<object> => {
+  if (layout === 'general') {
+    return GeneralLayout;
+  }
+
+  const other = () => <div />;
+  return other;
+};
+
+const NoLayout: React.FC<{ children: React.ReactNode }> = (props) => (
+  <>{props.children}</>
+);
 
 function MyApp({
   Component,
   ...rest
 }: AppProps & { Component: PageWithLayout<AppProps['Component']> }) {
-  const GetLayout =
-    Component.layoutType !== undefined && Component.layoutType in myLayouts
-      ? myLayouts[Component.layoutType]
-      : (((props: { children: React.ReactNode }) => (
-          <>{props.children}</>
-        )) as React.FC);
+  let Layout = NoLayout;
+
+  if (isLayout(Component.layoutType)) {
+    Layout = getLayout(Component.layoutType);
+  }
 
   const { store, props } = wrapper.useWrappedStore(rest);
 
+  console.log('@@@ store', store);
+  console.log('@@@ props', props);
+
   React.useEffect(() => {
-    document.documentElement.classList.add('dark')
+    document.documentElement.classList.add('dark');
   }, []);
 
   return (
@@ -62,9 +75,9 @@ function MyApp({
               <div id="sidebar-root" />
               <ErrorBoundary>
                 <PageAuthenticator permissionTypes={Component?.accessLevel}>
-                  <GetLayout>
+                  <Layout>
                     <Component {...props.pageProps} />
-                  </GetLayout>
+                  </Layout>
                 </PageAuthenticator>
               </ErrorBoundary>
             </AuthGate>

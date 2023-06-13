@@ -20,7 +20,7 @@ const InputRadio: React.FC<Props> = (props) => {
           value={props.value}
           checked={props.value === props.inputValue}
           className="cursor-pointer"
-          onChange={() => {}}
+          onChange={() => { console.log('onChange: radio') }}
         />
         <label className="px-2 text-nord-0 dark:text-nord-6 cursor-pointer" htmlFor={props.id}>
           {props.labelTitle}

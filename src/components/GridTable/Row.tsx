@@ -8,9 +8,9 @@ const GridRow = <T extends GridItem<string>, K extends keyof T>(
 ) => {
   return (
     <React.Fragment key={`${props.row.itemKey}`}>
-      {props.config.map((tableConfig) => {
+      {props.config.map((tableConfig, i) => {
         return (
-          <div className={`${gridWidth[tableConfig.width]}`}>
+          <div key={i} className={`${gridWidth[tableConfig.width]}`}>
             {props.row[tableConfig.key]}
           </div>
         );

@@ -77,10 +77,11 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
           </p>
         </div>
         <div className={'flex flex-row'} title="Tags">
-          {props.tags?.map((tag) => (
+          {props.tags?.map((tag, i) => (
             <button
+              key={i}
               id={tag.id}
-              onClick={() => {}}
+              onClick={() => { console.log('onClick: post card') }}
               className={
                 'rounded-md text-sm mr-0.5 bg-red-100 text-red-400 py-0.5 px-2 hover:bg-red-200'
               }

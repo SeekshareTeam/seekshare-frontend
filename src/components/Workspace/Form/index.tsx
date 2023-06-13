@@ -85,9 +85,9 @@ export const WorkspaceForm = () => {
   }: {
     labelHtmlFor: string;
     labelName: string;
-    inputValue: { [field: string]: any };
-    handleChange: (e: React.ChangeEvent<any>) => void;
-    handleBlur: (e: any) => void;
+    inputValue: Record<string, string>,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   }) => {
     return (
       <div className="flex flex-row py-2 items-center justify-between">
@@ -119,9 +119,9 @@ export const WorkspaceForm = () => {
   }: {
     labelHtmlFor: string;
     labelName: string;
-    inputValue: { [field: string]: any };
-    handleChange: (e: React.ChangeEvent<any>) => void;
-    handleBlur: (e: any) => void;
+    inputValue: Record<string, string>;
+    handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    handleBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   }) => {
     return (
       <div className="flex flex-row py-2 items-center justify-between">

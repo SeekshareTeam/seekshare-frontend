@@ -73,8 +73,8 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
 
   const subspaceApi = useSubspaceApi();
   const [onSubscribeSubspace, onSubscribeSubspaceState] =
-    subspaceApi?.subscribeSubspaceMutation;
-  const [onUnsubscribeSubspace] = subspaceApi?.unsubscribeSubspaceMutation;
+    subspaceApi.subscribeSubspaceMutation;
+  const [onUnsubscribeSubspace] = subspaceApi.unsubscribeSubspaceMutation;
 
   const router = useRouter();
 
@@ -88,6 +88,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
               subspaceId: props.subspaceId,
             },
           });
+          break
         default:
       }
     }
@@ -175,8 +176,8 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
       itemsToDisplay={
         selectedTab === 'posts' && (
           <div className="flex flex-col items-center flex-1 overflow-y-scroll">
-            {reduxState?.postList?.map((epost) => (
-              <PostCard {...epost} />
+            {reduxState?.postList?.map((epost, i) => (
+              <PostCard key={i} {...epost} />
             ))}
           </div>
         )

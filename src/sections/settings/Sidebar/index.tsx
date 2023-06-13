@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SidebarTab } from 'src/utils/types';
+import type { SidebarTab } from 'src/utils/types';
 
 interface SettingTabProps {
   tab: SidebarTab;
@@ -41,6 +41,7 @@ const SettingSidebar: React.FC<Props> = (props) => {
         {props.tabs.map((t) => {
           return (
             <SettingTab
+              key={t.tabKey}
               tab={t}
               selected={props.selected}
               onSelect={props.onSelect}

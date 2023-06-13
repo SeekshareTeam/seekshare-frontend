@@ -6,7 +6,7 @@ import { SearchResult } from 'src/components/Subspace/SearchResult';
 
 interface SearchFormProps {
   turnOffSearch: () => void;
-};
+}
 
 export const SearchForm: React.FC<SearchFormProps> = (props) => {
   const [searchValue, setSearchValue] = React.useState('');

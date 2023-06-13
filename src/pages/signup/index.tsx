@@ -5,7 +5,7 @@ import SignUpForm from 'src/sections/login/SignUpForm';
 
 interface LayoutProps {
   signUpForm: React.ReactNode;
-};
+}
 
 const SignUpLayout: React.FC<LayoutProps> = (props) => {
 

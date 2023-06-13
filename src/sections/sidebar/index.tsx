@@ -195,7 +195,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 
   React.useEffect(() => {
     if (reduxState?.userSubspaces) {
-      let mySubspaces = sections.find(
+      const mySubspaces = sections.find(
         (sec) => sec.id === 'my_subspaces'
       ) as SectionElement;
       const newMySubspaces = reduxState.userSubspaces.map((uSubspace) => {

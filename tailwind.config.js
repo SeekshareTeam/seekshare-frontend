@@ -13,8 +13,8 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   content: [
     './src/**/*.{ts,tsx,js,html,css}',
-    './pages/**/*.{ts,tsx,js,html,css}',
     './node_modules/tw-elements/dist/js/**/*.js',
+    './node_modules/theme-nord/**/*.{ts,tsx,js,html,css}',
   ],
   safelist: [
     {

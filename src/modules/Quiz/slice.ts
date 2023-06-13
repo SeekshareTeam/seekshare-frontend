@@ -1,5 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import { Quiz as QuizType } from 'src/generated/types';
+
+import { isEmpty } from 'lodash';
 
 type QuizSliceType = {
   data?: QuizType[];
@@ -12,10 +14,15 @@ export const quizSlice = createSlice({
   initialState,
   reducers: {
     addQuizToStack: (state, action) => {
-      return {
-        ...state,
-        data: action.payload,
-      };
+      console.log('@@@ state', current(state), action);
+
+      if (isEmpty(state?.data)) {
+        state.data = [action.payload];
+      } else {
+        if (state?.data) {
+          state.data.push(action.payload);
+        }
+      }
     },
   },
   extraReducers: {},

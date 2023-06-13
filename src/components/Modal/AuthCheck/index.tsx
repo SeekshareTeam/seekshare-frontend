@@ -30,7 +30,7 @@ export const AuthCheck = (props: AuthCheckProps) => {
     shallowEqual
   );
 
-  let divProps: {
+  const divProps: {
     onClickCapture?: (event: React.MouseEvent<HTMLDivElement>) => void;
   } = {};
 
@@ -48,7 +48,7 @@ export const AuthCheck = (props: AuthCheckProps) => {
       {show && (
         <Modal show={show} onPressBlur={onHideModal} blurBackground={true} >
           <ModalCard
-            onPrimaryPress={() => {}}
+            onPrimaryPress={() => { console.log('onPrimaryPress: authcheck') }}
             onCancel={onHideModal}
             primaryText={'Login'}
             modalBody={props.message}

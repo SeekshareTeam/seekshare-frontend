@@ -13,6 +13,7 @@ import { Observable } from '@apollo/client/utilities';
 
 import {
   NextApiRequestCookies,
+  /* eslint-disable-next-line */
   // @ts-ignore This path is generated at build time and conflicts otherwise
 } from 'next-server/server/api-utils';
 import { IncomingMessage } from 'http';
@@ -29,7 +30,6 @@ const httpLink = createHttpLink({
 
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
-    console.log('@@@ printing');
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message }) => {
         console.log(`[GraphQL error]: Message: ${message}`);
@@ -58,27 +58,16 @@ const authLink = setContext(async (_, { headers }) => {
   return modifiedHeader;
 });
 
-// const GRAPHQL_URL = process.env.NEXT_PUBLIC_SERVER_API_URL;
-
-// const client = new ApolloClient({
-//   uri: process.env.NEXT_PUBLIC_SERVER_API_URL,
-//   cache: new InMemoryCache()
-// });
-
 export const getApolloClient = (
   ctx?: ApolloClientContext,
   initialState?: NormalizedCacheObject
 ) => {
   if (ctx && ctx.req) {
-    let { req } = ctx;
+    const { req } = ctx;
     // Do something with the cookies here, maybe add a header for authentication
     req.cookies;
   }
 
-  // const httpLink = createHttpLink({
-  //   uri: "https://countries.trevorblades.com",
-  //   fetch,
-  // });
   const cache = new InMemoryCache().restore(initialState || {});
   return new ApolloClient({
     link: from([errorLink, authLink, httpLink]),

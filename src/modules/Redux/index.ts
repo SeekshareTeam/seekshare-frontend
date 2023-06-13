@@ -1,5 +1,5 @@
 import React from 'react';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import topicReducer from 'src/modules/Topic/slice';
@@ -14,6 +14,7 @@ import themeReducer from 'src/modules/theme/slice';
 import homeReducer from 'src/modules/Home/slice';
 import singleUserReducer from 'src/modules/User/slice';
 import multipleUsersReducer from 'src/modules/Users/slice';
+import quizReducer from 'src/modules/Quiz/slice';
 
 import { isEmpty } from 'lodash';
 import {
@@ -39,6 +40,7 @@ const makeStore = () => {
       home: homeReducer,
       singleUser: singleUserReducer,
       multipleUsers: multipleUsersReducer,
+      quiz: quizReducer,
     },
     // devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
@@ -79,8 +81,8 @@ export const useTheme = () => {
 };
 
 export const useCustomQuery = <
-  A extends (...args: any) => any,
-  T extends (...args: any) => any
+  A extends ActionCreatorWithPayload<object>,
+  T extends (...args: any) => any /* eslint-disable-line */
 >(
   action: A,
   useApolloQuery: T,
@@ -102,8 +104,6 @@ export const useCustomQuery = <
       if (action) {
         dispatch(action(data[dataKeys[0]]));
       }
-
-      // dispatch(action(data));
     }
   }, [data]);
   React.useEffect(() => {
@@ -118,8 +118,8 @@ export const useCustomQuery = <
 };
 
 export const fetchSSRQuery = async <
-  A extends (...args: any) => any,
-  T extends (...args: any) => any
+  A extends ActionCreatorWithPayload<object>,
+  T extends (...args: any) => any /* eslint-disable-line */
 >({
   action,
   ssrApolloQuery,
@@ -135,8 +135,6 @@ export const fetchSSRQuery = async <
 
   const dataKeys = Object.keys(result?.props?.data || {});
 
-  // console.log('SSR APOLLO QUERY', JSON.stringify(result));
-
   if (!isEmpty(dataKeys) && result?.props?.data) {
     const { data } = result.props;
     dispatch(action(data[dataKeys[0]]));
@@ -144,8 +142,8 @@ export const fetchSSRQuery = async <
 };
 
 export const useCustomMutation = <
-  A extends (...args: any) => any,
-  T extends (...args: any) => any
+  A extends ActionCreatorWithPayload<object>,
+  T extends (...args: any) => any /* eslint-disable-line */
 >({
   action,
   useApolloMutation,
@@ -167,8 +165,10 @@ export const useCustomMutation = <
   }
   React.useEffect(() => {
     if (data) {
+      console.log('@@@ data', data);
       const dataKeys = Object.keys(data);
       if (action) {
+        console.log('@@@ fetched data', data[dataKeys[0]]);
         dispatch(action(data[dataKeys[0]]));
       }
     }
@@ -180,7 +180,7 @@ export const useCustomMutation = <
 
   React.useEffect(() => {
     if (onMount) {
-      let params: { variables?: Parameters<T> | undefined } = {};
+      const params: { variables?: Parameters<T> | undefined } = {};
       if (variables) {
         params.variables = variables;
       }

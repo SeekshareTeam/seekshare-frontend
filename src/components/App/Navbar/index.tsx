@@ -160,7 +160,7 @@ const Navbar = (props: NavbarProps) => {
     }
   };
 
-  const onFocusCallback = () => {};
+  const onFocusCallback = () => { console.log('onFocusCallback: app navbar') };
 
   return (
     <div className="flex flex-1 bg-nord-4 dark:bg-nord-1">

@@ -18,13 +18,14 @@ const ColorPicker: React.FC<Props> = (props) => {
   return (
     <>
       <div className="w-full py-1 flex-none overflow-x-scroll inline-block whitespace-nowrap">
-        {props.colorPalette.map((colorGroup: string) => {
-          let isSelected = colorGroup === selectedColor;
+        {props.colorPalette.map((colorGroup: string, i) => {
+          const isSelected = colorGroup === selectedColor;
 
           const textColor = `dark:text-${colorGroup}-300`;
 
           return (
             <button
+              key={i}
               className={`border-b dark:border-${colorGroup}-300 ${
                 isSelected
                   ? textColor
@@ -41,8 +42,10 @@ const ColorPicker: React.FC<Props> = (props) => {
         })}
       </div>
       <div className={'flex flex-1 flex-row flex-wrap'}>
-        {props.colorGradientPalette[selectedColor].map((color) => {
-          return <IconCircle colorOption={color} onSelect={props.onSelect} />;
+        {props.colorGradientPalette[selectedColor].map((color, i) => {
+          return (
+            <IconCircle key={i} colorOption={color} onSelect={props.onSelect} />
+          );
         })}
       </div>
     </>

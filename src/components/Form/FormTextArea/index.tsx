@@ -4,9 +4,9 @@ interface Props {
   containerClass?: string;
   labelHtmlFor: string;
   labelName: string;
-  inputValue: { [field: string]: any };
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  handleBlur: (e: any) => void;
+  inputValue: Record<string, string>;
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   inputWidth?: string;
   rows?: number;
 }

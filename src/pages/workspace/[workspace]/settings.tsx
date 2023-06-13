@@ -29,7 +29,7 @@ const SettingsLayout: React.FC<SettingsLayoutProps> = (props) => {
   );
 };
 
-const Settings: PageWithLayout<{}> = () => {
+const Settings: PageWithLayout<Record<string, never>> = () => {
   /**
    * Have General Settings
    * Conditions for viewing this page:

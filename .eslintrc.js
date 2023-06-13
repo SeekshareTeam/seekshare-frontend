@@ -20,10 +20,12 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [
       1,
       { extensions: ['.js', '.jsx', 'ts', 'tsx'] },
     ],
   },
+  ignorePatterns: ['**/generated/*.ts', '**/generated/*.tsx'],
 };

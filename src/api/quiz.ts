@@ -1,6 +1,6 @@
-import * as React from 'react';
-
-import { toast } from 'react-toastify';
+// import * as React from 'react';
+//
+// import { toast } from 'react-toastify';
 import { useCustomMutation } from 'src/modules/Redux';
 
 /* APIs */
@@ -24,5 +24,9 @@ const api = () => {
     createQuizMutation,
   };
 };
+
+export type QuizApiType = typeof api;
+
+export type QuizApiResultType = ReturnType<QuizApiType>;
 
 export default api;

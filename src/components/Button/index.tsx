@@ -133,10 +133,10 @@ function buttonVariantSwitch(
   textColor: string,
   fillColor: string,
   type: string | null | undefined = 'primary',
-  disabled: boolean = false,
-  selected: boolean = false
+  disabled = false,
+  selected = false
 ) {
-  let defaultClass = 'text-nord-0 dark:text-nord-6';
+  const defaultClass = 'text-nord-0 dark:text-nord-6';
 
   switch (type) {
     case 'primary':
@@ -210,13 +210,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
+Button.displayName = 'Button';
+
 export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       textColor = 'gray',
       fillColor = 'pink',
-      iconRight = null,
-      iconLeft = null,
+      // iconRight = null,
+      // iconLeft = null,
       ...props
     }: ButtonProps,
     ref
@@ -235,6 +237,8 @@ export const DropdownButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
+
+DropdownButton.displayName = 'DropdownButton';
 
 export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -255,3 +259,5 @@ export const GhostButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return <BaseButton forwardedRef={ref} className={composed} {...props} />;
   }
 );
+
+GhostButton.displayName = 'GhostButton';

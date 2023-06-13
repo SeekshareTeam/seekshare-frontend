@@ -92,9 +92,9 @@ const General: React.FC<Props> = (props) => {
   }: {
     labelHtmlFor: string;
     labelName: string;
-    inputValue: { [field: string]: any };
-    handleChange: (e: React.ChangeEvent<any>) => void;
-    handleBlur: (e: any) => void;
+    inputValue: Record<string, string>;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   }) => {
     return (
       <div className="flex flex-col space-y-1 items-start">
@@ -126,9 +126,9 @@ const General: React.FC<Props> = (props) => {
   }: {
     labelHtmlFor: string;
     labelName: string;
-    inputValue: { [field: string]: any };
-    handleChange: (e: React.ChangeEvent<any>) => void;
-    handleBlur: (e: any) => void;
+    inputValue: Record<string, string>;
+    handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    handleBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   }) => {
     return (
       <div className="flex flex-col py-2 items-start justify-between text-nord-0 dark:text-nord-6">
