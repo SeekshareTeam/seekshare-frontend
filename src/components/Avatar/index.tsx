@@ -3,6 +3,8 @@ import axios from 'axios';
 import ContentLoader from 'react-content-loader';
 import { Maybe } from 'src/generated/types';
 
+import Image from 'next/image';
+
 const colors = [
   '#1abc9c',
   '#2ecc71',
@@ -89,8 +91,8 @@ export type LogoType = 'canvas' | 'image' | 'color';
 interface Props {
   height?: number;
   width?: number;
-  displayHeight?: string;
-  displayWidth?: string;
+  displayHeight?: number;
+  displayWidth?: number;
   type: LogoType;
   imgUrl?: Maybe<string>;
   className?: string;
@@ -107,8 +109,8 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
     {
       height = 150,
       width = 150,
-      displayHeight = 'h-36',
-      displayWidth = 'w-36',
+      displayHeight = 144,
+      displayWidth = 144,
       className = undefined,
       imgUrl = undefined,
       loading = false,
@@ -223,10 +225,17 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
     const renderAvatar = () => {
       switch (type) {
         case 'image':
+          if (!imgUrl) {
+            return null;
+          }
+
           return (
-            <img
-              className={`rounded-lg ${displayHeight} ${displayWidth}`}
-              src={imgUrl || undefined}
+            <Image
+              className={'rounded-lg'}
+              src={imgUrl}
+              width={displayWidth}
+              height={displayHeight}
+              alt="avatar"
             />
           );
         case 'canvas':

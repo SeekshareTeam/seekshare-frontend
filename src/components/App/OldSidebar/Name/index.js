@@ -1,12 +1,16 @@
 import React from 'react';
+import Image from 'next/image';
 
-export default function Name(props) {
+export default function Name() {
   return (
     <div className="flex flex-wrap mt-8">
       <div className="w-1/2">
-        <img
+        <Image
           src="https://randomuser.me/api/portraits/women/27.jpg"
-          className="mx-auto w-20 h-20 rounded-full"
+          className="mx-auto rounded-full"
+          height={80}
+          width={80}
+          alt="sample image"
         />
       </div>
       <div className="w-1/2">

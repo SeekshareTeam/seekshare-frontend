@@ -6,7 +6,7 @@ const classes = {
   wrapper: ''
 };
 
-const AppLayout = ({ sidebar, children }) => {
+const AppLayout = ({ sidebar }) => {
   return (
     <div className={classes.app}>
       <div className={classes.sidebar}>

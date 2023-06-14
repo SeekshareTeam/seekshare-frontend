@@ -1,5 +1,5 @@
-
 import * as React from 'react';
+import Image from 'next/image';
 
 import ContentLoader from 'react-content-loader';
 
@@ -39,17 +39,22 @@ export const LogoLoader = () => {
 }
 
 interface Props {
-  imgUrl?: string;
+  imgUrl: string;
 
   className: string;
+  width: number;
+  height: number;
+  alt: string;
 }
 
 const Logo: React.FC<Props> = (props) => {
-
   return (
-    <img
-      src={props?.imgUrl}
+    <Image
+      src={props.imgUrl}
       className={props.className}
+      alt={props.alt}
+      width={props.width}
+      height={props.height}
     />
   );
 };

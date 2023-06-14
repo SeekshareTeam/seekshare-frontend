@@ -240,8 +240,8 @@ export const WorkspaceForm = () => {
                   <Avatar
                     type={'canvas'}
                     ref={avatarRef}
-                    displayHeight={'h-24'}
-                    displayWidth={'w-24'}
+                    displayHeight={96}
+                    displayWidth={96}
                   />
                 </div>
                 <div

@@ -7,12 +7,11 @@
     "dev:ts": "yarn dev & yarn ts:watch",
     "ts": "tsc --noEmit --incremental",
     "ts:watch": "yarn ts --watch",
-    "generate-types": "graphql-codegen -r dotenv/config",
     "build": "next build",
     "start": "next start",
-    "prepare": "husky install",
-    "lint": "eslint src/ --ext .ts,tsx --max-warnings 0",
-    "lint:fix": "eslint src/ --ext .ts,tsx --fix"
+    "prepare": "husky install && yarn generate-types",
+    "generate-types": "graphql-codegen -r dotenv/config",
+    "lint": "next lint"
   },
   "dependencies": {
     "@apollo/client": "3.7.3",
@@ -92,7 +91,9 @@
     "@typescript-eslint/parser": "^5.3.1",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.2.0",
+    "eslint-config-next": "^13.4.5",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.0",
     "husky": "^7.0.4",
@@ -107,7 +108,7 @@
     "@types/react": "^18.0.0"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,json}": "yarn lint"
+    "src/**/*.{ts,tsx,json}": "eslint --max-warnings 0"
   },
   "tailwindCSS.headwind.sortTailwindClasses": true
 }

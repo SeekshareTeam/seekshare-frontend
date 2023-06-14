@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 
 /* Components */
 import { Formik, ErrorMessage } from 'formik';
+import Image from 'next/image';
 import { FormInput } from 'src/components/Form';
 import { Button } from 'src/components/Button';
 
@@ -23,9 +24,9 @@ const SignUpForm: React.FC = () => {
   const [userSignUpMutation] = useUserSignUpMutation();
   const [error, setError] = React.useState<string>('');
 
-  React.useEffect( () => {
+  React.useEffect(() => {
     console.log(error);
-  }, [error])
+  }, [error]);
 
   return (
     <Formik
@@ -91,7 +92,12 @@ const SignUpForm: React.FC = () => {
           className="flex flex-col items-center"
         >
           <div className="flex flex-col items-center space-y-2 my-4">
-            <img src={'/static/images/logo.png'} className="h-16" />
+            <Image
+              src="/static/images/logo.png"
+              height={64}
+              width={300}
+              alt="Seekshare logo"
+            />
             <h1 className="text-2xl font-light text-nord-0 text-nord-6 mb-4">
               {'Create An Account.'}
             </h1>

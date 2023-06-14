@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Image from 'next/image';
 
 export interface Props {
   imgUrl?: string;
@@ -15,11 +16,12 @@ const LogoAvatar: React.FC<Props> = (props) => {
       }`}
     >
       {props.imgUrl && (
-        <img
+        <Image
           src={props.imgUrl}
           className="rounded"
-          width={`${props.width ? props.width : 50}`}
-          height={`${props.height ? props.height : 50}`}
+          width={props.width ?? 50}
+          height={props.height ?? 50}
+          alt="Logo avatar"
         />
       )}
     </div>
