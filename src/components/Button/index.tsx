@@ -32,7 +32,12 @@ export const TextLink: React.FC<TextLinkProps> = (props: TextLinkProps) => {
   return (
     <div className={styleClass}>
       <p className="pr-1">{props.normalText}</p>
-      <Link href={props.href} className={'text-nord-0 dark:text-nord-6 hover:text-nord-1 dark:hover:text-nord-5'}>
+      <Link
+        href={props.href}
+        className={
+          'text-nord-0 dark:text-nord-6 hover:text-nord-1 dark:hover:text-nord-5'
+        }
+      >
         {props.linkText}
       </Link>
     </div>
@@ -140,14 +145,12 @@ function buttonVariantSwitch(
 
   switch (type) {
     case 'primary':
-      return `shadow-sm text-nord-0 dark:text-nord-6 bg-nord-7 ${
-        disabled ? '' : 'hover:bg-nord-8'
+      return `shadow-sm text-nord-0 dark:text-nord-6 bg-nord-7 dark:bg-nord-9 ${
+        disabled ? '' : 'hover:bg-nord-8 dark:hover:bg-nord-9/50'
       }`;
     case 'secondary':
       return `shadow-sm text-${textColor}-200 dark:text-nord-6 bg-${fillColor}-700 dark:bg-nord-7 ${
-        disabled
-          ? ''
-          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-nord-7'
+        disabled ? '' : 'hover:bg-' + fillColor + '-800 dark:hover:bg-nord-7'
       } border-opacity-100 border border-nord-8 dark:border-nord-7`;
     case 'outline':
       return `${
@@ -159,9 +162,7 @@ function buttonVariantSwitch(
       } text-nord-0 dark:text-nord-6 shadow-sm border dark:border-nord-1`;
     case 'dark':
       return `text-nord-0 dark:text-nord-6 dark:bg-nord-2 ${
-        disabled
-          ? ''
-          : 'hover:bg-' + fillColor + '-800 dark:hover:bg-nord-2'
+        disabled ? '' : 'hover:bg-' + fillColor + '-800 dark:hover:bg-nord-2'
       } border-nord-3 shadow-sm`;
     default:
       return defaultClass;

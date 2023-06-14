@@ -1,13 +1,21 @@
 // import * as React from 'react';
 //
 // import { toast } from 'react-toastify';
-import { useCustomMutation } from 'src/modules/Redux';
+import { useCustomMutation, useCustomQuery } from 'src/modules/Redux';
 
 /* APIs */
-import { useCreateQuizMutation } from 'src/generated/apollo';
+import {
+  useCreateQuizMutation,
+  usePublishWorksheetMutation,
+  useFetchWorksheetLazyQuery,
+} from 'src/generated/apollo';
 
 /* Actions */
-import { addQuizToStack } from 'src/modules/Quiz/slice';
+import {
+  addQuizToStack,
+  addWorksheet,
+  fetchWorksheet,
+} from 'src/modules/Quiz/slice';
 
 const api = () => {
   const [createQuizMutation] = useCustomMutation<
@@ -20,8 +28,25 @@ const api = () => {
     onMount: false,
   });
 
+  const [publishWorksheet] = useCustomMutation<
+    typeof addWorksheet,
+    typeof usePublishWorksheetMutation
+  >({
+    action: addWorksheet,
+    useApolloMutation: usePublishWorksheetMutation,
+    variables: undefined,
+    onMount: false,
+  });
+
+  const fetchWorksheetQuery = useCustomQuery<
+    typeof fetchWorksheet,
+    typeof useFetchWorksheetLazyQuery
+  >(fetchWorksheet, useFetchWorksheetLazyQuery, undefined, false);
+
   return {
     createQuizMutation,
+    publishWorksheet,
+    fetchWorksheetQuery,
   };
 };
 

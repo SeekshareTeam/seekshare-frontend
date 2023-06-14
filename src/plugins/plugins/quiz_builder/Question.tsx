@@ -37,7 +37,7 @@ const Question: React.FC<Props> = (props) => {
     >
       <div className="rounded-t-lg">
         <span className="mx-2 text-sm dark:text-darkpen-dark">
-          {'Question 1.'}
+          {'Question.'}
         </span>
       </div>
 

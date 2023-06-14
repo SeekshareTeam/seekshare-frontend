@@ -70,45 +70,45 @@ const Search: React.FC<Props> = (props) => {
   );
 
   return (
-      <div className={props.className}>
-        <div className="mb-2">
-          <label
-            className="font-medium capitalize bold text-nord-0 dark:text-nord-6"
-            htmlFor={props.labelName}
-          >
-            {props.labelTitle}
-          </label>
-        </div>
-        <div
-          onBlur={onLoseFocus}
-          onClick={onContainerClick}
-          className={`flex rounded shadow-md border border-blue-400 outline-none ${
-            boxFocus
-              ? 'ring-1 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
-              : ''
-          } p-1 bg-nord-4 dark:bg-nord-1 caret-nord-0 dark:caret-nord-4 text-nord-0 dark:text-nord-6`}
+    <div className={props.className}>
+      <div className="mb-2">
+        <label
+          className="font-medium capitalize bold text-nord-0 dark:text-nord-6"
+          htmlFor={props.labelName}
         >
-          {props.leftNode}
-          <input
-            ref={inputRef}
-            type="text"
-            name={props.labelName}
-            autoComplete="off"
-            onKeyDown={handleKeyDown}
-            onChange={(e) => {
-              const targetValue = e?.target?.value || '';
-              setSearchText(targetValue);
-              if (props.searchQueryCallback) {
-                debounceCallback(targetValue);
-              }
-            }}
-            value={searchText}
-            placeholder={props.inputPlaceholder || ''}
-            className="outline-none flex-1 bg-nord-4 dark:bg-nord-1 caret-nord-0 dark:caret-nord-4"
-          />
-          {props.rightNode}
-        </div>
+          {props.labelTitle}
+        </label>
       </div>
+      <div
+        onBlur={onLoseFocus}
+        onClick={onContainerClick}
+        className={`flex rounded-full border dark:border-nord-1 px-2 py-2  outline-none ${
+          boxFocus
+            ? 'ring-1 w-full ring-blue-600 ring-opacity-20 dark:ring-white'
+            : ''
+        } bg-nord-4 dark:bg-nord-0 caret-nord-0 dark:caret-nord-4 text-nord-0 dark:text-nord-6`}
+      >
+        {props.leftNode}
+        <input
+          ref={inputRef}
+          type="text"
+          name={props.labelName}
+          autoComplete="off"
+          onKeyDown={handleKeyDown}
+          onChange={(e) => {
+            const targetValue = e?.target?.value || '';
+            setSearchText(targetValue);
+            if (props.searchQueryCallback) {
+              debounceCallback(targetValue);
+            }
+          }}
+          value={searchText}
+          placeholder={props.inputPlaceholder || ''}
+          className="outline-none flex-1 bg-nord-4 dark:bg-nord-0 caret-nord-0 dark:caret-nord-4"
+        />
+        {props.rightNode}
+      </div>
+    </div>
   );
 };
 

@@ -95,9 +95,9 @@ const useContainerRef = (isPreview?: boolean) => {
 type Props = Pick<SimpleMDEReactProps, 'value' | 'onChange' | 'options'>;
 
 const PortableEditor: React.FC<Props> = (props) => {
-  const [previewMode, ] = React.useState('hidden');
+  const [previewMode] = React.useState('hidden');
 
-  const [containerRef, ] = useContainerRef();
+  const [containerRef] = useContainerRef();
   // const options = useOptions<typeof props.options>(
   //   props.options,
   //   setPreviewMode
@@ -116,8 +116,8 @@ const PortableEditor: React.FC<Props> = (props) => {
         }}
         id={'text_editor_1'}
         value={props.value}
-        rows={3}
-        className="rounded-lg shadow-md outline-none w-full p-1 bg-nord-4 dark:bg-nord-0"
+        rows={2}
+        className="mx-1 rounded-lg shadow-md outline-none w-full p-1 bg-nord-4 dark:bg-nord-0"
       />
       {previewMode === 'full' && !!containerRef.current && (
         <Full parentRef={containerRef.current}>

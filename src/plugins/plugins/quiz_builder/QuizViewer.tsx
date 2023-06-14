@@ -4,6 +4,10 @@ import { QuizOption } from 'src/utils/types';
 import Viewer from 'src/plugins/components/Viewer';
 
 const QuestionViewer = (props: { text: string }) => {
+  if (!props.text || props.text.trim() === '') {
+    return null;
+  }
+
   return (
     <div className="flex flex-col flex-1 m-2 border dark:border-nord-3 rounded p-2">
       <Viewer mode={'read'} text={props.text} />

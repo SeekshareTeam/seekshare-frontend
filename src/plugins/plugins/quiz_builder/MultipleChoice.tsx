@@ -2,19 +2,15 @@ import * as React from 'react';
 
 /* State Management & APIs */
 import { QuizOption } from 'src/utils/types';
-import { useQuizApi } from 'src/api/context';
 
 import Question from './Question';
 import OptionControl from './OptionControl';
 import { BaseTab } from 'src/components/Tabs';
-import { Button } from 'src/components/Button';
-import { IconBoxMultiple } from '@tabler/icons';
 
 interface LayoutProps {
   tabs: React.ReactNode;
   question: React.ReactNode;
   optionControl: React.ReactNode;
-  submitBox: React.ReactNode;
 }
 
 const MultipleChoiceLayout: React.FC<LayoutProps> = (props) => {
@@ -28,12 +24,11 @@ const MultipleChoiceLayout: React.FC<LayoutProps> = (props) => {
           {props.optionControl}
         </div>
       </div>
-      <div className="h-14">{props.submitBox}</div>
     </div>
   );
 };
 
-const useResponseTypes = () => {
+export const useResponseTypes = () => {
   const responseTypes = React.useMemo(() => {
     return [
       { tabKey: 'single', tabValue: 'Single' },
@@ -59,6 +54,12 @@ interface Props {
   workspaceId?: string;
 
   subspaceId?: string;
+
+  responseTypes: { tabKey: string; tabValue: string }[];
+
+  active: string;
+
+  setActive: (val: string) => void;
 }
 
 const MultipleChoice: React.FC<Props> = (props) => {
@@ -68,17 +69,15 @@ const MultipleChoice: React.FC<Props> = (props) => {
    * The question header or title
    * A very easy to add options and remove options
    */
-  const { active, setActive, responseTypes } = useResponseTypes();
-  const quizApi = useQuizApi();
 
   return (
     <MultipleChoiceLayout
       tabs={
         <BaseTab
-          tabs={responseTypes}
-          active={active}
+          tabs={props.responseTypes}
+          active={props.active}
           onSelectTab={(tabKey: string) => {
-            setActive(tabKey);
+            props.setActive(tabKey);
           }}
         />
       }
@@ -89,48 +88,8 @@ const MultipleChoice: React.FC<Props> = (props) => {
         <OptionControl
           options={props.options}
           setOptions={props.setOptions}
-          responseType={active}
+          responseType={props.active}
         />
-      }
-      submitBox={
-        <div className="h-full flex items-center">
-          <div className="flex flex-1">
-            <div className="flex items-center hover:opacity-75">
-              <IconBoxMultiple className="text-nord-4" />
-              <span className="text-xs mx-1">{0}</span>
-            </div>
-          </div>
-          <div className="flex-1 flex justify-end">
-            <Button
-              variant={'primary'}
-              size={'large'}
-              radius={'large'}
-              onClick={async () => {
-                if (props.workspaceId && props.subspaceId) {
-                  await quizApi.createQuizMutation({
-                    variables: {
-                      quizInput: {
-                        body: props.question,
-                        type: active,
-                        options: props.options.map((option) => ({
-                          body: option.val,
-                          isAnswer:
-                            typeof option.answerValue === 'boolean'
-                              ? option.answerValue
-                              : true,
-                        })),
-                      },
-                      workspaceId: props.workspaceId,
-                      subspaceId: props.subspaceId,
-                    },
-                  });
-                }
-              }}
-            >
-              {'Add Question'}
-            </Button>
-          </div>
-        </div>
       }
     />
   );

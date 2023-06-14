@@ -12,7 +12,7 @@ export interface BaseTabProps {
 }
 
 export const BaseTab: React.FC<BaseTabProps> = (props: BaseTabProps) => {
-  const active = 'bg-primary-medium text-gray-100';
+  const active = 'bg-primary-medium text-gray-100 dark:bg-orange-700';
   const nonactive = 'text-lightpen-medium dark:text-darkpen-medium dark:hover:bg-white/10';
   const all = 'px-2 py-0.5 rounded-lg text-sm';
 

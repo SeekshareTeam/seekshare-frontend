@@ -26,46 +26,30 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
     Tags:
       - Tags associated with this post
    */
-  const [fillColor, setFillColor] = React.useState('transparent');
 
   return (
     <div
       className={
-        'flex border-b pb-4 bg-nord-4 dark:border-nord-2 flex-row lg:w-4/5 md:w-full'
+        'flex border-b border-nord-3 pb-4 bg-nord-4 dark:bg-nord-0 flex-row lg:w-4/5 md:w-full'
       }
     >
       <div
         className={
-          'text-2xl px-2 text-red-900 flex flex-row md:mt-6 md:self-start items-center'
+          'text-2xl px-2 text-nord-7 flex flex-row md:mt-7 md:self-start items-center'
         }
         title="votes"
       >
-        <span className="text-lg">{`${props.votes || 3}`}</span>
-        <IconHeart
-          onMouseEnter={() => {
-            setFillColor('#78133b');
-          }}
-          onMouseLeave={() => {
-            setFillColor('transparent');
-          }}
-          fill={fillColor}
-          className={'cursor-pointer'}
-        />
+        <span className="text-lg">{`${props.votes || ''}`}</span>
+        <IconHeart className={'cursor-pointer hover:fill-nord-7'} />
       </div>
-      <div
-        className={
-          'flex flex-col text-nord-0 dark:text-nord-6'
-        }
-      >
+      <div className={'flex flex-col text-nord-0 dark:text-nord-6'}>
         <div>
           <span className="text-sm">{`${
             props?.user?.firstname || 'Author Information'
           }`}</span>
         </div>
         <h3 className="text-2xl mb-2 hover:text-nord-1">
-          <Link href={`/post/${props.postId}`}>
-            {props.title}
-          </Link>
+          <Link href={`/post/${props.postId}`}>{props.title}</Link>
         </h3>
         <div title="Summary">
           <p>
@@ -81,7 +65,9 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
             <button
               key={i}
               id={tag.id}
-              onClick={() => { console.log('onClick: post card') }}
+              onClick={() => {
+                console.log('onClick: post card');
+              }}
               className={
                 'rounded-md text-sm mr-0.5 bg-red-100 text-red-400 py-0.5 px-2 hover:bg-red-200'
               }

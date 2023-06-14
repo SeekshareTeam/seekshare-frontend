@@ -14,6 +14,7 @@ interface Props extends SpaceRequiredProps {
 
 export interface ManageTagsHandle {
   showModal: () => void;
+  closeModal: () => void;
 }
 
 const ManageTags: React.ForwardRefRenderFunction<ManageTagsHandle, Props> = (
@@ -26,6 +27,9 @@ const ManageTags: React.ForwardRefRenderFunction<ManageTagsHandle, Props> = (
     showModal: () => {
       setShowTagForm(true);
     },
+    closeModal: () => {
+      setShowTagForm(false);
+    },
   }));
 
   return (
@@ -36,7 +40,9 @@ const ManageTags: React.ForwardRefRenderFunction<ManageTagsHandle, Props> = (
         setShowTagForm(false);
       }}
     >
-      <TagPopup workspaceId={props.workspaceId} subspaceId={props.subspaceId}
+      <TagPopup
+        workspaceId={props.workspaceId}
+        subspaceId={props.subspaceId}
         onSubmitTags={props.onSubmitTags}
       />
     </Modal>

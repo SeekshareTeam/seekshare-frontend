@@ -263,7 +263,7 @@ const TagPopup: React.FC<Props> = (props) => {
             <div>
               <button
                 disabled={isEmpty(selectedTags)}
-                className="bg-nord-7 hover:bg-nord-7/50 text-nord-0 dark:text-nord-6 rounded px-2 py-1"
+                className="bg-nord-9 hover:bg-nord-9/50 text-nord-0 dark:text-nord-6 rounded px-2 py-1"
                 onClick={() => {
                   props.onSubmitTags(selectedTags);
                 }}
