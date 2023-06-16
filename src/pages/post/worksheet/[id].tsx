@@ -1,12 +1,23 @@
 import * as React from 'react';
 
 import { PageWithLayout } from 'src/utils/types';
-
 import { useAppSelector } from 'src/modules/Redux';
-
 import { wrapper } from 'src/modules/Redux';
 import { useQuizApi } from 'src/api/context';
 
+import WorksheetLayout from 'src/sections/post/WorksheetLayout';
+
+interface WorksheetPageLayoutProps {
+  worksheetLayout: React.ReactNode;
+}
+
+const WorksheetPageLayout: React.FC<WorksheetPageLayoutProps> = (props) => {
+  return (
+    <div className="flex flex-1 justify-center md:mx-8 md:my-2">
+      {props.worksheetLayout}
+    </div>
+  );
+};
 
 interface WorksheetProps {
   worksheetId?: string;
@@ -29,9 +40,11 @@ const Worksheet: PageWithLayout<WorksheetProps> = (props) => {
     }
   }, [props.worksheetId]);
 
-  console.log('@@@ quizList', reduxState.quizList);
-  return null;
-
+  return (
+    <WorksheetPageLayout
+      worksheetLayout={<WorksheetLayout publishedSet={reduxState.quizList} />}
+    />
+  );
 };
 
 export const getStaticPaths = async () => {
@@ -43,8 +56,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = wrapper.getStaticProps(
   (store) => async (context) => {
-    console.log('@@@ store', store);
-
+    console.log('store', store);
     const worksheetId = context?.params?.id;
 
     return {

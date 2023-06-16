@@ -114,9 +114,7 @@ const OptionControl: React.FC<Props> = (props) => {
           <Option
             key={option.key}
             value={option.val}
-            className={
-              'rounded-lg overflow-hidden block my-1 border border-darkpen-dark'
-            }
+            className={'rounded-lg overflow-hidden block my-1 border'}
             answerNode={
               <AnswerNode
                 answerValue={option.answerValue}

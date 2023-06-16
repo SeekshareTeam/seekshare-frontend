@@ -31,10 +31,40 @@ const GridTable = <T extends GridItem<string>, K extends keyof T>(
           return null;
         }
 
-        return <GridRow key={i} row={row} config={props.config} />;
+        return (
+          <GridRow
+            rowColor={['rowDark1', 'rowDark2'][i % 2]}
+            key={i}
+            row={row}
+            config={props.config}
+          />
+        );
       })}
     </div>
   );
+
+  // return (
+  //   <div
+  //     className={`grid ${
+  //       gridColumns[props.columns]
+  //     } gap-4 text-nord-0 dark:text-nord-6 ${props.className}`}
+  //   >
+  //     {data?.map((row, i) => {
+  //       if (!row) {
+  //         return null;
+  //       }
+
+  //       return (
+  //         <GridRow
+  //           rowColor={['rowDark1', 'rowDark2'][i % 2]}
+  //           key={i}
+  //           row={row}
+  //           config={props.config}
+  //         />
+  //       );
+  //     })}
+  //   </div>
+  // );
 };
 
 export default GridTable;

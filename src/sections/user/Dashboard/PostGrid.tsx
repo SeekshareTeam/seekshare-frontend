@@ -9,7 +9,6 @@ import { ConfigType } from 'src/utils/types';
 import GridTable from 'src/components/GridTable/';
 import { gridData, headers } from './PostRow';
 
-
 interface Props {
   posts?: PostType[];
 }
@@ -36,7 +35,9 @@ const PostGrid: React.FC<Props> = (props) => {
   const { posts } = usePosts(props);
 
   if (isEmpty(props.posts)) {
-    return <p className="text-nord-0 dark:text-nord-6 text-xl">{'No Activity.'}</p>;
+    return (
+      <p className="text-nord-0 dark:text-nord-6 text-xl">{'No Activity.'}</p>
+    );
   }
 
   const config: ConfigType<'cell1' | 'cell2' | 'cell3' | 'cell4'>[] = [

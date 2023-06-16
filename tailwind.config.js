@@ -31,10 +31,24 @@ module.exports = {
   plugins: [
     require('tw-elements/dist/plugin'),
     require('tailwind-nord'),
-    require('@tailwindcss/typography')
+    require('@tailwindcss/typography'),
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        'table-1': 'repeat(1, minmax(128px, 1fr))',
+        'table-2': 'repeat(2, minmax(128px, 1fr))',
+        'table-3': 'repeat(3, minmax(128px, 1fr))',
+        'table-4': 'repeat(4, minmax(128px, 1fr))',
+        'table-5': 'repeat(5, minmax(128px, 1fr))',
+        'table-6': 'repeat(6, minmax(128px, 1fr))',
+        'table-7': 'repeat(7, minmax(128px, 1fr))',
+        'table-8': 'repeat(8, minmax(128px, 1fr))',
+        'table-8': 'repeat(9, minmax(128px, 1fr))',
+        'table-10': 'repeat(10, minmax(128px, 1fr))',
+        'table-11': 'repeat(11, minmax(128px, 1fr))',
+        'table-12': 'repeat(12, minmax(128px, 1fr))',
+      },
       /*
       colors: {
         lightpen: {

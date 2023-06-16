@@ -85,6 +85,30 @@ export const FETCH_POSTS_BY_USER_QUERY = gql`
           status
         }
       }
+      quizzes {
+        id
+        type
+        question {
+          body
+        }
+        optionKeys {
+          id
+          content {
+            body
+          }
+        }
+        subspace {
+          name
+          fieldTwo
+          workspaceId
+          id
+        }
+        quizTags {
+          id
+          value
+          colorString
+        }
+      }
     }
   }
 `;

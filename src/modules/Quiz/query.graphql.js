@@ -41,6 +41,7 @@ export const FETCH_WORKSHEET_MUTATION = gql`
       quizGroup
       quiz {
         id
+        type
         question {
           body
         }

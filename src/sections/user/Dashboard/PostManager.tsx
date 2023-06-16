@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 /* State Management */
-import { PostTypeArray, Post as PostType } from 'src/generated/types';
+import { PostTypeArray, Post as PostType, Quiz as QuizType } from 'src/generated/types';
 import { PostTypeOptionKey } from 'src/utils/types';
 
 /* Components */
 // import { UnderlineTabs } from 'src/components/Tabs';
 import UserActivityTabs from 'src/components/Tabs/UserActivityTabs';
 import PostGrid from 'src/sections/user/Dashboard/PostGrid';
+import QuizGrid from 'src/sections/user/Dashboard/QuizGrid';
 
 interface Props {
   postsTypeArray: PostTypeArray[];
@@ -34,9 +35,20 @@ const PostManager: React.FC<Props> = (props) => {
   const [displayPostArray, setDisplayPostArray] = React.useState<
     PostType[] | undefined
   >();
+  const [displayQuizArray, setDisplayQuizArray] = React.useState<
+    QuizType[] | undefined
+  >();
+
+  console.log('posts type', props.postsTypeArray);
 
   React.useEffect(() => {
-    if (activeTabKey) {
+    if (activeTabKey === 'quiz') {
+      setDisplayQuizArray(
+        props.postsTypeArray.find(
+          (typeArray) => typeArray.type === activeTabKey
+        )?.quizzes
+      );
+    } else if (activeTabKey) {
       setDisplayPostArray(
         props.postsTypeArray.find(
           (typeArray) => typeArray.type === activeTabKey
@@ -54,7 +66,9 @@ const PostManager: React.FC<Props> = (props) => {
           onSelectTab={setActiveTabKey}
         />
       </div>
-      <PostGrid posts={displayPostArray} />
+
+      {activeTabKey !== 'quiz' && <PostGrid posts={displayPostArray} />}
+      {activeTabKey === 'quiz' && <QuizGrid quizzes={displayQuizArray} />}
     </div>
   );
 };
