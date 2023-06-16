@@ -35,7 +35,9 @@ const Login: NextPage & { layoutType: string } = () => {
             email: values.email,
             password: values.password,
             redirect: false,
-            callbackUrl: 'http://localhost:3000' + callbackUrl,
+            callbackUrl:
+              (process?.env?.NEXT_PUBLIC_SITE_URL ||
+                'https://demo.seekshare.io') + callbackUrl,
           });
 
           if (res?.error) {
