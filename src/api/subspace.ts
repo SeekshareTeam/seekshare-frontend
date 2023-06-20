@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { toast } from 'react-toastify';
-import { useCustomMutation } from 'src/modules/Redux';
+import { useCustomMutation, useCustomQuery } from 'src/modules/Redux';
 
 /* APIs */
 import {
   useCreateSubspaceMutation,
   useSubscribeSubspaceMutation,
   useUnsubscribeSubspaceMutation,
+  useFetchAllQuizzesFromSubspaceLazyQuery,
 } from 'src/generated/apollo';
 
 /* Actions */
-import { createSubspace } from 'src/modules/Subspace/slice';
+import {
+  createSubspace,
+  fetchSubspaceQuizList,
+} from 'src/modules/Subspace/slice';
 import { subscribeSubspace, unsubscribeSubspace } from 'src/modules/Auth/slice';
 
 const api = () => {
@@ -82,6 +86,16 @@ const api = () => {
     });
   };
 
+  const fetchAllQuizzesFromSubspace = useCustomQuery<
+    typeof fetchSubspaceQuizList,
+    typeof useFetchAllQuizzesFromSubspaceLazyQuery
+  >(
+    fetchSubspaceQuizList,
+    useFetchAllQuizzesFromSubspaceLazyQuery,
+    undefined,
+    false
+  );
+
   // const onSubscribeSubspace = async ({
   //   subspaceId,
   //   workspaceId,
@@ -107,6 +121,7 @@ const api = () => {
     unsubscribeSubspaceMutation,
     onCreateSubspace,
     errorCreateSubspace,
+    fetchAllQuizzesFromSubspace,
   };
 };
 

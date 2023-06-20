@@ -99,6 +99,22 @@ interface Props {
   loading?: boolean;
 }
 
+const imageHeights = {
+  1: 'h-1',
+  2: 'h-2',
+  3: 'h-3',
+  4: 'h-4',
+  5: 'h-5',
+};
+
+const imageWidths = {
+  1: 'w-1',
+  2: 'w-2',
+  3: 'w-3',
+  4: 'w-4',
+  5: 'w-5',
+};
+
 type AvatarRef = {
   onChangeCanvas: () => void;
   toBlob: (fileName: string) => void;
@@ -250,9 +266,17 @@ const Avatar = React.forwardRef<AvatarRef, Props>(
             />
           );
         case 'color':
+          const colorBoxWidth: keyof typeof imageWidths = (
+            displayWidth > 5 && displayWidth > 0 ? 5 : displayWidth
+          ) as keyof typeof imageWidths;
+          const colorBoxHeight: keyof typeof imageHeights = (
+            displayHeight > 5 && displayHeight > 0 ? 5 : displayHeight
+          ) as keyof typeof imageHeights;
           return (
-            <div className={`rounded-lg ${displayHeight} ${displayWidth} ${imgUrl}`} />
-          )
+            <div
+              className={`rounded ${imageHeights[colorBoxHeight]} ${imageWidths[colorBoxWidth]} ${imgUrl}`}
+            />
+          );
         default:
           return null;
       }

@@ -87,6 +87,21 @@ export const gridColumns = {
   12: 'grid-cols-table-12 md:grid-cols-12',
 };
 
+export const flexColumns = {
+  1: 'w-48 shrink-0 whitespace-nowrap overflow-hidden text-ellipsis',
+  2: 'w-80 shrink-0 whitespace-nowrap overflow-hidden text-ellipsis',
+  3: 'grid-cols-table-3 md:grid-cols-3',
+  4: 'grid-cols-table-4 md:grid-cols-4',
+  5: 'grid-cols-table-5 md:grid-cols-5',
+  6: 'grid-cols-table-6 md:grid-cols-6',
+  7: 'grid-cols-table-7 md:grid-cols-7',
+  8: 'grid-cols-table-8 md:grid-cols-8',
+  9: 'grid-cols-table-9 md:grid-cols-9',
+  10: 'grid-cols-table-10 md:grid-cols-10',
+  11: 'grid-cols-table-11 md:grid-cols-11',
+  12: 'grid-cols-table-12 md:grid-cols-12',
+};
+
 export type ConfigType<K> = { width: keyof typeof gridWidth; key: K };
 
 export interface GridLayout<T extends GridItem<string>, K extends keyof T> {
@@ -102,6 +117,7 @@ export interface GridRow<T extends GridItem<string>, K extends keyof T> {
   row: T;
   config: ConfigType<K>[];
   rowColor?: string;
+  isHeader?: boolean;
 }
 
 /* Quiz Builder */

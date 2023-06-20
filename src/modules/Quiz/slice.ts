@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { Quiz as QuizType, PublishedSet } from 'src/generated/types';
 
 import { isEmpty } from 'lodash';
@@ -17,13 +18,30 @@ export const quizSlice = createSlice({
   name: 'quiz',
   initialState,
   reducers: {
-    addQuizToStack: (state, action) => {
+    addQuizToQueue: (state, action) => {
       if (isEmpty(state?.data)) {
         state.data = { queue: [action.payload] };
       } else {
         if (state?.data?.queue) {
-          state.data.queue.push(action.payload);
+          const qIndex = state.data.queue.findIndex((q) => {
+            if (q.id === action.payload.id) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+
+          if (qIndex < 0) {
+            state.data.queue.push(action.payload);
+          } else {
+            state.data.queue.splice(qIndex, 1);
+          }
         }
+      }
+    },
+    clearQuizQueue: (state) => {
+      if (!isEmpty(state?.data)) {
+        state.data.queue = undefined;
       }
     },
     addWorksheet: (state, action) => {
@@ -35,11 +53,12 @@ export const quizSlice = createSlice({
       if (isEmpty(state?.data)) {
         state.data = { publishedWorksheet: action.payload };
       }
-    }
+    },
   },
   extraReducers: {},
 });
 
-export const { addQuizToStack, addWorksheet, fetchWorksheet } = quizSlice.actions;
+export const { addQuizToQueue, addWorksheet, fetchWorksheet } =
+  quizSlice.actions;
 
 export default quizSlice.reducer;

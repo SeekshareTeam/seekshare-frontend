@@ -11,10 +11,10 @@ const SettingTab: React.FC<SettingTabProps> = (props) => {
   return (
     <li key={props.tab.tabKey}>
       <a
-        className={`flex flex-row bg-nord-4 dark:bg-nord-1 hover:bg-nord-1 dark:hover:bg-nord-5 rounded ${
+        className={`flex flex-row bg-nord-4 dark:bg-nord-0 hover:bg-nord-5 dark:hover:bg-nord-1 rounded ${
           props.selected.tabKey === props.tab.tabKey
-            ? 'border-l-2 border-blue-700 text-nord-0 dark:text-nord-6 dark:bg-nord-1'
-            : 'hover:border-l-2 border-nord-0 text-nord-0 bg-nord-4 dark:text-nord-dark dark:bg-nord-0 '
+            ? 'border-l-2 border-blue-700 text-nord-0 dark:text-nord-5 dark:bg-nord-1'
+            : 'hover:border-l-2 border-nord-0 text-nord-0 bg-nord-4 dark:text-nord-5 dark:bg-nord-0 '
         } text-sm box-border px-2 py-1 cursor-pointer`}
         onClick={() => {
           props.onSelect(props.tab);
@@ -34,7 +34,6 @@ interface Props {
 }
 
 const SettingSidebar: React.FC<Props> = (props) => {
-
   return (
     <div className="flex flex-col h-full">
       <ul className="px-1 flex flex-col items-stretch">

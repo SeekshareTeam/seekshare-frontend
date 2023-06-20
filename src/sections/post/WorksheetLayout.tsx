@@ -13,7 +13,11 @@ const WorksheetLayout: React.FC<Props> = (props) => {
       <h1 className="text-2xl font-semibold">{'This is a sample worksheet'}</h1>
       <div className="self-start w-full">
         {props.publishedSet?.quiz?.map((quiz: QuizType, ix) => {
-          return <QuizInput key={quiz.id} quiz={quiz} num={ix+1} />;
+          return (
+            <div key={quiz.id} className="border-b dark:border-nord-2">
+              <QuizInput mode="write" key={quiz.id} quiz={quiz} num={ix + 1} />
+            </div>
+          );
         })}
       </div>
     </div>

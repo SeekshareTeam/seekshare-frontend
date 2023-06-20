@@ -5,7 +5,7 @@ import { Quiz as QuizType } from 'src/generated/types';
 
 /* Components */
 import TagItem from 'src/components/Tags';
-import QuizQuestionDisplay from 'src/sections/user/Dashboard/QuizQuestionDisplay';
+import QuestionViewer from 'src/plugins/plugins/quiz_handler/Question';
 
 export const headers = () => ({
   cell1: <p className="font-semibold">{'Question'}</p>,
@@ -29,7 +29,11 @@ export const headers = () => ({
 export const gridData = (params: { quizzes: QuizType[] }) => {
   return params.quizzes.map((quiz, ix) => {
     return {
-      cell1: <QuizQuestionDisplay quiz={quiz} />,
+      cell1: (
+        <div className="cursor-pointer">
+          <QuestionViewer text={quiz?.question?.body || ''} />
+        </div>
+      ),
       cell2: <p>{quiz.type}</p>,
       cell3: <p>{'Easy'}</p>,
       cell4:

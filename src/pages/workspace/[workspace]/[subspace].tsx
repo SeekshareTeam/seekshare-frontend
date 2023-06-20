@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { UnderlineTabs } from 'src/components/Tabs';
 import { PostCard } from 'src/components/Post/card';
-import AddButton from 'src/components/Subspace/AddButton';
 import { wrapper, fetchSSRQuery } from 'src/modules/Redux';
 import { fetchPostList } from 'src/modules/PostList/slice';
 import { serverFetchSubspace } from 'src/modules/Subspace/slice';
@@ -15,7 +14,9 @@ import { upperCase } from 'lodash';
 import { useSubspaceApi } from 'src/api/context';
 import Head from 'next/head';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
+import QuizFlexTable from 'src/sections/user/Dashboard/QuizFlexGrid';
+import DashboardOptions from 'src/sections/subspace/Options/Dashbaord';
 
 type PageWithLayout<T> = NextPage<T> & { layoutType: string };
 
@@ -57,12 +58,12 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
 
 const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   const [tabs] = React.useState([
-    { tabValue: 'Posts', tabKey: 'posts' },
-    { tabValue: 'Q + A', tabKey: 'q_+_a' },
     { tabValue: 'Question Bank', tabKey: 'quizzes' },
+    // { tabValue: 'Posts', tabKey: 'posts' },
+    // { tabValue: 'Q + A', tabKey: 'q_+_a' },
   ]);
 
-  const [selectedTab, setSelectedTab] = React.useState('posts');
+  const [selectedTab, setSelectedTab] = React.useState('quizzes');
 
   const useFetchAllPostsFromSubspace = useCustomQuery(
     fetchPostList,
@@ -76,7 +77,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
     subspaceApi.subscribeSubspaceMutation;
   const [onUnsubscribeSubspace] = subspaceApi.unsubscribeSubspaceMutation;
 
-  const router = useRouter();
+  // const router = useRouter();
 
   React.useEffect(() => {
     if (selectedTab && props.workspaceId && props.subspaceId) {
@@ -88,7 +89,17 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
               subspaceId: props.subspaceId,
             },
           });
-          break
+          break;
+        case 'quizzes':
+          (async () => {
+            await subspaceApi.fetchAllQuizzesFromSubspace({
+              variables: {
+                workspaceId: props.workspaceId,
+                subspaceId: props.subspaceId,
+              },
+            });
+          })();
+          break;
         default:
       }
     }
@@ -99,6 +110,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
       auth: state.auth?.data,
       postList: state.postList?.client,
       subspace: state.subspace?.server,
+      quizzes: state.subspace?.quizzes,
       hasSubspace: state?.auth?.data?.userWorkspaces
         ?.find((uw) => {
           return uw.id === props.workspaceId;
@@ -114,15 +126,15 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
     setSelectedTab(tabKey);
   };
 
-  const onCreatePost = async () => {
-    router.push(
-      {
-        pathname: '/create',
-        query: { subspaceId: props.subspaceId, workspaceId: props.workspaceId },
-      },
-      '/create'
-    );
-  };
+  // const onCreatePost = async () => {
+  //   router.push(
+  //     {
+  //       pathname: '/create',
+  //       query: { subspaceId: props.subspaceId, workspaceId: props.workspaceId },
+  //     },
+  //     '/create'
+  //   );
+  // };
 
   const onSubscribe = async () => {
     if (!reduxState?.hasSubspace) {
@@ -173,18 +185,31 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
           active={selectedTab}
         />
       }
-      itemsToDisplay={
-        selectedTab === 'posts' && (
-          <div className="flex flex-col items-center flex-1 overflow-y-scroll">
-            {reduxState?.postList?.map((epost, i) => (
-              <PostCard key={i} {...epost} />
-            ))}
-          </div>
-        )
-      }
-      addButton={<AddButton onClick={onCreatePost} />}
+      itemsToDisplay={<ItemsToDisplay type={selectedTab} />}
+      addButton={<DashboardOptions />}
     />
   );
+};
+
+const ItemsToDisplay: React.FC<{ type: string }> = (props) => {
+  const reduxState = useAppSelector((state) => ({
+    postList: state.postList?.client,
+    quizzes: state.subspace?.quizzes,
+  }));
+
+  switch (props.type) {
+    case 'posts':
+      return (
+        <div className="flex flex-col items-center flex-1 overflow-y-scroll">
+          {reduxState?.postList?.map((epost, i) => (
+            <PostCard key={i} {...epost} />
+          ))}
+        </div>
+      );
+    case 'quizzes':
+      return <QuizFlexTable quizzes={reduxState?.quizzes} />;
+  }
+  return null;
 };
 
 export const getStaticProps = wrapper.getStaticProps(

@@ -12,17 +12,17 @@ import {
 
 /* Actions */
 import {
-  addQuizToStack,
+  addQuizToQueue,
   addWorksheet,
   fetchWorksheet,
 } from 'src/modules/Quiz/slice';
 
 const api = () => {
   const [createQuizMutation] = useCustomMutation<
-    typeof addQuizToStack,
+    typeof addQuizToQueue,
     typeof useCreateQuizMutation
   >({
-    action: addQuizToStack,
+    action: addQuizToQueue,
     useApolloMutation: useCreateQuizMutation,
     variables: undefined,
     onMount: false,

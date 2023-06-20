@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 /* State Management */
-import { PermissionType, } from 'src/generated/types';
+import { PermissionType } from 'src/generated/types';
 
 /* Components */
 import {
   ReusableDropdown,
   DropdownOption as DropdownOptionType,
 } from 'src/components/Dropdown';
+
 import { Button } from 'src/components/Button';
 
 interface Props {

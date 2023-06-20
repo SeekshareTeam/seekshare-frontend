@@ -1,5 +1,33 @@
 import { gql } from '@apollo/client';
 
+export const QUIZ_FRAGMENT = gql`
+  fragment QuizFragment on Quiz {
+    id
+    type
+    question {
+      body
+    }
+    optionKeys {
+      id
+      content {
+        body
+      }
+    }
+    subspace {
+      name
+      fieldTwo
+      workspaceId
+      id
+    }
+    quizTags {
+      id
+      value
+      colorString
+    }
+    createdAt
+  }
+`;
+
 export const CREATE_QUIZ_MUTATION = gql`
   mutation createQuiz(
     $quizInput: QuizInput!
@@ -40,29 +68,21 @@ export const FETCH_WORKSHEET_MUTATION = gql`
     fetchWorksheet(worksheetId: $worksheetId) {
       quizGroup
       quiz {
-        id
-        type
-        question {
-          body
-        }
-        optionKeys {
-          id
-          content {
-            body
-          }
-        }
-        subspace {
-          name
-          fieldTwo
-          workspaceId
-          id
-        }
-        quizTags {
-          id
-          value
-          colorString
-        }
+        ...QuizFragment
       }
+    }
+  }
+  ${QUIZ_FRAGMENT}
+`;
+
+export const FETCH_QUIZZES_FROM_SUBSPACE_QUERY = gql`
+  ${QUIZ_FRAGMENT}
+  query fetchAllQuizzesFromSubspace($workspaceId: ID!, $subspaceId: ID!) {
+    fetchAllQuizzesFromSubspace(
+      workspaceId: $workspaceId
+      subspaceId: $subspaceId
+    ) {
+      ...QuizFragment
     }
   }
 `;

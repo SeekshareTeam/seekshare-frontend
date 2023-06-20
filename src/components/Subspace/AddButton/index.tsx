@@ -7,10 +7,13 @@ interface Props {
 
 const AddButton: React.FC<Props> = (props) => {
   return (
-    <button onClick={props.onClick} className="rounded-full shadow-xl dark:bg-gray-300 dark:hover:brightness-110 p-2">
+    <button
+      onClick={props.onClick}
+      className="rounded-full shadow-xl dark:bg-nord-3 dark:hover:brightness-110 p-2"
+    >
       <IconPlus size={24} />
     </button>
-  )
+  );
 };
 
 export default AddButton;

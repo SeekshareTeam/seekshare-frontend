@@ -1,9 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Subspace as SubspaceType } from 'src/generated/types';
+import {
+  Subspace as SubspaceType,
+  Quiz as QuizType,
+} from 'src/generated/types';
 import { HYDRATE } from 'next-redux-wrapper';
 
 type SubspaceSliceType = {
   server?: SubspaceType;
+  quizzes?: QuizType[];
 };
 
 const initialState: SubspaceSliceType = {};
@@ -24,6 +28,12 @@ const subspaceSlice = createSlice({
         data: action.payload,
       };
     },
+    fetchSubspaceQuizList: (state, action) => {
+      return {
+        ...state,
+        quizzes: action.payload,
+      };
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -35,6 +45,7 @@ const subspaceSlice = createSlice({
   },
 });
 
-export const { createSubspace, serverFetchSubspace } = subspaceSlice.actions;
+export const { createSubspace, serverFetchSubspace, fetchSubspaceQuizList } =
+  subspaceSlice.actions;
 
 export default subspaceSlice.reducer;

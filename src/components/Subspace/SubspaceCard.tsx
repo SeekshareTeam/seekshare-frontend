@@ -50,19 +50,14 @@ export const SubspaceCardLoader = () => {
       <rect x="50" y="10" rx="4" ry="4" width="145" height="20" />
       <rect x="8" y="10" rx="4" ry="4" width="35" height="20" />
     </ContentLoader>
-  )
-}
-
+  );
+};
 
 const SubspaceCard: React.FC<Props> = (props) => {
-
-
   if (props.loading) {
     /**
      */
-    return (
-      <SubspaceCardLoader />
-    );
+    return <SubspaceCardLoader />;
   }
 
   return (
@@ -75,8 +70,8 @@ const SubspaceCard: React.FC<Props> = (props) => {
         <Logo
           type={props.subspace.logoType as LogoType}
           imgUrl={props.subspace.logoUrl}
-          displayHeight={24}
-          displayWidth={24}
+          displayHeight={4}
+          displayWidth={5}
         />
         <h4 className={`mx-1 ${props.titleClassName || ''}`}>
           {props.subspace.name}

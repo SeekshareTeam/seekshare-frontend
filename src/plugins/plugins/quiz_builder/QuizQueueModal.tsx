@@ -53,7 +53,7 @@ const QuizQueueModal: React.FC<Props> = (props) => {
             >
               <div className="flex flex-1">
                 <div>
-                  <p className="text-xs text-nord-4 m-1">{(ix+1) + ')'}</p>
+                  <p className="text-xs text-nord-4 m-1">{ix + 1 + ')'}</p>
                 </div>
                 <Viewer mode={'read'} text={quiz?.question?.body || ''} />
               </div>
@@ -67,23 +67,25 @@ const QuizQueueModal: React.FC<Props> = (props) => {
         );
       })}
       <div className="flex justify-center">
-      <button
-        className={'p-2 rounded-lg self-center dark:bg-nord-8 dark:bg-nord-8/50'}
-        onClick={async () => {
-          console.log('@@@ publishing');
-          if (props.workspaceId && props.subspaceId) {
-            await quizApi.publishWorksheet({
-              variables: {
-                quizIds,
-                workspaceId: props.workspaceId,
-                subspaceId: props.subspaceId,
-              },
-            });
+        <button
+          className={
+            'p-2 rounded-lg self-center dark:bg-nord-8 dark:bg-nord-8/50'
           }
-        }}
-      >
-        {'Publish Worksheet'}
-      </button>
+          onClick={async () => {
+            console.log('@@@ publishing');
+            if (props.workspaceId && props.subspaceId) {
+              await quizApi.publishWorksheet({
+                variables: {
+                  quizIds,
+                  workspaceId: props.workspaceId,
+                  subspaceId: props.subspaceId,
+                },
+              });
+            }
+          }}
+        >
+          {'Publish Worksheet'}
+        </button>
       </div>
     </div>
   );
@@ -96,9 +98,6 @@ interface Props {
 
 const QuizQueueButton: React.FC<Props> = (props) => {
   const [showQuizQueue, setShowQuizQueue] = React.useState(false);
-
-  console.log('@@@ workspace id', props.workspaceId);
-  console.log('@@@ subspace id', props.subspaceId);
 
   const reduxState = useAppSelector((state) => ({
     quizQueue: state.quiz?.data?.queue,

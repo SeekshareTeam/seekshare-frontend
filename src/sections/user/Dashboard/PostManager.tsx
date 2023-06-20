@@ -1,14 +1,19 @@
 import * as React from 'react';
 
 /* State Management */
-import { PostTypeArray, Post as PostType, Quiz as QuizType } from 'src/generated/types';
+import {
+  PostTypeArray,
+  Post as PostType,
+  Quiz as QuizType,
+} from 'src/generated/types';
 import { PostTypeOptionKey } from 'src/utils/types';
 
 /* Components */
 // import { UnderlineTabs } from 'src/components/Tabs';
 import UserActivityTabs from 'src/components/Tabs/UserActivityTabs';
 import PostGrid from 'src/sections/user/Dashboard/PostGrid';
-import QuizGrid from 'src/sections/user/Dashboard/QuizGrid';
+// import QuizGrid from 'src/sections/user/Dashboard/QuizGrid';
+import QuizFlexTable from 'src/sections/user/Dashboard/QuizFlexGrid';
 
 interface Props {
   postsTypeArray: PostTypeArray[];
@@ -68,7 +73,7 @@ const PostManager: React.FC<Props> = (props) => {
       </div>
 
       {activeTabKey !== 'quiz' && <PostGrid posts={displayPostArray} />}
-      {activeTabKey === 'quiz' && <QuizGrid quizzes={displayQuizArray} />}
+      {activeTabKey === 'quiz' && <QuizFlexTable quizzes={displayQuizArray} />}
     </div>
   );
 };
