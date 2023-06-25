@@ -1,7 +1,7 @@
 // import * as React from 'react';
 //
 // import { toast } from 'react-toastify';
-import { useCustomMutation, useCustomQuery } from 'src/modules/Redux';
+import { useCustomMutation, useCustomQuery, useAppDispatch } from 'src/modules/Redux';
 
 /* APIs */
 import {
@@ -13,11 +13,15 @@ import {
 /* Actions */
 import {
   addQuizToQueue,
+  clearQuizQueue,
   addWorksheet,
   fetchWorksheet,
 } from 'src/modules/Quiz/slice';
 
 const api = () => {
+
+  const dispatch = useAppDispatch();
+
   const [createQuizMutation] = useCustomMutation<
     typeof addQuizToQueue,
     typeof useCreateQuizMutation
@@ -27,6 +31,10 @@ const api = () => {
     variables: undefined,
     onMount: false,
   });
+
+  const clearQuizQueueAction = () => {
+    dispatch(clearQuizQueue())
+  }
 
   const [publishWorksheet] = useCustomMutation<
     typeof addWorksheet,
@@ -43,10 +51,12 @@ const api = () => {
     typeof useFetchWorksheetLazyQuery
   >(fetchWorksheet, useFetchWorksheetLazyQuery, undefined, false);
 
+
   return {
     createQuizMutation,
     publishWorksheet,
     fetchWorksheetQuery,
+    clearQuizQueueAction
   };
 };
 

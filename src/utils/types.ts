@@ -88,9 +88,9 @@ export const gridColumns = {
 };
 
 export const flexColumns = {
-  1: 'w-48 shrink-0 whitespace-nowrap overflow-hidden text-ellipsis',
-  2: 'w-80 shrink-0 whitespace-nowrap overflow-hidden text-ellipsis',
-  3: 'grid-cols-table-3 md:grid-cols-3',
+  1: 'w-48 md:w-1/5 shrink-0 whitespace-nowrap overflow-hidden text-ellipsis',
+  2: 'w-80 shrink-0 md:w-1/5 whitespace-nowrap overflow-hidden text-ellipsis',
+  3: 'w-80 md:w-3/5 grid-cols-table-3 md:grid-cols-3',
   4: 'grid-cols-table-4 md:grid-cols-4',
   5: 'grid-cols-table-5 md:grid-cols-5',
   6: 'grid-cols-table-6 md:grid-cols-6',

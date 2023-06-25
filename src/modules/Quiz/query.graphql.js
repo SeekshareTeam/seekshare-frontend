@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client';
 
+import { SUBSPACE_FRAGMENT } from './query.graphql.js';
+
 export const QUIZ_FRAGMENT = gql`
   fragment QuizFragment on Quiz {
     id
@@ -52,18 +54,25 @@ export const CREATE_QUIZ_MUTATION = gql`
 export const PUBLISH_WORKSHEET_MUTATION = gql`
   mutation publishWorksheet(
     $quizIds: [ID!]!
+    $title: String!
     $workspaceId: ID!
     $subspaceId: ID!
   ) {
     publishWorksheet(
       quizIds: $quizIds
+      title: $title
       workspaceId: $workspaceId
       subspaceId: $subspaceId
-    )
+    ) {
+      quizGroup
+      quiz {
+        ...QuizFragment
+      }
+    }
   }
 `;
 
-export const FETCH_WORKSHEET_MUTATION = gql`
+export const FETCH_WORKSHEET_QUERY = gql`
   query fetchWorksheet($worksheetId: ID!) {
     fetchWorksheet(worksheetId: $worksheetId) {
       quizGroup
@@ -85,4 +94,19 @@ export const FETCH_QUIZZES_FROM_SUBSPACE_QUERY = gql`
       ...QuizFragment
     }
   }
+`;
+
+export const FETCH_WORKSHEET_BY_SUBSPACE_QUERY = gql`
+  query fetchWorksheetsBySubspace($subspaceId: ID!) {
+    fetchWorksheetsBySubspace(subspaceId: $subspaceId) {
+      id
+      title
+      createdAt
+      quizCount
+      subspace {
+        ...SubspaceFragment
+      }
+    }
+  }
+  ${SUBSPACE_FRAGMENT}
 `;

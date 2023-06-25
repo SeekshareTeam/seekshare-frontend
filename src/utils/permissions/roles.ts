@@ -1,13 +1,10 @@
 import { get, set } from 'lodash';
 
-const userRoutes = [
-  '/user/dashboard',
-  '/user/settings'
-];
+const userRoutes = ['/user/dashboard', '/user/settings'];
 
 const adminRoutes = [
   '/workspace/[workspace]/settings',
-  ...userRoutes
+  ...userRoutes,
   // The rest of the routes are for testing
   // '/workspace/[workspace]/settings/blah/blah/blah',
   // '/workspace/[workspace]/settings/test1',
@@ -33,10 +30,6 @@ const stringSplice = function (
 ): string {
   return val.slice(0, idx) + str + val.slice(idx + Math.abs(rem));
 };
-
-// const roles = {
-//   admin: adminRoutes,
-// };
 
 const extendCurrentPath = (
   currentPath: string,
@@ -141,7 +134,10 @@ const convertRoutesToValidator = (
   return routeValidator;
 };
 
-export const validateRoute = (route: string, routeValidator: RouteValidatorType) => {
+export const validateRoute = (
+  route: string,
+  routeValidator: RouteValidatorType
+) => {
   let isPathValid = false;
   const splitByDirectory = routeSplitter(route);
 
@@ -153,7 +149,6 @@ export const validateRoute = (route: string, routeValidator: RouteValidatorType)
       throw new Error('Subroute not valid.');
     }
   };
-
 
   try {
     isPathValid = routeIterator(
@@ -172,6 +167,6 @@ const adminRouteValidator = convertRoutesToValidator(adminRoutes);
 const userRouteValidator = convertRoutesToValidator(userRoutes);
 
 export const routeValidator = {
-  'admin': adminRouteValidator,
-  'user': userRouteValidator,
-}
+  admin: adminRouteValidator,
+  user: userRouteValidator,
+};

@@ -75,7 +75,9 @@ const QuizInput: React.FC<Props> = (props) => {
 
   return (
     <QuizInputLayout
-      options={<QuizOptionDropdown quiz={props.quiz} />}
+      options={
+        props.mode === 'read' && <QuizOptionDropdown quiz={props.quiz} />
+      }
       subspace={
         <div className="bg-nord-6 dark:bg-nord-9 hover:dark:bg-nord-9/50 px-2 py-0.5 rounded-full self-center">
           {props?.quiz?.subspace?.name}

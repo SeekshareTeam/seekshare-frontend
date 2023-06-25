@@ -3,6 +3,8 @@ import * as React from 'react';
 /* State Management & APIs */
 import { useAppSelector } from 'src/modules/Redux';
 import { useQuizApi } from 'src/api/context';
+import { useRouter } from 'next/router';
+import { isEmpty } from 'lodash';
 
 import { Button } from 'src/components/Button';
 import { IconBoxMultiple } from '@tabler/icons';
@@ -14,21 +16,51 @@ interface Props {
   subspaceId?: string;
 }
 
-const QuizQueueModal: React.FC<Props> = (props) => {
+export const QuizQueueModal: React.FC<Props> = (props) => {
   const [quizIds, setQuizIds] = React.useState<string[]>([]);
+  const [title, setTitle] = React.useState<string>('');
+  const [disableButton, setDisableButton] = React.useState<boolean>(true);
+  const titleRef = React.useRef<HTMLInputElement>(null);
   const quizApi = useQuizApi();
-
-  React.useEffect(() => {
-    console.log('@@@ quizIds', quizIds);
-  });
+  const router = useRouter();
 
   const reduxState = useAppSelector((state) => ({
     quizQueue: state.quiz?.data?.queue,
+    publishedWorksheet: state.quiz?.data?.publishedWorksheet,
   }));
+
+  React.useEffect(() => {
+    if (titleRef.current) {
+      titleRef.current.focus();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (reduxState.publishedWorksheet?.quizGroup) {
+      router.push(
+        '/post/worksheet/' + reduxState?.publishedWorksheet?.quizGroup
+      );
+    }
+  }, [reduxState.publishedWorksheet]);
+
+  React.useEffect(() => {
+    const disableStatus = isEmpty(title) || isEmpty(quizIds);
+    setDisableButton(disableStatus);
+  }, [title, quizIds]);
 
   return (
     <div className="flex flex-col bg-nord-6 dark:bg-gray-800 rounded-lg px-4 py-2  w-1/2">
-      <h4 className={'font-semibold text-lg my-1'}>{'Publish Worksheet'}</h4>
+      {/**<h4 className={'font-semibold text-lg my-1 bg-none'}>{'Publish Worksheet'}</h4>**/}
+      <input
+        type="text"
+        className="w-full text-2xl dark:bg-gray-800 my-1 dark:text-nord-4 outline-none"
+        placeholder="Insert Worksheet Title"
+        value={title}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setTitle((e.target as HTMLInputElement).value);
+        }}
+        ref={titleRef}
+      />
       <p className="text-nord-4">
         {'Select questions to publish in a worksheet.'}
       </p>
@@ -51,7 +83,7 @@ const QuizQueueModal: React.FC<Props> = (props) => {
                 }
               }}
             >
-              <div className="flex flex-1">
+              <div className="flex flex-1 text-left">
                 <div>
                   <p className="text-xs text-nord-4 m-1">{ix + 1 + ')'}</p>
                 </div>
@@ -66,17 +98,18 @@ const QuizQueueModal: React.FC<Props> = (props) => {
           </div>
         );
       })}
-      <div className="flex justify-center">
+      <div className="flex justify-center my-1 ">
         <button
-          className={
-            'p-2 rounded-lg self-center dark:bg-nord-8 dark:bg-nord-8/50'
-          }
+          className={`p-2 rounded-lg self-center dark:bg-nord-8 dark:bg-nord-8/50 ${
+            disableButton ? '' : 'dark:hover:bg-nord-8/75'
+          }`}
+          disabled={isEmpty(title) || isEmpty(quizIds)}
           onClick={async () => {
-            console.log('@@@ publishing');
             if (props.workspaceId && props.subspaceId) {
               await quizApi.publishWorksheet({
                 variables: {
                   quizIds,
+                  title,
                   workspaceId: props.workspaceId,
                   subspaceId: props.subspaceId,
                 },
@@ -96,8 +129,17 @@ interface Props {
   subspaceId?: string;
 }
 
-const QuizQueueButton: React.FC<Props> = (props) => {
+export const useQuizQueueModal = () => {
   const [showQuizQueue, setShowQuizQueue] = React.useState(false);
+
+  return {
+    showQuizQueue,
+    setShowQuizQueue,
+  };
+};
+
+const QuizQueueButton: React.FC<Props> = (props) => {
+  const { showQuizQueue, setShowQuizQueue } = useQuizQueueModal();
 
   const reduxState = useAppSelector((state) => ({
     quizQueue: state.quiz?.data?.queue,

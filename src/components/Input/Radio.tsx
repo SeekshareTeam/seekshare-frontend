@@ -10,27 +10,30 @@ export interface Props {
 }
 
 const InputRadio: React.FC<Props> = (props) => {
-
   return (
-      <div>
-        <input
-          type="radio"
-          name={props.name}
-          id={props.id}
-          value={props.value}
-          checked={props.value === props.inputValue}
-          className="cursor-pointer"
-          onChange={() => { console.log('onChange: radio') }}
-        />
-        <label className="px-2 text-nord-0 dark:text-nord-6 cursor-pointer" htmlFor={props.id}>
-          {props.labelTitle}
-        </label>
-        <div className="text-nord-0 text-xs font-medium dark:text-nord-6">
-          {props.childDescription}
-        </div>
+    <div>
+      <input
+        type="radio"
+        name={props.name}
+        id={props.id}
+        value={props.value}
+        checked={props.value === props.inputValue}
+        className="cursor-pointer"
+        onChange={() => {
+          console.log('onChange: radio');
+        }}
+      />
+      <label
+        className="px-2 text-nord-0 dark:text-nord-6 cursor-pointer"
+        htmlFor={props.id}
+      >
+        {props.labelTitle}
+      </label>
+      <div className="text-nord-0 text-xs font-medium dark:text-gray-400">
+        {props.childDescription}
       </div>
-
-  )
+    </div>
+  );
 };
 
 export default InputRadio;

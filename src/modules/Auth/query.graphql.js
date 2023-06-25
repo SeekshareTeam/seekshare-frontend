@@ -35,6 +35,10 @@ export const AUTH_USER_QUERY = gql`
           fieldThree
           fieldFour
           workspaceId
+          userPermission {
+            type
+            role
+          }
         }
       }
       permissions {

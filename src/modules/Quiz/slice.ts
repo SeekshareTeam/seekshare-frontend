@@ -5,21 +5,21 @@ import { Quiz as QuizType, PublishedSet } from 'src/generated/types';
 import { isEmpty } from 'lodash';
 
 type QuizSliceType = {
-  data?: {
+  data: {
     queue?: QuizType[];
     currentWorksheet?: QuizType[];
     publishedWorksheet?: PublishedSet;
   };
 };
 
-const initialState: QuizSliceType = {};
+const initialState: QuizSliceType = { data: {} };
 
 export const quizSlice = createSlice({
   name: 'quiz',
   initialState,
   reducers: {
     addQuizToQueue: (state, action) => {
-      if (isEmpty(state?.data)) {
+      if (isEmpty(state?.data?.queue)) {
         state.data = { queue: [action.payload] };
       } else {
         if (state?.data?.queue) {
@@ -45,20 +45,25 @@ export const quizSlice = createSlice({
       }
     },
     addWorksheet: (state, action) => {
+      console.log('@@@ action', action);
       if (isEmpty(state?.data)) {
-        state.data = { currentWorksheet: action.payload };
+        state.data = { publishedWorksheet: action.payload };
+      } else {
+        state.data.publishedWorksheet = action.payload
       }
     },
     fetchWorksheet: (state, action) => {
       if (isEmpty(state?.data)) {
         state.data = { publishedWorksheet: action.payload };
+      } else {
+        state.data.publishedWorksheet = action.payload
       }
     },
   },
   extraReducers: {},
 });
 
-export const { addQuizToQueue, addWorksheet, fetchWorksheet } =
+export const { addQuizToQueue, clearQuizQueue, addWorksheet, fetchWorksheet } =
   quizSlice.actions;
 
 export default quizSlice.reducer;

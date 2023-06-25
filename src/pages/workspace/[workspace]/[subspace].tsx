@@ -9,13 +9,13 @@ import { Button } from 'src/components/Button';
 import { ssrFetchSubspace, ssrFetchWorkspace } from 'src/generated/page';
 import { useFetchAllPostsFromSubspaceLazyQuery } from 'src/generated/apollo';
 import { useAppSelector, useCustomQuery } from 'src/modules/Redux';
-import { shallowEqual } from 'react-redux';
-import { upperCase } from 'lodash';
+import { upperCase, isEmpty } from 'lodash';
 import { useSubspaceApi } from 'src/api/context';
 import Head from 'next/head';
 import { NextPage } from 'next';
 // import { useRouter } from 'next/router';
 import QuizFlexTable from 'src/sections/user/Dashboard/QuizFlexGrid';
+import WorksheetFlexTable from 'src/sections/user/Dashboard/WorksheetFlexGrid';
 import DashboardOptions from 'src/sections/subspace/Options/Dashbaord';
 
 type PageWithLayout<T> = NextPage<T> & { layoutType: string };
@@ -56,12 +56,15 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
   );
 };
 
+const subspaceTabs = [
+  { tabValue: 'Question Bank', tabKey: 'quizzes' },
+  { tabValue: 'Worksheet', tabKey: 'worksheets' },
+  { tabValue: 'Posts', tabKey: 'posts' },
+  { tabValue: 'Q + A', tabKey: 'q_+_a' },
+];
+
 const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
-  const [tabs] = React.useState([
-    { tabValue: 'Question Bank', tabKey: 'quizzes' },
-    // { tabValue: 'Posts', tabKey: 'posts' },
-    // { tabValue: 'Q + A', tabKey: 'q_+_a' },
-  ]);
+  const [tabs, setTabs] = React.useState(subspaceTabs);
 
   const [selectedTab, setSelectedTab] = React.useState('quizzes');
 
@@ -77,7 +80,24 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
     subspaceApi.subscribeSubspaceMutation;
   const [onUnsubscribeSubspace] = subspaceApi.unsubscribeSubspaceMutation;
 
-  // const router = useRouter();
+  const reduxState = useAppSelector((state) => {
+    const subspaceInstance = state?.auth?.data?.userWorkspaces
+      ?.find((uw) => {
+        return uw.id === props.workspaceId;
+      })
+      ?.userSubspaces?.find((us) => us.id === props.subspaceId);
+
+    return {
+      auth: state.auth?.data,
+      postList: state.postList?.client,
+      subspace: state.subspace?.server,
+      quizzes: state.subspace?.quizzes,
+      userRelation: {
+        isJoined: !isEmpty(subspaceInstance) ? true : false,
+        accessRole: subspaceInstance?.userPermission,
+      },
+    };
+  });
 
   React.useEffect(() => {
     if (selectedTab && props.workspaceId && props.subspaceId) {
@@ -100,27 +120,46 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
             });
           })();
           break;
+        case 'worksheets':
+          (async () => {
+            await subspaceApi.fetchWorksheetsBySubspace({
+              variables: { subspaceId: props.subspaceId },
+            });
+          })();
+          break;
         default:
       }
     }
   }, [selectedTab, props.subspaceId, props.workspaceId]);
 
-  const reduxState = useAppSelector(
-    (state) => ({
-      auth: state.auth?.data,
-      postList: state.postList?.client,
-      subspace: state.subspace?.server,
-      quizzes: state.subspace?.quizzes,
-      hasSubspace: state?.auth?.data?.userWorkspaces
-        ?.find((uw) => {
-          return uw.id === props.workspaceId;
+  React.useEffect(() => {
+    if (reduxState.userRelation.isJoined) {
+      const visibleTabs = reduxState?.userRelation?.accessRole?.filter(
+        (docAccess) => {
+          console.log('@@@ doc access', docAccess);
+          if (docAccess.role !== 'noaccess') {
+            return true;
+          }
+        }
+      );
+
+      console.log('visible tabs', visibleTabs);
+      const newTabs = visibleTabs
+        ?.map((vt) => {
+          return subspaceTabs.find((st) => st.tabKey === vt.type);
         })
-        ?.userSubspaces?.find((us) => us.id === props.subspaceId)
-        ? true
-        : false,
-    }),
-    shallowEqual
-  );
+        .filter((x) => x !== undefined) as {
+        tabValue: string;
+        tabKey: string;
+      }[];
+
+      console.log('new tabs', newTabs);
+
+      if (newTabs) {
+        setTabs(newTabs);
+      }
+    }
+  }, [reduxState.userRelation.accessRole, reduxState.userRelation.isJoined]);
 
   const onTabClick = (tabKey: string) => {
     setSelectedTab(tabKey);
@@ -137,7 +176,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   // };
 
   const onSubscribe = async () => {
-    if (!reduxState?.hasSubspace) {
+    if (!reduxState.userRelation?.isJoined) {
       if (onSubscribeSubspace) {
         await onSubscribeSubspace({
           variables: {
@@ -171,7 +210,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
               onClick={onSubscribe}
               className="self-center shadow"
             >
-              {reduxState?.hasSubspace
+              {reduxState?.userRelation?.isJoined
                 ? `LEAVE ${upperCase(reduxState.subspace.name)}`
                 : `JOIN ${upperCase(reduxState.subspace.name)}`}
             </Button>
@@ -186,7 +225,12 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
         />
       }
       itemsToDisplay={<ItemsToDisplay type={selectedTab} />}
-      addButton={<DashboardOptions />}
+      addButton={
+        <DashboardOptions
+          workspaceId={props.workspaceId}
+          subspaceId={props.subspaceId}
+        />
+      }
     />
   );
 };
@@ -195,6 +239,7 @@ const ItemsToDisplay: React.FC<{ type: string }> = (props) => {
   const reduxState = useAppSelector((state) => ({
     postList: state.postList?.client,
     quizzes: state.subspace?.quizzes,
+    worksheetItems: state.subspace?.worksheetItems,
   }));
 
   switch (props.type) {
@@ -208,6 +253,8 @@ const ItemsToDisplay: React.FC<{ type: string }> = (props) => {
       );
     case 'quizzes':
       return <QuizFlexTable quizzes={reduxState?.quizzes} />;
+    case 'worksheets':
+      return <WorksheetFlexTable worksheetItems={reduxState?.worksheetItems} />;
   }
   return null;
 };
@@ -222,7 +269,6 @@ export const getStaticProps = wrapper.getStaticProps(
 
     // if (store.getState().server.workspace.id === workspace) {
     // }
-
     await fetchSSRQuery({
       action: serverFetchWorkspace,
       ssrApolloQuery: ssrFetchWorkspace.getServerPage,

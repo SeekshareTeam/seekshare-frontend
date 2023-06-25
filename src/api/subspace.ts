@@ -8,12 +8,14 @@ import {
   useSubscribeSubspaceMutation,
   useUnsubscribeSubspaceMutation,
   useFetchAllQuizzesFromSubspaceLazyQuery,
+  useFetchWorksheetsBySubspaceLazyQuery,
 } from 'src/generated/apollo';
 
 /* Actions */
 import {
   createSubspace,
   fetchSubspaceQuizList,
+  fetchWorksheetItems,
 } from 'src/modules/Subspace/slice';
 import { subscribeSubspace, unsubscribeSubspace } from 'src/modules/Auth/slice';
 
@@ -96,6 +98,16 @@ const api = () => {
     false
   );
 
+  const fetchWorksheetsBySubspace = useCustomQuery<
+    typeof fetchWorksheetItems,
+    typeof useFetchWorksheetsBySubspaceLazyQuery
+  >(
+    fetchWorksheetItems,
+    useFetchWorksheetsBySubspaceLazyQuery,
+    undefined,
+    false
+  );
+
   // const onSubscribeSubspace = async ({
   //   subspaceId,
   //   workspaceId,
@@ -122,6 +134,7 @@ const api = () => {
     onCreateSubspace,
     errorCreateSubspace,
     fetchAllQuizzesFromSubspace,
+    fetchWorksheetsBySubspace,
   };
 };
 

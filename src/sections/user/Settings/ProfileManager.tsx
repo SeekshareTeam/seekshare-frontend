@@ -15,7 +15,7 @@ const ProfileManagerLayout: React.FC<LayoutProps> = (props) => {
   return (
     <div
       id={'profile-manager'}
-      className="mx-32 h-4/5 md:w-3/5 dark:bg-nord-1 box-border flex flex-wrap overflow-y-auto"
+      className="mx-32 h-4/5 md:w-3/5 dark:bg-gray-800 rounded-lg box-border flex flex-wrap overflow-y-auto"
     >
       {props.headerTitle}
       <div className="flex flex-col flex-1">{props.profileForm}</div>
@@ -36,7 +36,9 @@ const ProfileManager: React.FC = () => {
     <ProfileManagerLayout
       headerTitle={
         <h1
-          className={'p-2 overflow-hidden w-full text-2xl text-nord-0 dark:text-nord-6'}
+          className={
+            'p-2 overflow-hidden w-full text-2xl text-nord-0 dark:text-nord-6'
+          }
         >
           {'Edit Your Profile'}
         </h1>

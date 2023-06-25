@@ -22,9 +22,9 @@ const FlexTable = <T extends GridItem<string>, K extends keyof T>(
   // }, [props.headers, props.gridData]);
 
   return (
-    <div className="overflow-x-auto w-full">
+    <div className="overflow-x-auto m-4">
       <table
-        className={`table-fixed m-4 rounded-lg bg-nord-4 dark:bg-nord-1 text-nord-0 dark:text-nord-6 ${props.className}`}
+        className={`box-border w-full table-fixed rounded-lg bg-nord-4 dark:bg-nord-1 text-nord-0 dark:text-nord-6 ${props.className}`}
       >
         {!isEmpty(props.headers) && (
           <thead className="rounded-lg">

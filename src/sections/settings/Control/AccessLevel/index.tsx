@@ -7,6 +7,38 @@ import InputRadio, {
   Props as InputRadioProps,
 } from 'src/components/Input/Radio';
 import InputBox from 'src/components/Input/Search';
+import { IconPlus } from '@tabler/icons';
+
+const SectionTitle = ({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) => {
+  return (
+    <div>
+      <p className="text-nord-0 dark:text-nord-6 font-medium mb-2 text-lg">
+        {title}
+      </p>
+      {description && (
+        <p className="text-nord-0 dark:text-nord-4">{description}</p>
+      )}
+    </div>
+  );
+};
+
+const CreateAccessRoles = () => {
+  return (
+    <div className="my-4">
+      <SectionTitle title={'Create Access Roles'} />
+      <button className="flex rounded-full p-2">
+        <IconPlus size={24} />
+        <span>{'Create'}</span>
+      </button>
+    </div>
+  );
+};
 
 const AccessLevel: React.FC = () => {
   const generalSettingsSchema = yup.object().shape({
@@ -16,23 +48,6 @@ const AccessLevel: React.FC = () => {
       .max(50, 'Too Long!')
       .required('Required!'),
   });
-
-  const SectionTitle = ({
-    title,
-    description,
-  }: {
-    title: string;
-    description?: string;
-  }) => {
-    return (
-      <div>
-        <p className="text-nord-0 dark:text-nord-6 font-medium mb-2 text-lg">
-          {title}
-        </p>
-        {description && <p className="text-nord-0 dark:text-nord-6">{description}</p>}
-      </div>
-    );
-  };
 
   /**
    * Types of permissions
@@ -101,7 +116,7 @@ const AccessLevel: React.FC = () => {
   }) => {
     return (
       <div className="my-4">
-        {SectionTitle({ title })}
+        <SectionTitle title={title} />
         <Field component="div" name={name}>
           {accountPermissions.map((accLevel) => {
             return (
@@ -120,15 +135,15 @@ const AccessLevel: React.FC = () => {
       </div>
     );
   };
-
   const AllowedEmailDomains = () => {
     return (
       <div>
-        {SectionTitle({
-          title: 'Allowed Email Domains',
-          description:
-            'Users that have emails with specified domains will automatically be allowed to join the workspace.',
-        })}
+        <SectionTitle
+          title={'Allowed Email Domains'}
+          description={
+            'Users that have emails with specified domains will automatically be allowed to join the workspace.'
+          }
+        />
         <div className="w-60">
           <InputBox labelName="email_domains" labelTitle={null} />
         </div>
@@ -143,7 +158,9 @@ const AccessLevel: React.FC = () => {
         privatePermissions: privateAccountPermissions[0].value,
       }}
       validationSchema={generalSettingsSchema}
-      onSubmit={() => { console.log('onSubmit: AccessLevel') }}
+      onSubmit={() => {
+        console.log('onSubmit: AccessLevel');
+      }}
     >
       {({ values, handleSubmit }) => (
         <form onSubmit={handleSubmit} className="">
@@ -159,6 +176,7 @@ const AccessLevel: React.FC = () => {
             inputValue: values.privatePermissions,
             accountPermissions: privateAccountPermissions,
           })}
+          <CreateAccessRoles />
           {AllowedEmailDomains()}
         </form>
       )}

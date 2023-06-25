@@ -24,7 +24,7 @@ const QuizDisplayModal: React.FC<{
         props.setShowQuizDisplay(false);
       }}
     >
-      <div className="flex rounded-lg justify-center dark:bg-gray-800 w-full md:w-1/2">
+      <div className="flex rounded-lg justify-center dark:bg-gray-800 w-full md:w-1/3 p-2">
         <QuizInput quiz={props.quiz} mode={'read'} />
       </div>
     </Modal>

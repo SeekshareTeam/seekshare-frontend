@@ -5,6 +5,8 @@ export interface DropdownOption {
   type?: string;
   id: string;
   href?: string;
+  rightNumber?: number;
+  rightIcon?: React.ReactNode;
   callback?: () => void;
 }
 
@@ -114,7 +116,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
             {props?.optionList?.map((option, ix) => (
               <a
                 key={option?.id}
-                className={`text-nord-0 dark:text-nord-6 ${bgAnchorClass} block px-4 py-2 text-sm cursor-pointer`}
+                className={`flex justify-between items-center text-nord-0 dark:text-nord-6 ${bgAnchorClass} block px-4 py-2 text-sm cursor-pointer`}
                 id={option?.id + '-' + ix}
                 onMouseDown={(e) => {
                   e.preventDefault();
@@ -133,6 +135,11 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
                 }}
               >
                 {option.text}
+                {option.rightNumber && option.rightNumber > 0 && (
+                  <span className="w-5 h-5 flex justify-center items-center rounded-full bg-red-700">
+                    {option.rightNumber}
+                  </span>
+                )}
               </a>
             ))}
           </div>
