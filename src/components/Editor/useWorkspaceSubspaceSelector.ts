@@ -59,7 +59,7 @@ const useWorkspaceSubspaceSelector = (
   }, []);
 
   React.useEffect(() => {
-    setSelectedSubspaceId(undefined);
+    // setSelectedSubspaceId(undefined);
     dispatch(clientClearSubspaces());
 
     if (selectedWorkspaceId) {
@@ -70,7 +70,7 @@ const useWorkspaceSubspaceSelector = (
   }, [selectedWorkspaceId]);
 
   const reduxState = useAppSelector(
-    state => ({
+    (state) => ({
       workspaces: state?.workspace?.server?.workspace,
       subspaces: state?.workspace?.subspaces,
     }),

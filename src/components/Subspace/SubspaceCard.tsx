@@ -71,7 +71,7 @@ const SubspaceCard: React.FC<Props> = (props) => {
           type={props.subspace.logoType as LogoType}
           imgUrl={props.subspace.logoUrl}
           displayHeight={4}
-          displayWidth={5}
+          displayWidth={4}
         />
         <h4 className={`mx-1 ${props.titleClassName || ''}`}>
           {props.subspace.name}

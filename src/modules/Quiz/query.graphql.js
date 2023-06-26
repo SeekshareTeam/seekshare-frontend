@@ -65,6 +65,7 @@ export const PUBLISH_WORKSHEET_MUTATION = gql`
       subspaceId: $subspaceId
     ) {
       quizGroup
+      title
       quiz {
         ...QuizFragment
       }
@@ -76,6 +77,7 @@ export const FETCH_WORKSHEET_QUERY = gql`
   query fetchWorksheet($worksheetId: ID!) {
     fetchWorksheet(worksheetId: $worksheetId) {
       quizGroup
+      title
       quiz {
         ...QuizFragment
       }

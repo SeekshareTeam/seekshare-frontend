@@ -54,16 +54,13 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = wrapper.getStaticProps(
-  (store) => async (context) => {
-    console.log('store', store);
-    const worksheetId = context?.params?.id;
+export const getStaticProps = wrapper.getStaticProps(() => async (context) => {
+  const worksheetId = context?.params?.id;
 
-    return {
-      props: { worksheetId: worksheetId },
-    };
-  }
-);
+  return {
+    props: { worksheetId: worksheetId },
+  };
+});
 
 Worksheet.layoutType = 'general';
 

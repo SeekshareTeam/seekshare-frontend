@@ -8,14 +8,30 @@ import Question from './Question';
 
 interface QuizTypeProps {
   quiz: QuizType;
+
+  onSelectAnswer?: (val: string | string[]) => void;
+
+  selectedAnswer?: string | string[];
 }
 
 const QuizType: React.FC<QuizTypeProps> = (props) => {
   switch (props?.quiz?.type) {
     case 'single':
-      return <MultipleChoiceInput quiz={props.quiz} />;
+      return (
+        <MultipleChoiceInput
+          quiz={props.quiz}
+          onSelectAnswer={props.onSelectAnswer}
+          selectedAnswer={props.selectedAnswer}
+        />
+      );
     case 'multiple':
-      return <MultipleChoiceInput quiz={props.quiz} />;
+      return (
+        <MultipleChoiceInput
+          quiz={props.quiz}
+          onSelectAnswer={props.onSelectAnswer}
+          selectedAnswer={props.selectedAnswer}
+        />
+      );
     case 'long_form':
       return <LongFormInput />;
     default:
@@ -55,6 +71,10 @@ interface Props {
   num?: number;
 
   mode: 'read' | 'write';
+
+  onSelectAnswer?: (val: string | string[]) => void;
+
+  selectedAnswer?: string | string[];
 }
 
 const QuizInput: React.FC<Props> = (props) => {
@@ -84,7 +104,13 @@ const QuizInput: React.FC<Props> = (props) => {
         </div>
       }
       question={<Question text={quizQuestionBody} />}
-      quizComponent={<QuizType quiz={props?.quiz} />}
+      quizComponent={
+        <QuizType
+          onSelectAnswer={props.onSelectAnswer}
+          selectedAnswer={props.selectedAnswer}
+          quiz={props?.quiz}
+        />
+      }
       tags={null}
     />
   );

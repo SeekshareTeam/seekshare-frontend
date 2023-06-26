@@ -45,18 +45,17 @@ export const quizSlice = createSlice({
       }
     },
     addWorksheet: (state, action) => {
-      console.log('@@@ action', action);
       if (isEmpty(state?.data)) {
         state.data = { publishedWorksheet: action.payload };
       } else {
-        state.data.publishedWorksheet = action.payload
+        state.data.publishedWorksheet = action.payload;
       }
     },
     fetchWorksheet: (state, action) => {
       if (isEmpty(state?.data)) {
         state.data = { publishedWorksheet: action.payload };
       } else {
-        state.data.publishedWorksheet = action.payload
+        state.data.publishedWorksheet = action.payload;
       }
     },
   },

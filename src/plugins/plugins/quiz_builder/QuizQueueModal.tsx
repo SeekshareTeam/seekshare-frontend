@@ -65,7 +65,6 @@ export const QuizQueueModal: React.FC<Props> = (props) => {
         {'Select questions to publish in a worksheet.'}
       </p>
       {reduxState?.quizQueue?.map((quiz, ix) => {
-        console.log('@@@ quiz queue', quiz);
         return (
           <div className="flex mx-2 my-1" key={quiz.id}>
             <button

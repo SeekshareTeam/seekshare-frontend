@@ -127,6 +127,8 @@ const QuestionEditor: React.FC<Props> = (props) => {
   const [bodyIndex, setBodyIndex] = React.useState(0);
   const [currentTags, setCurrentTags] = React.useState<TagType[]>([]);
 
+  console.log('@@@ editor subspace id', props.subspaceId);
+
   const workspaceSubspaceSelector = useWorkspaceSubspaceSelector(
     props.workspaceId,
     props.subspaceId

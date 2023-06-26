@@ -3,6 +3,7 @@ import * as React from 'react';
 /* State Management */
 import { useAppSelector } from 'src/modules/Redux';
 import { useQuizApi } from 'src/api/context';
+import { useRouter } from 'next/router';
 
 /* Components */
 import {
@@ -46,7 +47,11 @@ const DashboardOptions: React.FC<{
   ]);
   const { showQuizQueue, setShowQuizQueue } = useQuizQueueModal();
 
+  console.log('@@@ DashboardOptions subspace id', props.subspaceId);
+
   const { queueSize } = useQueueState();
+
+  const router = useRouter();
 
   React.useEffect(() => {
     const queueOptions = options.map((opt) => {
@@ -107,6 +112,18 @@ const DashboardOptions: React.FC<{
         onOptionClick={(option) => {
           if (option.id === 'worksheet') {
             setShowQuizQueue(true);
+          }
+          if (option.id === 'create') {
+            router.push(
+              {
+                pathname: '/create_legacy',
+                query: {
+                  subspaceId: props.subspaceId,
+                  workspaceId: props.workspaceId,
+                },
+              },
+              '/create_legacy'
+            );
           }
         }}
       />

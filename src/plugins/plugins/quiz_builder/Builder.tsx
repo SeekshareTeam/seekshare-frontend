@@ -132,6 +132,12 @@ const QuizBuilder: React.FC<Props> = (props) => {
 
   const tagRef = React.useRef<ManageTagsHandle>(null);
 
+  const clearBuilder = () => {
+    setQuestion('');
+    setOptions([]);
+    setCurrentTags([]);
+  };
+
   return (
     <QuizBuilderLayout
       quizType={
@@ -186,7 +192,7 @@ const QuizBuilder: React.FC<Props> = (props) => {
                       quizInput: {
                         body: question,
                         type: active,
-                        tags: currentTags.map(t => t.id),
+                        tags: currentTags.map((t) => t.id),
                         options: options.map((option) => ({
                           body: option.val,
                           isAnswer:
@@ -199,6 +205,7 @@ const QuizBuilder: React.FC<Props> = (props) => {
                       subspaceId: props.subspaceId,
                     },
                   });
+                  clearBuilder();
                 }
               }}
             >

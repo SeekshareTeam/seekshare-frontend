@@ -27,7 +27,9 @@ const WorkspaceLayout: React.FC<WorkspaceLayoutProps> = (props) => {
     <div className="flex flex-col">
       {props.workspaceHeader}
       {props.underlineTabs}
-      <div className="flex flex-col items-center justify-center">{props.subspaceRow}</div>
+      <div className="flex flex-col mx-4 items-start md:m-0 md:items-center justify-center">
+        {props.subspaceRow}
+      </div>
     </div>
   );
 };
@@ -41,24 +43,21 @@ const Workspace: PageWithLayout<WorkspaceProps> = () => {
 
   const [tabs] = React.useState([
     { tabValue: 'Subspaces', tabKey: 'subspaces' },
-    { tabValue: 'Posts', tabKey: 'posts' },
-    { tabValue: 'Q + A', tabKey: 'q_+_a' },
-    { tabValue: 'Question Bank', tabKey: 'quizzes' },
-    { tabValue: 'Settings', tabKey: 'settings' },
+    // { tabValue: 'Posts', tabKey: 'posts' },
+    // { tabValue: 'Q + A', tabKey: 'q_+_a' },
+    // { tabValue: 'Question Bank', tabKey: 'quizzes' },
+    // { tabValue: 'Settings', tabKey: 'settings' },
   ]);
 
-
   // Ensure that this is the current workspace and subspace that is being served
-  const reduxState = useAppSelector(
-    (state) => ({
-      subspaces: state?.workspace?.server?.subspaces,
-      workspace: state?.workspace?.server?.workspace || {
-        name: 'Home',
-        id: '1',
-      },
-      loading: state.app.loading,
-    })
-  );
+  const reduxState = useAppSelector((state) => ({
+    subspaces: state?.workspace?.server?.subspaces,
+    workspace: state?.workspace?.server?.workspace || {
+      name: 'Home',
+      id: '1',
+    },
+    loading: state.app.loading,
+  }));
 
   const onTabClick = (tabKey: string) => {
     setSelectedTab(tabKey);

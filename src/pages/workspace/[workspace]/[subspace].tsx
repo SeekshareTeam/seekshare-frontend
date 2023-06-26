@@ -13,10 +13,9 @@ import { upperCase, isEmpty } from 'lodash';
 import { useSubspaceApi } from 'src/api/context';
 import Head from 'next/head';
 import { NextPage } from 'next';
-// import { useRouter } from 'next/router';
 import QuizFlexTable from 'src/sections/user/Dashboard/QuizFlexGrid';
 import WorksheetFlexTable from 'src/sections/user/Dashboard/WorksheetFlexGrid';
-import DashboardOptions from 'src/sections/subspace/Options/Dashbaord';
+import DashboardOptionsButton from 'src/sections/subspace/Options/Dashbaord';
 
 type PageWithLayout<T> = NextPage<T> & { layoutType: string };
 
@@ -41,7 +40,7 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
       </Head>
       <div className="flex w-full flex-wrap bg-nord-4 dark:bg-nord-1 pt-4">
         <div className="flex justify-start flex-1">
-          <div className="w-24 h-24 justify-self-start rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 shadow relative ml-24">
+          <div className="w-24 h-24 z-20 justify-self-start rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 shadow relative ml-4 md:ml-24">
             <div className="absolute bottom-0 left-0 px-2 py-0.5 text-nord-0 dark:text-nord-6 shadow-sm font-medium text-3xl rounded-md translate-x-12 translate-y-2 transform bg-nord-4 dark:bg-nord-1 whitespace-nowrap">
               {props.title}
             </div>
@@ -57,16 +56,16 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
 };
 
 const subspaceTabs = [
-  { tabValue: 'Question Bank', tabKey: 'quizzes' },
-  { tabValue: 'Worksheet', tabKey: 'worksheets' },
-  { tabValue: 'Posts', tabKey: 'posts' },
-  { tabValue: 'Q + A', tabKey: 'q_+_a' },
+  { tabValue: 'Worksheets', tabKey: 'worksheets' },
+  // { tabValue: 'Question Bank', tabKey: 'quizzes' },
+  // { tabValue: 'Posts', tabKey: 'posts' },
+  // { tabValue: 'Q + A', tabKey: 'q_+_a' },
 ];
 
 const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   const [tabs, setTabs] = React.useState(subspaceTabs);
 
-  const [selectedTab, setSelectedTab] = React.useState('quizzes');
+  const [selectedTab, setSelectedTab] = React.useState('worksheets');
 
   const useFetchAllPostsFromSubspace = useCustomQuery(
     fetchPostList,
@@ -136,14 +135,12 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
     if (reduxState.userRelation.isJoined) {
       const visibleTabs = reduxState?.userRelation?.accessRole?.filter(
         (docAccess) => {
-          console.log('@@@ doc access', docAccess);
           if (docAccess.role !== 'noaccess') {
             return true;
           }
         }
       );
 
-      console.log('visible tabs', visibleTabs);
       const newTabs = visibleTabs
         ?.map((vt) => {
           return subspaceTabs.find((st) => st.tabKey === vt.type);
@@ -152,8 +149,6 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
         tabValue: string;
         tabKey: string;
       }[];
-
-      console.log('new tabs', newTabs);
 
       if (newTabs) {
         setTabs(newTabs);
@@ -164,16 +159,6 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
   const onTabClick = (tabKey: string) => {
     setSelectedTab(tabKey);
   };
-
-  // const onCreatePost = async () => {
-  //   router.push(
-  //     {
-  //       pathname: '/create',
-  //       query: { subspaceId: props.subspaceId, workspaceId: props.workspaceId },
-  //     },
-  //     '/create'
-  //   );
-  // };
 
   const onSubscribe = async () => {
     if (!reduxState.userRelation?.isJoined) {
@@ -226,7 +211,7 @@ const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
       }
       itemsToDisplay={<ItemsToDisplay type={selectedTab} />}
       addButton={
-        <DashboardOptions
+        <DashboardOptionsButton
           workspaceId={props.workspaceId}
           subspaceId={props.subspaceId}
         />

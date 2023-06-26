@@ -1,7 +1,12 @@
-// import * as React from 'react';
+import * as React from 'react';
 //
-// import { toast } from 'react-toastify';
-import { useCustomMutation, useCustomQuery, useAppDispatch } from 'src/modules/Redux';
+import { toast } from 'react-toastify';
+import {
+  useCustomMutation,
+  useCustomQuery,
+  useAppDispatch,
+} from 'src/modules/Redux';
+import { isEmpty } from 'lodash';
 
 /* APIs */
 import {
@@ -19,10 +24,9 @@ import {
 } from 'src/modules/Quiz/slice';
 
 const api = () => {
-
   const dispatch = useAppDispatch();
 
-  const [createQuizMutation] = useCustomMutation<
+  const [createQuizMutation, { data: createQuizData }] = useCustomMutation<
     typeof addQuizToQueue,
     typeof useCreateQuizMutation
   >({
@@ -32,9 +36,21 @@ const api = () => {
     onMount: false,
   });
 
+  React.useEffect(() => {
+    if (!isEmpty(createQuizData)) {
+      toast.success('Question Added!', {
+        position: 'bottom-right',
+        autoClose: 1000,
+        hideProgressBar: true,
+        pauseOnHover: false,
+        theme: 'colored',
+      });
+    }
+  }, [createQuizData]);
+
   const clearQuizQueueAction = () => {
-    dispatch(clearQuizQueue())
-  }
+    dispatch(clearQuizQueue());
+  };
 
   const [publishWorksheet] = useCustomMutation<
     typeof addWorksheet,
@@ -51,12 +67,11 @@ const api = () => {
     typeof useFetchWorksheetLazyQuery
   >(fetchWorksheet, useFetchWorksheetLazyQuery, undefined, false);
 
-
   return {
     createQuizMutation,
     publishWorksheet,
     fetchWorksheetQuery,
-    clearQuizQueueAction
+    clearQuizQueueAction,
   };
 };
 

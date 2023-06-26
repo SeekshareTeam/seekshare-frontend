@@ -10,12 +10,9 @@ interface OptionProps {
   type: string;
 }
 const Option: React.FC<OptionProps> = (props) => {
-  console.log('@@@ type', props.type);
-
   let checkMarkShape = 'rounded';
 
   if (props.type === 'single') {
-    console.log('@@ in here');
     checkMarkShape = 'rounded-full';
   }
 
@@ -38,6 +35,10 @@ const Option: React.FC<OptionProps> = (props) => {
 
 interface MultipleChoiceInputProps {
   quiz: QuizType;
+
+  onSelectAnswer?: (val: string | string[]) => void;
+
+  selectedAnswer?: string | string[];
 }
 
 const MultipleChoiceInput: React.FC<MultipleChoiceInputProps> = (props) => {
@@ -67,6 +68,9 @@ const MultipleChoiceInput: React.FC<MultipleChoiceInputProps> = (props) => {
                   newSelection[option.id] = true;
 
                   setSelectedOptionsKey(newSelection);
+                  if (props.onSelectAnswer) {
+                    props.onSelectAnswer(option.id);
+                  }
                 } else if (props.quiz.type === 'multiple') {
                   const newSelection: { [key: string]: boolean } = {
                     ...selectedOptionsKey,
@@ -75,6 +79,20 @@ const MultipleChoiceInput: React.FC<MultipleChoiceInputProps> = (props) => {
                   newSelection[option.id] = !newSelection[option.id];
 
                   setSelectedOptionsKey(newSelection);
+                  const selectedIds =
+                    (Object.entries(newSelection)
+                      .map(([key, val]): string | undefined => {
+                        if (val) {
+                          return key;
+                        } else {
+                          return undefined;
+                        }
+                      })
+                      .filter((x) => x !== undefined) as string[]) || [];
+
+                  if (props.onSelectAnswer) {
+                    props.onSelectAnswer(selectedIds);
+                  }
                 }
               }}
               selectedAnswer={selectedOptionsKey[option.id] || false}

@@ -49,7 +49,7 @@ export const UnderlineTabs: React.FC<UnderlineTabProps> = (props) => {
   return (
     <div className="border-b border-nord-4 dark:border-nord-3 bg-nord-4 dark:bg-nord-1 flex items-center relative">
       {props.leftNode}
-      <ul className="flex w-64 sm:w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-nord-0 dark:text-nord-6 justify-center whitespace-nowrap overflow-x-auto">
+      <ul className="flex w-64 w-full md:flex-auto -mb-px text-sm lg:text-md font-medium text-center text-nord-0 dark:text-nord-6 justify-start md:justify-center whitespace-nowrap overflow-x-auto">
         {props.tabs.map((t) => (
           <li
             key={`underline_${t.tabKey}`}

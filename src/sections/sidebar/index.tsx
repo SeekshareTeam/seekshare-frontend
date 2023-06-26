@@ -62,7 +62,7 @@ const ResponsiveSidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
 
   return ReactDOM.createPortal(
     <div
-      className="transition-all duration-500 z-20 md:hidden fixed w-full h-screen top-0 left-0 flex-shrink-0 bg-nord-4 dark:bg-nord-1 bg-opacity-50"
+      className="transition-all duration-500 z-20 md:hidden fixed w-full h-screen top-0 left-0 flex-shrink-0 bg-nord-4 dark:bg-nord-0/50"
       onClick={(event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target === event.currentTarget) {
           props.onPressBlur();
@@ -86,9 +86,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = (props) => {
         onPressBlur={props.onPressBlur}
       />
 
-      <div className="md:block hidden top-0">
-        {props.sidebar}
-      </div>
+      <div className="md:block hidden top-0">{props.sidebar}</div>
     </>
   );
 };
@@ -105,7 +103,10 @@ interface SidebarAssembledProps {
 
 const SidebarAssembled: React.FC<SidebarAssembledProps> = (props) => {
   return (
-    <aside tabIndex={0} className={`flex flex-col w-64 max-w-64 flex-shrink-0 md:w-64 md:ml-0 ml-0 md:flex-0 h-screen bg-nord-4 dark:bg-nord-1 text-nord-0 dark:text-nord-6 `}>
+    <aside
+      tabIndex={0}
+      className={`flex flex-col w-64 max-w-64 flex-shrink-0 md:w-64 md:ml-0 ml-0 md:flex-0 h-screen bg-nord-4 dark:bg-nord-1 text-nord-0 dark:text-nord-6 `}
+    >
       {props.titleHeader}
       {props.searchSubspace}
       <div className="flex-1 px-3 py-3">{props.tabSections}</div>
