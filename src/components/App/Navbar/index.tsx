@@ -224,7 +224,7 @@ const Navbar = (props: NavbarProps) => {
       </div>
       <div className="flex flex-1 h-full justify-end">
         <div className="flex flex-row mr-4">
-          {!reduxState.authUser && !hideSignIn && (
+          {/*!reduxState.authUser && !hideSignIn && (
             <Button
               className="text-nord-0 transition-all duration-200 dark:text-nord-6"
               onClick={async () => {
@@ -236,7 +236,7 @@ const Navbar = (props: NavbarProps) => {
             >
               {'Sign In'}
             </Button>
-          )}
+            )*/}
           {reduxState.authUser && (
             <div className="flex items-center justify-center">
               <UserLabelDropdown

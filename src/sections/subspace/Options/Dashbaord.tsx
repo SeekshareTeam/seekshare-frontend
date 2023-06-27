@@ -42,7 +42,7 @@ const DashboardOptions: React.FC<{
   subspaceId: string;
 }> = (props) => {
   const [options, setOptions] = React.useState([
-    { id: 'worksheet', text: 'Publish Worksheet', rightNumber: 0 },
+    // { id: 'worksheet', text: 'Publish Worksheet', rightNumber: 0 },
     { id: 'create', text: 'Create Quiz' },
   ]);
   const { showQuizQueue, setShowQuizQueue } = useQuizQueueModal();
