@@ -57,9 +57,9 @@ const SubspaceLayout: React.FC<SubspaceLayoutProps> = (props) => {
 
 const subspaceTabs = [
   { tabValue: 'Worksheets', tabKey: 'worksheets' },
-  { tabValue: 'Question Bank', tabKey: 'quizzes' },
-  { tabValue: 'Posts', tabKey: 'posts' },
-  { tabValue: 'Q + A', tabKey: 'q_+_a' },
+  // { tabValue: 'Question Bank', tabKey: 'quizzes' },
+  // { tabValue: 'Posts', tabKey: 'posts' },
+  // { tabValue: 'Q + A', tabKey: 'q_+_a' },
 ];
 
 const SubspacePage: PageWithLayout<SubspacePageProps> = (props) => {
